@@ -1,0 +1,315 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		766FC17C1BFBA81000C4140E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17B1BFBA81000C4140E /* main.m */; };
+		766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17E1BFBA81000C4140E /* AppDelegate.m */; };
+		766FC1851BFBA81000C4140E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1831BFBA81000C4140E /* Main.storyboard */; };
+		766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1861BFBA81000C4140E /* Assets.xcassets */; };
+		766FC18A1BFBA81000C4140E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1881BFBA81000C4140E /* LaunchScreen.storyboard */; };
+		766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC1921BFBABC000C4140E /* ImageUploadViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		766FC1771BFBA81000C4140E /* Fax-Machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fax-Machine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		766FC17B1BFBA81000C4140E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		766FC17D1BFBA81000C4140E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		766FC17E1BFBA81000C4140E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		766FC1841BFBA81000C4140E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		766FC1861BFBA81000C4140E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		766FC1891BFBA81000C4140E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		766FC18B1BFBA81000C4140E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		766FC1911BFBABC000C4140E /* ImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadViewController.h; sourceTree = "<group>"; };
+		766FC1921BFBABC000C4140E /* ImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		766FC1741BFBA81000C4140E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		766FC16E1BFBA81000C4140E = {
+			isa = PBXGroup;
+			children = (
+				766FC1791BFBA81000C4140E /* Fax-Machine */,
+				766FC1781BFBA81000C4140E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		766FC1781BFBA81000C4140E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				766FC1771BFBA81000C4140E /* Fax-Machine.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		766FC1791BFBA81000C4140E /* Fax-Machine */ = {
+			isa = PBXGroup;
+			children = (
+				766FC17D1BFBA81000C4140E /* AppDelegate.h */,
+				766FC17E1BFBA81000C4140E /* AppDelegate.m */,
+				766FC1941BFBB36500C4140E /* Storyboards */,
+				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
+				766FC1921BFBABC000C4140E /* ImageUploadViewController.m */,
+				766FC17A1BFBA81000C4140E /* Supporting Files */,
+			);
+			path = "Fax-Machine";
+			sourceTree = "<group>";
+		};
+		766FC17A1BFBA81000C4140E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				766FC1861BFBA81000C4140E /* Assets.xcassets */,
+				766FC18B1BFBA81000C4140E /* Info.plist */,
+				766FC17B1BFBA81000C4140E /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		766FC1941BFBB36500C4140E /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				766FC1831BFBA81000C4140E /* Main.storyboard */,
+				766FC1881BFBA81000C4140E /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		766FC1761BFBA81000C4140E /* Fax-Machine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 766FC18E1BFBA81000C4140E /* Build configuration list for PBXNativeTarget "Fax-Machine" */;
+			buildPhases = (
+				766FC1731BFBA81000C4140E /* Sources */,
+				766FC1741BFBA81000C4140E /* Frameworks */,
+				766FC1751BFBA81000C4140E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Fax-Machine";
+			productName = "Fax-Machine";
+			productReference = 766FC1771BFBA81000C4140E /* Fax-Machine.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		766FC16F1BFBA81000C4140E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Flatiron-School";
+				TargetAttributes = {
+					766FC1761BFBA81000C4140E = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 766FC1721BFBA81000C4140E /* Build configuration list for PBXProject "Fax-Machine" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 766FC16E1BFBA81000C4140E;
+			productRefGroup = 766FC1781BFBA81000C4140E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				766FC1761BFBA81000C4140E /* Fax-Machine */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		766FC1751BFBA81000C4140E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				766FC18A1BFBA81000C4140E /* LaunchScreen.storyboard in Resources */,
+				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
+				766FC1851BFBA81000C4140E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		766FC1731BFBA81000C4140E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
+				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
+				766FC17C1BFBA81000C4140E /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		766FC1831BFBA81000C4140E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				766FC1841BFBA81000C4140E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		766FC1881BFBA81000C4140E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				766FC1891BFBA81000C4140E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		766FC18C1BFBA81000C4140E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		766FC18D1BFBA81000C4140E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		766FC18F1BFBA81000C4140E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Fax-Machine/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flatironschool.Fax-Machine";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		766FC1901BFBA81000C4140E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Fax-Machine/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flatironschool.Fax-Machine";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		766FC1721BFBA81000C4140E /* Build configuration list for PBXProject "Fax-Machine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				766FC18C1BFBA81000C4140E /* Debug */,
+				766FC18D1BFBA81000C4140E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		766FC18E1BFBA81000C4140E /* Build configuration list for PBXNativeTarget "Fax-Machine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				766FC18F1BFBA81000C4140E /* Debug */,
+				766FC1901BFBA81000C4140E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 766FC16F1BFBA81000C4140E /* Project object */;
+}

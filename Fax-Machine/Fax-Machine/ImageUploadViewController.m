@@ -11,6 +11,7 @@
 #import <AWSCore/AWSCore.h>
 #import <AWSS3/AWSS3.h>
 #import "APIConstants.h"
+#import "DataStore.h"
 #import <ImageIO/ImageIO.h>
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -82,9 +83,11 @@
   uploadRequest.bucket = @"fissamplebucket";
   NSLog(@"uploadRequest: %@", uploadRequest);
   
-  [self upload:uploadRequest];
-//    [self dismissViewControllerAnimated:YES completion:nil];
-}
+  [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+    NSLog(@"upload completed!");
+  }];
+  [self imagePickerControllerDidCancel:self.imagePickerController];
+ }
 
 /**
  *  When user cancel the image select view.
@@ -136,6 +139,8 @@
     
     [self presentViewController:self.sourcePicker animated:YES completion:nil];
 }
+
+<<<<<<< HEAD
 
 -(void)pickImageToUpload
 {

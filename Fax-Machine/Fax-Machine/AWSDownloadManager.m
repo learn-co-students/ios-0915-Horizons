@@ -13,12 +13,12 @@
 
 @implementation AWSDownloadManager
 
-+(void)downloadSinglePicture:(NSUInteger)imageID
++(void)downloadSinglePicture:(NSString*)imageID
 {
   AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
   
 //  NSString *downloadingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"downloaded-puppyfloor.jpeg"];
-  NSString *imageName = [NSString stringWithFormat:@"downloaded-%lu.png",imageID];
+  NSString *imageName = [NSString stringWithFormat:@"downloaded-%@.png",imageID];
   NSString *downloadingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:imageName];
 
   NSLog(@"downloading file pat: %@",downloadingFilePath);
@@ -28,7 +28,7 @@
   AWSS3TransferManagerDownloadRequest *downloadRequest = [AWSS3TransferManagerDownloadRequest new];
   downloadRequest.bucket = @"fissamplebucket";
 //  downloadRequest.key = @"puppyfloor.jpeg";
-  downloadRequest.key = [NSString stringWithFormat:@"%lu.png",imageID];
+  downloadRequest.key = [NSString stringWithFormat:@"%@.png",imageID];
   downloadRequest.downloadingFileURL = downloadingFileURL;
   
   

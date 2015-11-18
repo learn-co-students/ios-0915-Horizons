@@ -7,25 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761E1E9F1BFCC7F200BD5375 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1E9E1BFCC7F200BD5375 /* APIConstants.m */; };
+		761E1EA31BFCC90C00BD5375 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EA21BFCC90C00BD5375 /* ParseAPIClient.m */; };
 		766FC17C1BFBA81000C4140E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17B1BFBA81000C4140E /* main.m */; };
 		766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17E1BFBA81000C4140E /* AppDelegate.m */; };
-		766FC1851BFBA81000C4140E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1831BFBA81000C4140E /* Main.storyboard */; };
+		766FC1851BFBA81000C4140E /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1831BFBA81000C4140E /* ImageUpload.storyboard */; };
 		766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1861BFBA81000C4140E /* Assets.xcassets */; };
 		766FC18A1BFBA81000C4140E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1881BFBA81000C4140E /* LaunchScreen.storyboard */; };
 		766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC1921BFBABC000C4140E /* ImageUploadViewController.m */; };
+		F3EF7B66ECB935CB3E88F953 /* libPods-Fax-Machine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E098A492E46796FE7327DB /* libPods-Fax-Machine.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2758CEA2F551BB154A1F3336 /* Pods-Fax-Machine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fax-Machine.release.xcconfig"; path = "Pods/Target Support Files/Pods-Fax-Machine/Pods-Fax-Machine.release.xcconfig"; sourceTree = "<group>"; };
+		761E1E9D1BFCC7F200BD5375 /* APIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIConstants.h; sourceTree = "<group>"; };
+		761E1E9E1BFCC7F200BD5375 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		761E1EA11BFCC90C00BD5375 /* ParseAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseAPIClient.h; sourceTree = "<group>"; };
+		761E1EA21BFCC90C00BD5375 /* ParseAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseAPIClient.m; sourceTree = "<group>"; };
 		766FC1771BFBA81000C4140E /* Fax-Machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fax-Machine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766FC17B1BFBA81000C4140E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		766FC17D1BFBA81000C4140E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		766FC17E1BFBA81000C4140E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		766FC1841BFBA81000C4140E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		766FC1841BFBA81000C4140E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ImageUpload.storyboard; sourceTree = "<group>"; };
 		766FC1861BFBA81000C4140E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		766FC1891BFBA81000C4140E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		766FC18B1BFBA81000C4140E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		766FC1911BFBABC000C4140E /* ImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadViewController.h; sourceTree = "<group>"; };
 		766FC1921BFBABC000C4140E /* ImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadViewController.m; sourceTree = "<group>"; };
+		A1E098A492E46796FE7327DB /* libPods-Fax-Machine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Fax-Machine.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04A63A152303A4669FF9269 /* Pods-Fax-Machine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fax-Machine.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fax-Machine/Pods-Fax-Machine.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +43,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3EF7B66ECB935CB3E88F953 /* libPods-Fax-Machine.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		761E1EA01BFCC8D200BD5375 /* APIClients */ = {
+			isa = PBXGroup;
+			children = (
+				761E1E9D1BFCC7F200BD5375 /* APIConstants.h */,
+				761E1E9E1BFCC7F200BD5375 /* APIConstants.m */,
+				761E1EA11BFCC90C00BD5375 /* ParseAPIClient.h */,
+				761E1EA21BFCC90C00BD5375 /* ParseAPIClient.m */,
+			);
+			name = APIClients;
+			sourceTree = "<group>";
+		};
 		766FC16E1BFBA81000C4140E = {
 			isa = PBXGroup;
 			children = (
 				766FC1791BFBA81000C4140E /* Fax-Machine */,
 				766FC1781BFBA81000C4140E /* Products */,
+				A7AFFEAB2E06082F66486992 /* Pods */,
+				9B6CCC8A9BCB035E74B41DBD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +84,7 @@
 			children = (
 				766FC17D1BFBA81000C4140E /* AppDelegate.h */,
 				766FC17E1BFBA81000C4140E /* AppDelegate.m */,
+				761E1EA01BFCC8D200BD5375 /* APIClients */,
 				766FC1941BFBB36500C4140E /* Storyboards */,
 				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
 				766FC1921BFBABC000C4140E /* ImageUploadViewController.m */,
@@ -81,10 +106,27 @@
 		766FC1941BFBB36500C4140E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				766FC1831BFBA81000C4140E /* Main.storyboard */,
+				766FC1831BFBA81000C4140E /* ImageUpload.storyboard */,
 				766FC1881BFBA81000C4140E /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		9B6CCC8A9BCB035E74B41DBD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A1E098A492E46796FE7327DB /* libPods-Fax-Machine.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A7AFFEAB2E06082F66486992 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B04A63A152303A4669FF9269 /* Pods-Fax-Machine.debug.xcconfig */,
+				2758CEA2F551BB154A1F3336 /* Pods-Fax-Machine.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -94,9 +136,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 766FC18E1BFBA81000C4140E /* Build configuration list for PBXNativeTarget "Fax-Machine" */;
 			buildPhases = (
+				788CA182BFB5828527298E2A /* Check Pods Manifest.lock */,
 				766FC1731BFBA81000C4140E /* Sources */,
 				766FC1741BFBA81000C4140E /* Frameworks */,
 				766FC1751BFBA81000C4140E /* Resources */,
+				16E6AA5C5572B09443388A12 /* Embed Pods Frameworks */,
+				D83F421DC6D313D741BE65B8 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -146,32 +191,82 @@
 			files = (
 				766FC18A1BFBA81000C4140E /* LaunchScreen.storyboard in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
-				766FC1851BFBA81000C4140E /* Main.storyboard in Resources */,
+				766FC1851BFBA81000C4140E /* ImageUpload.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		16E6AA5C5572B09443388A12 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Fax-Machine/Pods-Fax-Machine-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		788CA182BFB5828527298E2A /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D83F421DC6D313D741BE65B8 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Fax-Machine/Pods-Fax-Machine-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		766FC1731BFBA81000C4140E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				761E1E9F1BFCC7F200BD5375 /* APIConstants.m in Sources */,
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
 				766FC17C1BFBA81000C4140E /* main.m in Sources */,
+				761E1EA31BFCC90C00BD5375 /* ParseAPIClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		766FC1831BFBA81000C4140E /* Main.storyboard */ = {
+		766FC1831BFBA81000C4140E /* ImageUpload.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				766FC1841BFBA81000C4140E /* Base */,
 			);
-			name = Main.storyboard;
+			name = ImageUpload.storyboard;
 			sourceTree = "<group>";
 		};
 		766FC1881BFBA81000C4140E /* LaunchScreen.storyboard */ = {
@@ -269,6 +364,7 @@
 		};
 		766FC18F1BFBA81000C4140E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B04A63A152303A4669FF9269 /* Pods-Fax-Machine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
@@ -280,6 +376,7 @@
 		};
 		766FC1901BFBA81000C4140E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2758CEA2F551BB154A1F3336 /* Pods-Fax-Machine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
@@ -308,6 +405,7 @@
 				766FC1901BFBA81000C4140E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

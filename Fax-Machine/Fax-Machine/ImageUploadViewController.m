@@ -84,6 +84,9 @@
  *  @param sender UINavigation right bar Done button.
  */
 - (IBAction)finishedImageSelect:(id)sender {
+  [self dismissViewControllerAnimated:YES completion:^{
+    NSLog(@"done");
+  }];
   NSLog(@"done");
   UIImage *image = self.selectedImage;
   NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
@@ -94,14 +97,6 @@
   NSLog(@"filepath %@", filePath);
 
   NSData * imageData = UIImagePNGRepresentation(image);
-  NSLog(@"imagedata %@", imageData);
-
-  
-
-  
-  
-  
-  
   
   [imageData writeToFile:filePath atomically:YES];
   

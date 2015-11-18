@@ -30,6 +30,9 @@ PODS:
     - AWSCore (= 2.3.0)
   - AWSSQS (2.3.0):
     - AWSCore (= 2.3.0)
+  - Bolts/Tasks (1.5.0)
+  - Parse (1.9.1):
+    - Bolts/Tasks (>= 1.4.0)
 
 DEPENDENCIES:
   - AWSAutoScaling
@@ -48,6 +51,7 @@ DEPENDENCIES:
   - AWSSimpleDB
   - AWSSNS
   - AWSSQS
+  - Parse
 
 SPEC CHECKSUMS:
   AWSAutoScaling: df8e90e5a9a5bd2724498b9d6858666784ee8624
@@ -66,5 +70,7 @@ SPEC CHECKSUMS:
   AWSSimpleDB: 798c9515722d8abc37bb44414a3dea38a75df0e8
   AWSSNS: 44257e7fbb51d9dea04994b39ff01dda61822643
   AWSSQS: 260ffd6da0d2ab255b903b377f2baa1e7390b3ba
+  Bolts: 722ab9a4f8b50fc4ed1b9998a5a7a2b3f16d80b4
+  Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
 
 COCOAPODS: 0.38.2

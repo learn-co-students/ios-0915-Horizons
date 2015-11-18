@@ -140,13 +140,6 @@
     [self presentViewController:self.sourcePicker animated:YES completion:nil];
 }
 
-<<<<<<< HEAD
-
--(void)pickImageToUpload
-{
-  
-}
-
 -(void)upload:(AWSS3TransferManagerUploadRequest*)uploadRequest
 {
   AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];

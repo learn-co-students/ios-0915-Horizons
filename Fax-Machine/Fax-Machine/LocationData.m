@@ -8,6 +8,8 @@
 
 #import "LocationData.h"
 #import "APIConstants.h"
+#import "FXMCity.h"
+#import "FXMWeather.h"
 
 @interface LocationData ()
 
@@ -37,45 +39,67 @@ NSString *const OPEN_WEATHER_API_KEY = @"66b9ac9165733a2335dd3e09acd29f5a";
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 //This method will log the current City
-+(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations
-{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations {
+    
     CLLocation *currentLocation = [locations lastObject];
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error)
-    {
-        if (error)
-        {
+    
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        
+        if (error) {
             NSLog(@"Error");
         }
+        
         CLPlacemark *locationPlacemark = [placemarks objectAtIndex:0];
         NSString *currentCity = locationPlacemark.locality;
+        
+        __block NSString *name = [currentCity copy];
+        
+        [LocationData getWeatherInfoFromCity:currentCity
+                              withCompletion:^(NSDictionary *weatherInfo) {
+                                  
+                                  
+                                  NSLog(@"This is a dictionary with stuff in int: %@", weatherInfo);
+                                  
+                                  
+                                  
+                                  
+                                  
+//                                  FXMWeather *weatherOfCurrentCity = [FXMWeather createWeatherFromDictionary:weatherInfo];
+//                                  
+//                                  FXMCity *currentCity = [[FXMCity alloc] initWithName:name
+//                                                                     andCurrentWeather:weatherOfCurrentCity];
+                                  
+                              }];
+        
         NSLog(@"%@", currentCity);
-        
-        
     }];
-    char
+    
 }
+//this method needs the currentCity to be passed to it to get the city's current weather
 
-+(void)getWeatherInfoWithCompletion:(void (^)(NSDictionary *))completionBlock
++ (void)getWeatherInfoFromCity:(NSString *)city withCompletion:(void (^)(NSDictionary *))completionBlock
 {
-    NSURL *retrievalURL = [NSURL URLWithString:([NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&appid=%@", currentCity, OPEN_WEATHER_API_KEY])];
+    
+    NSURL *retrievalURL = [NSURL URLWithString:([NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&appid=%@", city, OPEN_WEATHER_API_KEY])];
     NSURLSession *retrievalSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *retrievalDataTask = [retrievalSession dataTaskWithURL:retrievalURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
-    {
-        NSDictionary *retrievedWeatherDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        completionBlock(retrievedWeatherDictionary);
-    }];
+                                               {
+                                                   NSDictionary *retrievedWeatherDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                                   completionBlock(retrievedWeatherDictionary);
+                                               }];
     [retrievalDataTask resume];
+    
 }
 @end
 

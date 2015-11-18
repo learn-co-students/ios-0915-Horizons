@@ -20,35 +20,35 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-  
-  // AWS STUFF 
-
-  AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionUSEast1
-                                                                                                  identityPoolId:POOL_ID
-                                                        ];
-  AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSEast1
-                                                                       credentialsProvider:credentialsProvider];
-  AWSServiceManager.defaultServiceManager.defaultServiceConfiguration = configuration;
-  
-  // PARSE STUFF
-
-  //Setting up initial connection with the Parse app.
+    
+    // AWS STUFF
+    
+    AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionUSEast1
+                                                                                                    identityPoolId:POOL_ID
+                                                          ];
+    AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSEast1
+                                                                         credentialsProvider:credentialsProvider];
+    AWSServiceManager.defaultServiceManager.defaultServiceConfiguration = configuration;
+    
+    // PARSE STUFF
+    
+    //Setting up initial connection with the Parse app.
     [Parse setApplicationId:PARSE_APPLICATION_KEY clientKey:PARSE_CLIENT_KEY];
- 
+    
     //Sample testing for Parse connection before registration function.
     
-//    PFUser *user = [PFUser user];
-//    user.username = @"user@user.com";
-//    user.password = @"123456";
-//    user.email = @"user@user.com";
+    //    PFUser *user = [PFUser user];
+    //    user.username = @"user@user.com";
+    //    user.password = @"123456";
+    //    user.email = @"user@user.com";
     
-//    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        if (succeeded) {
-//            NSLog(@"Registration succeeded!");
-//        }else{
-//            NSLog(@"Error on registration: %@", error.localizedDescription);
-//        }
-//    }];
+    //    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+    //        if (succeeded) {
+    //            NSLog(@"Registration succeeded!");
+    //        }else{
+    //            NSLog(@"Error on registration: %@", error.localizedDescription);
+    //        }
+    //    }];
     return YES;
 }
 

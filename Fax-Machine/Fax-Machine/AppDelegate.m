@@ -8,9 +8,8 @@
 
 #import "AppDelegate.h"
 #import <AWSCore/AWSCore.h>
-#import "constants.h"
 #import <Parse/Parse.h>
-#import "APIConstants.h" // FIXME: combine constants files
+#import "APIConstants.h"
 
 @interface AppDelegate ()
 

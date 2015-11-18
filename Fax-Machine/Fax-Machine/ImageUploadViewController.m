@@ -7,9 +7,10 @@
 //
 
 #import "ImageUploadViewController.h"
+#import "LocationData.h"
 #import <AWSCore/AWSCore.h>
 #import <AWSS3/AWSS3.h>
-#import "constants.h"
+#import "APIConstants.h"
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 

@@ -12,5 +12,5 @@
 
 extern NSString *const PARSE_APPLICATION_KEY;
 extern NSString *const PARSE_CLIENT_KEY;
-
+extern NSString *const POOL_ID;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "LocationData.h"
-
+#import "APIConstants.h"
 
 @interface LocationData ()
 
@@ -26,6 +26,7 @@ NSString *const OPEN_WEATHER_API_KEY = @"66b9ac9165733a2335dd3e09acd29f5a";
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [self.locationManager requestWhenInUseAuthorization];
     [self.locationManager startUpdatingLocation];
+    
     
     // Do any additional setup after loading the view.
 }
@@ -46,7 +47,7 @@ NSString *const OPEN_WEATHER_API_KEY = @"66b9ac9165733a2335dd3e09acd29f5a";
 */
 
 //This method will log the current City
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations
++(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations
 {
     CLLocation *currentLocation = [locations lastObject];
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -62,11 +63,12 @@ NSString *const OPEN_WEATHER_API_KEY = @"66b9ac9165733a2335dd3e09acd29f5a";
         
         
     }];
+    char
 }
 
--(void)getWeatherInfo:(NSString *)city WithCompletion:(void (^)(NSDictionary *))completionBlock
++(void)getWeatherInfoWithCompletion:(void (^)(NSDictionary *))completionBlock
 {
-    NSURL *retrievalURL = [NSURL URLWithString:([NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&appid=%@", city, OPEN_WEATHER_API_KEY])];
+    NSURL *retrievalURL = [NSURL URLWithString:([NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&appid=%@", currentCity, OPEN_WEATHER_API_KEY])];
     NSURLSession *retrievalSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *retrievalDataTask = [retrievalSession dataTaskWithURL:retrievalURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
     {

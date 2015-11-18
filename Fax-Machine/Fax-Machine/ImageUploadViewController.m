@@ -8,6 +8,9 @@
 
 #import "ImageUploadViewController.h"
 #import "LocationData.h"
+#import <AWSCore/AWSCore.h>
+#import <AWSS3/AWSS3.h>
+#import "APIConstants.h"
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -82,8 +85,36 @@
  *  @param sender UINavigation right bar Done button.
  */
 - (IBAction)finishedImageSelect:(id)sender {
-    
-    //[self dismissViewControllerAnimated:YES completion:nil];
+  NSLog(@"done");
+  UIImage *image = self.selectedImage;
+  NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
+//  NSLog(@"filename: %@", fileName);
+
+//  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
+  NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
+  NSLog(@"filepath %@", filePath);
+
+  NSData * imageData = UIImagePNGRepresentation(image);
+  NSLog(@"imagedata %@", imageData);
+
+  
+
+  
+  
+  
+  
+  
+  [imageData writeToFile:filePath atomically:YES];
+  
+  AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+  uploadRequest.body = [NSURL fileURLWithPath:filePath];
+  uploadRequest.key = fileName;
+  NSLog(@"poolID: %@",POOL_ID);
+  uploadRequest.bucket = @"fissamplebucket";
+  NSLog(@"uploadRequest: %@", uploadRequest);
+  
+  [self upload:uploadRequest];
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /**
@@ -140,6 +171,41 @@
     [self.sourcePicker addAction:cancel];
     
     [self presentViewController:self.sourcePicker animated:YES completion:nil];
+}
+
+-(void)pickImageToUpload
+{
+  
+}
+
+-(void)upload:(AWSS3TransferManagerUploadRequest*)uploadRequest
+{
+  AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
+
+
+  
+  [[transferManager upload:uploadRequest]continueWithBlock:^id(AWSTask *task) {
+    if (task.error) {
+      if (([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain])) {
+        switch (task.error.code) {
+          case AWSS3TransferManagerErrorCancelled:
+          case AWSS3TransferManagerErrorPaused:
+            break;
+            
+          default:
+            NSLog(@"upload failed: %@", task.error);
+            break;
+        }
+      } else {
+        NSLog(@"upload failed else: %@", task.error);
+        }
+    }
+    if (task.result) {
+      AWSS3TransferManagerUploadOutput *uploadOutput = task.result;
+      NSLog(@"UPLOAD OUTPUT: %@",uploadOutput);
+    }
+    return nil;
+  }];
 }
 
 -(BOOL)prefersStatusBarHidden{

@@ -7,6 +7,7 @@
 //
 
 #import "ImageUploadViewController.h"
+#import "LocationData.h"
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 

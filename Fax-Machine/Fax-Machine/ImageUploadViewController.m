@@ -11,6 +11,7 @@
 #import <AWSCore/AWSCore.h>
 #import <AWSS3/AWSS3.h>
 #import "APIConstants.h"
+#import <ImageIO/ImageIO.h>
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -50,33 +51,6 @@
 - (IBAction)selectImageAndView:(id)sender {
     //Calling the UIAlertController when screen loaded.
     [self imageUpLoadSource];
-    
-//    UIViewController *imageVC = [UIViewController new];
-//    
-//    CGFloat imageOriginalWidth = self.selectedImage.size.width;
-//    CGFloat imageOriginalHeight = self.selectedImage.size.height;
-//    CGFloat ratio = imageOriginalHeight/imageOriginalWidth;
-//    
-//    CGFloat width = imageOriginalWidth;
-//    if (imageOriginalWidth > 1000) {
-//        width = 1000;
-//    }
-//    CGFloat height = width * ratio;
-//    
-//    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 1200, 1200)];
-//    scroll.contentSize = CGSizeMake(500, 500);
-//    
-//    scroll.showsVerticalScrollIndicator = YES;
-//    scroll.showsHorizontalScrollIndicator = YES;
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 500, 500)];
-//    imageView.image = self.selectedImage;
-//    
-//    
-//    
-//    [scroll addSubview:imageView];
-//    [imageVC setView:scroll];
-    
-//    [self presentViewController:imageVC animated:YES completion:nil];
 }
 
 /**
@@ -142,11 +116,6 @@
         self.imagePickerController.delegate = self;
         self.imagePickerController.allowsEditing = NO;
         
-//        if ([UIImagePickerController isSourceTypeAvailable:
-//             UIImagePickerControllerSourceTypeCamera]) {
-//            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-//        }
-        
         //Setting the source of the image as type Camera.
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:self.imagePickerController animated:YES completion:nil];
@@ -182,8 +151,6 @@
 {
   AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
 
-
-  
   [[transferManager upload:uploadRequest]continueWithBlock:^id(AWSTask *task) {
     if (task.error) {
       if (([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain])) {
@@ -212,6 +179,50 @@
     return YES;
 }
 
+-(void)invalidImageAlert{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invliad Image"
+                                                                   message:@"Sorry, but selfies are prohibited!"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okay = [UIAlertAction actionWithTitle:@"okay" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:okay];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(NSNumber *)getImageOrientationWithImage:(UIImage *)image{
+    //Returning the orientation of the image for better detection.
+    NSUInteger exifOrientation;
+    switch (image.imageOrientation) {
+        case UIImageOrientationUp:
+            exifOrientation = 1;
+            break;
+        case UIImageOrientationDown:
+            exifOrientation = 3;
+            break;
+        case UIImageOrientationLeft:
+            exifOrientation = 8;
+            break;
+        case UIImageOrientationRight:
+            exifOrientation = 6;
+            break;
+        case UIImageOrientationUpMirrored:
+            exifOrientation = 2;
+            break;
+        case UIImageOrientationDownMirrored:
+            exifOrientation = 4;
+            break;
+        case UIImageOrientationLeftMirrored:
+            exifOrientation = 5;
+            break;
+        case UIImageOrientationRightMirrored:
+            exifOrientation = 7;
+            break;
+        default:
+            break;
+    }
+    
+    return @(exifOrientation);
+}
+
 #pragma mark - UIImage picker protocols
 /**
  *  Handling the image after selection is performed.
@@ -224,8 +235,33 @@
     //The selected image
     self.selectedImage = info[UIImagePickerControllerOriginalImage];
     
+    //Below section is for face detection in image with Core Image.
+    CIImage *image = [CIImage imageWithCGImage: self.selectedImage.CGImage];
+    NSDictionary *opts = @{CIDetectorAccuracy : CIDetectorAccuracyHigh};
+    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
+                                              context:nil
+                                              options:opts];
+    
+    NSNumber *orientation = [self getImageOrientationWithImage:self.selectedImage];
+    opts = @{CIDetectorImageOrientation : orientation};
+    NSArray *features = [detector featuresInImage:image options:opts];
+    
+    NSOperationQueue *bgQueue = [NSOperationQueue new];
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        if (!features.count) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                self.imageHolderView.image = self.selectedImage;
+            }];
+        } else {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self invalidImageAlert];
+            }];
+        }
+    }];
+    [bgQueue addOperation:operation];
+    
     //Displaying the selected image in the image view holder.
-    self.imageHolderView.image = self.selectedImage;
+    
     
     [picker dismissViewControllerAnimated:YES completion:nil];
 }

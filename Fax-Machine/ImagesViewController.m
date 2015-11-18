@@ -1,4 +1,4 @@
-//
+////
 //  ImagesViewController.m
 //  Fax-Machine
 //
@@ -24,8 +24,8 @@
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
     
-    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img1.JPG",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg", nil];
-    self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"1",@"2",@"3",@"4",@"5",nil];
+    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG", nil];
+    self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
     
     
  
@@ -45,31 +45,47 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+   imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
 
-     //cell.myImage.image = [UIImage imageNamed:@"img2.jpg"];
     cell.myImage.image = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
-     //cell.myImage.image = self.arrayWithImages[indexPath.item];
-     // [[cell myImage]setImage:[self.arrayWithImages objectAtIndex:indexPath.row]];
-    [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
+    //cell.mydiscriptionLabel.text = [NSString stringWithFormat:self.arrayWithDescriptions[indexPath.item]];
+    cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
+    cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:40.0];
+   [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
 
     
     return cell;
 }
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    CGFloat width = self.view.frame.size.width/2;
+    
+    
+    
+    return CGSizeMake(width, width);
+    
+   // UIImage *image = [self.arrayWithImages objectAtIndex:indexPath.row];
+////    //You may want to create a divider to scale the size by the way..
+////
+////    return CGSizeMake(image.size.width, image.size.height);
+//    
+//    return CGSizeMake(self.view.frame.size.width/2,self.view.frame.size.height/4);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//setupSegue
 
 @end

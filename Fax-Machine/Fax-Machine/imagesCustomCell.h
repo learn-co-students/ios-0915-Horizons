@@ -10,8 +10,8 @@
 
 @interface imagesCustomCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *myImage;
+@property (strong, nonatomic) IBOutlet UIImageView *myImage;
 
-@property (weak, nonatomic) IBOutlet UILabel *mydiscriptionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *mydiscriptionLabel;
 
 @end

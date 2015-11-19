@@ -99,6 +99,30 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		761E1EB81BFD806000BD5375 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				E262BFFB1BFCE0D200C81C53 /* ParseAPIClient.h */,
+				E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */,
+				E24802F91BFD3062005AB1D5 /* AWSUploadManager.h */,
+				E24802FA1BFD3062005AB1D5 /* AWSUploadManager.m */,
+				E262C0031BFCEA4000C81C53 /* AWSDownloadManager.h */,
+				E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */,
+			);
+			name = APIs;
+			sourceTree = "<group>";
+		};
+		761E1EB91BFD808F00BD5375 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
+				E262BFFE1BFCE0F900C81C53 /* APIConstants.m */,
+				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
+				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		766FC16E1BFBA81000C4140E = {
 			isa = PBXGroup;
 			children = (
@@ -121,22 +145,14 @@
 		766FC1791BFBA81000C4140E /* Fax-Machine */ = {
 			isa = PBXGroup;
 			children = (
-				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
-				E262BFFE1BFCE0F900C81C53 /* APIConstants.m */,
-				E262BFFB1BFCE0D200C81C53 /* ParseAPIClient.h */,
-				E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */,
+				761E1EB91BFD808F00BD5375 /* Helper */,
+				761E1EB81BFD806000BD5375 /* APIs */,
 				766FC17D1BFBA81000C4140E /* AppDelegate.h */,
 				766FC17E1BFBA81000C4140E /* AppDelegate.m */,
 				761E1EAB1BFD2B3400BD5375 /* Models */,
 				766FC1941BFBB36500C4140E /* Storyboards */,
 				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
 				766FC1921BFBABC000C4140E /* ImageUploadViewController.m */,
-				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
-				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
-				E24802F91BFD3062005AB1D5 /* AWSUploadManager.h */,
-				E24802FA1BFD3062005AB1D5 /* AWSUploadManager.m */,
-				E262C0031BFCEA4000C81C53 /* AWSDownloadManager.h */,
-				E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */,
 				89E2B9551BFBE69400AF43E1 /* LocationData.h */,
 				89E2B9561BFBE69400AF43E1 /* LocationData.m */,
 				766FC17A1BFBA81000C4140E /* Supporting Files */,

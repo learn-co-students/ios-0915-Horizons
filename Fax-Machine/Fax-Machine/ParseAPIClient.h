@@ -11,6 +11,13 @@
 
 @interface ParseAPIClient : NSObject
 
-+(void)fetchUserProfileDataWithUserObject:(PFObject *)user andCompletion:(void (^)(PFObject *data))completionBlock;
++(void)fetchImagesWithPredicate:(NSPredicate *)predicate
+                 numberOfImages:(NSUInteger)numberOfImages
+                     completion:(void (^)(NSArray *data))completionBlock
+                        failure:(void(^)(NSError *error))failure ;
+
++(void)fetchAllCommentsWithRelatedImage:(PFObject *)imageObject
+                             completion:(void (^)(NSArray *data))completionBlock
+                                failure:(void(^)(NSError *error))failure;
 
 @end

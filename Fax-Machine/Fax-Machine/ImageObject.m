@@ -11,21 +11,21 @@
 @implementation ImageObject
 
 -(instancetype)init{
-    self = [self initWithOwner:[PFUser currentUser] title:@"" photoID:@"" likes:@0 mood:@"" location:nil comments:@[]];
+    self = [self initWithOwner:[PFUser currentUser] title:@"" imageID:@"" likes:@0 mood:@"" location:nil comments:[@[] mutableCopy]];
     return self;
 }
 
--(instancetype)initWithTitle:(NSString *)title photoID:(NSString *)photoID mood:(NSString *)mood location:(Location *)location{
-    self = [self initWithOwner:[PFUser currentUser] title:title photoID:photoID likes:@0 mood:mood location:location comments:@[]];
+-(instancetype)initWithTitle:(NSString *)title imageID:(NSString *)imageID mood:(NSString *)mood location:(PFObject *)location{
+    self = [self initWithOwner:[PFUser currentUser] title:title imageID:imageID likes:@0 mood:mood location:location comments:[@[] mutableCopy]];
     return self;
 }
 
--(instancetype)initWithOwner:(PFUser *)owner title:(NSString *)title photoID:(NSString *)photoID likes:(NSNumber *)likes mood:(NSString *)mood location:(Location *)location comments:(NSArray *)comments{
+-(instancetype)initWithOwner:(PFUser *)owner title:(NSString *)title imageID:(NSString *)imageID likes:(NSNumber *)likes mood:(NSString *)mood location:(PFObject *)location comments:(NSMutableArray *)comments{
     self = [super init];
     if (self) {
         _owner = owner;
         _title = title;
-        _photoID = photoID;
+        _imageID = imageID;
         _likes = likes;
         _mood = mood;
         _location = location;

@@ -14,23 +14,23 @@
 
 @property (nonatomic, strong) PFUser *owner;
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *photoID;
+@property (nonatomic, strong) NSString *imageID;
 @property (nonatomic, strong) NSNumber *likes;
 @property (nonatomic, strong) NSString *mood;
-@property (nonatomic, strong) Location *location;
-@property (nonatomic, strong) NSArray  *comments;
+@property (nonatomic, strong) PFObject *location;
+@property (nonatomic, strong) NSMutableArray  *comments;
 
 -(instancetype)initWithTitle:(NSString *)title
-                     photoID:(NSString *)photoID
+                     imageID:(NSString *)imageID
                         mood:(NSString *)mood
                     location:(Location *)location;
 
 -(instancetype)initWithOwner:(PFUser *)owner
                        title:(NSString *)title
-                     photoID:(NSString *)photoID
+                     imageID:(NSString *)imageID
                        likes:(NSNumber *)likes
                         mood:(NSString *)mood
-                    location:(Location *)location
-                    comments:(NSArray *)comments;
+                    location:(PFObject *)location
+                    comments:(NSMutableArray *)comments;
 
 @end

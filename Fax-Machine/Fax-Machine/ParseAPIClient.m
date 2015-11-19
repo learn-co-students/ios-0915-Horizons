@@ -11,6 +11,27 @@
 @implementation ParseAPIClient
 
 /**
+ *  Fetch a single image from Parse
+ *
+ *  @param imageID         The unique image id to point to specific image
+ *  @param completionBlock Call back with returned image object
+ *  @param failure         Call back with error incase of failure
+ */
++(void)fetchImageWithImageID:(NSString *)imageID
+                  completion:(void (^)(PFObject *))completionBlock
+                     failure:(void (^)(NSError *))failure{
+    PFQuery *query = [PFQuery queryWithClassName:@"Image"];
+    [query whereKey:@"imageID" equalTo:imageID];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (!error) {
+            completionBlock(object);
+        }else{
+            failure(error);
+        }
+    }];
+}
+
+/**
  *  Fetch images info from Parse
  *
  *  @param predicate       Filter input
@@ -60,6 +81,95 @@
     }];
 }
 
+/**
+ *  Upload an image object to Parse
+ *
+ *  @param parseImageObject The image object to upload
+ *  @param success          Call back with status
+ *  @param failure          Call back with error incase failure
+ */
++(void)saveImageWithImageObject:(PFObject *)parseImageObject
+                        success:(void (^)(BOOL))success
+                        failure:(void (^)(NSError *))failure{
+    [parseImageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            success(YES);
+        }else{
+            failure(error);
+        }
+    }];
+}
 
+/**
+ *  Save comment to Parse with comment object
+ *
+ *  @param comment     Comment object to save
+ *  @param imageObject Image object where comment related to
+ *  @param success     Call back with status
+ *  @param failure     Call back with error incase of failure
+ */
++(void)saveCommentWithWithComment:(PFObject *)comment
+                      imageObject:(PFObject *)imageObject
+                          success:(void (^)(BOOL))success
+                          failure:(void (^)(NSError *))failure{
+//    PFObject *parseComment = [PFObject objectWithClassName:@"Comment"];
+//    parseComment[@"userComment"] = comment;
+//    parseComment[@"owner"] = [PFUser currentUser];
+//    parseComment[@"relatedImage"] = imageObject;
+    [comment saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            [imageObject addObject:comment forKey:@"comments"];
+            [imageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (succeeded) {
+                    success(YES);
+                }else{
+                    failure(error);
+                }
+            }];
+        }else{
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  Save image location to Parse with location object
+ *
+ *  @param location Location object to upload
+ *  @param success  Call back with status
+ *  @param failure  Call back with error incase of failure
+ */
++(void)saveLocationWithLocation:(PFObject *)location
+                        success:(void (^)(BOOL))success
+                        failure:(void (^)(NSError *))failure{
+    [location saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            success(YES);
+        } else {
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  Append an image to user's save image list
+ *
+ *  @param likedImage Image to append
+ *  @param success    Call back with status
+ *  @param failure    Call back with error incase of failure
+ */
++(void)likeImageWithImageObject:(PFObject *)likedImage
+                        success:(void (^)(BOOL))success
+                        failure:(void (^)(NSError *))failure{
+    PFObject *user = [PFUser currentUser];
+    [user addObject:likedImage forKey:@"savedImages"];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            success(YES);
+        } else {
+            failure(error);
+        }
+    }];
+}
 
 @end

@@ -11,13 +11,34 @@
 
 @interface ParseAPIClient : NSObject
 
++(void)fetchImageWithImageID:(NSString *)imageID
+                  completion:(void (^)(PFObject *data))completionBlock
+                     failure:(void(^)(NSError *error))failure;
+
 +(void)fetchImagesWithPredicate:(NSPredicate *)predicate
                  numberOfImages:(NSUInteger)numberOfImages
                      completion:(void (^)(NSArray *data))completionBlock
-                        failure:(void(^)(NSError *error))failure ;
+                        failure:(void(^)(NSError *error))failure;
 
 +(void)fetchAllCommentsWithRelatedImage:(PFObject *)imageObject
                              completion:(void (^)(NSArray *data))completionBlock
                                 failure:(void(^)(NSError *error))failure;
+
++(void)saveImageWithImageObject:(PFObject *)parseImageObject
+                        success:(void (^)(BOOL success))success
+                        failure:(void(^)(NSError *error))failure;
+
++(void)saveCommentWithWithComment:(PFObject *)comment
+                      imageObject:(PFObject *)imageObject
+                        success:(void (^)(BOOL success))success
+                        failure:(void(^)(NSError *error))failure;
+
++(void)saveLocationWithLocation:(PFObject *)location
+                          success:(void (^)(BOOL success))success
+                          failure:(void(^)(NSError *error))failure;
+
++(void)likeImageWithImageObject:(PFObject *)likedImage
+                        success:(void (^)(BOOL success))success
+                        failure:(void(^)(NSError *error))failure;
 
 @end

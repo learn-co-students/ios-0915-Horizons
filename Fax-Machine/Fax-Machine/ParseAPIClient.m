@@ -93,7 +93,15 @@
                         failure:(void (^)(NSError *))failure{
     [parseImageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
-            success(YES);
+            PFObject *user = [PFUser currentUser];
+            [user addUniqueObject:parseImageObject forKey:@"myImages"];
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (succeeded) {
+                    success(succeeded);
+                } else {
+                    NSLog(@"User saving image error: %@", error.localizedDescription);
+                }
+            }];
         }else{
             failure(error);
         }

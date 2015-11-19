@@ -13,6 +13,7 @@
 #import "ParseAPIClient.h"
 #import "Comment.h"
 #import "ImageObject.h"
+#import "DataStore.h"
 
 @interface AppDelegate ()
 
@@ -37,64 +38,6 @@
     
     //Setting up initial connection with the Parse app.
     [Parse setApplicationId:PARSE_APPLICATION_KEY clientKey:PARSE_CLIENT_KEY];
-    
-    //Sample testing for Parse connection before registration function.
-    
-    PFUser *user = [PFUser user];
-    user.username = @"test@test.com";
-    user.password = @"123456";
-    user.email = @"test@test.com";
-    
-    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            NSLog(@"Registration succeeded!");
-            
-            PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:40.2155 longitude:-69.2351];
-            Location *location = [[Location alloc] initWithCity:@"New York" country:@"United States" geoPoint:point dateTaken:[NSDate date]];
-            
-            PFObject *parseLocation = [PFObject objectWithClassName:@"Location"];
-            parseLocation[@"city"] = location.city;
-            parseLocation[@"country"] = location.country;
-            parseLocation[@"geoPoint"] = location.geoPoint;
-            parseLocation[@"dateTaken"] = location.dateTaken;
-            [parseLocation saveInBackground];
-            
-            ImageObject *image = [[ImageObject alloc] initWithOwner:user title:@"Some Photo" imageID:@"124124" likes:@0 mood:@"😊" location:parseLocation comments:nil];
-            
-            PFObject *parseImage = [PFObject objectWithClassName:@"Image"];
-            parseImage[@"owner"] = image.owner;
-            parseImage[@"title"] = image.title;
-            parseImage[@"photoID"] = image.imageID;
-            parseImage[@"likes"] = image.likes;
-            parseImage[@"mood"] = image.mood;
-            parseImage[@"location"] = image.location;
-            [parseImage saveInBackground];
-
-            
-            
-        
-            ImageObject *image2 = [[ImageObject alloc] initWithOwner:user title:@"Some Photo1" imageID:@"124123fsf4" likes:@0 mood:@"😊" location:parseLocation comments:nil];
-            
-            PFObject *parseImage2 = [PFObject objectWithClassName:@"Image"];
-            parseImage2[@"owner"] = image2.owner;
-            parseImage2[@"title"] = image2.title;
-            parseImage2[@"photoID"] = image2.imageID;
-            parseImage2[@"likes"] = image2.likes;
-            parseImage2[@"mood"] = image2.mood;
-            parseImage2[@"location"] = image2.location;
-            
-            [parseImage2 saveInBackground];
-            
-            PFObject *currentUser = [PFUser currentUser];
-            NSLog(@"Current User: %@", currentUser);
-            currentUser[@"myImages"] = @[parseImage, parseImage2];
-            [currentUser saveInBackground];
-            NSLog(@"/n/nDone!!!!!!!!");
-            
-        }else{
-            NSLog(@"Error on registration: %@", error.localizedDescription);
-        }
-    }];
     
     return YES;
 }

@@ -55,8 +55,8 @@
 }
 
 -(void)uploadImageWithImageObject:(ImageObject*)imageObject
-                     location:(Location *)location
-               WithCompletion:(void(^)(BOOL complete))completionBlock{
+                         location:(Location *)location
+                   WithCompletion:(void(^)(BOOL complete))completionBlock{
     
     PFObject *parseLocation = [PFObject objectWithClassName:@"Location"];
     parseLocation[@"city"] = location.city;

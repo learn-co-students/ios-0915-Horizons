@@ -10,8 +10,12 @@
 #import "APIConstants.h"
 #import "FXMCity.h"
 #import "FXMWeather.h"
+#import <ImageIO/CGImageProperties.h>
+#import <ImageIO/CGImageSource.h>
 
 @interface LocationData ()
+
+@property (strong, nonatomic) UIImage *image;
 
 @end
 
@@ -22,12 +26,12 @@ NSString *const OPEN_WEATHER_API_KEY = @"66b9ac9165733a2335dd3e09acd29f5a";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self.locationManager requestWhenInUseAuthorization];
-    [self.locationManager startUpdatingLocation];
+//    self.locationManager = [[CLLocationManager alloc] init];
+//    
+//    self.locationManager.delegate = self;
+//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    [self.locationManager requestWhenInUseAuthorization];
+//    [self.locationManager startUpdatingLocation];
     
     
     // Do any additional setup after loading the view.
@@ -48,44 +52,47 @@ NSString *const OPEN_WEATHER_API_KEY = @"66b9ac9165733a2335dd3e09acd29f5a";
  }
  */
 
+
+// ***This method was written for getting current location data.  No longer relevant if we're getting location data from photos meta***
+
 //This method will log the current City
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations {
-    
-    CLLocation *currentLocation = [locations lastObject];
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        
-        if (error) {
-            NSLog(@"Error");
-        }
-        
-        CLPlacemark *locationPlacemark = [placemarks objectAtIndex:0];
-        NSString *currentCity = locationPlacemark.locality;
-        
-        __block NSString *name = [currentCity copy];
-        
-        [LocationData getWeatherInfoFromCity:currentCity
-                              withCompletion:^(NSDictionary *weatherInfo) {
-                                  
-                                  
-                                  NSLog(@"This is a dictionary with stuff in int: %@", weatherInfo);
-                                  
-                                  
-                                  
-                                  
-                                  
-//                                  FXMWeather *weatherOfCurrentCity = [FXMWeather createWeatherFromDictionary:weatherInfo];
+//- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations {
+//    
+//    CLLocation *currentLocation = [locations lastObject];
+//    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+//    
+//    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+//        
+//        if (error) {
+//            NSLog(@"Error");
+//        }
+//        
+//        CLPlacemark *locationPlacemark = [placemarks objectAtIndex:0];
+//        NSString *currentCity = locationPlacemark.locality;
+//        
+//        __block NSString *name = [currentCity copy];
+//        
+//        [LocationData getWeatherInfoFromCity:currentCity
+//                              withCompletion:^(NSDictionary *weatherInfo) {
 //                                  
-//                                  FXMCity *currentCity = [[FXMCity alloc] initWithName:name
-//                                                                     andCurrentWeather:weatherOfCurrentCity];
-                                  
-                              }];
-        
-        NSLog(@"%@", currentCity);
-    }];
-    
-}
+//                                  
+//                                  NSLog(@"This is a dictionary with stuff in int: %@", weatherInfo);
+//                                  
+//                                  
+//                                  
+//                                  
+//                                  
+////                                  FXMWeather *weatherOfCurrentCity = [FXMWeather createWeatherFromDictionary:weatherInfo];
+////                                  
+////                                  FXMCity *currentCity = [[FXMCity alloc] initWithName:name
+////                                                                     andCurrentWeather:weatherOfCurrentCity];
+//                                  
+//                              }];
+//        
+//        NSLog(@"%@", currentCity);
+//    }];
+//    
+//}
 //this method needs the currentCity to be passed to it to get the city's current weather
 
 + (void)getWeatherInfoFromCity:(NSString *)city withCompletion:(void (^)(NSDictionary *))completionBlock
@@ -101,5 +108,28 @@ NSString *const OPEN_WEATHER_API_KEY = @"66b9ac9165733a2335dd3e09acd29f5a";
     [retrievalDataTask resume];
     
 }
+
+-(CLLocation *)getLocationInfo:(UIImage *)image
+{
+    NSData *jpegData = UIImageJPEGRepresentation(image, 0.5);
+    UIImage *theActualImage = [UIImage imageWithData:jpegData];
+    CGImageSourceRef imageData= CGImageSourceCreateWithData((CFDataRef)jpegData, NULL);
+    NSDictionary *metadata = (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(imageData, 0, NULL);
+    NSDictionary *exifGPSDictionary = [metadata objectForKey:(NSString *)kCGImagePropertyGPSDictionary];
+    
+    if(exifGPSDictionary)
+    {
+        NSLog(@"WOO! %@", exifGPSDictionary);
+    }
+    
+    
+    CGFloat latitude = [[exifGPSDictionary objectForKey:(NSString *)kCGImagePropertyGPSLatitude] floatValue];
+    CGFloat longitutde = [[exifGPSDictionary objectForKey:(NSString *)kCGImagePropertyGPSLongitude] floatValue];
+    CLLocation *newLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitutde];
+    
+    return newLocation;
+   
+}
 @end
+
 

@@ -17,6 +17,11 @@
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
 		E24802F81BFD16AA005AB1D5 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E24802F71BFD16AA005AB1D5 /* DataStore.m */; };
 		E24802FB1BFD3062005AB1D5 /* AWSUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E24802FA1BFD3062005AB1D5 /* AWSUploadManager.m */; };
+		E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */; };
+		E24803041BFE2993005AB1D5 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E24803031BFE2993005AB1D5 /* SignUpViewController.m */; };
+		E24803081BFE4DF7005AB1D5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24803071BFE4DF7005AB1D5 /* LoginViewController.swift */; };
+		E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */; };
+		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262BFFF1BFCE0F900C81C53 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFE1BFCE0F900C81C53 /* APIConstants.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
@@ -46,6 +51,13 @@
 		E24802F71BFD16AA005AB1D5 /* DataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStore.m; sourceTree = "<group>"; };
 		E24802F91BFD3062005AB1D5 /* AWSUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSUploadManager.h; sourceTree = "<group>"; };
 		E24802FA1BFD3062005AB1D5 /* AWSUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSUploadManager.m; sourceTree = "<group>"; };
+		E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = loginStoryboard.storyboard; sourceTree = "<group>"; };
+		E24803021BFE2993005AB1D5 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		E24803031BFE2993005AB1D5 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		E24803061BFE4DF6005AB1D5 /* Fax-Machine-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fax-Machine-Bridging-Header.h"; sourceTree = "<group>"; };
+		E24803071BFE4DF7005AB1D5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLoginViewController.swift; sourceTree = "<group>"; };
+		E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E262BFFA1BFCE0D200C81C53 /* APIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIConstants.h; sourceTree = "<group>"; };
 		E262BFFB1BFCE0D200C81C53 /* ParseAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseAPIClient.h; sourceTree = "<group>"; };
 		E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseAPIClient.m; sourceTree = "<group>"; };
@@ -105,6 +117,7 @@
 				E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */,
 				766FC17D1BFBA81000C4140E /* AppDelegate.h */,
 				766FC17E1BFBA81000C4140E /* AppDelegate.m */,
+				E24803051BFE4BA1005AB1D5 /* Login files */,
 				766FC1941BFBB36500C4140E /* Storyboards */,
 				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
 				766FC1921BFBABC000C4140E /* ImageUploadViewController.m */,
@@ -134,6 +147,7 @@
 		766FC1941BFBB36500C4140E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
 				E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */,
 				766FC1881BFBA81000C4140E /* LaunchScreen.storyboard */,
 			);
@@ -149,6 +163,19 @@
 				3BC7C9E4642C88008381044C /* Pods-Fax-Machine.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		E24803051BFE4BA1005AB1D5 /* Login files */ = {
+			isa = PBXGroup;
+			children = (
+				E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */,
+				E24803071BFE4DF7005AB1D5 /* LoginViewController.swift */,
+				E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */,
+				E24803021BFE2993005AB1D5 /* SignUpViewController.h */,
+				E24803031BFE2993005AB1D5 /* SignUpViewController.m */,
+				E24803061BFE4DF6005AB1D5 /* Fax-Machine-Bridging-Header.h */,
+			);
+			name = "Login files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +242,7 @@
 				766FC18A1BFBA81000C4140E /* LaunchScreen.storyboard in Resources */,
 				E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
+				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,9 +307,13 @@
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
 				E24802FB1BFD3062005AB1D5 /* AWSUploadManager.m in Sources */,
+				E24803041BFE2993005AB1D5 /* SignUpViewController.m in Sources */,
 				E24802F81BFD16AA005AB1D5 /* DataStore.m in Sources */,
 				766FC17C1BFBA81000C4140E /* main.m in Sources */,
 				E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */,
+				E24803081BFE4DF7005AB1D5 /* LoginViewController.swift in Sources */,
+				E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */,
+				E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +426,7 @@
 			baseConfigurationReference = 291C7364A74697BA000A06F2 /* Pods-Fax-Machine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
@@ -401,6 +434,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flatironschool.Fax-Machine";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -409,6 +444,7 @@
 			baseConfigurationReference = 3BC7C9E4642C88008381044C /* Pods-Fax-Machine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
@@ -416,6 +452,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flatironschool.Fax-Machine";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";
 			};
 			name = Release;
 		};

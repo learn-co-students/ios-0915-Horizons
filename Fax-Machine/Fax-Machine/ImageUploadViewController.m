@@ -13,8 +13,10 @@
 #import "APIConstants.h"
 #import "DataStore.h"
 #import <ImageIO/ImageIO.h>
+#import <ParseUI/ParseUI.h>
+#import "SignUpViewController.h"
 
-@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageHolderView;
 @property (nonatomic, strong) UIAlertController *sourcePicker;
@@ -38,9 +40,11 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    if (self.firstTime) {
+  
+  if (self.firstTime) {
         self.firstTime = NO;
-        [self imageUpLoadSource];
+      [self imageUpLoadSource];
+  
     }
 }
 
@@ -60,9 +64,9 @@
  *  @param sender UINavigation right bar Done button.
  */
 - (IBAction)finishedImageSelect:(id)sender {
-  [self dismissViewControllerAnimated:YES completion:^{
-    NSLog(@"done");
-  }];
+//  [self dismissViewControllerAnimated:YES completion:^{
+//    NSLog(@"done");
+//  }];
   NSLog(@"done");
   UIImage *image = self.selectedImage;
   NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
@@ -95,7 +99,7 @@
  *  @param sender UINavigation left bar Cancel button.
  */
 - (IBAction)cancelImageSelect:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /**
@@ -140,7 +144,6 @@
     [self presentViewController:self.sourcePicker animated:YES completion:nil];
 }
 
-<<<<<<< HEAD
 
 -(void)pickImageToUpload
 {
@@ -263,7 +266,7 @@
     //Displaying the selected image in the image view holder.
     
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+//    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 /**

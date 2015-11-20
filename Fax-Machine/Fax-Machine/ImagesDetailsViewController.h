@@ -11,12 +11,10 @@
 @interface ImagesDetailsViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIToolbar *likeIcon;
-- (IBAction)commentIcon:(UIBarButtonItem *)sender;
-
-@property (weak, nonatomic) IBOutlet UILabel *likeLabel;
-
-
 @property (weak, nonatomic) IBOutlet UIImageView *imageDetails;
 @property (strong) UIImage *img;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *likesCounter;
 
+- (IBAction)commentIcon:(UIBarButtonItem *)sender;
+- (IBAction)likeButton:(UIBarButtonItem *)sender;
 @end

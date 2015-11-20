@@ -1,23 +1,24 @@
 //
-//  ImagesDetailsViewController.m
+//  SearchViewController.m
 //  Fax-Machine
 //
 //  Created by Selma NB on 11/19/15.
 //  Copyright © 2015 Flatiron-School. All rights reserved.
 //
 
-#import "ImagesDetailsViewController.h"
+#import "SearchViewController.h"
 
-@interface ImagesDetailsViewController ()
-@property (nonatomic) NSUInteger photoLikesCounter;
+@interface SearchViewController ()
+
 @end
 
-@implementation ImagesDetailsViewController
+@implementation SearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.imageDetails.image = self.img;
-    self.likesCounter.tintColor= [UIColor whiteColor];
+  
+    
+
     // Do any additional setup after loading the view.
 }
 
@@ -36,18 +37,4 @@
 }
 */
 
-- (IBAction)commentIcon:(UIBarButtonItem *)sender {
-    
-}
-
-- (IBAction)likeButton:(UIBarButtonItem *)sender {
-      
-    self.photoLikesCounter += 1;
-    self.likesCounter.tintColor= [UIColor whiteColor];
-    self.likesCounter.title = [NSString stringWithFormat:@"❤️ %ld", self.photoLikesCounter];
-    
-    
-    
-    
-}
 @end

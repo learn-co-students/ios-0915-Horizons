@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "WP_20140421_003.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "heart@2x.png",
       "scale" : "2x"
     },
     {

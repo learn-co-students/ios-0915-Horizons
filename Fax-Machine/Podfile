@@ -9,6 +9,7 @@ inhibit_all_warnings!
 
  pod 'Parse'
  pod 'ParseUI'
+ pod 'RESideMenu'
 
  pod 'AWSCore'
  pod 'AWSAutoScaling'

@@ -36,6 +36,7 @@ PODS:
   - ParseUI (1.1.7):
     - Bolts/Tasks (~> 1.3)
     - Parse (~> 1.9)
+  - RESideMenu (4.0.7)
 
 DEPENDENCIES:
   - AWSAutoScaling
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - AWSSQS
   - Parse
   - ParseUI
+  - RESideMenu
 
 SPEC CHECKSUMS:
   AWSAutoScaling: df8e90e5a9a5bd2724498b9d6858666784ee8624
@@ -77,5 +79,6 @@ SPEC CHECKSUMS:
   Bolts: 722ab9a4f8b50fc4ed1b9998a5a7a2b3f16d80b4
   Parse: 90b2544822200f84b18bfacc4e8b0a3a6c3584a2
   ParseUI: c2bcdfbb00330e464b5b773266ae221697a3bb7b
+  RESideMenu: f24c508404b49c667344c54aba7e590883533958
 
 COCOAPODS: 0.39.0

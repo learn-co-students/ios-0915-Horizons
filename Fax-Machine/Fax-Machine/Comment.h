@@ -14,13 +14,13 @@
 
 @property (nonatomic, strong) NSString *userComment;
 @property (nonatomic, strong) PFUser *owner;
-@property (nonatomic, strong) PFObject *relatedImage;
+@property (nonatomic, strong) ImageObject *relatedImage;
 
 -(instancetype)initWithComment:(NSString *)userComment
                           user:(PFUser *)owner
-                         image:(PFObject *)relatedImage;
+                         image:(ImageObject *)relatedImage;
 
 -(instancetype)initWithComment:(NSString *)userComment
-                         image:(PFObject *)relatedImage;
+                         image:(ImageObject *)relatedImage;
 
 @end

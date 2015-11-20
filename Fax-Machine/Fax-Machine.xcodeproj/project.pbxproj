@@ -11,6 +11,11 @@
 		761E1EAA1BFD2B2D00BD5375 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EA91BFD2B2D00BD5375 /* Comment.m */; };
 		761E1EB11BFD2D6B00BD5375 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EB01BFD2D6B00BD5375 /* Location.m */; };
 		761E1EB71BFD320F00BD5375 /* ImageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EB61BFD320F00BD5375 /* ImageObject.m */; };
+		761E1EBB1BFF682000BD5375 /* sideBarProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 761E1EBA1BFF682000BD5375 /* sideBarProfile.storyboard */; };
+		761E1EC11BFF6CC800BD5375 /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC01BFF6CC800BD5375 /* LeftMenuViewController.m */; };
+		761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC31BFF70D700BD5375 /* ProfileMenuRootViewController.m */; };
+		761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */; };
+		761E1ECA1BFF87BC00BD5375 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */; };
 		766FC17C1BFBA81000C4140E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17B1BFBA81000C4140E /* main.m */; };
 		766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17E1BFBA81000C4140E /* AppDelegate.m */; };
 		766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1861BFBA81000C4140E /* Assets.xcassets */; };
@@ -51,6 +56,15 @@
 		761E1EB01BFD2D6B00BD5375 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		761E1EB51BFD320F00BD5375 /* ImageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageObject.h; sourceTree = "<group>"; };
 		761E1EB61BFD320F00BD5375 /* ImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageObject.m; sourceTree = "<group>"; };
+		761E1EBA1BFF682000BD5375 /* sideBarProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = sideBarProfile.storyboard; sourceTree = "<group>"; };
+		761E1EBF1BFF6CC800BD5375 /* LeftMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewController.h; sourceTree = "<group>"; };
+		761E1EC01BFF6CC800BD5375 /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = "<group>"; };
+		761E1EC21BFF70D700BD5375 /* ProfileMenuRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileMenuRootViewController.h; sourceTree = "<group>"; };
+		761E1EC31BFF70D700BD5375 /* ProfileMenuRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileMenuRootViewController.m; sourceTree = "<group>"; };
+		761E1EC51BFF7B5C00BD5375 /* SideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideBarViewController.h; sourceTree = "<group>"; };
+		761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideBarViewController.m; sourceTree = "<group>"; };
+		761E1EC81BFF87BC00BD5375 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
+		761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
 		766FC1771BFBA81000C4140E /* Fax-Machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fax-Machine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766FC17B1BFBA81000C4140E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		766FC17D1BFBA81000C4140E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -188,6 +202,14 @@
 				766FC1941BFBB36500C4140E /* Storyboards */,
 				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
 				766FC1921BFBABC000C4140E /* ImageUploadViewController.m */,
+				761E1EC21BFF70D700BD5375 /* ProfileMenuRootViewController.h */,
+				761E1EC31BFF70D700BD5375 /* ProfileMenuRootViewController.m */,
+				761E1EC51BFF7B5C00BD5375 /* SideBarViewController.h */,
+				761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */,
+				761E1EBF1BFF6CC800BD5375 /* LeftMenuViewController.h */,
+				761E1EC01BFF6CC800BD5375 /* LeftMenuViewController.m */,
+				761E1EC81BFF87BC00BD5375 /* RightMenuViewController.h */,
+				761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */,
 				89E2B9551BFBE69400AF43E1 /* LocationData.h */,
 				89E2B9561BFBE69400AF43E1 /* LocationData.m */,
 				766FC17A1BFBA81000C4140E /* Supporting Files */,
@@ -209,9 +231,11 @@
 		766FC1941BFBB36500C4140E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+
 				B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */,
 				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
 				E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */,
+				761E1EBA1BFF682000BD5375 /* sideBarProfile.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -346,6 +370,7 @@
 				B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */,
 				B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
+				761E1EBB1BFF682000BD5375 /* sideBarProfile.storyboard in Resources */,
 				E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
 				B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */,
@@ -411,6 +436,7 @@
 				E262C0051BFCEA4000C81C53 /* AWSDownloadManager.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
+				761E1EC11BFF6CC800BD5375 /* LeftMenuViewController.m in Sources */,
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
 				B7D3E2B61BFEBEBF00E28028 /* UsersCommentsViewController.m in Sources */,
 				B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */,
@@ -425,9 +451,12 @@
 				E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */,
 				E24803081BFE4DF7005AB1D5 /* LoginViewController.swift in Sources */,
 				E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */,
+				761E1ECA1BFF87BC00BD5375 /* RightMenuViewController.m in Sources */,
 				E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */,
 				761E1EAA1BFD2B2D00BD5375 /* Comment.m in Sources */,
 				761E1EB71BFD320F00BD5375 /* ImageObject.m in Sources */,
+				761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */,
+				761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

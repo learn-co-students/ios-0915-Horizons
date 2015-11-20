@@ -13,6 +13,7 @@ inhibit_all_warnings!
  pod 'FBSDKCoreKit'
  pod 'FBSDKLoginKit'
  pod 'ParseFacebookUtilsV4'
+ pod 'RESideMenu'
 
  pod 'AWSCore'
  pod 'AWSAutoScaling'

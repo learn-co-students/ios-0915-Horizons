@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
     </dependencies>
     <scenes>
         <!--Image Upload View Controller-->
@@ -126,7 +127,10 @@
                                         <connections>
                                             <outlet property="myImage" destination="3Hg-8p-ehi" id="wSx-oq-qIB"/>
                                             <outlet property="mydiscriptionLabel" destination="xfb-f6-p4j" id="FD5-Sp-6Fx"/>
-                                            <segue destination="WTS-eO-ffq" kind="show" identifier="photoDetails" id="IQz-sr-TJA"/>
+                                            <segue destination="WTS-eO-ffq" kind="show" identifier="photoDetails" id="IQz-sr-TJA">
+                                                <segue key="commit" inheritsFrom="parent" id="zQd-40-EHI"/>
+                                                <segue key="preview" inheritsFrom="commit" id="wGb-JW-Mx8"/>
+                                            </segue>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -196,6 +200,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="T57-XQ-34R"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
@@ -257,4 +262,7 @@
             <point key="canvasLocation" x="3152" y="100"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="IQz-sr-TJA"/>
+    </inferredMetricsTieBreakers>
 </document>

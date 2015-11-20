@@ -67,6 +67,7 @@
 		E24803071BFE4DF7005AB1D5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLoginViewController.swift; sourceTree = "<group>"; };
 		E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		E248030D1BFFB57B005AB1D5 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../Documents/FacebookSDKs-iOS-20151111/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		E262BFFA1BFCE0D200C81C53 /* APIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIConstants.h; sourceTree = "<group>"; };
 		E262BFFB1BFCE0D200C81C53 /* ParseAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseAPIClient.h; sourceTree = "<group>"; };
 		E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseAPIClient.m; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 		3ABA1FB6560CAAF5A2F68A3F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E248030D1BFFB57B005AB1D5 /* FBSDKCoreKit.framework */,
 				C01A12ADED23683384E43AB7 /* libPods.a */,
 				6B336C30F03165A7211BA806 /* libPods-Fax-Machine.a */,
 			);

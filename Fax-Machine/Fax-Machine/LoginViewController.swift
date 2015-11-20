@@ -24,9 +24,12 @@ class LoginViewController : PFLogInViewController {
     backgroundImage.contentMode = UIViewContentMode.ScaleAspectFill
     self.logInView!.insertSubview(backgroundImage, atIndex: 0)
     
+    
+    
     let logo = UILabel()
     logo.text = "Our App"
     logo.textColor = UIColor.whiteColor()
+    logo.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 70)
     logo.shadowColor = UIColor.lightGrayColor()
     logo.shadowOffset = CGSizeMake(2, 2)
     logInView?.logo = logo
@@ -35,6 +38,11 @@ class LoginViewController : PFLogInViewController {
 
     self.signUpController = SignUpViewController()
 
+//    logInView?.logInButton?.setBackgroundImage(nil, forState: .Normal)
+//    logInView?.logInButton?.backgroundColor = UIColor.blueColor()
+//    logInView?.signUpButton?.alpha = 0.9
+    
+    
     
 //    customizeButton(logInView?.facebookButton!)
 //    customizeButton(logInView?.twitterButton!)
@@ -59,6 +67,9 @@ class LoginViewController : PFLogInViewController {
     logInView!.logo!.sizeToFit()
     let logoFrame = logInView!.logo!.frame
     logInView!.logo!.frame = CGRectMake(logoFrame.origin.x, logInView!.usernameField!.frame.origin.y - logoFrame.height - 16, logInView!.frame.width,  logoFrame.height)
+    
+//    logInView!.signUpButton?.backgroundColor = UIColor.grayColor();
+    
     
     
 //    viewsFinalYPosition = [CGFloat]();

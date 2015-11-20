@@ -29,7 +29,7 @@ class BaseLoginViewController: UIViewController, PFLogInViewControllerDelegate, 
     if (PFUser.currentUser() == nil) {
       let loginViewController = LoginViewController()
       loginViewController.delegate = self
-//      loginViewController.fields = .UsernameAndPassword | .LogInButton | .PasswordForgotten | .SignUpButton | .Facebook | .Twitter
+      loginViewController.fields = [.UsernameAndPassword, .LogInButton, .PasswordForgotten, .SignUpButton, .Facebook, .Twitter]
       loginViewController.emailAsUsername = true
       loginViewController.signUpController?.delegate = self
       loginViewController.emailAsUsername = true

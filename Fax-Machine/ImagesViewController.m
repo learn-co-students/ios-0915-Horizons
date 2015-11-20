@@ -8,6 +8,7 @@
 
 #import "ImagesViewController.h"
 #import "imagesCustomCell.h"
+#import "ImagesDetailsViewController.h"
 
 @interface ImagesViewController ()
 
@@ -24,8 +25,8 @@
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
     
-    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG", nil];
-    self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
+    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
+    self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
     
     
  
@@ -48,10 +49,9 @@
    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
 
     cell.myImage.image = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
-    //cell.mydiscriptionLabel.text = [NSString stringWithFormat:self.arrayWithDescriptions[indexPath.item]];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
-    cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:40.0];
-   [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
+    cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
+   // [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
 
     
     return cell;
@@ -59,19 +59,8 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    CGFloat width = self.view.frame.size.width/2;
-    
-    
-    
+    CGFloat width = self.view.frame.size.width/3;
     return CGSizeMake(width, width);
-    
-   // UIImage *image = [self.arrayWithImages objectAtIndex:indexPath.row];
-////    //You may want to create a divider to scale the size by the way..
-////
-////    return CGSizeMake(image.size.width, image.size.height);
-//    
-//    return CGSizeMake(self.view.frame.size.width/2,self.view.frame.size.height/4);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
@@ -81,11 +70,25 @@
 
 
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-//setupSegue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"photoDetails"])
+    {
+    
+        ImagesViewController *cell = (ImagesViewController*)sender;
+        NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
+        ImagesDetailsViewController *imageVC = (ImagesDetailsViewController *)[segue destinationViewController];
+        imageVC.img = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
+        
+    }
+    
+}
 
 @end

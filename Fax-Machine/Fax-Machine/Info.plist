@@ -20,23 +20,58 @@
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
-		<dict/>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1166175086745262</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>1166175086745262</string>
+	<key>FacebookDisplayName</key>
+	<string>Scenery App</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbauth2</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>akamaihd.net</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+			<key>facebook.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+			<key>fbcdn.net</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>It's not stalking if you give us permission.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
-	<string>CollectionView</string>
+	<string>loginStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -54,45 +89,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CFBundleURLTypes</key>
-<array>
-  <dict>
-    <key>CFBundleURLSchemes</key>
-    <array>
-      <string>fb1166175086745262</string>
-    </array>
-  </dict>
-</array>
-<key>FacebookAppID</key>
-<string>1166175086745262</string>
-<key>FacebookDisplayName</key>
-<string>Scenery App</string>
-
-<key>NSAppTransportSecurity</key>
-<dict>
-  <key>NSExceptionDomains</key>
-  <dict>
-    <key>facebook.com</key>
-    <dict>
-      <key>NSIncludesSubdomains</key> <true/>        
-      <key>NSThirdPartyExceptionRequiresForwardSecrecy</key> <false/>
-    </dict>
-    <key>fbcdn.net</key>
-    <dict>
-      <key>NSIncludesSubdomains</key> <true/>
-      <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>  <false/>
-    </dict>
-    <key>akamaihd.net</key>
-    <dict>
-      <key>NSIncludesSubdomains</key> <true/>
-      <key>NSThirdPartyExceptionRequiresForwardSecrecy</key> <false/>
-    </dict>
-  </dict>
-</dict>
-<key>LSApplicationQueriesSchemes</key>
-<array>
-    <string>fbauth2</string>
-</array>
-
 </dict>
 </plist>

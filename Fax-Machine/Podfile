@@ -9,7 +9,10 @@ inhibit_all_warnings!
 
  pod 'Parse'
  pod 'ParseUI'
- pod 'RESideMenu'
+ pod 'ParseTwitterUtils'
+ pod 'FBSDKCoreKit'
+ pod 'FBSDKLoginKit'
+ pod 'ParseFacebookUtilsV4'
 
  pod 'AWSCore'
  pod 'AWSAutoScaling'

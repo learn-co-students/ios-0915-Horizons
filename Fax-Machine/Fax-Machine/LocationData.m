@@ -145,34 +145,34 @@ NSString *const FORECASTIO_API_KEY = @"c1083f0b678b2ff979f710cf857dab03";
 }
 
 //This method returns a CLLocation.
--(NSDictionary *)gettingImageData:(UIImage *)image
-{
-    NSData *pngData = UIImagePNGRepresentation(image);
-    //    UIImage *theActualImage = [UIImage imageWithData:jpegData];
-    CGImageSourceRef imageData= CGImageSourceCreateWithData((CFDataRef)pngData, NULL);
-    NSDictionary *metadata = (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(imageData, 0, NULL);
-    NSDictionary *exifGPSDictionary = [metadata objectForKey:(NSString *)kCGImagePropertyGPSDictionary];
-    
-    if(exifGPSDictionary)
-    {
-        NSLog(@"WOO! %@", exifGPSDictionary);
-    }
-    
-    
-    CGFloat latitude = [[exifGPSDictionary objectForKey:(NSString *)kCGImagePropertyGPSLatitude] floatValue];
-    CGFloat longitutde = [[exifGPSDictionary objectForKey:(NSString *)kCGImagePropertyGPSLongitude] floatValue];
-    CLLocation *newLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitutde];
-    NSDate *dateOfOriginal = [metadata objectForKey:(NSString *)kCGImagePropertyExifDateTimeOriginal];
-    NSDictionary *retrievedData = @{@"location":newLocation,
-                                       @"date":dateOfOriginal};
-    return retrievedData;
-    
-}
+//+(NSDictionary *)gettingImageData:(UIImage *)image
+//{
+//    NSData *pngData = UIImagePNGRepresentation(image);
+//    //    UIImage *theActualImage = [UIImage imageWithData:jpegData];
+//    CGImageSourceRef imageData= CGImageSourceCreateWithData((CFDataRef)pngData, NULL);
+//    NSDictionary *metadata = (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(imageData, 0, NULL);
+//    NSDictionary *exifGPSDictionary = [metadata objectForKey:(NSString *)kCGImagePropertyGPSDictionary];
+//    
+//    if(exifGPSDictionary)
+//    {
+//        NSLog(@"WOO! %@", exifGPSDictionary);
+//    }
+//    
+//    
+//    CGFloat latitude = [[exifGPSDictionary objectForKey:(NSString *)kCGImagePropertyGPSLatitude] floatValue];
+//    CGFloat longitutde = [[exifGPSDictionary objectForKey:(NSString *)kCGImagePropertyGPSLongitude] floatValue];
+//    CLLocation *newLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitutde];
+//    NSDate *dateOfOriginal = [metadata objectForKey:(NSString *)kCGImagePropertyExifDateTimeOriginal];
+//    NSDictionary *retrievedData = @{@"location":newLocation,
+//                                       @"date":dateOfOriginal};
+//    return retrievedData;
+//    
+//}
 
 
 //Block that gives back the city's name in a string and date image was taken in NSDate
 
-+ (void)getCityAndDateFromDictionary:(NSDictionary *)dictionary withCompletion:(void (^)(NSString *city,NSDate *date, BOOL success))completionBlock {
++ (void)getCityAndDateFromDictionary:(NSDictionary *)dictionary withCompletion:(void (^)(NSString *city,NSString *country, NSDate *date, BOOL success))completionBlock {
     
     CLLocation *location = dictionary[@"location"];
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -181,14 +181,15 @@ NSString *const FORECASTIO_API_KEY = @"c1083f0b678b2ff979f710cf857dab03";
         
         if (error) {
             NSLog(@"Error");
-            completionBlock(@"",nil, NO);
+            completionBlock(@"",nil, nil, NO);
         }
         
         CLPlacemark *locationPlacemark = [placemarks objectAtIndex:0];
         NSString *cityTaken = locationPlacemark.locality;
+        NSString *countryTaken = locationPlacemark.country;
         NSDate *dateTaken = dictionary[@"date"];
         
-        completionBlock(cityTaken, dateTaken, YES);
+        completionBlock(cityTaken, countryTaken, dateTaken, YES);
 
         
         //            __block NSString *name = [currentCity copy];

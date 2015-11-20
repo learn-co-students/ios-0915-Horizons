@@ -17,8 +17,7 @@
 
 + (void)getWeatherInfoFromDictionary:(NSDictionary *)retrievedDictionary withCompletion:(void (^)(NSDictionary *))completionBlock;
 
++(NSDictionary *)gettingImageData:(UIImage *)image;
 
-+ (void)getCityAndDateFromDictionary:(NSDictionary *)dictionary withCompletion:(void (^)(NSString *city,NSDate *date, BOOL success))completionBlock;
-
-
++ (void)getCityAndDateFromDictionary:(NSDictionary *)dictionary withCompletion:(void (^)(NSString *city,NSString *country, NSDate *date, BOOL success))completionBlock;
 @end

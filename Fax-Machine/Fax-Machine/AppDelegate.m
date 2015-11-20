@@ -10,6 +10,7 @@
 #import <AWSCore/AWSCore.h>
 #import <Parse/Parse.h>
 #import "APIConstants.h"
+#import "LocationData.h"
 
 @interface AppDelegate ()
 
@@ -21,7 +22,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
   
-  // AWS STUFF 
+  // AWS STUFF
+
+    
+    
 
   AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionUSEast1
                                                                                                   identityPoolId:POOL_ID

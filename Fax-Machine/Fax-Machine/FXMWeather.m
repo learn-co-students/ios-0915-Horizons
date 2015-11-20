@@ -7,12 +7,16 @@
 //
 
 #import "FXMWeather.h"
+#import "LocationData.h"
 
 @implementation FXMWeather
 
 + (instancetype)createWeatherFromDictionary:(NSDictionary *)dictionary {
     
     FXMWeather *newWeather = [[FXMWeather alloc] init];
+    
+    
+    
     
 //    newWeather.name = dictionary[@"name"]; <-- implement this
     

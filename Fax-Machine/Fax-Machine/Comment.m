@@ -15,12 +15,12 @@
     return self;
 }
 
--(instancetype)initWithComment:(NSString *)userComment image:(PFObject *)relatedImage{
+-(instancetype)initWithComment:(NSString *)userComment image:(ImageObject *)relatedImage{
     self = [self initWithComment:userComment user:[PFUser currentUser] image:relatedImage];
     return self;
 }
 
--(instancetype)initWithComment:(NSString *)userComment user:(PFUser *)owner image:(PFObject *)relatedImage{
+-(instancetype)initWithComment:(NSString *)userComment user:(PFUser *)owner image:(ImageObject *)relatedImage{
     self = [super init];
     if (self) {
         _userComment = userComment;

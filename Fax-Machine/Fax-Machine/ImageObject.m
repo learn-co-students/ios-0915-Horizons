@@ -15,12 +15,12 @@
     return self;
 }
 
--(instancetype)initWithTitle:(NSString *)title imageID:(NSString *)imageID mood:(NSString *)mood location:(PFObject *)location{
+-(instancetype)initWithTitle:(NSString *)title imageID:(NSString *)imageID mood:(NSString *)mood location:(Location *)location{
     self = [self initWithOwner:[PFUser currentUser] title:title imageID:imageID likes:@0 mood:mood location:location comments:[@[] mutableCopy]];
     return self;
 }
 
--(instancetype)initWithOwner:(PFUser *)owner title:(NSString *)title imageID:(NSString *)imageID likes:(NSNumber *)likes mood:(NSString *)mood location:(PFObject *)location comments:(NSMutableArray *)comments{
+-(instancetype)initWithOwner:(PFUser *)owner title:(NSString *)title imageID:(NSString *)imageID likes:(NSNumber *)likes mood:(NSString *)mood location:(Location *)location comments:(NSMutableArray *)comments{
     self = [super init];
     if (self) {
         _owner = owner;

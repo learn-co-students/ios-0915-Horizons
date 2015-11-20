@@ -15,15 +15,10 @@
     
     FXMWeather *newWeather = [[FXMWeather alloc] init];
     
-    
-    
-    
 //    newWeather.name = dictionary[@"name"]; <-- implement this
     
     
-    
-    
-    //IMPLEMENT THIS WEATHER OBJECT FROM THE DICTIONARY PASSED IN
+        //IMPLEMENT THIS WEATHER OBJECT FROM THE DICTIONARY PASSED IN
     
     
     

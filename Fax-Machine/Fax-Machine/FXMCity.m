@@ -7,6 +7,7 @@
 //
 
 #import "FXMCity.h"
+#import "LocationData.h"
 
 @implementation FXMCity
 
@@ -19,6 +20,7 @@
         
         _name = name;
         _currentWeather = weather;
+
     }
     
     return self;

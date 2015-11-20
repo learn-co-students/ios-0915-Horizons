@@ -95,29 +95,33 @@ NSString *const FORECASTIO_API_KEY = @"c1083f0b678b2ff979f710cf857dab03";
 //}
 //this method needs the currentCity to be passed to it to get the city's current weather
 
-+ (void)getWeatherInfoFromDictionary:(NSDictionary *)retrievedDictionary withCompletion:(void (^)(NSDictionary *))completionBlock
++ (void)getWeatherInfoFromDictionary:(NSDictionary *)retrievedDictionary
+                      withCompletion:(void (^)(NSDictionary *))completionBlock
 {
     CLLocation *retrievedLocation = retrievedDictionary[@"location"];
     NSDate *retrievedDate = retrievedDictionary[@"date"];
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+//    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     
     //block gets city name...how do i use the string cityTaken in the main method body?
     
-    [geocoder reverseGeocodeLocation:retrievedLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        
-        if (error) {
-            NSLog(@"Error");
-        }
-        
-        CLPlacemark *locationPlacemark = [placemarks objectAtIndex:0];
-        NSString *cityTaken = locationPlacemark.locality;
-    }];
+//    [geocoder reverseGeocodeLocation:retrievedLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+//        
+//        if (error)
+//        {
+//            NSLog(@"Error");
+//        }
+//        
+//        CLPlacemark *locationPlacemark = [placemarks objectAtIndex:0];
+//        NSString *cityTaken = locationPlacemark.locality;
+//        completionBlock(cityTaken);
+//        
+//    }];
     
     //date from dictionary formatted for api use
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"[yyyy]-[MM]-[dd]";
+    dateFormatter.dateFormat = @"yyyy-MM-dd";
     NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
-    timeFormatter.dateFormat = @"[HH]:[mm]:[ss]";
+    timeFormatter.dateFormat = @"HH:mm:ss";
     NSString *dateWithFormatting = [dateFormatter stringFromDate:retrievedDate];
     NSString *timeWithFormatting = [timeFormatter stringFromDate:retrievedDate];
     //[YYYY]-[MM]-[DD]T[HH]:[MM]:[SS]
@@ -137,14 +141,15 @@ NSString *const FORECASTIO_API_KEY = @"c1083f0b678b2ff979f710cf857dab03";
                                                }];
     [retrievalDataTask resume];
     
+    
 }
 
 //This method returns a CLLocation.
 -(NSDictionary *)gettingImageData:(UIImage *)image
 {
-    NSData *jpegData = UIImageJPEGRepresentation(image, 0.5);
+    NSData *pngData = UIImagePNGRepresentation(image);
     //    UIImage *theActualImage = [UIImage imageWithData:jpegData];
-    CGImageSourceRef imageData= CGImageSourceCreateWithData((CFDataRef)jpegData, NULL);
+    CGImageSourceRef imageData= CGImageSourceCreateWithData((CFDataRef)pngData, NULL);
     NSDictionary *metadata = (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(imageData, 0, NULL);
     NSDictionary *exifGPSDictionary = [metadata objectForKey:(NSString *)kCGImagePropertyGPSDictionary];
     

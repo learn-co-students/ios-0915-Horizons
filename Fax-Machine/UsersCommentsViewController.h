@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UsersCommentsViewController : UIViewController
+@interface UsersCommentsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UITableView *commentsTable;
+@property (nonatomic, strong) NSMutableArray *usersCommentsArray;
+
+
+- (IBAction)addComment:(UIButton *)sender;
 
 @end

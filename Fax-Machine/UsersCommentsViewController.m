@@ -16,9 +16,55 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.commentsTable.delegate = self;
+    self.commentsTable.dataSource = self;
+    self.usersCommentsArray = [[NSMutableArray alloc]init];
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.usersCommentsArray.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    //Row height
+    return 45.0;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        NSLog(@"Cell Customize");
+        // Customize TableView Cells.
+        // Cell background.
+        [cell setBackgroundColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        
+        // Selection style.
+        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+        
+        // Accessory type.
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        
+        // Cell textlabel.
+        [[cell textLabel] setFont:[UIFont fontWithName:@"Georgia" size:15.0]];
+    }
+    
+    [[cell textLabel] setText:[self.usersCommentsArray objectAtIndex:[indexPath row]]];
+    
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -34,4 +80,7 @@
 }
 */
 
+
+- (IBAction)addComment:(UIButton *)sender {
+}
 @end

@@ -89,8 +89,8 @@
   
   [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
     NSLog(@"upload completed!");
+    [self dismissViewControllerAnimated:YES completion:nil];
   }];
-  [self imagePickerControllerDidCancel:self.imagePickerController];
  }
 
 /**
@@ -99,7 +99,7 @@
  *  @param sender UINavigation left bar Cancel button.
  */
 - (IBAction)cancelImageSelect:(id)sender {
-//    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /**
@@ -255,19 +255,18 @@
         if (!features.count) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 self.imageHolderView.image = self.selectedImage;
+                [picker dismissViewControllerAnimated:YES completion:nil];
             }];
         } else {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [self invalidImageAlert];
+                [picker dismissViewControllerAnimated:YES completion:nil];
             }];
         }
     }];
     [bgQueue addOperation:operation];
     
     //Displaying the selected image in the image view holder.
-    
-    
-//    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 /**

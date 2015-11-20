@@ -121,4 +121,12 @@
         NSLog(@"Fetch image error when like: %@", error.localizedDescription);
     }];
 }
+
+-(void)logoutWithSuccess:(void (^)(BOOL))success{
+    [PFUser logOut];
+    PFUser *currentUser = [PFUser currentUser];
+    [currentUser saveInBackground];
+    success(YES);
+}
+
 @end

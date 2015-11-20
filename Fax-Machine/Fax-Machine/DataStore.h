@@ -33,4 +33,6 @@
 -(void)likeImageWithImageID:(NSString *)imageID
              withCompletion:(void(^)(BOOL complete))completionBlock;
 
+-(void)logoutWithSuccess:(void(^)(BOOL success))success;
+
 @end

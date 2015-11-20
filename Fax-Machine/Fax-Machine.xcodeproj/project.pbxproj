@@ -234,6 +234,7 @@
 		B76D0E301BFF8CB8002056A2 /* UserCommentsView */ = {
 			isa = PBXGroup;
 			children = (
+				B76D0E321BFF8E9F002056A2 /* CustomTextInput */,
 				B7D3E2B41BFEBEBF00E28028 /* UsersCommentsViewController.h */,
 				B7D3E2B51BFEBEBF00E28028 /* UsersCommentsViewController.m */,
 			);
@@ -247,6 +248,13 @@
 				B7D3E2B81BFECACB00E28028 /* SearchViewController.m */,
 			);
 			name = TempSearchView;
+			sourceTree = "<group>";
+		};
+		B76D0E321BFF8E9F002056A2 /* CustomTextInput */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = CustomTextInput;
 			sourceTree = "<group>";
 		};
 		BAEC0807D792F9B4F1CE4A46 /* Pods */ = {

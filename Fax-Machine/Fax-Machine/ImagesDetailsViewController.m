@@ -19,6 +19,10 @@
     self.imageDetails.image = self.img;
     self.likesCounter.tintColor= [UIColor whiteColor];
     // Do any additional setup after loading the view.
+    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
+                                                  green:0.66
+                                                   blue:0.66
+                                                  alpha:0.75]];
 }
 
 - (void)didReceiveMemoryWarning {

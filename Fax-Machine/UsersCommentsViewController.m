@@ -18,7 +18,24 @@
     [super viewDidLoad];
     self.commentsTable.delegate = self;
     self.commentsTable.dataSource = self;
+    self.txtField.delegate = self;
+   // self.txtField.inputAccessoryView = self.toolbarIBOutlet;
+    
+    //could use this inside a method instead
     self.usersCommentsArray = [[NSMutableArray alloc]init];
+    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
+                                                  green:0.66
+                                                   blue:0.66
+                                                  alpha:0.75]];
+    
+//    // Add self as observer to the NSNotificationCenter so we know when the keyboard is about to be shown up.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowWithNotification:) name:UIKeyboardWillShowNotification object:nil];
+//
+}
+
+-(void)keyboardWillShowWithNotification:(NSNotification *)notification
+{
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -80,6 +97,9 @@
 }
 */
 
+
+- (IBAction)addCommentButton:(UIBarButtonItem *)sender {
+}
 
 - (IBAction)addComment:(UIButton *)sender {
 }

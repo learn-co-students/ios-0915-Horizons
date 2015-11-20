@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UsersCommentsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface UsersCommentsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIToolbarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *commentsTable;
 @property (nonatomic, strong) NSMutableArray *usersCommentsArray;
+@property (weak, nonatomic) IBOutlet UITextField *txtField;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbarIBOutlet;
+
+- (IBAction)addCommentButton:(UIBarButtonItem *)sender;
 
 
-- (IBAction)addComment:(UIButton *)sender;
+
+
 
 @end

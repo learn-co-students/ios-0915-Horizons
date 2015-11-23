@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Image Upload View Controller-->
@@ -37,7 +38,7 @@
                                 </items>
                             </navigationBar>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U6Y-du-9nQ">
-                                <rect key="frame" x="0.0" y="161" width="414" height="414"/>
+                                <rect key="frame" x="20" y="84" width="374" height="374"/>
                                 <animations/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -47,16 +48,52 @@
                                     <outletCollection property="gestureRecognizers" destination="YVU-qW-Pqg" appends="YES" id="8Yf-RM-urM"/>
                                 </connections>
                             </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter the city of this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2aF-Uf-3Q0">
+                                <rect key="frame" x="20" y="478" width="374" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter the country of this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rHs-JG-sxD">
+                                <rect key="frame" x="20" y="516" width="374" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter a mood for this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-wa-NeL">
+                                <rect key="frame" x="20" y="554" width="374" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="The date this image taken (MM / DD / YYYY)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d4r-RJ-Phd">
+                                <rect key="frame" x="20" y="592" width="374" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="U6Y-du-9nQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="2ml-7X-Hwr"/>
-                            <constraint firstAttribute="trailing" secondItem="U6Y-du-9nQ" secondAttribute="trailing" id="5SO-Co-Pe8"/>
-                            <constraint firstItem="U6Y-du-9nQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="MyC-OD-wpe"/>
+                            <constraint firstItem="U6Y-du-9nQ" firstAttribute="top" secondItem="iEP-Ti-yg9" secondAttribute="bottom" constant="20" id="0TI-9O-UMu"/>
+                            <constraint firstItem="d4r-RJ-Phd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="22F-Bw-fRU"/>
+                            <constraint firstItem="rHs-JG-sxD" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="4d3-ZU-kT2"/>
+                            <constraint firstItem="U6Y-du-9nQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="5Y7-wl-NGt"/>
+                            <constraint firstItem="OBc-wa-NeL" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="9Sq-XL-1od"/>
+                            <constraint firstItem="2aF-Uf-3Q0" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="ACC-sg-CVI"/>
+                            <constraint firstAttribute="trailing" secondItem="U6Y-du-9nQ" secondAttribute="trailing" constant="20" id="M9i-je-BLc"/>
+                            <constraint firstItem="rHs-JG-sxD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="jYr-nM-ha9"/>
+                            <constraint firstItem="2aF-Uf-3Q0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="oub-WP-ke0"/>
                             <constraint firstItem="iEP-Ti-yg9" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="p0W-WO-ims"/>
+                            <constraint firstItem="2aF-Uf-3Q0" firstAttribute="top" secondItem="U6Y-du-9nQ" secondAttribute="bottom" constant="20" id="pBv-T0-lGb"/>
                             <constraint firstAttribute="trailing" secondItem="iEP-Ti-yg9" secondAttribute="trailing" id="qZa-tB-Hb8"/>
+                            <constraint firstItem="rHs-JG-sxD" firstAttribute="top" secondItem="2aF-Uf-3Q0" secondAttribute="bottom" constant="8" id="r17-Qf-0lD"/>
+                            <constraint firstItem="OBc-wa-NeL" firstAttribute="top" secondItem="rHs-JG-sxD" secondAttribute="bottom" constant="8" id="tqM-Du-IFb"/>
+                            <constraint firstItem="d4r-RJ-Phd" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="vPQ-mz-lga"/>
+                            <constraint firstItem="d4r-RJ-Phd" firstAttribute="top" secondItem="OBc-wa-NeL" secondAttribute="bottom" constant="8" id="wkE-VS-Bet"/>
                             <constraint firstItem="iEP-Ti-yg9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xti-Jc-40M"/>
+                            <constraint firstItem="OBc-wa-NeL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ztj-Dz-N0x"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
@@ -71,7 +108,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="699.5" y="478.5"/>
+            <point key="canvasLocation" x="699" y="478"/>
         </scene>
     </scenes>
 </document>

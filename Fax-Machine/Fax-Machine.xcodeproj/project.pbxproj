@@ -200,16 +200,7 @@
 				E24803051BFE4BA1005AB1D5 /* Login files */,
 				761E1EAB1BFD2B3400BD5375 /* Models */,
 				766FC1941BFBB36500C4140E /* Storyboards */,
-				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
-				766FC1921BFBABC000C4140E /* ImageUploadViewController.m */,
-				761E1EC21BFF70D700BD5375 /* ProfileMenuRootViewController.h */,
-				761E1EC31BFF70D700BD5375 /* ProfileMenuRootViewController.m */,
-				761E1EC51BFF7B5C00BD5375 /* SideBarViewController.h */,
-				761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */,
-				761E1EBF1BFF6CC800BD5375 /* LeftMenuViewController.h */,
-				761E1EC01BFF6CC800BD5375 /* LeftMenuViewController.m */,
-				761E1EC81BFF87BC00BD5375 /* RightMenuViewController.h */,
-				761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */,
+				76C7AD1A1C02A29700038FA2 /* SideMenu */,
 				89E2B9551BFBE69400AF43E1 /* LocationData.h */,
 				89E2B9561BFBE69400AF43E1 /* LocationData.m */,
 				766FC17A1BFBA81000C4140E /* Supporting Files */,
@@ -236,6 +227,31 @@
 				E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		76C7AD1A1C02A29700038FA2 /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
+				766FC1921BFBABC000C4140E /* ImageUploadViewController.m */,
+				76C7AD1B1C02A2AA00038FA2 /* SideMenuControllers */,
+			);
+			name = SideMenu;
+			sourceTree = "<group>";
+		};
+		76C7AD1B1C02A2AA00038FA2 /* SideMenuControllers */ = {
+			isa = PBXGroup;
+			children = (
+				761E1EC21BFF70D700BD5375 /* ProfileMenuRootViewController.h */,
+				761E1EC31BFF70D700BD5375 /* ProfileMenuRootViewController.m */,
+				761E1EC51BFF7B5C00BD5375 /* SideBarViewController.h */,
+				761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */,
+				761E1EBF1BFF6CC800BD5375 /* LeftMenuViewController.h */,
+				761E1EC01BFF6CC800BD5375 /* LeftMenuViewController.m */,
+				761E1EC81BFF87BC00BD5375 /* RightMenuViewController.h */,
+				761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */,
+			);
+			name = SideMenuControllers;
 			sourceTree = "<group>";
 		};
 		B76D0E2F1BFF8C3E002056A2 /* CollectionView */ = {

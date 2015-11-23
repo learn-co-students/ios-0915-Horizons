@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="XsJ-ro-5Sa">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Welcome view Controller-->
+        <scene sceneID="CJV-WK-GKd">
+            <objects>
+                <viewController title="Welcome view Controller" id="XsJ-ro-5Sa" customClass="BaseLoginViewController" customModule="Fax_Machine" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ugW-wd-NHm"/>
+                        <viewControllerLayoutGuide type="bottom" id="7em-mQ-BUA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fj5-Sd-wxy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mountains_hd" translatesAutoresizingMaskIntoConstraints="NO" id="sSe-TM-mt9">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                            </imageView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sSe-TM-mt9" firstAttribute="top" secondItem="ugW-wd-NHm" secondAttribute="bottom" constant="-20" id="9cV-Pt-6qy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sSe-TM-mt9" secondAttribute="trailing" constant="-20" id="H7y-FL-Pfe"/>
+                            <constraint firstItem="sSe-TM-mt9" firstAttribute="leading" secondItem="Fj5-Sd-wxy" secondAttribute="leadingMargin" constant="-20" id="jba-i5-14a"/>
+                            <constraint firstItem="7em-mQ-BUA" firstAttribute="top" secondItem="sSe-TM-mt9" secondAttribute="bottom" id="zHU-g5-z5t"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="5wL-Jg-Wqj" kind="show" identifier="imageUploadSegue" id="Plp-Wj-bjA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RcF-1i-d8N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="991" y="80"/>
+        </scene>
+        <!--CollectionView-->
+        <scene sceneID="M6P-8I-E6C">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CollectionView" id="5wL-Jg-Wqj" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="IIG-cU-Gtt"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="42P-HM-DEo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1457" y="80"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="mountains_hd" width="2560" height="1600"/>
+    </resources>
+</document>

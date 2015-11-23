@@ -11,8 +11,12 @@
 #import <AWSCore/AWSCore.h>
 #import <AWSS3/AWSS3.h>
 #import "APIConstants.h"
+#import "DataStore.h"
+#import <ImageIO/ImageIO.h>
+#import <ParseUI/ParseUI.h>
+#import "SignUpViewController.h"
 
-@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageHolderView;
 @property (nonatomic, strong) UIAlertController *sourcePicker;
@@ -36,9 +40,11 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    if (self.firstTime) {
+  
+  if (self.firstTime) {
         self.firstTime = NO;
-        [self imageUpLoadSource];
+      [self imageUpLoadSource];
+  
     }
 }
 
@@ -50,33 +56,6 @@
 - (IBAction)selectImageAndView:(id)sender {
     //Calling the UIAlertController when screen loaded.
     [self imageUpLoadSource];
-    
-//    UIViewController *imageVC = [UIViewController new];
-//    
-//    CGFloat imageOriginalWidth = self.selectedImage.size.width;
-//    CGFloat imageOriginalHeight = self.selectedImage.size.height;
-//    CGFloat ratio = imageOriginalHeight/imageOriginalWidth;
-//    
-//    CGFloat width = imageOriginalWidth;
-//    if (imageOriginalWidth > 1000) {
-//        width = 1000;
-//    }
-//    CGFloat height = width * ratio;
-//    
-//    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 1200, 1200)];
-//    scroll.contentSize = CGSizeMake(500, 500);
-//    
-//    scroll.showsVerticalScrollIndicator = YES;
-//    scroll.showsHorizontalScrollIndicator = YES;
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 500, 500)];
-//    imageView.image = self.selectedImage;
-//    
-//    
-//    
-//    [scroll addSubview:imageView];
-//    [imageVC setView:scroll];
-    
-//    [self presentViewController:imageVC animated:YES completion:nil];
 }
 
 /**
@@ -85,9 +64,9 @@
  *  @param sender UINavigation right bar Done button.
  */
 - (IBAction)finishedImageSelect:(id)sender {
-  [self dismissViewControllerAnimated:YES completion:^{
-    NSLog(@"done");
-  }];
+//  [self dismissViewControllerAnimated:YES completion:^{
+//    NSLog(@"done");
+//  }];
   NSLog(@"done");
   UIImage *image = self.selectedImage;
   NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
@@ -108,9 +87,11 @@
   uploadRequest.bucket = @"fissamplebucket";
   NSLog(@"uploadRequest: %@", uploadRequest);
   
-  [self upload:uploadRequest];
-//    [self dismissViewControllerAnimated:YES completion:nil];
-}
+  [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+    NSLog(@"upload completed!");
+    [self dismissViewControllerAnimated:YES completion:nil];
+  }];
+ }
 
 /**
  *  When user cancel the image select view.
@@ -136,11 +117,6 @@
         //Setting the pickerDelegate and allow editting.
         self.imagePickerController.delegate = self;
         self.imagePickerController.allowsEditing = NO;
-        
-//        if ([UIImagePickerController isSourceTypeAvailable:
-//             UIImagePickerControllerSourceTypeCamera]) {
-//            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-//        }
         
         //Setting the source of the image as type Camera.
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -169,17 +145,10 @@
 
 }
 
--(void)pickImageToUpload
-{
-  
-}
-
 -(void)upload:(AWSS3TransferManagerUploadRequest*)uploadRequest
 {
   AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
 
-
-  
   [[transferManager upload:uploadRequest]continueWithBlock:^id(AWSTask *task) {
     if (task.error) {
       if (([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain])) {
@@ -208,6 +177,50 @@
     return YES;
 }
 
+-(void)invalidImageAlert{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invliad Image"
+                                                                   message:@"Sorry, but selfies are prohibited!"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okay = [UIAlertAction actionWithTitle:@"okay" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:okay];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(NSNumber *)getImageOrientationWithImage:(UIImage *)image{
+    //Returning the orientation of the image for better detection.
+    NSUInteger exifOrientation;
+    switch (image.imageOrientation) {
+        case UIImageOrientationUp:
+            exifOrientation = 1;
+            break;
+        case UIImageOrientationDown:
+            exifOrientation = 3;
+            break;
+        case UIImageOrientationLeft:
+            exifOrientation = 8;
+            break;
+        case UIImageOrientationRight:
+            exifOrientation = 6;
+            break;
+        case UIImageOrientationUpMirrored:
+            exifOrientation = 2;
+            break;
+        case UIImageOrientationDownMirrored:
+            exifOrientation = 4;
+            break;
+        case UIImageOrientationLeftMirrored:
+            exifOrientation = 5;
+            break;
+        case UIImageOrientationRightMirrored:
+            exifOrientation = 7;
+            break;
+        default:
+            break;
+    }
+    
+    return @(exifOrientation);
+}
+
 #pragma mark - UIImage picker protocols
 /**
  *  Handling the image after selection is performed.
@@ -220,10 +233,34 @@
     //The selected image
     self.selectedImage = info[UIImagePickerControllerOriginalImage];
     
-    //Displaying the selected image in the image view holder.
-    self.imageHolderView.image = self.selectedImage;
+    //Below section is for face detection in image with Core Image.
+    CIImage *image = [CIImage imageWithCGImage: self.selectedImage.CGImage];
+    NSDictionary *opts = @{CIDetectorAccuracy : CIDetectorAccuracyHigh};
+    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
+                                              context:nil
+                                              options:opts];
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    NSNumber *orientation = [self getImageOrientationWithImage:self.selectedImage];
+    opts = @{CIDetectorImageOrientation : orientation};
+    NSArray *features = [detector featuresInImage:image options:opts];
+    
+    NSOperationQueue *bgQueue = [NSOperationQueue new];
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        if (!features.count) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                self.imageHolderView.image = self.selectedImage;
+                [picker dismissViewControllerAnimated:YES completion:nil];
+            }];
+        } else {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self invalidImageAlert];
+                [picker dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
+    }];
+    [bgQueue addOperation:operation];
+    
+    //Displaying the selected image in the image view holder.
 }
 
 /**

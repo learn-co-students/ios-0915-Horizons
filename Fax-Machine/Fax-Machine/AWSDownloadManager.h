@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface AWSDownloadManager : NSObject
-+(void)downloadSinglePicture:(NSUInteger)imageID;
++(void)downloadSinglePicture:(NSString*)imageID;
 
 @end

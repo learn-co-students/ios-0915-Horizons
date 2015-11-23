@@ -16,6 +16,8 @@ inhibit_all_warnings!
  pod 'ParseFacebookUtilsV4'
  pod 'RESideMenu'
 
+pod 'FontAwesomeKit'
+
  pod 'AWSCore'
  pod 'AWSAutoScaling'
  pod 'AWSCloudWatch'

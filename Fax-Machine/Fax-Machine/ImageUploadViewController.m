@@ -16,6 +16,7 @@
 #import <ParseUI/ParseUI.h>
 #import "SignUpViewController.h"
 #import <Photos/Photos.h>
+#import <INTULocationManager/INTULocationManager.h>
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
@@ -260,44 +261,72 @@
     {
         if (!features.count)
         {
+            self.selectedImage = info[UIImagePickerControllerOriginalImage];
+            NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
             [[NSOperationQueue mainQueue] addOperationWithBlock:^
-            {
-                self.imageHolderView.image = self.selectedImage;
-                [picker dismissViewControllerAnimated:YES completion:nil];
-                //put stuff
-                
-                if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
-                    self.selectedImage = info[UIImagePickerControllerOriginalImage];
-                    NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
-                    
-                    PHAsset *asset = [LocationData logMetaDataFromImage:imageUrl];
-                    //CLLocation *newCLLocation = dataFromImage[@"location"];
-                    PFGeoPoint *newGeoPoint;
-                    NSMutableDictionary *dic = [@{@"location" : @"",
-                                          @"date" : asset.creationDate} mutableCopy];
-                    if (asset.location) {
-                        newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
-                        dic[@"location"] = asset.location;
-                    }
-                    
-                    [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
-                     {
-                         self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
-                         [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
-                          {
-                              NSString *weatherOfImage = weather[@"currently"][@"summary"];
-                              self.moodTextField.text = weatherOfImage;
-                          }];
-                         self.countryTextField.text = self.location.country;
-                         self.cityTextField.text = self.location.city;
-                     }];
-                    
-                } else {
-                    //When image source equals to Camera
-                    
-                    
+             {
+                 self.imageHolderView.image = self.selectedImage;
+             }];
+            [picker dismissViewControllerAnimated:YES completion:nil];
+            //put stuff
+            
+            if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+                PHAsset *asset = [LocationData logMetaDataFromImage:imageUrl];
+                //CLLocation *newCLLocation = dataFromImage[@"location"];
+                PFGeoPoint *newGeoPoint;
+                NSMutableDictionary *dic = [@{@"location" : @"",
+                                              @"date" : asset.creationDate} mutableCopy];
+                if (asset.location) {
+                    newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
+                    dic[@"location"] = asset.location;
                 }
-            }];
+                
+                [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
+                 {
+                     self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                     [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
+                      {
+                          [[NSOperationQueue mainQueue] addOperationWithBlock:^
+                           {
+                               NSString *weatherOfImage = weather[@"currently"][@"summary"];
+                               self.moodTextField.text = weatherOfImage;
+                               self.countryTextField.text = self.location.country;
+                               self.cityTextField.text = self.location.city;
+                           }];
+                      }];
+                     
+                 }];
+                
+            } else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
+                NSLog(@"Camera!!!!!!!!!!!");
+                //When image source equals to Camera
+                //INTULocationManager *locationManager = [INTULocationManager sharedInstance];
+//                [locationManager requestLocationWithDesiredAccuracy:INTULocationAccuracyCity timeout:0.5 block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status)
+//                 {
+//                     NSLog(@"Current Location: %@", currentLocation);
+//                     if (currentLocation != nil)
+//                     {
+//                         PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:currentLocation];
+//                         NSMutableDictionary *newDictionary = [@{@"location": currentLocation,
+//                                                                 @"date":[NSDate date]} mutableCopy];
+//                         [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
+//                          {
+//                              self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+//                              [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
+//                               {
+//                                   [[NSOperationQueue mainQueue] addOperationWithBlock:^
+//                                    {
+//                                        NSString *weatherOfImage = weather[@"currently"][@"summary"];
+//                                        self.moodTextField.text = weatherOfImage;
+//                                        self.countryTextField.text = self.location.country;
+//                                        self.cityTextField.text = self.location.city;
+//                                    }];
+//                               }];
+//                          }];
+//                     }
+//                 }];
+                
+            }
         }
         else
         {

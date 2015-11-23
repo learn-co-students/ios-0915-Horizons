@@ -31,5 +31,6 @@ inhibit_all_warnings!
  pod 'AWSSNS'
  pod 'AWSSQS'
  pod 'AWSCognito'
+ pod 'INTULocationManager'
 
 end

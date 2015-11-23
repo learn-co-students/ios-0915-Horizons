@@ -15,6 +15,7 @@
 #import <ImageIO/ImageIO.h>
 #import <ParseUI/ParseUI.h>
 #import "SignUpViewController.h"
+#import <Photos/Photos.h>
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
@@ -23,6 +24,12 @@
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic) BOOL firstTime;
+
+@property (weak, nonatomic) IBOutlet UITextField *cityTextField;
+@property (weak, nonatomic) IBOutlet UITextField *countryTextField;
+@property (weak, nonatomic) IBOutlet UITextField *moodTextField;
+
+@property (nonatomic, strong)Location *location;
 
 @end
 
@@ -71,6 +78,7 @@
   UIImage *image = self.selectedImage;
   NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
 //  NSLog(@"filename: %@", fileName);
+
 
 //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
   NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
@@ -228,10 +236,13 @@
  *  @param picker The image picker
  *  @param info   Info of the selected image
  */
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
     
     //The selected image
-    self.selectedImage = info[UIImagePickerControllerOriginalImage];
+    
+   
+    
     
     //Below section is for face detection in image with Core Image.
     CIImage *image = [CIImage imageWithCGImage: self.selectedImage.CGImage];
@@ -245,13 +256,51 @@
     NSArray *features = [detector featuresInImage:image options:opts];
     
     NSOperationQueue *bgQueue = [NSOperationQueue new];
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        if (!features.count) {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^
+    {
+        if (!features.count)
+        {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^
+            {
                 self.imageHolderView.image = self.selectedImage;
                 [picker dismissViewControllerAnimated:YES completion:nil];
+                //put stuff
+                
+                if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+                    self.selectedImage = info[UIImagePickerControllerOriginalImage];
+                    NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
+                    
+                    PHAsset *asset = [LocationData logMetaDataFromImage:imageUrl];
+                    //CLLocation *newCLLocation = dataFromImage[@"location"];
+                    PFGeoPoint *newGeoPoint;
+                    NSMutableDictionary *dic = [@{@"location" : @"",
+                                          @"date" : asset.creationDate} mutableCopy];
+                    if (asset.location) {
+                        newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
+                        dic[@"location"] = asset.location;
+                    }
+                    
+                    [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
+                     {
+                         self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                         [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
+                          {
+                              NSString *weatherOfImage = weather[@"currently"][@"summary"];
+                              self.moodTextField.text = weatherOfImage;
+                          }];
+                         self.countryTextField.text = self.location.country;
+                         self.cityTextField.text = self.location.city;
+                     }];
+                    
+                } else {
+                    //When image source equals to Camera
+                    
+                    
+                }
             }];
-        } else {
+        }
+        else
+        {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [self invalidImageAlert];
                 [picker dismissViewControllerAnimated:YES completion:nil];

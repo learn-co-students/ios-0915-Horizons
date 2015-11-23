@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <Photos/Photos.h>
 
 @interface LocationData : UIViewController <CLLocationManagerDelegate>
 
@@ -17,7 +18,10 @@
 
 + (void)getWeatherInfoFromDictionary:(NSDictionary *)retrievedDictionary withCompletion:(void (^)(NSDictionary *))completionBlock;
 
-+(NSDictionary *)gettingImageData:(UIImage *)image;
+//+(NSDictionary *)gettingImageData:(UIImage *)image;
 
 + (void)getCityAndDateFromDictionary:(NSDictionary *)dictionary withCompletion:(void (^)(NSString *city,NSString *country, NSDate *date, BOOL success))completionBlock;
+
++ (PHAsset *)logMetaDataFromImage:(NSURL*)imageURL;
+
 @end

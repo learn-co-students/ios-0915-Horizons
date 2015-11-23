@@ -38,10 +38,10 @@
             </objects>
             <point key="canvasLocation" x="991" y="80"/>
         </scene>
-        <!--ImageUpload-->
+        <!--CollectionView-->
         <scene sceneID="M6P-8I-E6C">
             <objects>
-                <viewControllerPlaceholder storyboardName="ImageUpload" id="5wL-Jg-Wqj" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="CollectionView" id="5wL-Jg-Wqj" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="IIG-cU-Gtt"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="42P-HM-DEo" userLabel="First Responder" sceneMemberID="firstResponder"/>

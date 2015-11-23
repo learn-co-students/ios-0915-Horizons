@@ -5,6 +5,7 @@
 
 target 'Fax-Machine' do
 
+
 inhibit_all_warnings!
 
  pod 'Parse'
@@ -14,6 +15,8 @@ inhibit_all_warnings!
  pod 'FBSDKLoginKit'
  pod 'ParseFacebookUtilsV4'
  pod 'RESideMenu'
+
+pod 'FontAwesomeKit'
 
  pod 'AWSCore'
  pod 'AWSAutoScaling'
@@ -34,3 +37,4 @@ inhibit_all_warnings!
  pod 'INTULocationManager'
 
 end
+

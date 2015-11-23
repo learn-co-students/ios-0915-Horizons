@@ -78,7 +78,8 @@
   NSLog(@"done");
   UIImage *image = self.selectedImage;
   NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
-//  NSLog(@"filename: %@", fileName);
+  NSLog(@"filename: %@", fileName);
+  
 
 
 //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];

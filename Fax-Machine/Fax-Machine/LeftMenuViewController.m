@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DataStore.h"
 #import "ImagesViewController.h"
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface LeftMenuViewController ()
 
@@ -126,8 +127,39 @@
             cell.selectedBackgroundView = [[UIView alloc] init];
         }
         
-        NSArray *title = @[@"", @"Home", @"Upload", @"My Images", @"Saved Images", @"Log Out"];
-        cell.textLabel.text = title[indexPath.row];
+        NSArray *title = @[@"Home", @"Upload", @"My Images", @"Saved Images", @"Log Out"];
+        
+        cell.textLabel.text = title[indexPath.row - 1];
+        FAKFontAwesome *icon = [FAKFontAwesome new];
+        switch (indexPath.row) {
+            case 1:
+                icon = [FAKFontAwesome homeIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            case 2:
+                icon = [FAKFontAwesome uploadIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            case 3:
+                icon = [FAKFontAwesome imageIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            case 4:
+                icon = [FAKFontAwesome archiveIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            case 5:
+                icon = [FAKFontAwesome userIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            default:
+                break;
+        }
         
         return cell;
     }

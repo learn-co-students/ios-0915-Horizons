@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <RESideMenu/RESideMenu.h>
 
 @interface ImagesViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollectionViewController;
+@property (strong, readonly, nonatomic) RESideMenu *sideMenuViewController;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "ProfileMenuRootViewController.h"
-#import "LeftMenuViewController.h"
 
 @interface ProfileMenuRootViewController ()
 

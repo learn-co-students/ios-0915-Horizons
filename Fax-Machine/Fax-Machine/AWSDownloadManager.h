@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface AWSDownloadManager : NSObject
-+(void)downloadSinglePicture:(NSString*)imageID;
+
++(void)downloadSinglePicture:(NSString*)imageID
+                  completion:(void(^)(NSString *filePath))completionBlock;
 
 @end

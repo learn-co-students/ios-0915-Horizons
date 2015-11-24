@@ -16,6 +16,7 @@ extern NSString *const PARSE_CLIENT_KEY;
 
 //Amazon S3 pool id
 extern NSString *const POOL_ID;
+extern NSString *const IMAGE_FILE_PATH;
 
 //Twitter Oauth keys
 extern NSString *const TWITTER_CONSUMER_KEY;

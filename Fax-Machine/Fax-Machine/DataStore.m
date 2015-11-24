@@ -29,6 +29,7 @@
   self = [super init];
   if (self) {
       _comments = [NSMutableArray new];
+      _downloadedPictures = [NSMutableArray new];
   }
   return self;
 }
@@ -42,13 +43,42 @@
 
 -(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery WithCompletion:(void(^)(BOOL complete))completionBlock
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(10)];
+    NSLog(@"\n\ndownloadPicturesToDisplay called\n\n");
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery completion:^(NSArray *data) {
-        //  for (photoObject *photo in imagesToDownloadFromParseQuery) {
-        //    [AWSDownloadManager downloadSinglePicture:photo.imageID];
-        //  }
         
-        //^this will pull down images with parse query from AWS.
+        NSLog(@"\n\fetchImagesWithPredciate  called\n\n");
+
+        
+        for (PFObject *parseImageObject in data) {
+            NSString *imageID = parseImageObject[@"imageID"];
+            [AWSDownloadManager downloadSinglePicture:imageID completion:^(NSString *filePath) {
+                
+                NSLog(@"\n\ndownloadSinglePicture called\n\n");
+
+                
+                [self.downloadedPictures addObject:filePath];
+                
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reload" object:nil];
+
+                }];
+                
+                
+                NSLog(@"Downloaded picture count: %lu", self.downloadedPictures.count);
+                if (10 == self.downloadedPictures.count) {
+                    
+                    NSLog(@"\n\n completionBlock is about to be passed YES\n\n");
+                    
+                    completionBlock(YES);
+                }
+            }];
+        }
+        
+        //self.downloadedPictures = [data mutableCopy];
+        
     } failure:^(NSError *error) {
         NSLog(@"Download images error: %@", error.localizedDescription);
     }];
@@ -65,19 +95,24 @@
     parseLocation[@"weather"] = imageObject.location.weather;
     
     [ParseAPIClient saveLocationWithLocation:parseLocation success:^(BOOL success) {
-        PFObject *image = [PFObject objectWithClassName:@"Image"];
-        image[@"owner"] = [PFUser currentUser];
-        image[@"title"] = imageObject.title;
-        image[@"imageID"] = imageObject.imageID;
-        image[@"likes"] = imageObject.likes;
-        image[@"mood"] = imageObject.mood;
-        image[@"location"] = parseLocation;
-        
-        [ParseAPIClient saveImageWithImageObject:image success:^(BOOL success) {
-            completionBlock(success);
-        } failure:^(NSError *error) {
-            NSLog(@"Save image error with location: %@", error.localizedDescription);
-        }];
+        if (success) {
+            PFObject *image = [PFObject objectWithClassName:@"Image"];
+            NSLog(@"Current User: %@", [PFUser currentUser]);
+            image[@"owner"] = [PFUser currentUser];
+            image[@"title"] = imageObject.title;
+            image[@"imageID"] = imageObject.imageID;
+            image[@"likes"] = imageObject.likes;
+            image[@"mood"] = imageObject.mood;
+            image[@"location"] = parseLocation;
+            
+            [ParseAPIClient saveImageWithImageObject:image success:^(BOOL success) {
+                completionBlock(success);
+            } failure:^(NSError *error) {
+                NSLog(@"Save image error with location: %@", error.localizedDescription);
+            }];
+        }else{
+            NSLog(@"Failed saving location!!");
+        }
     } failure:^(NSError *error) {
         NSLog(@"Upload image error: %@", error.localizedDescription);
     }];

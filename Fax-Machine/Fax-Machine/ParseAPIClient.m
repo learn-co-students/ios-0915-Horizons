@@ -44,7 +44,7 @@
                      completion:(void (^)(NSArray *))completionBlock
                         failure:(void (^)(NSError *))failure{
     //Quering the Photo object from Parse with filter parameters.
-    PFQuery *query = [PFQuery queryWithClassName:@"Photo" predicate:predicate];
+    PFQuery *query = [PFQuery queryWithClassName:@"Image" predicate:predicate];
     
     //Setting the maximum numbers of return objects.
     query.limit = numberOfImages;

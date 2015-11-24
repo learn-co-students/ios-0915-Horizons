@@ -18,6 +18,7 @@ inhibit_all_warnings!
  pod 'FontAwesomeKit'
  pod 'FCCurrentLocationGeocoder'
  pod 'MBProgressHUD'
+ pod 'AFNetworking'
 
  pod 'AWSCore'
  pod 'AWSAutoScaling'

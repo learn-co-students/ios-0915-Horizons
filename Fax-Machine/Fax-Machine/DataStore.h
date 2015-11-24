@@ -14,7 +14,7 @@
 
 @interface DataStore : NSObject
 
-@property (nonatomic, strong)NSArray *downloadedPictures;
+@property (nonatomic, strong)NSMutableArray *downloadedPictures;
 @property (nonatomic, strong)NSMutableArray *comments;
 
 + (instancetype)sharedDataStore;

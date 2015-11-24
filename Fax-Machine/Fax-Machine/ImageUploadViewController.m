@@ -28,7 +28,6 @@
 @property (nonatomic) BOOL firstTime;
 @property (nonatomic, strong)NSMutableArray *countriesArray;
 @property (nonatomic, strong)UITableView *autocompleteTableView;
-@property (weak, nonatomic) IBOutlet UITextField *countryTextField;
 @property (nonatomic, strong)NSMutableArray *autocompleteCountries;
 
 
@@ -42,6 +41,11 @@
 @property (nonatomic, strong) ImageObject *parseImageObject;
 
 @property (nonatomic, strong) FCCurrentLocationGeocoder *geoCoder;
+@property (nonatomic, strong)NSLayoutConstraint *bottomConstraint;
+@property (weak, nonatomic) IBOutlet UIStackView *stackView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerVerticallyConstraint;
+@property (nonatomic)CGFloat initialConstraintConstant;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageAspectRatio;
 
 @end
 
@@ -57,30 +61,48 @@
     
     self.firstTime = YES;
   
+  self.countryTextField.delegate = self;
+  self.cityTextField.delegate = self;
+  self.moodTextField.delegate = self;
   
-  self.countriesArray = [[NSMutableArray alloc]init];
-  NSString *filePath = [[NSBundle mainBundle]pathForResource:@"countryList" ofType:@"txt"];
-  NSString *fileContents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
-  NSLog(@"filePath: %@", filePath);
-  NSLog(@"filecontents: %@", fileContents);
-  for (NSString *line  in [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
-    [self.countriesArray addObject:line];
-  }
-  NSLog(@"array: %@", self.countriesArray);
-  
-  
-//  self.autocompleteTableView = [[UITableView alloc] initWithFrame:
-//                           CGRectMake(0, 80, 320, 120) style:UITableViewStylePlain];
-//  self.autocompleteTableView.delegate = self;
-//  self.autocompleteTableView.dataSource = self;
-//  self.autocompleteTableView.scrollEnabled = YES;
-//  self.autocompleteTableView.hidden = NO;
-//  [self.view addSubview:self.autocompleteTableView];
-//  self.autocompleteCountries = [[NSMutableArray alloc]init];
+  [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardControl:) name:UIKeyboardWillShowNotification object:nil];
 
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardControl:) name:UIKeyboardWillHideNotification object:nil];
+  
+  self.bottomConstraint = [self.stackView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:0];
+  self.bottomConstraint.active = NO;
+  
+  self.initialConstraintConstant = self.centerVerticallyConstraint.constant;
 }
 
-
+-(void)keyboardControl:(NSNotification*)notification
+{
+  CGSize keyboardSize = [[[notification userInfo]objectForKey:UIKeyboardFrameEndUserInfoKey]CGRectValue].size;
+  NSDictionary *userInfo = notification.userInfo;
+  NSInteger length = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey]integerValue];
+  NSInteger option = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey]integerValue];
+  
+  CGFloat smallerSize = keyboardSize.height ;
+  
+  [UIView animateWithDuration:length delay:0 options:option animations:^{
+    if ([notification.name isEqualToString:@"UIKeyboardWillShowNotification"]) {
+//      self.centerVerticallyConstraint.active = NO;
+//      self.imageHolderView.hidden = YES;
+      [self.view sendSubviewToBack:self.stackView];
+      self.centerVerticallyConstraint.constant = self.initialConstraintConstant - smallerSize;
+//      self.bottomConstraint.constant = keyboardSize.height;
+//      self.bottomConstraint.active = YES;
+      [self.view layoutIfNeeded];
+    }
+    else {
+      self.imageHolderView.hidden = NO;
+      self.centerVerticallyConstraint.constant = self.initialConstraintConstant;
+      [self.view layoutIfNeeded];
+    }
+  } completion:^(BOOL finished) {
+    nil;
+  }];
+}
 
 -(void)viewDidAppear:(BOOL)animated{
   
@@ -91,33 +113,87 @@
     }
 }
 
--(void)checkIfCountryIsValid
+
+-(void)presentInvalidLocationAlert
 {
-  NSString *countryInput = self.countryTextField.text;
-  NSString *countryNoSpaces = [countryInput stringByReplacingOccurrencesOfString:@" " withString:@""];
-  NSString *lowercase = [countryNoSpaces lowercaseString];
-  NSUInteger i = 0;
-  NSLog(@"lowercase: %@", lowercase);
-  for (NSString *country in self.countriesArray) {
-    NSString *validNoSpaces = [country stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *validLowercase = [validNoSpaces lowercaseString];
-    if ([lowercase isEqualToString:validLowercase]) {
-      i = i + 1;
-    }
+  UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Location Is Invalid" message:@"Please enter a valid location" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [invalidLocation addAction:ok];
+  [self presentViewController:invalidLocation animated:YES completion:^{
+    self.countryTextField.text = @"";
+    self.cityTextField.text = @"";
+  }];
+}
+
+
+-(void)presentInvalidCityAlert
+{
+  UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [invalidLocation addAction:ok];
+  [self presentViewController:invalidLocation animated:YES completion:^{
+    self.cityTextField.text = @"";
+  }];
+}
+
+
+-(void)presentInvalidCountryAlert
+{
+  UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [invalidLocation addAction:ok];
+  [self presentViewController:invalidLocation animated:YES completion:^{
+    self.countryTextField.text = @"";
+  }];
+}
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+//    [textField resignFirstResponder];
+  
+  if ([textField isEqual:self.cityTextField]) {
+    [self.countryTextField becomeFirstResponder];
+  } else if ([textField isEqual:self.countryTextField]) {
+    [self.moodTextField becomeFirstResponder];
+  } else {
+    [textField resignFirstResponder];
   }
-    NSLog(@"i: %lu",i);
+  
+
+  return YES;
+}
+
+- (IBAction)countryEditingDidEnd:(id)sender {
+//  [self checkIfCountryIsValid];
+  NSString *address = [NSString stringWithFormat:@"%@,%@",self.cityTextField.text,self.countryTextField.text];
+  CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+  [geocoder geocodeAddressString:address completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+    if (error) {
+      NSLog(@"Error: %@", [error localizedDescription]);
+      [self presentInvalidLocationAlert];
+      return; // Bail!
+    } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""]) {
+        [self presentInvalidCityAlert];
+    } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""]) {
+      [self presentInvalidCountryAlert];
+    } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""]) {
+      [self presentInvalidLocationAlert];
+    }
     
-    if (i != 1) {
-      UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Location Is Invalid" message:@"Please enter a valid location" preferredStyle:UIAlertControllerStyleAlert];
-      UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-      [invalidLocation addAction:ok];
-      [self presentViewController:invalidLocation animated:YES completion:^{
-        self.countryTextField.text = @"";
+    if ([placemarks count] > 0) {
+      CLPlacemark *placemark = [placemarks lastObject]; // firstObject is iOS7 only.
+      NSLog(@"Location is: %@", placemark.location);
+      PFGeoPoint *newGeopPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
+      NSMutableDictionary *dictionary = [@{@"location":placemark.location, @"date":[NSDate date]}mutableCopy];
+      [LocationData getCityAndDateFromDictionary:dictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success) {
+        self.location = [[Location alloc]initWithCity:city country:country geoPoint:newGeopPoint dateTaken:date];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^
+         {
+           self.cityTextField.text = city;
+           self.countryTextField.text = country;
+         }];
       }];
     }
-}
-- (IBAction)countryEditingDidEnd:(id)sender {
-  [self checkIfCountryIsValid];
+  }];
 }
 
 /**

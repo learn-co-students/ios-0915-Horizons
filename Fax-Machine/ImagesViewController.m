@@ -55,7 +55,6 @@
     cell.myImage.image = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
-   // [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
 
     
     return cell;

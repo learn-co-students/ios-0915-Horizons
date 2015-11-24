@@ -12,6 +12,7 @@
 
 @interface ImagesDetailsViewController ()
 @property (nonatomic) NSUInteger photoLikesCounter;
+@property (nonatomic) UsersCommentsViewController *commentsArray;
 @end
 
 @implementation ImagesDetailsViewController
@@ -29,30 +30,56 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-- (IBAction)commentIcon:(UIBarButtonItem *)sender {
     
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
-        UsersCommentsViewController *destinationVC = segue.destinationViewController;
-//      destinationVC.delegate = self;
-//      destinationVC.comments = self.comments;
-    }
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
 }
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return self.commentsArray.usersCommentsArray.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    return 45.0;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        
+        cell.backgroundColor = [UIColor whiteColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
+        
+    }
+    
+    cell.detailTextLabel.text = @"User1";
+    cell.textLabel.text = self.commentsArray.usersCommentsArray[indexPath.row];
+    
+    [self.commentsArray.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    return cell;
+}
+
+//- (IBAction)commentIcon:(UIBarButtonItem *)sender {
+//    
+//}
+//
+
+//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
+//        //UsersCommentsViewController *destinationVC = segue.destinationViewController;
+//
+//    }
+//}
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
       

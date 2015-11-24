@@ -219,10 +219,10 @@
                     <navigationItem key="navigationItem" id="T57-XQ-34R"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="belowPictureTableView" destination="OpD-vO-aK1" id="tMf-mH-CFc"/>
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
                         <outlet property="likeIcon" destination="zZT-UH-2Iv" id="ZLF-h1-exg"/>
                         <outlet property="likesCounter" destination="zZT-UH-2Iv" id="HYI-at-5IS"/>
-                        <segue destination="p6l-Xz-fV3" kind="show" identifier="testing" id="TiJ-xZ-i8N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LDe-C9-s28" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -334,50 +334,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9CJ-Og-ZmA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5315.5" y="206.5"/>
-        </scene>
-        <!--User Comments View Controller-->
-        <scene sceneID="KhT-25-YQg">
-            <objects>
-                <tableViewController id="p6l-Xz-fV3" customClass="UserCommentsViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hRR-Wy-FLm">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <textField key="tableFooterView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="jBx-Ng-QQt">
-                            <rect key="frame" x="0.0" y="136" width="375" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comments Cell" textLabel="vHA-wO-7rP" style="IBUITableViewCellStyleDefault" id="LxZ-87-nZh">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LxZ-87-nZh" id="CZn-9H-FvO">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vHA-wO-7rP">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="p6l-Xz-fV3" id="Fct-V1-WH6"/>
-                            <outlet property="delegate" destination="p6l-Xz-fV3" id="DsC-C7-4eU"/>
-                        </connections>
-                    </tableView>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gaE-Ig-bPH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5747.5" y="555.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dFc-X2-gMv">

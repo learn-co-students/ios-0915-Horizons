@@ -51,6 +51,8 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
       
+          // [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
+      
     }
     
         cell.detailTextLabel.text = @"User1";

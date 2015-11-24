@@ -21,8 +21,7 @@
 @end
 
 @implementation LocationData
-NSString *const FORECASTIO_API_URL = @"https://api.forecast.io/forecast/";
-NSString *const FORECASTIO_API_KEY = @"c1083f0b678b2ff979f710cf857dab03";
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

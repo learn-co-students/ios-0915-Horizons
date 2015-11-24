@@ -15,7 +15,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *txtField;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbarIBOutlet;
 
+
+
 - (IBAction)addCommentButton:(UIBarButtonItem *)sender;
+
+
+- (IBAction)textFieldAction:(UITextField *)sender;
+
 
 
 

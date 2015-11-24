@@ -7,6 +7,8 @@
 //
 
 #import "ImagesDetailsViewController.h"
+#import "UsersCommentsViewController.h"
+
 
 @interface ImagesDetailsViewController ()
 @property (nonatomic) NSUInteger photoLikesCounter;
@@ -44,14 +46,18 @@
     
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
+        UsersCommentsViewController *destinationVC = segue.destinationViewController;
+//      destinationVC.delegate = self;
+//      destinationVC.comments = self.comments;
+    }
+}
+
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
       
     self.photoLikesCounter += 1;
     self.likesCounter.tintColor= [UIColor whiteColor];
     self.likesCounter.title = [NSString stringWithFormat:@"❤️ %ld", self.photoLikesCounter];
-    
-    
-    
-    
 }
 @end

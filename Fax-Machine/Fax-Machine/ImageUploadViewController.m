@@ -16,13 +16,18 @@
 #import <ParseUI/ParseUI.h>
 #import "SignUpViewController.h"
 
-@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
+@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageHolderView;
 @property (nonatomic, strong) UIAlertController *sourcePicker;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic) BOOL firstTime;
+@property (nonatomic, strong)NSMutableArray *countriesArray;
+@property (nonatomic, strong)UITableView *autocompleteTableView;
+@property (weak, nonatomic) IBOutlet UITextField *countryTextField;
+@property (nonatomic, strong)NSMutableArray *autocompleteCountries;
+
 
 @end
 
@@ -37,7 +42,31 @@
     self.imageHolderView.image = placeholder;
     
     self.firstTime = YES;
+  
+  
+  self.countriesArray = [[NSMutableArray alloc]init];
+  NSString *filePath = [[NSBundle mainBundle]pathForResource:@"countryList" ofType:@"txt"];
+  NSString *fileContents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
+  NSLog(@"filePath: %@", filePath);
+  NSLog(@"filecontents: %@", fileContents);
+  for (NSString *line  in [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
+    [self.countriesArray addObject:line];
+  }
+  NSLog(@"array: %@", self.countriesArray);
+  
+  
+//  self.autocompleteTableView = [[UITableView alloc] initWithFrame:
+//                           CGRectMake(0, 80, 320, 120) style:UITableViewStylePlain];
+//  self.autocompleteTableView.delegate = self;
+//  self.autocompleteTableView.dataSource = self;
+//  self.autocompleteTableView.scrollEnabled = YES;
+//  self.autocompleteTableView.hidden = NO;
+//  [self.view addSubview:self.autocompleteTableView];
+//  self.autocompleteCountries = [[NSMutableArray alloc]init];
+
 }
+
+
 
 -(void)viewDidAppear:(BOOL)animated{
   
@@ -46,6 +75,35 @@
       [self imageUpLoadSource];
   
     }
+}
+
+-(void)checkIfCountryIsValid
+{
+  NSString *countryInput = self.countryTextField.text;
+  NSString *countryNoSpaces = [countryInput stringByReplacingOccurrencesOfString:@" " withString:@""];
+  NSString *lowercase = [countryNoSpaces lowercaseString];
+  NSUInteger i = 0;
+  NSLog(@"lowercase: %@", lowercase);
+  for (NSString *country in self.countriesArray) {
+    NSString *validNoSpaces = [country stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *validLowercase = [validNoSpaces lowercaseString];
+    if ([lowercase isEqualToString:validLowercase]) {
+      i = i + 1;
+    }
+  }
+    NSLog(@"i: %lu",i);
+    
+    if (i != 1) {
+      UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Location Is Invalid" message:@"Please enter a valid location" preferredStyle:UIAlertControllerStyleAlert];
+      UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+      [invalidLocation addAction:ok];
+      [self presentViewController:invalidLocation animated:YES completion:^{
+        self.countryTextField.text = @"";
+      }];
+    }
+}
+- (IBAction)countryEditingDidEnd:(id)sender {
+  [self checkIfCountryIsValid];
 }
 
 /**
@@ -176,6 +234,71 @@
 -(BOOL)prefersStatusBarHidden{
     return YES;
 }
+- (IBAction)didEditCountryTextField:(id)sender {
+
+}
+
+//AUTOCOMPLETE CODE NOT QUITE WORKING
+
+//- (BOOL)textField:(UITextField *)textField
+//shouldChangeCharactersInRange:(NSRange)range
+//replacementString:(NSString *)string {
+//  self.autocompleteTableView.hidden = NO;
+//  
+//  NSString *substring = [NSString stringWithString:textField.text];
+//  substring = [substring
+//               stringByReplacingCharactersInRange:range withString:string];
+//  [self searchAutocompleteEntriesWithSubstring:substring];
+//  
+//  NSLog(@"should change characters in range");
+//  return YES;
+//}
+//
+//- (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring {
+//  NSMutableArray *autocompleteCountries = [[NSMutableArray alloc]init];
+//  // Put anything that starts with this substring into the autocompleteUrls array
+//  // The items in this array is what will show up in the table view
+//  [autocompleteCountries removeAllObjects];
+//  for(NSString *curString in self.countriesArray) {
+//    NSRange substringRange = [curString rangeOfString:substring];
+//    if (substringRange.location == 0) {
+//      [autocompleteCountries addObject:curString];
+//    }
+//  }
+//  [self.autocompleteTableView reloadData];
+//  NSLog(@"search autocomplete entries");
+//
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
+//  NSLog(@"table view count: %lu", self.autocompleteCountries.count);
+//  NSLog(@"auto countries: %@", self.autocompleteCountries);
+//  return self.autocompleteCountries.count;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//  
+//  UITableViewCell *cell = nil;
+//  static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
+//  cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
+//  if (cell == nil) {
+//    cell = [[UITableViewCell alloc]
+//             initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier] ;
+//  }
+//  
+//  cell.textLabel.text = [self.autocompleteCountries objectAtIndex:indexPath.row];
+//  return cell;
+//}
+//
+//#pragma mark UITableViewDelegate methods
+//
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//  
+//  UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+//  self.countryTextField.text = selectedCell.textLabel.text;
+//}
+
+
 
 -(void)invalidImageAlert{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invliad Image"

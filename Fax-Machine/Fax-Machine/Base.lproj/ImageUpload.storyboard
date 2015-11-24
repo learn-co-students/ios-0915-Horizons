@@ -59,6 +59,10 @@
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="countryEditingDidEnd:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Lva-6F-3Q2"/>
+                                    <action selector="didEditCountryTextField:" destination="BYZ-38-t0r" eventType="editingChanged" id="Ynt-yj-eL9"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter a mood for this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-wa-NeL">
                                 <rect key="frame" x="20" y="554" width="374" height="30"/>
@@ -98,6 +102,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="countryTextField" destination="rHs-JG-sxD" id="dxv-bw-Net"/>
                         <outlet property="imageHolderView" destination="U6Y-du-9nQ" id="fiL-10-qzH"/>
                     </connections>
                 </viewController>

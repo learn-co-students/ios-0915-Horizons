@@ -23,7 +23,6 @@
                   WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)uploadImageWithImageObject:(ImageObject*)imageObject
-                         location:(Location *)location
                    WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)inputCommentWithComment:(NSString *)comment

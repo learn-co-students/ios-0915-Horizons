@@ -11,7 +11,7 @@
 @implementation ImageObject
 
 -(instancetype)init{
-    self = [self initWithOwner:[PFUser currentUser] title:@"" imageID:@"" likes:@0 mood:@"" location:nil comments:[@[] mutableCopy]];
+    self = [self initWithOwner:[PFUser currentUser] title:@"" imageID:@"" likes:@0 mood:@"" location:[Location new] comments:[@[] mutableCopy]];
     return self;
 }
 

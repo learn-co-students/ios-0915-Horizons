@@ -16,7 +16,8 @@
 #import <ParseUI/ParseUI.h>
 #import "SignUpViewController.h"
 #import <Photos/Photos.h>
-#import <INTULocationManager/INTULocationManager.h>
+#import <FCCurrentLocationGeocoder/FCCurrentLocationGeocoder.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
@@ -32,13 +33,16 @@
 
 @property (nonatomic, strong)Location *location;
 
+@property (nonatomic, strong) DataStore *dataStore;
+@property (nonatomic, strong) ImageObject *parseImageObject;
+
 @end
 
 @implementation ImageUploadViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.dataStore = [DataStore sharedDataStore];
     //Initiating the image picker controller.
     self.imagePickerController = [UIImagePickerController new];
     UIImage *placeholder = [UIImage imageNamed:@"cloud"];
@@ -63,6 +67,8 @@
  */
 - (IBAction)selectImageAndView:(id)sender {
     //Calling the UIAlertController when screen loaded.
+    //NSLog(@"City: %@",[FCCurrentLocationGeocoder sharedGeocoder].locationCity);
+    //[[FCCurrentLocationGeocoder sharedGeocoder] cancelGeocode];
     [self imageUpLoadSource];
 }
 
@@ -72,36 +78,50 @@
  *  @param sender UINavigation right bar Done button.
  */
 - (IBAction)finishedImageSelect:(id)sender {
-//  [self dismissViewControllerAnimated:YES completion:^{
-//    NSLog(@"done");
-//  }];
-  NSLog(@"done");
-  UIImage *image = self.selectedImage;
-  NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
-  NSLog(@"filename: %@", fileName);
-  
 
-
-//  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
-  NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
-  NSLog(@"filepath %@", filePath);
-
-  NSData * imageData = UIImagePNGRepresentation(image);
-  
-  [imageData writeToFile:filePath atomically:YES];
-  
-  AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
-  uploadRequest.body = [NSURL fileURLWithPath:filePath];
-  uploadRequest.key = fileName;
-  NSLog(@"poolID: %@",POOL_ID);
-  uploadRequest.bucket = @"fissamplebucket";
-  NSLog(@"uploadRequest: %@", uploadRequest);
-  
-  [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
-    NSLog(@"upload completed!");
-    [self dismissViewControllerAnimated:YES completion:nil];
-  }];
- }
+    NSLog(@"done");
+    UIImage *image = self.selectedImage;
+    NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
+    NSLog(@"filename: %@", fileName);
+    
+    //For creating image object for Parse
+    if (self.location.city.length) {
+        self.parseImageObject = [[ImageObject alloc] initWithTitle:@"Some title" imageID:fileName mood:self.moodTextField.text location:self.location];
+        NSLog(@"With location info!");
+    }
+    else{
+        self.parseImageObject = [[ImageObject alloc]initWithTitle:@"Default Title" imageID:fileName mood:@"Default Mood" location:[Location new]];
+        NSLog(@"With no location info!");
+    }
+    [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
+        if (complete) {
+            NSLog(@"Parse upload completed!");
+            //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
+            NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
+            NSLog(@"filepath %@", filePath);
+            
+            NSData * imageData = UIImagePNGRepresentation(image);
+            
+            [imageData writeToFile:filePath atomically:YES];
+            
+            AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+            uploadRequest.body = [NSURL fileURLWithPath:filePath];
+            uploadRequest.key = fileName;
+            NSLog(@"poolID: %@",POOL_ID);
+            uploadRequest.bucket = @"fissamplebucket";
+            NSLog(@"uploadRequest: %@", uploadRequest);
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                NSLog(@"upload completed!");
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }else{
+            NSLog(@"Issue with upload");
+        }
+    }];
+    
+}
 
 /**
  *  When user cancel the image select view.
@@ -240,12 +260,7 @@
  */
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
-    
-    //The selected image
-    
-   
-    
-    
+
     //Below section is for face detection in image with Core Image.
     CIImage *image = [CIImage imageWithCGImage: self.selectedImage.CGImage];
     NSDictionary *opts = @{CIDetectorAccuracy : CIDetectorAccuracyHigh};
@@ -269,64 +284,64 @@
                  self.imageHolderView.image = self.selectedImage;
              }];
             [picker dismissViewControllerAnimated:YES completion:nil];
-            //put stuff
             
             if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
                 PHAsset *asset = [LocationData logMetaDataFromImage:imageUrl];
-                //CLLocation *newCLLocation = dataFromImage[@"location"];
-                PFGeoPoint *newGeoPoint;
-                NSMutableDictionary *dic = [@{@"location" : @"",
-                                              @"date" : asset.creationDate} mutableCopy];
-                if (asset.location) {
-                    newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
-                    dic[@"location"] = asset.location;
-                }
                 
-                [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
-                 {
-                     self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
-                     [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
-                      {
-                          [[NSOperationQueue mainQueue] addOperationWithBlock:^
-                           {
-                               NSString *weatherOfImage = weather[@"currently"][@"summary"];
-                               self.moodTextField.text = weatherOfImage;
-                               self.countryTextField.text = self.location.country;
-                               self.cityTextField.text = self.location.city;
-                           }];
-                      }];
-                     
-                 }];
+                //If image asset contains geo data, fetch and display it on textfield.
+                if (asset.location) {
+                    PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
+                    NSMutableDictionary *dic = [@{@"location" : asset.location,
+                                                  @"date" : asset.creationDate} mutableCopy];
+                    [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
+                     {
+                         self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                         [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
+                          {
+                              NSLog(@"Weather Info: %@", weather);
+                              [[NSOperationQueue mainQueue] addOperationWithBlock:^
+                               {
+                                   NSString *weatherOfImage = weather[@"currently"][@"summary"];
+                                   self.moodTextField.text = weatherOfImage;
+                                   self.countryTextField.text = self.location.country;
+                                   self.cityTextField.text = self.location.city;
+                               }];
+                          }];
+                         
+                     }];
+                }
                 
             } else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
                 NSLog(@"Camera!!!!!!!!!!!");
                 //When image source equals to Camera
-                //INTULocationManager *locationManager = [INTULocationManager sharedInstance];
-//                [locationManager requestLocationWithDesiredAccuracy:INTULocationAccuracyCity timeout:0.5 block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status)
-//                 {
-//                     NSLog(@"Current Location: %@", currentLocation);
-//                     if (currentLocation != nil)
-//                     {
-//                         PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:currentLocation];
-//                         NSMutableDictionary *newDictionary = [@{@"location": currentLocation,
-//                                                                 @"date":[NSDate date]} mutableCopy];
-//                         [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
-//                          {
-//                              self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
-//                              [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
-//                               {
-//                                   [[NSOperationQueue mainQueue] addOperationWithBlock:^
-//                                    {
-//                                        NSString *weatherOfImage = weather[@"currently"][@"summary"];
-//                                        self.moodTextField.text = weatherOfImage;
-//                                        self.countryTextField.text = self.location.country;
-//                                        self.cityTextField.text = self.location.city;
-//                                    }];
-//                               }];
-//                          }];
-//                     }
-//                 }];
-                
+                FCCurrentLocationGeocoder *geoCoder = [FCCurrentLocationGeocoder sharedGeocoder];
+                geoCoder.canUseIPAddressAsFallback = YES;
+                geoCoder.timeoutErrorDelay = 5;
+                NSLog(@"GeoCode enable: %d", [geoCoder canGeocode]);
+                [geoCoder geocode:^(BOOL success) {
+                    NSLog(@"Location: %@", geoCoder.location);
+                    if (success) {
+                        PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:geoCoder.location];
+                        NSMutableDictionary *newDictionary = [@{@"location": geoCoder.location,
+                                                                @"date":[NSDate date]} mutableCopy];
+                        [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
+                         {
+                             self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                             [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
+                              {
+                                  [[NSOperationQueue mainQueue] addOperationWithBlock:^
+                                   {
+                                       NSString *weatherOfImage = weather[@"currently"][@"summary"];
+                                       self.moodTextField.text = weatherOfImage;
+                                       self.countryTextField.text = self.location.country;
+                                       self.cityTextField.text = self.location.city;
+                                   }];
+                              }];
+                         }];
+                    }else{
+                        NSLog(@"Time out fetch geo loadtion!");
+                    }
+                }];
             }
         }
         else

@@ -25,8 +25,7 @@ xcuserdata
 *.xcscheme
 
 #Constants file
-*/APIConstants.m
-*/constants.m
+APIConstants.m
 
 ## Obj-C/Swift specific
 *.hmap

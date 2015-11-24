@@ -42,7 +42,6 @@
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
-		E262C0051BFCEA4000C81C53 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -168,7 +167,6 @@
 			isa = PBXGroup;
 			children = (
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
-
 				76AB42F81BFFBFC900A45FFA /* APIConstants.m */,
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
 				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
@@ -456,11 +454,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E262C0051BFCEA4000C81C53 /* AWSDownloadManager.m in Sources */,
 				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
 				89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */,
-				E262C0051BFCEA4000C81C53 /* AWSDownloadManager.m in Sources */,
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
 				761E1EC11BFF6CC800BD5375 /* LeftMenuViewController.m in Sources */,
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,

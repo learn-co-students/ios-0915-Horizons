@@ -20,4 +20,9 @@ extern NSString *const POOL_ID;
 //Twitter Oauth keys
 extern NSString *const TWITTER_CONSUMER_KEY;
 extern NSString *const TWITTER_CONSUMER_SECRET;
+
+//Forecast.io API URL and Key
+
+extern NSString *const FORECASTIO_API_URL;
+extern NSString *const FORECASTIO_API_KEY;
 @end

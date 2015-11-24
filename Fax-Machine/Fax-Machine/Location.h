@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *country;
 @property (nonatomic, strong) PFGeoPoint *geoPoint;
+@property (nonatomic, strong) NSDictionary *weather;
 @property (nonatomic, strong) NSDate *dateTaken;
 
 -(instancetype)initWithCity:(NSString *)city

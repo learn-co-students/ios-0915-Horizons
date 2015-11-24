@@ -8,10 +8,14 @@
 
 #import "LeftMenuViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "DataStore.h"
+#import "ImagesViewController.h"
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface LeftMenuViewController ()
 
 @property (nonatomic, readwrite, strong) UITableView *tableView;
+@property (nonatomic, strong) DataStore *store;
 
 @end
 
@@ -19,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.store = [DataStore sharedDataStore];
     self.tableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - (54 * 6 + 46)) / 2.0f, self.view.frame.size.width, 54 * 6 + 46) style:UITableViewStylePlain];
         
@@ -44,18 +48,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UIStoryboard *uploadImage = [UIStoryboard storyboardWithName:@"ImageUpload" bundle:nil];
+    
     switch (indexPath.row) {
-        case 0:
+        case 1:
+            [self.sideMenuViewController hideMenuViewController];
             [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"homeViewController"]]
                                                          animated:YES];
-            [self.sideMenuViewController hideMenuViewController];
             break;
-//        case 1:
-//            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"secondViewController"]]
-//                                                         animated:YES];
-//            [self.sideMenuViewController hideMenuViewController];
-//            break;
-        default:
+        case 2:
+            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+            break;
+        case 5:
+            [self.store logoutWithSuccess:^(BOOL success) {
+                [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+            }];
             break;
     }
 }
@@ -119,8 +127,39 @@
             cell.selectedBackgroundView = [[UIView alloc] init];
         }
         
-        NSArray *title = @[@"", @"Home", @"Upload", @"My Images", @"Saved Images", @"Log Out"];
-        cell.textLabel.text = title[indexPath.row];
+        NSArray *title = @[@"Home", @"Upload", @"My Images", @"Saved Images", @"Log Out"];
+        
+        cell.textLabel.text = title[indexPath.row - 1];
+        FAKFontAwesome *icon = [FAKFontAwesome new];
+        switch (indexPath.row) {
+            case 1:
+                icon = [FAKFontAwesome homeIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            case 2:
+                icon = [FAKFontAwesome uploadIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            case 3:
+                icon = [FAKFontAwesome imageIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            case 4:
+                icon = [FAKFontAwesome archiveIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            case 5:
+                icon = [FAKFontAwesome userIconWithSize:24];
+                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
+                break;
+            default:
+                break;
+        }
         
         return cell;
     }

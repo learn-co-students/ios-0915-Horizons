@@ -24,7 +24,6 @@
                   WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)uploadImageWithImageObject:(ImageObject*)imageObject
-                         location:(Location *)location
                    WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)inputCommentWithComment:(NSString *)comment
@@ -33,5 +32,7 @@
 
 -(void)likeImageWithImageID:(NSString *)imageID
              withCompletion:(void(^)(BOOL complete))completionBlock;
+
+-(void)logoutWithSuccess:(void(^)(BOOL success))success;
 
 @end

@@ -14,7 +14,7 @@
 
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
-
+@property (nonatomic, strong) RESideMenu *sideMenuViewController;
 
 @end
 
@@ -33,10 +33,30 @@
     self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
     
     
- 
 }
 
-//DataStore and Delegate Methods
+- (RESideMenu *)sideMenuViewController
+{
+    UIViewController *iter = self.parentViewController;
+    while (iter) {
+        if ([iter isKindOfClass:[RESideMenu class]]) {
+            return (RESideMenu *)iter;
+        } else if (iter.parentViewController && iter.parentViewController != iter) {
+            iter = iter.parentViewController;
+        } else {
+            iter = nil;
+        }
+    }
+    return nil;
+}
+
+
+- (IBAction)presentLeftMenu:(id)sender {
+    
+    [self.sideMenuViewController presentLeftMenuViewController];
+}
+
+#pragma Collection view protocal methods
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {

@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <Photos/Photos.h>
 
 @interface LocationData : UIViewController <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
-+(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations;
-+(void)getWeatherInfoWithCompletion:(void(^)(NSDictionary *))completionBlock;
++ (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations;
+
++ (void)getWeatherInfoFromDictionary:(NSDictionary *)retrievedDictionary withCompletion:(void (^)(NSDictionary *))completionBlock;
+
+//+(NSDictionary *)gettingImageData:(UIImage *)image;
+
++ (void)getCityAndDateFromDictionary:(NSDictionary *)dictionary withCompletion:(void (^)(NSString *city,NSString *country, NSDate *date, BOOL success))completionBlock;
+
++ (PHAsset *)logMetaDataFromImage:(NSURL*)imageURL;
+
 @end

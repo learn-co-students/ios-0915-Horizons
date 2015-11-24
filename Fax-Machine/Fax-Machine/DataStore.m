@@ -28,7 +28,7 @@
 {
   self = [super init];
   if (self) {
-    //initialize properties
+      _comments = [NSMutableArray new];
   }
   return self;
 }

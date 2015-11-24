@@ -7,8 +7,12 @@
 //
 
 #import "UsersCommentsViewController.h"
+#import "DataStore.h"
+#import "Comment.h"
 
 @interface UsersCommentsViewController ()
+
+@property (nonatomic, strong)DataStore *dataStore;
 
 @end
 
@@ -16,27 +20,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.dataStore = [DataStore sharedDataStore];
     self.commentsTable.delegate = self;
     self.commentsTable.dataSource = self;
     self.txtField.delegate = self;
-   // self.txtField.inputAccessoryView = self.toolbarIBOutlet;
+    //self.usersCommentsArray = [[NSMutableArray alloc]init];
+    self.view.backgroundColor = [UIColor grayColor];
     
-    //could use this inside a method instead
-    self.usersCommentsArray = [[NSMutableArray alloc]init];
-    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
-                                                  green:0.66
-                                                   blue:0.66
-                                                  alpha:0.75]];
-    
-//    // Add self as observer to the NSNotificationCenter so we know when the keyboard is about to be shown up.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowWithNotification:) name:UIKeyboardWillShowNotification object:nil];
-//
 }
 
--(void)keyboardWillShowWithNotification:(NSNotification *)notification
-{
-    
-}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -45,62 +37,55 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.usersCommentsArray.count;
+    return self.dataStore.comments.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    //Row height
-    return 45.0;
+    return 60.0;
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        NSLog(@"Cell Customize");
-        // Customize TableView Cells.
-        // Cell background.
-        [cell setBackgroundColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
-        
-        // Selection style.
-        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
-        
-        // Accessory type.
-        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        
-        // Cell textlabel.
-        [[cell textLabel] setFont:[UIFont fontWithName:@"Georgia" size:15.0]];
+   
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+   if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+
+        cell.backgroundColor = [UIColor whiteColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
+      
+          // [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
+      
     }
     
-    [[cell textLabel] setText:[self.usersCommentsArray objectAtIndex:[indexPath row]]];
-    
+        cell.detailTextLabel.text = @"User1";
+        //cell.textLabel.text = self.usersCommentsArray[indexPath.row];
+        cell.textLabel.text = self.dataStore.comments[indexPath.row];
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 
 - (IBAction)addCommentButton:(UIBarButtonItem *)sender {
+    
+//    Comment *commentObject = [Comment alloc]initWithComment:self.txtField.text image:<#(ImageObject *)#>
+    [self.dataStore.comments addObject:self.txtField.text];
+    [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 }
 
-- (IBAction)addComment:(UIButton *)sender {
+- (IBAction)textFieldAction:(UITextField *)sender {
+        self.txtField.autocorrectionType = UITextAutocorrectionTypeNo;
+         [self.txtField setClearButtonMode:UITextFieldViewModeWhileEditing];
+
 }
+
+
 @end

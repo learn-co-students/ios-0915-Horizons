@@ -25,6 +25,7 @@
 		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
+		B75CA7BA1C050A98005334C2 /* CustomTextInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
 		B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
@@ -81,6 +82,8 @@
 		89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
+		B75CA7B81C050A98005334C2 /* CustomTextInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextInputViewController.h; sourceTree = "<group>"; };
+		B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextInputViewController.m; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B76D0E261BFF7BDF002056A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CollectionView.storyboard; sourceTree = "<group>"; };
 		B79E426B1BFCD0E70068B249 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = ../ImagesViewController.h; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 		B76D0E321BFF8E9F002056A2 /* CustomTextInput */ = {
 			isa = PBXGroup;
 			children = (
+				B75CA7B81C050A98005334C2 /* CustomTextInputViewController.h */,
+				B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */,
 			);
 			name = CustomTextInput;
 			sourceTree = "<group>";
@@ -480,6 +485,7 @@
 				E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */,
 				761E1EAA1BFD2B2D00BD5375 /* Comment.m in Sources */,
 				761E1EB71BFD320F00BD5375 /* ImageObject.m in Sources */,
+				B75CA7BA1C050A98005334C2 /* CustomTextInputViewController.m in Sources */,
 				761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */,
 				761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */,
 			);

@@ -8,17 +8,22 @@
 
 #import "ImagesDetailsViewController.h"
 #import "UsersCommentsViewController.h"
-
+#import "DataStore.h"
 
 @interface ImagesDetailsViewController ()
 @property (nonatomic) NSUInteger photoLikesCounter;
-@property (nonatomic) UsersCommentsViewController *commentsArray;
+@property (nonatomic) UsersCommentsViewController *userCommentsVCObject;
+@property (nonatomic, strong)DataStore *dataStore;
 @end
 
 @implementation ImagesDetailsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.dataStore = [DataStore sharedDataStore];
+    //NSLog(@"Commets: %@", self.dataStore.comments[0]);
+    self.belowPictureTableView.delegate = self;
+    self.belowPictureTableView.dataSource = self;
     self.imageDetails.image = self.img;
     self.likesCounter.tintColor= [UIColor whiteColor];
     // Do any additional setup after loading the view.
@@ -26,6 +31,12 @@
                                                   green:0.66
                                                    blue:0.66
                                                   alpha:0.75]];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.belowPictureTableView reloadData];
+    NSLog(@"Commets: %lu", self.dataStore.comments.count);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,7 +52,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return self.commentsArray.usersCommentsArray.count;
+    return self.dataStore.comments.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
@@ -57,15 +68,14 @@
         
         cell.backgroundColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType = UITableViewCellAccessoryDetailButton;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
         
     }
     
     cell.detailTextLabel.text = @"User1";
-    cell.textLabel.text = self.commentsArray.usersCommentsArray[indexPath.row];
+    cell.textLabel.text = self.dataStore.comments[indexPath.row];
     
-    [self.commentsArray.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     return cell;
 }
 
@@ -74,12 +84,12 @@
 //}
 //
 
-//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
-//        //UsersCommentsViewController *destinationVC = segue.destinationViewController;
-//
-//    }
-//}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
+        //UsersCommentsViewController *destinationVC = segue.destinationViewController;
+
+    }
+}
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
       

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UsersCommentsViewController.h"
 
-@interface ImagesDetailsViewController : UIViewController
+@interface ImagesDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIToolbar *likeIcon;
 @property (weak, nonatomic) IBOutlet UIImageView *imageDetails;
@@ -17,6 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *likesCounter;
 @property (weak, nonatomic) IBOutlet UITableView *belowPictureTableView;
 
-- (IBAction)commentIcon:(UIBarButtonItem *)sender;
+//- (IBAction)commentIcon:(UIBarButtonItem *)sender;
 - (IBAction)likeButton:(UIBarButtonItem *)sender;
 @end

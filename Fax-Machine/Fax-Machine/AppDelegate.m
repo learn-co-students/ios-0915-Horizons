@@ -10,6 +10,8 @@
 #import <AWSCore/AWSCore.h>
 #import <Parse/Parse.h>
 #import "APIConstants.h"
+
+#import "LocationData.h"
 #import "ParseAPIClient.h"
 #import "Comment.h"
 #import "ImageObject.h"
@@ -21,7 +23,6 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <RESideMenu/RESideMenu.h>
 #import "ProfileMenuRootViewController.h"
-
 @interface AppDelegate ()
 
 @end
@@ -31,7 +32,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+
     // AWS STUFF
     
     AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionUSEast1

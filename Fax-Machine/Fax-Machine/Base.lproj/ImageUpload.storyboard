@@ -70,18 +70,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="The date this image taken (MM / DD / YYYY)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d4r-RJ-Phd">
-                                <rect key="frame" x="20" y="592" width="374" height="30"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="U6Y-du-9nQ" firstAttribute="top" secondItem="iEP-Ti-yg9" secondAttribute="bottom" constant="20" id="0TI-9O-UMu"/>
-                            <constraint firstItem="d4r-RJ-Phd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="22F-Bw-fRU"/>
                             <constraint firstItem="rHs-JG-sxD" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="4d3-ZU-kT2"/>
                             <constraint firstItem="U6Y-du-9nQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="5Y7-wl-NGt"/>
                             <constraint firstItem="OBc-wa-NeL" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="9Sq-XL-1od"/>
@@ -94,16 +87,18 @@
                             <constraint firstAttribute="trailing" secondItem="iEP-Ti-yg9" secondAttribute="trailing" id="qZa-tB-Hb8"/>
                             <constraint firstItem="rHs-JG-sxD" firstAttribute="top" secondItem="2aF-Uf-3Q0" secondAttribute="bottom" constant="8" id="r17-Qf-0lD"/>
                             <constraint firstItem="OBc-wa-NeL" firstAttribute="top" secondItem="rHs-JG-sxD" secondAttribute="bottom" constant="8" id="tqM-Du-IFb"/>
-                            <constraint firstItem="d4r-RJ-Phd" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="vPQ-mz-lga"/>
-                            <constraint firstItem="d4r-RJ-Phd" firstAttribute="top" secondItem="OBc-wa-NeL" secondAttribute="bottom" constant="8" id="wkE-VS-Bet"/>
                             <constraint firstItem="iEP-Ti-yg9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xti-Jc-40M"/>
                             <constraint firstItem="OBc-wa-NeL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ztj-Dz-N0x"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="countryTextField" destination="rHs-JG-sxD" id="dxv-bw-Net"/>
+
+                        <outlet property="cityTextField" destination="2aF-Uf-3Q0" id="EjZ-8Q-euB"/>
+                        <outlet property="countryTextField" destination="rHs-JG-sxD" id="hfv-n4-upj"/>
+
                         <outlet property="imageHolderView" destination="U6Y-du-9nQ" id="fiL-10-qzH"/>
+                        <outlet property="moodTextField" destination="OBc-wa-NeL" id="KXg-HF-FyN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

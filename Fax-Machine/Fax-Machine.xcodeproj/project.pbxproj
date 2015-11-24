@@ -21,6 +21,8 @@
 		766FC18A1BFBA81000C4140E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC1921BFBABC000C4140E /* ImageUploadViewController.m */; };
 		76AB42F91BFFBFC900A45FFA /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AB42F81BFFBFC900A45FFA /* APIConstants.m */; };
+		89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9B1BFD133F007D3613 /* FXMCity.m */; };
+		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
@@ -75,6 +77,10 @@
 		766FC1911BFBABC000C4140E /* ImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadViewController.h; sourceTree = "<group>"; };
 		766FC1921BFBABC000C4140E /* ImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadViewController.m; sourceTree = "<group>"; };
 		76AB42F81BFFBFC900A45FFA /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		89C98F9A1BFD133F007D3613 /* FXMCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMCity.h; sourceTree = "<group>"; };
+		89C98F9B1BFD133F007D3613 /* FXMCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXMCity.m; sourceTree = "<group>"; };
+		89C98F9D1BFD1366007D3613 /* FXMWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMWeather.h; sourceTree = "<group>"; };
+		89C98F9E1BFD1366007D3613 /* FXMWeather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXMWeather.m; sourceTree = "<group>"; };
 		89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
@@ -209,6 +215,10 @@
 				76C7AD1A1C02A29700038FA2 /* SideMenu */,
 				89E2B9551BFBE69400AF43E1 /* LocationData.h */,
 				89E2B9561BFBE69400AF43E1 /* LocationData.m */,
+				89C98F9A1BFD133F007D3613 /* FXMCity.h */,
+				89C98F9B1BFD133F007D3613 /* FXMCity.m */,
+				89C98F9D1BFD1366007D3613 /* FXMWeather.h */,
+				89C98F9E1BFD1366007D3613 /* FXMWeather.m */,
 				766FC17A1BFBA81000C4140E /* Supporting Files */,
 			);
 			path = "Fax-Machine";
@@ -362,7 +372,7 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = GQ6DHHL68B;
+						DevelopmentTeam = 3P65N5866H;
 					};
 				};
 			};
@@ -457,8 +467,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E262C0051BFCEA4000C81C53 /* AWSDownloadManager.m in Sources */,
+				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
+				89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */,
+				E262C0051BFCEA4000C81C53 /* AWSDownloadManager.m in Sources */,
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
 				761E1EC11BFF6CC800BD5375 /* LeftMenuViewController.m in Sources */,
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
@@ -599,7 +611,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.flatironschool.Fax-Machine";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fax;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";
@@ -617,7 +629,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.flatironschool.Fax-Machine";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fax;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";

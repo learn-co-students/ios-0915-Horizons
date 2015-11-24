@@ -73,7 +73,7 @@
         image[@"mood"] = imageObject.mood;
         image[@"location"] = parseLocation;
         
-        [ParseAPIClient saveImageWithImageObject:image  success:^(BOOL success) {
+        [ParseAPIClient saveImageWithImageObject:image success:^(BOOL success) {
             completionBlock(success);
         } failure:^(NSError *error) {
             NSLog(@"Save image error with location: %@", error.localizedDescription);

@@ -36,6 +36,8 @@
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic, strong) ImageObject *parseImageObject;
 
+@property (nonatomic, strong) FCCurrentLocationGeocoder *geoCoder;
+
 @end
 
 @implementation ImageUploadViewController
@@ -85,6 +87,7 @@
     NSLog(@"filename: %@", fileName);
     
     //For creating image object for Parse
+    
     if (self.location.city.length) {
         self.parseImageObject = [[ImageObject alloc] initWithTitle:@"Some title" imageID:fileName mood:self.moodTextField.text location:self.location];
         NSLog(@"With location info!");
@@ -260,7 +263,6 @@
  */
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
-
     //Below section is for face detection in image with Core Image.
     CIImage *image = [CIImage imageWithCGImage: self.selectedImage.CGImage];
     NSDictionary *opts = @{CIDetectorAccuracy : CIDetectorAccuracyHigh};
@@ -298,7 +300,6 @@
                          self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
                          [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
                           {
-                              NSLog(@"Weather Info: %@", weather);
                               [[NSOperationQueue mainQueue] addOperationWithBlock:^
                                {
                                    NSString *weatherOfImage = weather[@"currently"][@"summary"];
@@ -312,35 +313,37 @@
                 }
                 
             } else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
-                NSLog(@"Camera!!!!!!!!!!!");
                 //When image source equals to Camera
-                FCCurrentLocationGeocoder *geoCoder = [FCCurrentLocationGeocoder sharedGeocoder];
-                geoCoder.canUseIPAddressAsFallback = YES;
-                geoCoder.timeoutErrorDelay = 5;
-                NSLog(@"GeoCode enable: %d", [geoCoder canGeocode]);
-                [geoCoder geocode:^(BOOL success) {
-                    NSLog(@"Location: %@", geoCoder.location);
-                    if (success) {
-                        PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:geoCoder.location];
-                        NSMutableDictionary *newDictionary = [@{@"location": geoCoder.location,
-                                                                @"date":[NSDate date]} mutableCopy];
-                        [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
-                         {
-                             self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
-                             [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
-                              {
-                                  [[NSOperationQueue mainQueue] addOperationWithBlock:^
-                                   {
-                                       NSString *weatherOfImage = weather[@"currently"][@"summary"];
-                                       self.moodTextField.text = weatherOfImage;
-                                       self.countryTextField.text = self.location.country;
-                                       self.cityTextField.text = self.location.city;
-                                   }];
-                              }];
-                         }];
-                    }else{
-                        NSLog(@"Time out fetch geo loadtion!");
-                    }
+                
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    self.geoCoder = [FCCurrentLocationGeocoder sharedGeocoder];
+                    self.geoCoder.canUseIPAddressAsFallback = YES;
+                    self.geoCoder.timeoutErrorDelay = 5;
+                    NSLog(@"GeoCode enable: %d", [self.geoCoder canGeocode]);
+                    [self.geoCoder geocode:^(BOOL success) {
+                        if (success) {
+                            PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:self.geoCoder.location];
+                            NSMutableDictionary *newDictionary = [@{@"location": self.geoCoder.location,
+                                                                    @"date":[NSDate date]} mutableCopy];
+                            [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
+                             {
+                                 self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                                 [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
+                                  {
+                                      [[NSOperationQueue mainQueue] addOperationWithBlock:^
+                                       {
+                                           NSString *weatherOfImage = weather[@"currently"][@"summary"];
+                                           self.moodTextField.text = weatherOfImage;
+                                           self.countryTextField.text = self.location.country;
+                                           self.cityTextField.text = self.location.city;
+                                           self.location.weather = weather;
+                                       }];
+                                  }];
+                             }];
+                        }else{
+                            NSLog(@"Time out fetch geo loadtion!");
+                        }
+                    }];
                 }];
             }
         }

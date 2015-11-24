@@ -11,7 +11,7 @@
 @implementation Location
 
 -(instancetype)init{
-    self = [self initWithCity:@"'" country:@"" geoPoint:nil dateTaken:nil];
+    self = [self initWithCity:@"'" country:@"" geoPoint:[PFGeoPoint geoPoint] dateTaken:[NSDate date]];
     return self;
 }
 
@@ -22,6 +22,7 @@
         _country = country;
         _geoPoint = geoPoint;
         _dateTaken = dateTaken;
+        _weather = @{};
     }
     
     return self;

@@ -28,7 +28,7 @@
 {
   self = [super init];
   if (self) {
-    //initialize properties
+      _comments = [NSMutableArray new];
   }
   return self;
 }
@@ -55,14 +55,14 @@
 }
 
 -(void)uploadImageWithImageObject:(ImageObject*)imageObject
-                         location:(Location *)location
                    WithCompletion:(void(^)(BOOL complete))completionBlock{
     
     PFObject *parseLocation = [PFObject objectWithClassName:@"Location"];
-    parseLocation[@"city"] = location.city;
-    parseLocation[@"country"] = location.country;
-    parseLocation[@"geoPoint"] = location.geoPoint;
-    parseLocation[@"dateTaken"] = location.dateTaken;
+    parseLocation[@"city"] = imageObject.location.city;
+    parseLocation[@"country"] = imageObject.location.country;
+    parseLocation[@"geoPoint"] = imageObject.location.geoPoint;
+    parseLocation[@"dateTaken"] = imageObject.location.dateTaken;
+    parseLocation[@"weather"] = imageObject.location.weather;
     
     [ParseAPIClient saveLocationWithLocation:parseLocation success:^(BOOL success) {
         PFObject *image = [PFObject objectWithClassName:@"Image"];
@@ -73,7 +73,7 @@
         image[@"mood"] = imageObject.mood;
         image[@"location"] = parseLocation;
         
-        [ParseAPIClient saveImageWithImageObject:image  success:^(BOOL success) {
+        [ParseAPIClient saveImageWithImageObject:image success:^(BOOL success) {
             completionBlock(success);
         } failure:^(NSError *error) {
             NSLog(@"Save image error with location: %@", error.localizedDescription);

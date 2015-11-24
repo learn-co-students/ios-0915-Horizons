@@ -37,62 +37,65 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U6Y-du-9nQ">
-                                <rect key="frame" x="20" y="84" width="374" height="374"/>
-                                <animations/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="U6Y-du-9nQ" secondAttribute="height" multiplier="1:1" id="QoO-VP-aRV"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="YVU-qW-Pqg" appends="YES" id="8Yf-RM-urM"/>
-                                </connections>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter the city of this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2aF-Uf-3Q0">
-                                <rect key="frame" x="20" y="478" width="374" height="30"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter the country of this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rHs-JG-sxD">
-                                <rect key="frame" x="20" y="516" width="374" height="30"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter a mood for this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-wa-NeL">
-                                <rect key="frame" x="20" y="554" width="374" height="30"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="yQr-cW-Wpr">
+                                <rect key="frame" x="20" y="120" width="374" height="497"/>
+                                <subviews>
+                                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U6Y-du-9nQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="374"/>
+                                        <animations/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="U6Y-du-9nQ" secondAttribute="height" multiplier="1:1" id="QoO-VP-aRV"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="YVU-qW-Pqg" appends="YES" id="8Yf-RM-urM"/>
+                                        </connections>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter the city of this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2aF-Uf-3Q0">
+                                        <rect key="frame" x="0.0" y="385" width="374" height="30"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter the country of this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rHs-JG-sxD">
+                                        <rect key="frame" x="0.0" y="426" width="374" height="30"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="countryEditingDidEnd:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Lva-6F-3Q2"/>
+                                            <action selector="didEditCountryTextField:" destination="BYZ-38-t0r" eventType="editingChanged" id="Ynt-yj-eL9"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter a mood for this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-wa-NeL">
+                                        <rect key="frame" x="0.0" y="467" width="374" height="30"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="U6Y-du-9nQ" firstAttribute="top" secondItem="iEP-Ti-yg9" secondAttribute="bottom" constant="20" id="0TI-9O-UMu"/>
-                            <constraint firstItem="rHs-JG-sxD" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="4d3-ZU-kT2"/>
-                            <constraint firstItem="U6Y-du-9nQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="5Y7-wl-NGt"/>
-                            <constraint firstItem="OBc-wa-NeL" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="9Sq-XL-1od"/>
-                            <constraint firstItem="2aF-Uf-3Q0" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="ACC-sg-CVI"/>
-                            <constraint firstAttribute="trailing" secondItem="U6Y-du-9nQ" secondAttribute="trailing" constant="20" id="M9i-je-BLc"/>
-                            <constraint firstItem="rHs-JG-sxD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="jYr-nM-ha9"/>
-                            <constraint firstItem="2aF-Uf-3Q0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="oub-WP-ke0"/>
-                            <constraint firstItem="iEP-Ti-yg9" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="p0W-WO-ims"/>
-                            <constraint firstItem="2aF-Uf-3Q0" firstAttribute="top" secondItem="U6Y-du-9nQ" secondAttribute="bottom" constant="20" id="pBv-T0-lGb"/>
-                            <constraint firstAttribute="trailing" secondItem="iEP-Ti-yg9" secondAttribute="trailing" id="qZa-tB-Hb8"/>
-                            <constraint firstItem="rHs-JG-sxD" firstAttribute="top" secondItem="2aF-Uf-3Q0" secondAttribute="bottom" constant="8" id="r17-Qf-0lD"/>
-                            <constraint firstItem="OBc-wa-NeL" firstAttribute="top" secondItem="rHs-JG-sxD" secondAttribute="bottom" constant="8" id="tqM-Du-IFb"/>
-                            <constraint firstItem="iEP-Ti-yg9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xti-Jc-40M"/>
-                            <constraint firstItem="OBc-wa-NeL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ztj-Dz-N0x"/>
+                            <constraint firstItem="iEP-Ti-yg9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="34f-Wx-eLC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="yQr-cW-Wpr" secondAttribute="trailing" id="PJv-GF-Wv7"/>
+                            <constraint firstItem="iEP-Ti-yg9" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="jRm-ur-fVA"/>
+                            <constraint firstItem="yQr-cW-Wpr" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kvR-wG-3hP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iEP-Ti-yg9" secondAttribute="trailing" constant="-20" id="nuz-cg-zY8"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="yQr-cW-Wpr" secondAttribute="leading" id="q41-tZ-1ZH"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="centerVerticallyConstraint" destination="kvR-wG-3hP" id="4kd-pK-s9M"/>
                         <outlet property="cityTextField" destination="2aF-Uf-3Q0" id="EjZ-8Q-euB"/>
-                        <outlet property="countryTextField" destination="rHs-JG-sxD" id="hfv-n4-upj"/>
+                        <outlet property="countryTextField" destination="rHs-JG-sxD" id="PS1-zY-XOg"/>
+                        <outlet property="imageAspectRatio" destination="QoO-VP-aRV" id="RwB-ax-LZi"/>
                         <outlet property="imageHolderView" destination="U6Y-du-9nQ" id="fiL-10-qzH"/>
                         <outlet property="moodTextField" destination="OBc-wa-NeL" id="KXg-HF-FyN"/>
+                        <outlet property="stackView" destination="yQr-cW-Wpr" id="ofB-fV-I8R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

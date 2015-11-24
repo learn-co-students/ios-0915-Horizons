@@ -15,6 +15,7 @@
 @interface DataStore : NSObject
 
 @property (nonatomic, strong)NSArray *downloadedPictures;
+@property (nonatomic, strong)NSMutableArray *comments;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -23,7 +24,6 @@
                   WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)uploadImageWithImageObject:(ImageObject*)imageObject
-                         location:(Location *)location
                    WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)inputCommentWithComment:(NSString *)comment

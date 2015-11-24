@@ -15,7 +15,10 @@ inhibit_all_warnings!
  pod 'FBSDKLoginKit'
  pod 'ParseFacebookUtilsV4'
  pod 'RESideMenu'
- pod 'FontAwesomeKit'
+
+pod 'FontAwesomeKit'
+ pod 'FCCurrentLocationGeocoder'
+ pod 'MBProgressHUD'
 
  pod 'AWSCore'
  pod 'AWSAutoScaling'
@@ -33,7 +36,6 @@ inhibit_all_warnings!
  pod 'AWSSNS'
  pod 'AWSSQS'
  pod 'AWSCognito'
- pod 'INTULocationManager'
 
 end
 

@@ -232,14 +232,16 @@
                             <constraint firstItem="OpD-vO-aK1" firstAttribute="top" secondItem="KUJ-3U-oXB" secondAttribute="bottom" id="ELQ-dX-Chh"/>
                             <constraint firstItem="sIw-31-7nT" firstAttribute="width" secondItem="2PH-wx-3WH" secondAttribute="width" id="Oyy-5K-A7G"/>
                             <constraint firstItem="OpD-vO-aK1" firstAttribute="width" secondItem="2PH-wx-3WH" secondAttribute="width" id="Q1G-MZ-3Nn"/>
-                            <constraint firstItem="sIw-31-7nT" firstAttribute="top" secondItem="UAi-66-QtX" secondAttribute="bottom" id="qoU-zy-Cxn"/>
+                            <constraint firstItem="OpD-vO-aK1" firstAttribute="bottom" secondItem="5Vj-bA-iab" secondAttribute="top" id="gvC-ta-r5p"/>
+                            <constraint firstItem="sIw-31-7nT" firstAttribute="top" secondItem="UAi-66-QtX" secondAttribute="bottom" id="r2o-fE-xIU"/>
+                            <constraint firstItem="OpD-vO-aK1" firstAttribute="leading" secondItem="KUJ-3U-oXB" secondAttribute="leading" id="rLu-YA-zt0"/>
                             <constraint firstItem="sIw-31-7nT" firstAttribute="centerX" secondItem="2PH-wx-3WH" secondAttribute="centerX" id="sbi-7I-EHG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="T57-XQ-34R"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="belowPictureTableView" destination="OpD-vO-aK1" id="tMf-mH-CFc"/>
+                        <outlet property="belowPictureTableView" destination="OpD-vO-aK1" id="tKi-Rd-vnN"/>
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
                         <outlet property="likeIcon" destination="zZT-UH-2Iv" id="ZLF-h1-exg"/>
                         <outlet property="likesCounter" destination="zZT-UH-2Iv" id="HYI-at-5IS"/>
@@ -247,7 +249,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LDe-C9-s28" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4878.5" y="599.5"/>
+            <point key="canvasLocation" x="4877.5" y="466.5"/>
         </scene>
         <!--Item-->
         <scene sceneID="cD5-3j-Wey">
@@ -316,7 +318,7 @@
                                             <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="15"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                             <connections>
-                                                <action selector="textFieldAction:" destination="b3V-pr-HBo" eventType="editingChanged" id="swu-UI-NHK"/>
+                                                <action selector="textFieldAction:" destination="b3V-pr-HBo" eventType="editingDidEnd" id="KPE-9r-J2b"/>
                                             </connections>
                                         </textField>
                                     </barButtonItem>
@@ -360,7 +362,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9CJ-Og-ZmA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5315.5" y="206.5"/>
+            <point key="canvasLocation" x="5352.5" y="466.5"/>
         </scene>
         <!--Profile Menu Root View Controller-->
         <scene sceneID="9yq-qV-AK6">

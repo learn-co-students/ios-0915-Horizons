@@ -20,12 +20,13 @@
 		766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1861BFBA81000C4140E /* Assets.xcassets */; };
 		766FC18A1BFBA81000C4140E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC1921BFBABC000C4140E /* ImageUploadViewController.m */; };
-		76BAEA991C04D35600DB48F2 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 76BAEA981C04D35600DB48F2 /* APIConstants.m */; };
 		76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
+		76BAEA9E1C050F2600DB48F2 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 76BAEA9D1C050F2600DB48F2 /* APIConstants.m */; };
 		89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9B1BFD133F007D3613 /* FXMCity.m */; };
 		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
+		B75CA7BA1C050A98005334C2 /* CustomTextInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
 		B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
@@ -73,7 +74,7 @@
 		766FC18B1BFBA81000C4140E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		766FC1911BFBABC000C4140E /* ImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadViewController.h; sourceTree = "<group>"; };
 		766FC1921BFBABC000C4140E /* ImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadViewController.m; sourceTree = "<group>"; };
-		76BAEA981C04D35600DB48F2 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		76BAEA9D1C050F2600DB48F2 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
 		89C98F9A1BFD133F007D3613 /* FXMCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMCity.h; sourceTree = "<group>"; };
 		89C98F9B1BFD133F007D3613 /* FXMCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXMCity.m; sourceTree = "<group>"; };
 		89C98F9D1BFD1366007D3613 /* FXMWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMWeather.h; sourceTree = "<group>"; };
@@ -81,6 +82,8 @@
 		89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
+		B75CA7B81C050A98005334C2 /* CustomTextInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextInputViewController.h; sourceTree = "<group>"; };
+		B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextInputViewController.m; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B76D0E261BFF7BDF002056A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CollectionView.storyboard; sourceTree = "<group>"; };
 		B79E426B1BFCD0E70068B249 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = ../ImagesViewController.h; sourceTree = "<group>"; };
@@ -167,8 +170,8 @@
 		761E1EB91BFD808F00BD5375 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				76BAEA9D1C050F2600DB48F2 /* APIConstants.m */,
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
-				76BAEA981C04D35600DB48F2 /* APIConstants.m */,
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
 				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
 			);
@@ -301,6 +304,8 @@
 		B76D0E321BFF8E9F002056A2 /* CustomTextInput */ = {
 			isa = PBXGroup;
 			children = (
+				B75CA7B81C050A98005334C2 /* CustomTextInputViewController.h */,
+				B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */,
 			);
 			name = CustomTextInput;
 			sourceTree = "<group>";
@@ -455,6 +460,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76BAEA9E1C050F2600DB48F2 /* APIConstants.m in Sources */,
 				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
 				89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */,
@@ -463,7 +469,6 @@
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
 				B7D3E2B61BFEBEBF00E28028 /* UsersCommentsViewController.m in Sources */,
 				B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */,
-				76BAEA991C04D35600DB48F2 /* APIConstants.m in Sources */,
 				76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */,
 				B7D3E2B31BFEA4E200E28028 /* ImagesDetailsViewController.m in Sources */,
 				B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */,
@@ -480,6 +485,7 @@
 				E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */,
 				761E1EAA1BFD2B2D00BD5375 /* Comment.m in Sources */,
 				761E1EB71BFD320F00BD5375 /* ImageObject.m in Sources */,
+				B75CA7BA1C050A98005334C2 /* CustomTextInputViewController.m in Sources */,
 				761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */,
 				761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */,
 			);

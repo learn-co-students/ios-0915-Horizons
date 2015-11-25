@@ -10,7 +10,7 @@
 #import "imagesCustomCell.h"
 #import "ImagesDetailsViewController.h"
 #import "DataStore.h"
-#import <AFNetworking/UIKit+AFNetworking.h>
+#import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
 
 @interface ImagesViewController ()
@@ -35,32 +35,20 @@
                                                    blue:0.66
                                                   alpha:0.75]];
     
-    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
+//    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
     self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
+    
+    self.downloadedImages = [NSMutableArray new];
     self.dataStore = [DataStore sharedDataStore];
+    [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
+        if (complete) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.imagesCollectionViewController reloadData];
+            }];
+            
+        }
+    }];
     
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    NSLog(@"Belore API call!");
-    
-//    [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
-//        if (complete) {
-//            
-//            
-//            
-//            [self.imagesCollectionViewController reloadData];
-//        }
-//    }];
-//    
-//    NSLog(@"\n\nTHIS SHOULD GET CALLED FAST... this is after self.datastore downloadpicturesToDisplay\n\n");
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadViewWithImage) name:@"reload" object:nil];
-}
-
--(void)reloadViewWithImage{
-    [self.imagesCollectionViewController reloadData];
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -93,33 +81,35 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    //return self.arrayWithImages.count;
-    NSLog(@"View Count number!!!! : %lu", self.dataStore.downloadedPictures.count);
     return self.dataStore.downloadedPictures.count;
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Before creating a cell!!!!!\n\n");
    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    
-    
-    NSLog(@"\n\n cellForItemAtIndexPath: is GETTING CALLED!!!");
-    
-    //cell.myImage.image = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
-    
-//    [[NSBundle mainBundle] bundlewith]
+
     NSString *imageFilePath = self.dataStore.downloadedPictures[indexPath.row];
+
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, imageFilePath];
+    NSURL *url = [NSURL URLWithString:urlString];
     
-//    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH,imageObject[@"imageID"]];
-    NSURL *url = [NSURL URLWithString:imageFilePath];
+    [self.downloadedImages addObject:url];
+    //NSLog(@"Image Url: %@", url);
     
-    //[cell.myImage setImageWithURL:url placeholderImage:[UIImage imageNamed:@"cloud"]];
-    cell.myImage.image = [UIImage imageWithContentsOfFile:imageFilePath];
+//    [cell.myImage yy_setImageWithURL:url options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
+    [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+        if (from == YYWebImageFromDiskCache) {
+            NSLog(@"From Cache!");
+        }
+    }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
 
     
     return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -139,11 +129,11 @@
     if ([segue.identifier isEqualToString:@"photoDetails"])
     {
     
-        ImagesViewController *cell = (ImagesViewController*)sender;
+        UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
-        ImagesDetailsViewController *imageVC = (ImagesDetailsViewController *)[segue destinationViewController];
-        imageVC.img = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
-        
+        ImagesDetailsViewController *imageVC = segue.destinationViewController;
+        //imageVC.img = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
+        imageVC.url = self.downloadedImages[indexPath.row];
     }
     
 }

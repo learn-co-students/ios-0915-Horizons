@@ -43,41 +43,14 @@
 
 -(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery WithCompletion:(void(^)(BOOL complete))completionBlock
 {
-    NSLog(@"\n\ndownloadPicturesToDisplay called\n\n");
-    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery completion:^(NSArray *data) {
-        
-        NSLog(@"\n\fetchImagesWithPredciate  called\n\n");
-
-        
         for (PFObject *parseImageObject in data) {
             NSString *imageID = parseImageObject[@"imageID"];
-            [AWSDownloadManager downloadSinglePicture:imageID completion:^(NSString *filePath) {
-                
-                NSLog(@"\n\ndownloadSinglePicture called\n\n");
-
-                
-                [self.downloadedPictures addObject:filePath];
-                
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reload" object:nil];
-
-                }];
-                
-                
-                NSLog(@"Downloaded picture count: %lu", self.downloadedPictures.count);
-                if (10 == self.downloadedPictures.count) {
-                    
-                    NSLog(@"\n\n completionBlock is about to be passed YES\n\n");
-                    
-                    completionBlock(YES);
-                }
-            }];
+            NSLog(@"Image ID: %@", imageID);
+            [self.downloadedPictures addObject:imageID];
         }
-        
-        //self.downloadedPictures = [data mutableCopy];
+        completionBlock(YES);
         
     } failure:^(NSError *error) {
         NSLog(@"Download images error: %@", error.localizedDescription);

@@ -9,6 +9,7 @@
 #import "ImagesDetailsViewController.h"
 #import "UsersCommentsViewController.h"
 #import "DataStore.h"
+#import <YYWebImage/YYWebImage.h>
 
 @interface ImagesDetailsViewController ()
 @property (nonatomic) NSUInteger photoLikesCounter;
@@ -31,6 +32,8 @@
                                                   green:0.66
                                                    blue:0.66
                                                   alpha:0.75]];
+    
+    [self.imageDetails yy_setImageWithURL:self.url options:YYWebImageOptionProgressive | YYWebImageOptionProgressiveBlur ];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

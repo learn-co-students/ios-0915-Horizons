@@ -109,7 +109,7 @@
         }
         
         UIImageView *ourImageView = [cell viewWithTag:99];
-        ourImageView.image = [UIImage imageNamed:@"forest"];
+        ourImageView.image = [UIImage imageNamed:@"profile_placeholder"];
         
         return cell;
     }

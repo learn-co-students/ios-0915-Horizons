@@ -12,6 +12,7 @@
 #import "DataStore.h"
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface ImagesViewController ()
 
@@ -38,6 +39,11 @@
 //    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
     self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
     
+    FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
+    FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
+    self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
+    self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
+    
     self.downloadedImages = [NSMutableArray new];
     self.dataStore = [DataStore sharedDataStore];
     [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
@@ -48,6 +54,10 @@
         }
     }];
     
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self.imagesCollectionViewController reloadData];
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -90,7 +100,7 @@
 
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
-    
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu", parseImage.likes, parseImage.comments.count];
     //[self.downloadedImages addObject:url];
     
 //    [cell.myImage yy_setImageWithURL:url options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
@@ -101,7 +111,7 @@
     }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
-
+    
     
     return cell;
 }

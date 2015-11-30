@@ -86,13 +86,13 @@
     if (self.txtField.text.length && ![self.txtField.text isEqualToString:@" "]) {
         [self.dataStore inputCommentWithComment:self.txtField.text imageID:self.selectedImage.imageID withCompletion:^(PFObject *comment) {
             NSLog(@"Comment input successfully!");
-            self.txtField.text = @"";
             [self.selectedImage.comments addObject:comment];
             [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }];
     }else{
         NSLog(@"Invalid Comment");
     }
+    self.txtField.text = @"";
 }
 
 - (IBAction)textFieldAction:(UITextField *)sender {

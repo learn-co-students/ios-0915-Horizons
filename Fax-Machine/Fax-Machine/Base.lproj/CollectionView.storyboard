@@ -205,12 +205,13 @@
                                             <action selector="likeButton:" destination="WTS-eO-ffq" id="7pf-yJ-Z56"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Item" id="CxS-Ol-VsK"/>
                                     <barButtonItem title="💬" id="pvB-q4-1Rq">
                                         <connections>
-                                            <action selector="commentIcon:" destination="WTS-eO-ffq" id="0M1-tk-bgB"/>
                                             <segue destination="b3V-pr-HBo" kind="show" identifier="inputComments" id="gOV-GA-r42"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Item" id="Ise-mO-Zp9"/>
                                     <barButtonItem id="PcX-v7-udV"/>
                                 </items>
                             </toolbar>
@@ -242,7 +243,10 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="belowPictureTableView" destination="OpD-vO-aK1" id="tKi-Rd-vnN"/>
+                        <outlet property="commentButton" destination="pvB-q4-1Rq" id="v9M-Dk-D9K"/>
+                        <outlet property="commentCountLable" destination="Ise-mO-Zp9" id="BQP-lr-UZQ"/>
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
+                        <outlet property="likeCountLabel" destination="CxS-Ol-VsK" id="hI7-E0-oyd"/>
                         <outlet property="likeIcon" destination="zZT-UH-2Iv" id="ZLF-h1-exg"/>
                         <outlet property="likesCounter" destination="zZT-UH-2Iv" id="HYI-at-5IS"/>
                     </connections>
@@ -355,7 +359,6 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="addCommentButton" destination="dGe-UU-iHf" id="JJX-TL-xxw"/>
                         <outlet property="commentsTable" destination="JdA-WN-K7y" id="ViO-Bn-kwn"/>
                         <outlet property="toolbarIBOutlet" destination="hn9-70-P0D" id="CxE-JQ-Mr1"/>
                         <outlet property="txtField" destination="Jhd-mL-LFT" id="6KK-68-ahS"/>

@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSNumber *likes;
 @property (nonatomic, strong) NSString *mood;
 @property (nonatomic, strong) Location *location;
-@property (nonatomic, strong) NSMutableArray  *comments;
+@property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, strong) NSString *objectID;
 
 -(instancetype)initWithTitle:(NSString *)title

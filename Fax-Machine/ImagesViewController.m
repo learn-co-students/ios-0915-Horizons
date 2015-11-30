@@ -45,7 +45,6 @@
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [self.imagesCollectionViewController reloadData];
             }];
-            
         }
     }];
     
@@ -87,13 +86,12 @@
 {
    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSString *imageFilePath = self.dataStore.downloadedPictures[indexPath.row];
+    ImageObject *parseImage = self.dataStore.downloadedPictures[indexPath.row];
 
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, imageFilePath];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     
-    [self.downloadedImages addObject:url];
-    //NSLog(@"Image Url: %@", url);
+    //[self.downloadedImages addObject:url];
     
 //    [cell.myImage yy_setImageWithURL:url options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
@@ -132,8 +130,7 @@
         UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
-        //imageVC.img = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
-        imageVC.url = self.downloadedImages[indexPath.row];
+        imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
     }
     
 }

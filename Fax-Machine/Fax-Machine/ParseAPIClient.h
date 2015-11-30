@@ -20,7 +20,7 @@
                      completion:(void (^)(NSArray *data))completionBlock
                         failure:(void(^)(NSError *error))failure;
 
-+(void)fetchAllCommentsWithRelatedImage:(PFObject *)imageObject
++(void)fetchAllCommentsWithRelatedImage:(NSString *)imageID
                              completion:(void (^)(NSArray *data))completionBlock
                                 failure:(void(^)(NSError *error))failure;
 
@@ -40,5 +40,7 @@
 +(void)likeImageWithImageObject:(PFObject *)likedImage
                         success:(void (^)(BOOL success))success
                         failure:(void(^)(NSError *error))failure;
+
+
 
 @end

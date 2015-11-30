@@ -46,9 +46,11 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery completion:^(NSArray *data) {
         for (PFObject *parseImageObject in data) {
-            NSString *imageID = parseImageObject[@"imageID"];
-            NSLog(@"Image ID: %@", imageID);
-            [self.downloadedPictures addObject:imageID];
+//            NSString *imageID = parseImageObject[@"imageID"];
+            ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:parseImageObject[@"comments"] objectID:parseImageObject.objectId];
+            
+            //NSLog(@"Image ID: %@", parseImage.imageID);
+            [self.downloadedPictures addObject:parseImage];
         }
         completionBlock(YES);
         
@@ -93,14 +95,14 @@
 
 -(void)inputCommentWithComment:(NSString *)comment
                        imageID:(NSString *)imageID
-                withCompletion:(void(^)(BOOL complete))completionBlock{
+                withCompletion:(void(^)(PFObject *comment))completionBlock{
     [ParseAPIClient fetchImageWithImageID:imageID completion:^(PFObject *data) {
         PFObject *parseComment = [PFObject objectWithClassName:@"Comment"];
         parseComment[@"userComment"] = comment;
         parseComment[@"owner"] = [PFUser currentUser];
         parseComment[@"relatedImage"] = data;
         [ParseAPIClient saveCommentWithWithComment:parseComment imageObject:data success:^(BOOL success) {
-            completionBlock(success);
+            completionBlock(parseComment);
         } failure:^(NSError *error) {
             NSLog(@"Save comment error: %@", error.localizedDescription);
         }];
@@ -135,6 +137,24 @@
     PFUser *currentUser = [PFUser currentUser];
     [currentUser saveInBackground];
     success(YES);
+}
+
+
++(PFUser *)getUserWithObjectID:(NSString *)objectID{
+    PFUser *user = [PFQuery getUserObjectWithId:objectID];
+    return user;
+}
+
+-(void)getAllCommentsWithImageID:(NSString *)imageID withCompletion:(void (^)(BOOL))completionBlock{
+    [ParseAPIClient fetchAllCommentsWithRelatedImage:imageID completion:^(NSArray *data) {
+        for (PFObject *parseComment in data) {
+            Comment *comment = [[Comment alloc]initWithComment:parseComment[@"userComment"] user:parseComment[@"owner"] image:parseComment[@"relatedImage"]];
+            [self.comments addObject:comment];
+        }
+        completionBlock(YES);
+    } failure:^(NSError *error) {
+        NSLog(@"Fetch Comments error: %@", error.localizedDescription);
+    }];
 }
 
 @end

@@ -11,22 +11,6 @@
 
 @interface UsersCommentsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIToolbarDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *commentsTable;
-//@property (nonatomic, strong) NSMutableArray *usersCommentsArray;
-@property (weak, nonatomic) IBOutlet UITextField *txtField;
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbarIBOutlet;
-
 @property (nonatomic, strong)ImageObject *selectedImage;
-
-
-- (IBAction)addCommentButton:(UIBarButtonItem *)sender;
-
-
-- (IBAction)textFieldAction:(UITextField *)sender;
-
-
-
-
-
 
 @end

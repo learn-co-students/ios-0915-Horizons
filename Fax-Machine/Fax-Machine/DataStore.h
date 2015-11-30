@@ -28,11 +28,16 @@
 
 -(void)inputCommentWithComment:(NSString *)comment
                        imageID:(NSString *)imageID
-                withCompletion:(void(^)(BOOL complete))completionBlock;
+                withCompletion:(void(^)(PFObject *comment))completionBlock;
 
 -(void)likeImageWithImageID:(NSString *)imageID
              withCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)logoutWithSuccess:(void(^)(BOOL success))success;
+
++(PFUser *)getUserWithObjectID:(NSString *)objectID;
+
+-(void)getAllCommentsWithImageID:(NSString *)imageID
+                  withCompletion:(void(^)(BOOL complete))completionBlock;
 
 @end

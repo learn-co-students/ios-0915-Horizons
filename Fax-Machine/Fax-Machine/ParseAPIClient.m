@@ -45,7 +45,9 @@
                         failure:(void (^)(NSError *))failure{
     //Quering the Photo object from Parse with filter parameters.
     PFQuery *query = [PFQuery queryWithClassName:@"Image" predicate:predicate];
-    
+    [query includeKey:@"comments"];
+    [query includeKey:@"owner"];
+    [query includeKey:@"location"];
     //Setting the maximum numbers of return objects.
     query.limit = numberOfImages;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -65,19 +67,23 @@
  *  @param completionBlock Call back with all the comments objects (default limit to 100).
  *  @param failure         Call back with error incase of failure.
  */
-+(void)fetchAllCommentsWithRelatedImage:(PFObject *)imageObject
++(void)fetchAllCommentsWithRelatedImage:(NSString *)imageID
                              completion:(void (^)(NSArray *))completionBlock
                                 failure:(void (^)(NSError *))failure{
-    PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
-    
-    //Querying the relatedImage column in Parse with content equal to the given imageObject.
-    [query whereKey:@"relatedImage" equalTo:imageObject];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (!error) {
-            completionBlock(objects);
-        } else {
-            failure(error);
-        }
+    [ParseAPIClient fetchImageWithImageID:imageID completion:^(PFObject *data) {
+        PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+        [query orderByAscending:@"createdAt"];
+        //Querying the relatedImage column in Parse with content equal to the given imageObject.
+        [query whereKey:@"relatedImage" equalTo:data];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            if (!error) {
+                completionBlock(objects);
+            } else {
+                failure(error);
+            }
+        }];
+    } failure:^(NSError *error) {
+        NSLog(@"Fetch image error");
     }];
 }
 

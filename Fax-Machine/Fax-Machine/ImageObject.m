@@ -11,16 +11,21 @@
 @implementation ImageObject
 
 -(instancetype)init{
-    self = [self initWithOwner:[PFUser currentUser] title:@"" imageID:@"" likes:@0 mood:@"" location:[Location new] comments:[@[] mutableCopy]];
+    self = [self initWithOwner:[PFUser currentUser] title:@"" imageID:@"" likes:@0 mood:@"" location:[Location new] comments:[@[] mutableCopy] objectID:@""];
     return self;
 }
 
 -(instancetype)initWithTitle:(NSString *)title imageID:(NSString *)imageID mood:(NSString *)mood location:(Location *)location{
-    self = [self initWithOwner:[PFUser currentUser] title:title imageID:imageID likes:@0 mood:mood location:location comments:[@[] mutableCopy]];
+    self = [self initWithOwner:[PFUser currentUser] title:title imageID:imageID likes:@0 mood:mood location:location comments:[@[] mutableCopy] objectID:@""];
     return self;
 }
 
 -(instancetype)initWithOwner:(PFUser *)owner title:(NSString *)title imageID:(NSString *)imageID likes:(NSNumber *)likes mood:(NSString *)mood location:(Location *)location comments:(NSMutableArray *)comments{
+    self = [self initWithOwner:[PFUser currentUser] title:title imageID:imageID likes:@0 mood:mood location:location comments:[@[] mutableCopy] objectID:@""];
+    return self;
+}
+
+-(instancetype)initWithOwner:(PFUser *)owner title:(NSString *)title imageID:(NSString *)imageID likes:(NSNumber *)likes mood:(NSString *)mood location:(Location *)location comments:(NSMutableArray *)comments objectID:(NSString *)objectID{
     self = [super init];
     if (self) {
         _owner = owner;
@@ -30,6 +35,7 @@
         _mood = mood;
         _location = location;
         _comments = comments;
+        _objectID = objectID;
     }
     return self;
 }

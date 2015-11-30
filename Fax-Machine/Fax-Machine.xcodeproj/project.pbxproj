@@ -20,7 +20,8 @@
 		766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1861BFBA81000C4140E /* Assets.xcassets */; };
 		766FC18A1BFBA81000C4140E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC1921BFBABC000C4140E /* ImageUploadViewController.m */; };
-		76AB42F91BFFBFC900A45FFA /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AB42F81BFFBFC900A45FFA /* APIConstants.m */; };
+		76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
+		896376111C0D0106001F0E72 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 896376101C0D0106001F0E72 /* APIConstants.m */; };
 		8965CA691C050ED100E37A30 /* filterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965CA681C050ED100E37A30 /* filterViewController.m */; };
 		8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */; };
 		89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9B1BFD133F007D3613 /* FXMCity.m */; };
@@ -28,7 +29,6 @@
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
 		B75CA7BA1C050A98005334C2 /* CustomTextInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */; };
-		B75CA7BF1C050E24005334C2 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B75CA7BE1C050E24005334C2 /* APIConstants.m */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
 		B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
@@ -44,9 +44,6 @@
 		E24803081BFE4DF7005AB1D5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24803071BFE4DF7005AB1D5 /* LoginViewController.swift */; };
 		E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */; };
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
-		E24803101C03B87C005AB1D5 /* list of countries in Resources */ = {isa = PBXBuildFile; fileRef = E248030F1C03B87B005AB1D5 /* list of countries */; };
-		E24803121C03BE07005AB1D5 /* countries in Resources */ = {isa = PBXBuildFile; fileRef = E24803111C03BE07005AB1D5 /* countries */; };
-		E24803161C03D1AB005AB1D5 /* countryList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E24803151C03D1AB005AB1D5 /* countryList.txt */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
 /* End PBXBuildFile section */
@@ -79,7 +76,7 @@
 		766FC18B1BFBA81000C4140E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		766FC1911BFBABC000C4140E /* ImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadViewController.h; sourceTree = "<group>"; };
 		766FC1921BFBABC000C4140E /* ImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadViewController.m; sourceTree = "<group>"; };
-		76AB42F81BFFBFC900A45FFA /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		896376101C0D0106001F0E72 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
 		8965CA671C050ED100E37A30 /* filterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filterViewController.h; path = filterView/filterViewController.h; sourceTree = "<group>"; };
 		8965CA681C050ED100E37A30 /* filterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = filterViewController.m; path = filterView/filterViewController.m; sourceTree = "<group>"; };
 		8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = filterStoryboard.storyboard; path = ../filterStoryboard.storyboard; sourceTree = "<group>"; };
@@ -92,7 +89,6 @@
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
 		B75CA7B81C050A98005334C2 /* CustomTextInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextInputViewController.h; sourceTree = "<group>"; };
 		B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextInputViewController.m; sourceTree = "<group>"; };
-		B75CA7BE1C050E24005334C2 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B76D0E261BFF7BDF002056A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CollectionView.storyboard; sourceTree = "<group>"; };
 		B79E426B1BFCD0E70068B249 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = ../ImagesViewController.h; sourceTree = "<group>"; };
@@ -119,9 +115,6 @@
 		E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLoginViewController.swift; sourceTree = "<group>"; };
 		E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E248030D1BFFB57B005AB1D5 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../Documents/FacebookSDKs-iOS-20151111/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
-		E248030F1C03B87B005AB1D5 /* list of countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "list of countries"; path = "../../../../Downloads/list of countries"; sourceTree = "<group>"; };
-		E24803111C03BE07005AB1D5 /* countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = countries; path = ../../../../Downloads/countries; sourceTree = "<group>"; };
-		E24803151C03D1AB005AB1D5 /* countryList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = countryList.txt; path = ../../../../Documents/countryList.txt; sourceTree = "<group>"; };
 		E262BFFA1BFCE0D200C81C53 /* APIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIConstants.h; sourceTree = "<group>"; };
 		E262BFFB1BFCE0D200C81C53 /* ParseAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseAPIClient.h; sourceTree = "<group>"; };
 		E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseAPIClient.m; sourceTree = "<group>"; };
@@ -182,8 +175,8 @@
 		761E1EB91BFD808F00BD5375 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				896376101C0D0106001F0E72 /* APIConstants.m */,
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
-				B75CA7BE1C050E24005334C2 /* APIConstants.m */,
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
 				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
 			);
@@ -236,9 +229,6 @@
 		766FC17A1BFBA81000C4140E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E248030F1C03B87B005AB1D5 /* list of countries */,
-				E24803111C03BE07005AB1D5 /* countries */,
-				E24803151C03D1AB005AB1D5 /* countryList.txt */,
 				766FC1861BFBA81000C4140E /* Assets.xcassets */,
 				B79E42811BFD39110068B249 /* Selma-Notes.rtf */,
 				766FC18B1BFBA81000C4140E /* Info.plist */,
@@ -413,16 +403,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E24803121C03BE07005AB1D5 /* countries in Resources */,
 				766FC18A1BFBA81000C4140E /* (null) in Resources */,
 				8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */,
 				B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */,
-				E24803161C03D1AB005AB1D5 /* countryList.txt in Resources */,
 				B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
 				E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
-				E24803101C03B87C005AB1D5 /* list of countries in Resources */,
 				B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,11 +478,12 @@
 				B7D3E2B61BFEBEBF00E28028 /* UsersCommentsViewController.m in Sources */,
 				B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */,
 				8965CA691C050ED100E37A30 /* filterViewController.m in Sources */,
+				76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */,
 				B7D3E2B31BFEA4E200E28028 /* ImagesDetailsViewController.m in Sources */,
 				B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */,
 				B7D3E2B91BFECACB00E28028 /* SearchViewController.m in Sources */,
 				E24802FB1BFD3062005AB1D5 /* AWSUploadManager.m in Sources */,
-				B75CA7BF1C050E24005334C2 /* APIConstants.m in Sources */,
+				896376111C0D0106001F0E72 /* APIConstants.m in Sources */,
 				E24803041BFE2993005AB1D5 /* SignUpViewController.m in Sources */,
 				E24802F81BFD16AA005AB1D5 /* DataStore.m in Sources */,
 				766FC17C1BFBA81000C4140E /* main.m in Sources */,

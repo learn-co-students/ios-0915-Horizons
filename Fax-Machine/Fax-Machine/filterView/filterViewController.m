@@ -150,11 +150,12 @@
     NSInteger moodSelection = [self.filterPicker selectedRowInComponent:2];
     
     
-    NSDictionary *filterParameters = @{ @"country" : arrayOfCountries[countrySelection],
-                                               @"city" : arrayOfCities[citySelection],
-                                               @"mood" : self.moodsArray[moodSelection]
-                                               };
-
+    NSDictionary *filterParameters = @{
+                                       @"country" : arrayOfCountries[countrySelection],
+                                       @"city" : arrayOfCities[citySelection],
+                                       @"mood" : self.moodsArray[moodSelection]
+                                        };
+    //got a dictionary of filter parameters, but what if a user doesn't want to use all of the filters?
 }
 
 -(void)setupPickerView:(UIPickerView *)pickerView

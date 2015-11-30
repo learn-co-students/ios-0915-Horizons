@@ -42,6 +42,9 @@
 		E24803081BFE4DF7005AB1D5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24803071BFE4DF7005AB1D5 /* LoginViewController.swift */; };
 		E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */; };
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
+		E24803101C03B87C005AB1D5 /* list of countries in Resources */ = {isa = PBXBuildFile; fileRef = E248030F1C03B87B005AB1D5 /* list of countries */; };
+		E24803121C03BE07005AB1D5 /* countries in Resources */ = {isa = PBXBuildFile; fileRef = E24803111C03BE07005AB1D5 /* countries */; };
+		E24803161C03D1AB005AB1D5 /* countryList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E24803151C03D1AB005AB1D5 /* countryList.txt */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
 /* End PBXBuildFile section */
@@ -110,6 +113,9 @@
 		E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLoginViewController.swift; sourceTree = "<group>"; };
 		E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E248030D1BFFB57B005AB1D5 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../Documents/FacebookSDKs-iOS-20151111/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
+		E248030F1C03B87B005AB1D5 /* list of countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "list of countries"; path = "../../../../Downloads/list of countries"; sourceTree = "<group>"; };
+		E24803111C03BE07005AB1D5 /* countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = countries; path = ../../../../Downloads/countries; sourceTree = "<group>"; };
+		E24803151C03D1AB005AB1D5 /* countryList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = countryList.txt; path = ../../../../Documents/countryList.txt; sourceTree = "<group>"; };
 		E262BFFA1BFCE0D200C81C53 /* APIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIConstants.h; sourceTree = "<group>"; };
 		E262BFFB1BFCE0D200C81C53 /* ParseAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseAPIClient.h; sourceTree = "<group>"; };
 		E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseAPIClient.m; sourceTree = "<group>"; };
@@ -224,6 +230,9 @@
 		766FC17A1BFBA81000C4140E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E248030F1C03B87B005AB1D5 /* list of countries */,
+				E24803111C03BE07005AB1D5 /* countries */,
+				E24803151C03D1AB005AB1D5 /* countryList.txt */,
 				766FC1861BFBA81000C4140E /* Assets.xcassets */,
 				B79E42811BFD39110068B249 /* Selma-Notes.rtf */,
 				766FC18B1BFBA81000C4140E /* Info.plist */,
@@ -368,7 +377,7 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 3P65N5866H;
+						DevelopmentTeam = GQ6DHHL68B;
 					};
 				};
 			};
@@ -395,12 +404,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24803121C03BE07005AB1D5 /* countries in Resources */,
 				766FC18A1BFBA81000C4140E /* (null) in Resources */,
 				B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */,
+				E24803161C03D1AB005AB1D5 /* countryList.txt in Resources */,
 				B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
 				E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
+				E24803101C03B87C005AB1D5 /* list of countries in Resources */,
 				B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -605,7 +617,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fax;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";
@@ -623,7 +635,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fax;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";

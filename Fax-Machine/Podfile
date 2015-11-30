@@ -15,7 +15,8 @@ inhibit_all_warnings!
  pod 'FBSDKLoginKit'
  pod 'ParseFacebookUtilsV4'
  pod 'RESideMenu'
- pod 'FontAwesomeKit'
+
+pod 'FontAwesomeKit'
  pod 'FCCurrentLocationGeocoder'
  pod 'MBProgressHUD'
  pod 'YYWebImage'

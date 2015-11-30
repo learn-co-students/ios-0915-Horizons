@@ -19,13 +19,17 @@
 #import <FCCurrentLocationGeocoder/FCCurrentLocationGeocoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 
-@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
+@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageHolderView;
 @property (nonatomic, strong) UIAlertController *sourcePicker;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic) BOOL firstTime;
+@property (nonatomic, strong)NSMutableArray *countriesArray;
+@property (nonatomic, strong)UITableView *autocompleteTableView;
+@property (nonatomic, strong)NSMutableArray *autocompleteCountries;
+
 
 @property (weak, nonatomic) IBOutlet UITextField *cityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *countryTextField;
@@ -37,7 +41,13 @@
 @property (nonatomic, strong) ImageObject *parseImageObject;
 
 @property (nonatomic, strong) FCCurrentLocationGeocoder *geoCoder;
+
 @property (nonatomic, strong) NSDate *creationDate;
+@property (nonatomic, strong)NSLayoutConstraint *bottomConstraint;
+@property (weak, nonatomic) IBOutlet UIStackView *stackView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerVerticallyConstraint;
+@property (nonatomic)CGFloat initialConstraintConstant;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageAspectRatio;
 
 @end
 
@@ -52,6 +62,48 @@
     self.imageHolderView.image = placeholder;
     
     self.firstTime = YES;
+  
+  self.countryTextField.delegate = self;
+  self.cityTextField.delegate = self;
+  self.moodTextField.delegate = self;
+  
+  [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardControl:) name:UIKeyboardWillShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardControl:) name:UIKeyboardWillHideNotification object:nil];
+  
+  self.bottomConstraint = [self.stackView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:0];
+  self.bottomConstraint.active = NO;
+  
+  self.initialConstraintConstant = self.centerVerticallyConstraint.constant;
+}
+
+-(void)keyboardControl:(NSNotification*)notification
+{
+  CGSize keyboardSize = [[[notification userInfo]objectForKey:UIKeyboardFrameEndUserInfoKey]CGRectValue].size;
+  NSDictionary *userInfo = notification.userInfo;
+  NSInteger length = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey]integerValue];
+  NSInteger option = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey]integerValue];
+  
+  CGFloat smallerSize = keyboardSize.height ;
+  
+  [UIView animateWithDuration:length delay:0 options:option animations:^{
+    if ([notification.name isEqualToString:@"UIKeyboardWillShowNotification"]) {
+//      self.centerVerticallyConstraint.active = NO;
+//      self.imageHolderView.hidden = YES;
+      [self.view sendSubviewToBack:self.stackView];
+      self.centerVerticallyConstraint.constant = self.initialConstraintConstant - smallerSize;
+//      self.bottomConstraint.constant = keyboardSize.height;
+//      self.bottomConstraint.active = YES;
+      [self.view layoutIfNeeded];
+    }
+    else {
+      self.imageHolderView.hidden = NO;
+      self.centerVerticallyConstraint.constant = self.initialConstraintConstant;
+      [self.view layoutIfNeeded];
+    }
+  } completion:^(BOOL finished) {
+    nil;
+  }];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -61,6 +113,89 @@
       [self imageUpLoadSource];
   
     }
+}
+
+
+-(void)presentInvalidLocationAlert
+{
+  UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Location Is Invalid" message:@"Please enter a valid location" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [invalidLocation addAction:ok];
+  [self presentViewController:invalidLocation animated:YES completion:^{
+    self.countryTextField.text = @"";
+    self.cityTextField.text = @"";
+  }];
+}
+
+
+-(void)presentInvalidCityAlert
+{
+  UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [invalidLocation addAction:ok];
+  [self presentViewController:invalidLocation animated:YES completion:^{
+    self.cityTextField.text = @"";
+  }];
+}
+
+
+-(void)presentInvalidCountryAlert
+{
+  UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [invalidLocation addAction:ok];
+  [self presentViewController:invalidLocation animated:YES completion:^{
+    self.countryTextField.text = @"";
+  }];
+}
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+//    [textField resignFirstResponder];
+  
+  if ([textField isEqual:self.cityTextField]) {
+    [self.countryTextField becomeFirstResponder];
+  } else if ([textField isEqual:self.countryTextField]) {
+    [self.moodTextField becomeFirstResponder];
+  } else {
+    [textField resignFirstResponder];
+  }
+  
+
+  return YES;
+}
+
+- (IBAction)countryEditingDidEnd:(id)sender {
+//  [self checkIfCountryIsValid];
+  NSString *address = [NSString stringWithFormat:@"%@,%@",self.cityTextField.text,self.countryTextField.text];
+  CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+  [geocoder geocodeAddressString:address completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+    if (error) {
+      NSLog(@"Error: %@", [error localizedDescription]);
+      [self presentInvalidLocationAlert];
+      return; // Bail!
+    } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""]) {
+        [self presentInvalidCityAlert];
+    } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""]) {
+      [self presentInvalidCountryAlert];
+    } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""]) {
+      [self presentInvalidLocationAlert];
+    }
+    
+    if ([placemarks count] > 0) {
+      CLPlacemark *placemark = [placemarks lastObject]; // firstObject is iOS7 only.
+      NSLog(@"Location is: %@", placemark.location);
+      PFGeoPoint *newGeopPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
+      NSMutableDictionary *dictionary = [@{@"location":placemark.location, @"date":[NSDate date]}mutableCopy];
+      [LocationData getCityAndDateFromDictionary:dictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success) {
+        self.location = [[Location alloc]initWithCity:city country:country geoPoint:newGeopPoint dateTaken:date];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^
+         {
+           self.cityTextField.text = city;
+           self.countryTextField.text = country;
+         }];
+      }];
+    }
+  }];
 }
 
 /**
@@ -211,6 +346,71 @@
 -(BOOL)prefersStatusBarHidden{
     return YES;
 }
+- (IBAction)didEditCountryTextField:(id)sender {
+
+}
+
+//AUTOCOMPLETE CODE NOT QUITE WORKING
+
+//- (BOOL)textField:(UITextField *)textField
+//shouldChangeCharactersInRange:(NSRange)range
+//replacementString:(NSString *)string {
+//  self.autocompleteTableView.hidden = NO;
+//  
+//  NSString *substring = [NSString stringWithString:textField.text];
+//  substring = [substring
+//               stringByReplacingCharactersInRange:range withString:string];
+//  [self searchAutocompleteEntriesWithSubstring:substring];
+//  
+//  NSLog(@"should change characters in range");
+//  return YES;
+//}
+//
+//- (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring {
+//  NSMutableArray *autocompleteCountries = [[NSMutableArray alloc]init];
+//  // Put anything that starts with this substring into the autocompleteUrls array
+//  // The items in this array is what will show up in the table view
+//  [autocompleteCountries removeAllObjects];
+//  for(NSString *curString in self.countriesArray) {
+//    NSRange substringRange = [curString rangeOfString:substring];
+//    if (substringRange.location == 0) {
+//      [autocompleteCountries addObject:curString];
+//    }
+//  }
+//  [self.autocompleteTableView reloadData];
+//  NSLog(@"search autocomplete entries");
+//
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
+//  NSLog(@"table view count: %lu", self.autocompleteCountries.count);
+//  NSLog(@"auto countries: %@", self.autocompleteCountries);
+//  return self.autocompleteCountries.count;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//  
+//  UITableViewCell *cell = nil;
+//  static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
+//  cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
+//  if (cell == nil) {
+//    cell = [[UITableViewCell alloc]
+//             initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier] ;
+//  }
+//  
+//  cell.textLabel.text = [self.autocompleteCountries objectAtIndex:indexPath.row];
+//  return cell;
+//}
+//
+//#pragma mark UITableViewDelegate methods
+//
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//  
+//  UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+//  self.countryTextField.text = selectedCell.textLabel.text;
+//}
+
+
 
 -(void)invalidImageAlert{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invliad Image"

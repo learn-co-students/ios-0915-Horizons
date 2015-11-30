@@ -27,6 +27,7 @@
                         @"Gloomy",
                         @"Snowy?",
                         @"Autumn"];
+
     PFQuery *query = [PFQuery queryWithClassName:@"Location"];
     NSArray *queryArray = [query findObjects];
     self.arrayFromQuery = queryArray;
@@ -156,5 +157,16 @@
 
 }
 
-
+-(void)setupPickerView:(UIPickerView *)pickerView
+{
+    [self numberOfComponentsInPickerView:pickerView];
+    for (NSUInteger i = 0; i < 3; i++)
+    {
+        [pickerView numberOfRowsInComponent:i];
+        for (NSUInteger x = 0; x < ([pickerView numberOfRowsInComponent:i]); x++)
+        {
+            [self pickerView:pickerView titleForRow:x forComponent:i];
+        }
+    }
+}
 @end

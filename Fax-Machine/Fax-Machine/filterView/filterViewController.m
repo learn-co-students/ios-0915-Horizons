@@ -12,6 +12,7 @@
 @interface filterViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 @property (weak, nonatomic) IBOutlet UIPickerView *filterPicker;
 @property (strong, nonatomic) NSString *chosenCountry;
+@property (strong, nonatomic) NSArray *arrayFromQuery;
 
 @end
 
@@ -26,6 +27,9 @@
                         @"Gloomy",
                         @"Snowy?",
                         @"Autumn"];
+    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
+    NSArray *queryArray = [query findObjects];
+    self.arrayFromQuery = queryArray;
     //get arrays for countries and cities in viewDidLoad
     // Do any additional setup after loading the view.
 }
@@ -54,38 +58,19 @@
 //third will be moods, which is a pre-defined array
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
-    NSArray *queryArray = [query findObjects];
+    
     
     if (component == 0)
     {
         //get count of countries from parse
-        NSMutableArray *countriesArray = [[NSMutableArray alloc] init];
-        for (PFObject *object in queryArray)
-        {
-            NSString *countryOfObject = object[@"country"];
-            if (![countriesArray containsObject:countryOfObject])
-            {
-                [countriesArray addObject:countryOfObject];
-            }
-        }
+        NSMutableArray *countriesArray = [self gettingAnArrayOfCountries:self.arrayFromQuery];
         return countriesArray.count;
         
     }
     else if (component == 1)
     {
         //get count of cities of chosen country from parse
-        NSMutableArray *citiesArray = [[NSMutableArray alloc] init];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"country = %@", self.chosenCountry];
-        NSArray *objectsWithMatchingCountry = [queryArray filteredArrayUsingPredicate:predicate];
-        for (PFObject *object in objectsWithMatchingCountry)
-        {
-            NSString *cityOfObject = object[@"city"];
-            if (![citiesArray containsObject:cityOfObject])
-            {
-                [citiesArray addObject:cityOfObject];
-            }
-        }
+        NSMutableArray *citiesArray = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
         return citiesArray.count;
     }
     else
@@ -97,7 +82,79 @@
 }
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
+    if (component == 0)
+    {
+        NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
+        return arrayOfCountries[row];
+    }
+    else if (component == 1)
+    {
+        NSMutableArray *arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+        return arrayOfCities[row];
+    }
+    else
+    {
+        return self.moodsArray[row];
+    }
+    
     return nil;
 }
+
+-(NSMutableArray *)gettingAnArrayOfCountries:(NSArray *)arrayOfPFObjects
+{
+    NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
+    for (PFObject *object in arrayOfPFObjects)
+    {
+        NSString *countryOfObject = object[@"country"];
+        if (![arrayOfCountries containsObject:countryOfObject])
+        {
+            [arrayOfCountries addObject:countryOfObject];
+        }
+    }
+    return arrayOfCountries;
+}
+
+-(NSMutableArray *)gettingAnArrayOfCitiesWithMatchingCountry:(NSArray *)arrayOfPFObjects
+{
+    [self gettingChosenCountry:self.filterPicker];
+    NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"country = %@", self.chosenCountry];
+    NSArray *predicatedArrayOfPFObjects= [arrayOfPFObjects filteredArrayUsingPredicate:predicate];
+    
+    for (PFObject *object in predicatedArrayOfPFObjects)
+    {
+        NSString *cityOfObject = object[@"city"];
+        if (![arrayOfCities containsObject:cityOfObject])
+        {
+            [arrayOfCities addObject:cityOfObject];
+        }
+    }
+    return arrayOfCities;
+}
+
+-(void)gettingChosenCountry:(UIPickerView *)pickerView
+{
+    NSInteger selectedRowForCountry = [pickerView selectedRowInComponent:0];
+    NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
+    self.chosenCountry = arrayOfCountries[selectedRowForCountry];
+}
+- (IBAction)filterButtonTapped:(id)sender
+{
+    NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
+    NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
+    arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
+    arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+    NSInteger countrySelection = [self.filterPicker selectedRowInComponent:0];
+    NSInteger citySelection = [self.filterPicker selectedRowInComponent:1];
+    NSInteger moodSelection = [self.filterPicker selectedRowInComponent:2];
+    
+    
+    NSDictionary *filterParameters = @{ @"country" : arrayOfCountries[countrySelection],
+                                               @"city" : arrayOfCities[citySelection],
+                                               @"mood" : self.moodsArray[moodSelection]
+                                               };
+
+}
+
 
 @end

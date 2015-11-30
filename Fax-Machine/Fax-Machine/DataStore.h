@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong)NSArray *downloadedPictures;
 @property (nonatomic, strong)NSMutableArray *comments;
+@property (nonatomic, strong)NSMutableArray *userPictures;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -34,5 +35,8 @@
              withCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)logoutWithSuccess:(void(^)(BOOL success))success;
+
+-(void)fetchUserImagesWithCompletion:(void(^)(BOOL complete))completionBlock;
+
 
 @end

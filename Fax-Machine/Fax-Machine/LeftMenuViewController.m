@@ -60,6 +60,8 @@
         case 2:
             [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
             break;
+      case 3:
+        [self presentViewController:[[UIStoryboard storyboardWithName:@"CollectionView" bundle:nil] instantiateViewControllerWithIdentifier:@"homeViewController"] animated:YES completion:nil];
         case 5:
             [self.store logoutWithSuccess:^(BOOL success) {
                 [self.parentViewController dismissViewControllerAnimated:YES completion:nil];

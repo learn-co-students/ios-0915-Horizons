@@ -41,4 +41,7 @@
                         success:(void (^)(BOOL success))success
                         failure:(void(^)(NSError *error))failure;
 
++(void)getUserImagesWithCompletion: (void (^)(BOOL))complete;
+
+
 @end

@@ -180,4 +180,29 @@
     }];
 }
 
++(void)getUserImagesWithCompletion: (void (^)(BOOL))complete
+{
+
+    PFUser *currentUser = [PFUser currentUser];
+    NSMutableArray *images = [[NSMutableArray alloc]init];
+    PFQuery *photoQuery = [PFQuery queryWithClassName:@"Image"];
+    [photoQuery whereKey:@"owner" equalTo:currentUser];
+    [photoQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+      if (!error) {
+        NSLog(@"object count: %lu",objects.count);
+        for (PFObject *object in objects) {
+          NSLog(@"%@", object.objectId);
+          NSString *imageID = [object valueForKey:@"imageID"];
+          [images addObject:imageID];
+        }
+        NSLog(@"images: %@",images);
+        complete(YES);
+        
+      } else {
+        NSLog(@"error: %@", error);
+      }
+    }];
+  
+}
+
 @end

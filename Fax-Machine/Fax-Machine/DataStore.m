@@ -29,6 +29,7 @@
   self = [super init];
   if (self) {
       _comments = [NSMutableArray new];
+    _userPictures = [[NSMutableArray alloc]init];
   }
   return self;
 }
@@ -39,6 +40,8 @@
     completionBlock(YES);
   }];
 }
+
+
 
 -(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery WithCompletion:(void(^)(BOOL complete))completionBlock
 {
@@ -127,6 +130,29 @@
     PFUser *currentUser = [PFUser currentUser];
     [currentUser saveInBackground];
     success(YES);
+}
+
+-(void)fetchUserImagesWithCompletion:(void(^)(BOOL complete))completionBlock
+{
+  //[self.downloadedPictures removeAllObjects];
+  
+  PFUser *currentUser = [PFUser currentUser];
+  PFQuery *photoQuery = [PFQuery queryWithClassName:@"Image"];
+  [photoQuery whereKey:@"owner" equalTo:currentUser];
+  [photoQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+    if (!error) {
+      NSLog(@"object count: %lu",objects.count);
+      for (PFObject *object in objects) {
+        ImageObject *userImage = [[ImageObject alloc]initWithOwner:object[@"owner"] title:object[@"title"] imageID:object[@"imageID"] likes:object[@"likes"] mood:object[@"likes"] location:object[@"location"] comments:object[@"comments"]];
+        [self.userPictures addObject:userImage];
+      }
+        completionBlock(YES);
+      
+    } else {
+      NSLog(@"error: %@", error);
+    }
+  
+  }];
 }
 
 @end

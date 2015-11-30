@@ -163,14 +163,13 @@
 }
 
 - (IBAction)countryEditingDidEnd:(id)sender {
-//  [self checkIfCountryIsValid];
   NSString *address = [NSString stringWithFormat:@"%@,%@",self.cityTextField.text,self.countryTextField.text];
   CLGeocoder *geocoder = [[CLGeocoder alloc]init];
   [geocoder geocodeAddressString:address completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
     if (error) {
       NSLog(@"Error: %@", [error localizedDescription]);
       [self presentInvalidLocationAlert];
-      return; // Bail!
+      return;
     } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""]) {
         [self presentInvalidCityAlert];
     } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""]) {
@@ -180,7 +179,7 @@
     }
     
     if ([placemarks count] > 0) {
-      CLPlacemark *placemark = [placemarks lastObject]; // firstObject is iOS7 only.
+      CLPlacemark *placemark = [placemarks lastObject];
       NSLog(@"Location is: %@", placemark.location);
       PFGeoPoint *newGeopPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
       NSMutableDictionary *dictionary = [@{@"location":placemark.location, @"date":[NSDate date]}mutableCopy];
@@ -219,7 +218,8 @@
     UIImage *image = self.selectedImage;
     NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
     NSLog(@"filename: %@", fileName);
-    
+  
+  [self resignFirstResponder];
     //For creating image object for Parse
     
     if (self.location.city.length) {
@@ -244,6 +244,8 @@
             AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
             uploadRequest.body = [NSURL fileURLWithPath:filePath];
             uploadRequest.key = fileName;
+            uploadRequest.contentType = @"image/png";
+//          [uploadRequest setValue:@"image/png" forKey:@"Content-Type"];
             NSLog(@"poolID: %@",POOL_ID);
             uploadRequest.bucket = @"fissamplebucket";
             NSLog(@"uploadRequest: %@", uploadRequest);
@@ -346,66 +348,6 @@
 - (IBAction)didEditCountryTextField:(id)sender {
 
 }
-
-//AUTOCOMPLETE CODE NOT QUITE WORKING
-
-//- (BOOL)textField:(UITextField *)textField
-//shouldChangeCharactersInRange:(NSRange)range
-//replacementString:(NSString *)string {
-//  self.autocompleteTableView.hidden = NO;
-//  
-//  NSString *substring = [NSString stringWithString:textField.text];
-//  substring = [substring
-//               stringByReplacingCharactersInRange:range withString:string];
-//  [self searchAutocompleteEntriesWithSubstring:substring];
-//  
-//  NSLog(@"should change characters in range");
-//  return YES;
-//}
-//
-//- (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring {
-//  NSMutableArray *autocompleteCountries = [[NSMutableArray alloc]init];
-//  // Put anything that starts with this substring into the autocompleteUrls array
-//  // The items in this array is what will show up in the table view
-//  [autocompleteCountries removeAllObjects];
-//  for(NSString *curString in self.countriesArray) {
-//    NSRange substringRange = [curString rangeOfString:substring];
-//    if (substringRange.location == 0) {
-//      [autocompleteCountries addObject:curString];
-//    }
-//  }
-//  [self.autocompleteTableView reloadData];
-//  NSLog(@"search autocomplete entries");
-//
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
-//  NSLog(@"table view count: %lu", self.autocompleteCountries.count);
-//  NSLog(@"auto countries: %@", self.autocompleteCountries);
-//  return self.autocompleteCountries.count;
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//  
-//  UITableViewCell *cell = nil;
-//  static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
-//  cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
-//  if (cell == nil) {
-//    cell = [[UITableViewCell alloc]
-//             initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier] ;
-//  }
-//  
-//  cell.textLabel.text = [self.autocompleteCountries objectAtIndex:indexPath.row];
-//  return cell;
-//}
-//
-//#pragma mark UITableViewDelegate methods
-//
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//  
-//  UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-//  self.countryTextField.text = selectedCell.textLabel.text;
-//}
 
 
 

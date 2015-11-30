@@ -9,12 +9,19 @@
 #import "ImagesViewController.h"
 #import "imagesCustomCell.h"
 #import "ImagesDetailsViewController.h"
+#import "DataStore.h"
+#import <YYWebImage/YYWebImage.h>
+#import "APIConstants.h"
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface ImagesViewController ()
 
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
+@property (nonatomic, strong) NSMutableArray *downloadedImages;
+
+@property (nonatomic, strong) DataStore *dataStore;
 
 @end
 
@@ -29,15 +36,35 @@
                                                    blue:0.66
                                                   alpha:0.75]];
     
-    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
+//    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
     self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
-  
   
 //  self.arrayWithImages = [
   //[self.dataStore fetchUserImagesWithCompletion:^(BOOL complete){
   //
 
   
+  
+    FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
+    FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
+    self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
+    self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
+    
+    self.downloadedImages = [NSMutableArray new];
+    self.dataStore = [DataStore sharedDataStore];
+    [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
+        if (complete) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.imagesCollectionViewController reloadData];
+            }];
+        }
+    }];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self.imagesCollectionViewController reloadData];
+    [self.dataStore.controllers addObject: self];
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -70,24 +97,39 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.arrayWithImages.count;
+    return self.dataStore.downloadedPictures.count;
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
 
-    cell.myImage.image = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
+    ImageObject *parseImage = self.dataStore.downloadedPictures[indexPath.row];
+
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
+    NSURL *url = [NSURL URLWithString:urlString];
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu", parseImage.likes, parseImage.comments.count];
+    //[self.downloadedImages addObject:url];
+    
+//    [cell.myImage yy_setImageWithURL:url options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
+    [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+        if (from == YYWebImageFromDiskCache) {
+            NSLog(@"From Cache!");
+        }
+    }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
-
+    
     
     return cell;
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat width = self.view.frame.size.width/3;
+    CGFloat width = self.view.frame.size.width/2;
     return CGSizeMake(width, width);
 }
 
@@ -97,24 +139,15 @@
 }
 
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"photoDetails"])
     {
     
-        ImagesViewController *cell = (ImagesViewController*)sender;
+        UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
-        ImagesDetailsViewController *imageVC = (ImagesDetailsViewController *)[segue destinationViewController];
-        imageVC.img = [UIImage imageNamed:self.arrayWithImages[indexPath.item]];
-        
+        ImagesDetailsViewController *imageVC = segue.destinationViewController;
+        imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
     }
     
 }

@@ -14,9 +14,10 @@
 
 @interface DataStore : NSObject
 
-@property (nonatomic, strong)NSArray *downloadedPictures;
+@property (nonatomic, strong)NSMutableArray *downloadedPictures;
 @property (nonatomic, strong)NSMutableArray *comments;
 @property (nonatomic, strong)NSMutableArray *userPictures;
+@property (nonatomic, strong)NSMutableArray *controllers;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -29,7 +30,7 @@
 
 -(void)inputCommentWithComment:(NSString *)comment
                        imageID:(NSString *)imageID
-                withCompletion:(void(^)(BOOL complete))completionBlock;
+                withCompletion:(void(^)(PFObject *comment))completionBlock;
 
 -(void)likeImageWithImageID:(NSString *)imageID
              withCompletion:(void(^)(BOOL complete))completionBlock;
@@ -38,5 +39,9 @@
 
 -(void)fetchUserImagesWithCompletion:(void(^)(BOOL complete))completionBlock;
 
++(PFUser *)getUserWithObjectID:(NSString *)objectID;
+
+-(void)getAllCommentsWithImageID:(NSString *)imageID
+                  withCompletion:(void(^)(BOOL complete))completionBlock;
 
 @end

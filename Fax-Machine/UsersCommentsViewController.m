@@ -14,6 +14,10 @@
 
 @property (nonatomic, strong)DataStore *dataStore;
 
+@property (weak, nonatomic) IBOutlet UITableView *commentsTable;
+@property (weak, nonatomic) IBOutlet UITextField *txtField;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbarIBOutlet;
+
 @end
 
 @implementation UsersCommentsViewController
@@ -24,7 +28,6 @@
     self.commentsTable.delegate = self;
     self.commentsTable.dataSource = self;
     self.txtField.delegate = self;
-    //self.usersCommentsArray = [[NSMutableArray alloc]init];
     self.view.backgroundColor = [UIColor grayColor];
     
 }
@@ -37,7 +40,9 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataStore.comments.count;
+    
+    NSLog(@"Whats up with this count : %ld", self.selectedImage.comments.count);
+    return self.selectedImage.comments.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
@@ -46,23 +51,24 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-   
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-   if (cell == nil) {
+    if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-
+        
         cell.backgroundColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
-      
-          // [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
-      
+        
+        // [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
+        
     }
-    
-        cell.detailTextLabel.text = @"User1";
-        //cell.textLabel.text = self.usersCommentsArray[indexPath.row];
-        cell.textLabel.text = self.dataStore.comments[indexPath.row];
+    //PFObject *user = [DataStore getUserWithObjectID:self.selectedImage.owner.objectId] ;
+    //NSLog(@"User: %@", user[@"username"]);
+    //cell.detailTextLabel.text = user[@"username"];
+    PFObject *comment = self.selectedImage.comments[indexPath.row];
+    cell.textLabel.text = comment[@"userComment"];
     return cell;
 }
 
@@ -75,10 +81,30 @@
 
 - (IBAction)addCommentButton:(UIBarButtonItem *)sender {
     
-//    Comment *commentObject = [Comment alloc]initWithComment:self.txtField.text image:<#(ImageObject *)#>
-    [self.dataStore.comments addObject:self.txtField.text];
-    [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+    //Comment *commentObject = [[Comment alloc]initWithComment:self.txtField.text image:self.selectedImage];
+    //PFObject *
+    //[self.selectedImage.comments addObject:commentObject];
+    //[self.usersCommentsArray addObject:commentObject];
+    if (self.txtField.text.length && ![self.txtField.text isEqualToString:@" "]) {
+        
+        NSLog(@"It's an OK message.");
+        
+        NSString *enteredText = [self.txtField.text copy];
+        
+        [self.dataStore inputCommentWithComment:enteredText imageID:self.selectedImage.imageID withCompletion:^(PFObject *comment) {
+            [self.selectedImage.comments addObject:comment];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }];
+//            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.selectedImage.comments.count inSection:0];
+//            [self.commentsTable reloadRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            
+//            [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }];
+    }else{
+        NSLog(@"Invalid Comment");
+    }
+    self.txtField.text = @"";
 }
 
 - (IBAction)textFieldAction:(UITextField *)sender {

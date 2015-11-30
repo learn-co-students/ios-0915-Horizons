@@ -20,6 +20,10 @@
 		766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1861BFBA81000C4140E /* Assets.xcassets */; };
 		766FC18A1BFBA81000C4140E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC1921BFBABC000C4140E /* ImageUploadViewController.m */; };
+		76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
+		896376111C0D0106001F0E72 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 896376101C0D0106001F0E72 /* APIConstants.m */; };
+		8965CA691C050ED100E37A30 /* filterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965CA681C050ED100E37A30 /* filterViewController.m */; };
+		8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */; };
 		89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9B1BFD133F007D3613 /* FXMCity.m */; };
 		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
@@ -40,9 +44,6 @@
 		E24803081BFE4DF7005AB1D5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24803071BFE4DF7005AB1D5 /* LoginViewController.swift */; };
 		E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */; };
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
-		E24803101C03B87C005AB1D5 /* list of countries in Resources */ = {isa = PBXBuildFile; fileRef = E248030F1C03B87B005AB1D5 /* list of countries */; };
-		E24803121C03BE07005AB1D5 /* countries in Resources */ = {isa = PBXBuildFile; fileRef = E24803111C03BE07005AB1D5 /* countries */; };
-		E24803161C03D1AB005AB1D5 /* countryList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E24803151C03D1AB005AB1D5 /* countryList.txt */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
 		E2F6A9BE1C05217B003BCEBE /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F6A9BD1C05217B003BCEBE /* APIConstants.m */; };
@@ -78,6 +79,10 @@
 		766FC18B1BFBA81000C4140E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		766FC1911BFBABC000C4140E /* ImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadViewController.h; sourceTree = "<group>"; };
 		766FC1921BFBABC000C4140E /* ImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadViewController.m; sourceTree = "<group>"; };
+		896376101C0D0106001F0E72 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		8965CA671C050ED100E37A30 /* filterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filterViewController.h; path = filterView/filterViewController.h; sourceTree = "<group>"; };
+		8965CA681C050ED100E37A30 /* filterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = filterViewController.m; path = filterView/filterViewController.m; sourceTree = "<group>"; };
+		8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = filterStoryboard.storyboard; path = ../filterStoryboard.storyboard; sourceTree = "<group>"; };
 		89C98F9A1BFD133F007D3613 /* FXMCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMCity.h; sourceTree = "<group>"; };
 		89C98F9B1BFD133F007D3613 /* FXMCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXMCity.m; sourceTree = "<group>"; };
 		89C98F9D1BFD1366007D3613 /* FXMWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMWeather.h; sourceTree = "<group>"; };
@@ -113,9 +118,6 @@
 		E24803091BFE511B005AB1D5 /* BaseLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLoginViewController.swift; sourceTree = "<group>"; };
 		E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E248030D1BFFB57B005AB1D5 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../Documents/FacebookSDKs-iOS-20151111/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
-		E248030F1C03B87B005AB1D5 /* list of countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "list of countries"; path = "../../../../Downloads/list of countries"; sourceTree = "<group>"; };
-		E24803111C03BE07005AB1D5 /* countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = countries; path = ../../../../Downloads/countries; sourceTree = "<group>"; };
-		E24803151C03D1AB005AB1D5 /* countryList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = countryList.txt; path = ../../../../Documents/countryList.txt; sourceTree = "<group>"; };
 		E262BFFA1BFCE0D200C81C53 /* APIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIConstants.h; sourceTree = "<group>"; };
 		E262BFFB1BFCE0D200C81C53 /* ParseAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseAPIClient.h; sourceTree = "<group>"; };
 		E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseAPIClient.m; sourceTree = "<group>"; };
@@ -234,9 +236,6 @@
 		766FC17A1BFBA81000C4140E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E248030F1C03B87B005AB1D5 /* list of countries */,
-				E24803111C03BE07005AB1D5 /* countries */,
-				E24803151C03D1AB005AB1D5 /* countryList.txt */,
 				766FC1861BFBA81000C4140E /* Assets.xcassets */,
 				B79E42811BFD39110068B249 /* Selma-Notes.rtf */,
 				766FC18B1BFBA81000C4140E /* Info.plist */,
@@ -249,9 +248,12 @@
 			isa = PBXGroup;
 			children = (
 				E2F6A9BF1C0CAA0E003BCEBE /* userPhotos.storyboard */,
+				8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */,
 				B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */,
 				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
 				E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */,
+				8965CA671C050ED100E37A30 /* filterViewController.h */,
+				8965CA681C050ED100E37A30 /* filterViewController.m */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -411,16 +413,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E24803121C03BE07005AB1D5 /* countries in Resources */,
 				766FC18A1BFBA81000C4140E /* (null) in Resources */,
+				8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */,
 				B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */,
-				E24803161C03D1AB005AB1D5 /* countryList.txt in Resources */,
-				E2F6A9C01C0CAA0E003BCEBE /* userPhotos.storyboard in Resources */,
 				B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
 				E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
-				E24803101C03B87C005AB1D5 /* list of countries in Resources */,
 				B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,6 +487,8 @@
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
 				B7D3E2B61BFEBEBF00E28028 /* UsersCommentsViewController.m in Sources */,
 				B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */,
+				8965CA691C050ED100E37A30 /* filterViewController.m in Sources */,
+				76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */,
 				B7D3E2B31BFEA4E200E28028 /* ImagesDetailsViewController.m in Sources */,
 				B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */,
 				B7D3E2B91BFECACB00E28028 /* SearchViewController.m in Sources */,

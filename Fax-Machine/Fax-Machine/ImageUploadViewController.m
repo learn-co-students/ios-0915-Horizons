@@ -41,6 +41,8 @@
 @property (nonatomic, strong) ImageObject *parseImageObject;
 
 @property (nonatomic, strong) FCCurrentLocationGeocoder *geoCoder;
+
+@property (nonatomic, strong) NSDate *creationDate;
 @property (nonatomic, strong)NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet UIStackView *stackView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerVerticallyConstraint;
@@ -227,7 +229,8 @@
         NSLog(@"With location info!");
     }
     else{
-        self.parseImageObject = [[ImageObject alloc]initWithTitle:@"Default Title" imageID:fileName mood:@"Default Mood" location:[Location new]];
+        self.location = [[Location alloc] initWithCity:self.cityTextField.text country:self.countryTextField.text geoPoint:[PFGeoPoint geoPoint] dateTaken:self.creationDate];
+        self.parseImageObject = [[ImageObject alloc]initWithTitle:@"Default Title" imageID:fileName mood:self.moodTextField.text location:self.location];
         NSLog(@"With no location info!");
     }
     [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
@@ -436,6 +439,7 @@
                     PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
                     NSMutableDictionary *dic = [@{@"location" : asset.location,
                                                   @"date" : asset.creationDate} mutableCopy];
+                    self.creationDate = asset.creationDate;
                     [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
                      {
                          self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
@@ -455,7 +459,7 @@
                 
             } else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
                 //When image source equals to Camera
-                
+                self.creationDate = [NSDate date];
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     self.geoCoder = [FCCurrentLocationGeocoder sharedGeocoder];
                     self.geoCoder.canUseIPAddressAsFallback = YES;

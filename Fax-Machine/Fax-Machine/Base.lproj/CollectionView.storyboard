@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="tSK-bv-2Qw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="tSK-bv-2Qw">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
@@ -205,12 +205,13 @@
                                             <action selector="likeButton:" destination="WTS-eO-ffq" id="7pf-yJ-Z56"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Item" id="CxS-Ol-VsK"/>
                                     <barButtonItem title="💬" id="pvB-q4-1Rq">
                                         <connections>
-                                            <action selector="commentIcon:" destination="WTS-eO-ffq" id="0M1-tk-bgB"/>
                                             <segue destination="b3V-pr-HBo" kind="show" identifier="inputComments" id="gOV-GA-r42"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Item" id="Ise-mO-Zp9"/>
                                     <barButtonItem id="PcX-v7-udV"/>
                                 </items>
                             </toolbar>
@@ -242,7 +243,10 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="belowPictureTableView" destination="OpD-vO-aK1" id="tKi-Rd-vnN"/>
+                        <outlet property="commentButton" destination="pvB-q4-1Rq" id="v9M-Dk-D9K"/>
+                        <outlet property="commentCountLable" destination="Ise-mO-Zp9" id="BQP-lr-UZQ"/>
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
+                        <outlet property="likeCountLabel" destination="CxS-Ol-VsK" id="hI7-E0-oyd"/>
                         <outlet property="likeIcon" destination="zZT-UH-2Iv" id="ZLF-h1-exg"/>
                         <outlet property="likesCounter" destination="zZT-UH-2Iv" id="HYI-at-5IS"/>
                     </connections>

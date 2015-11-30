@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong)NSMutableArray *downloadedPictures;
 @property (nonatomic, strong)NSMutableArray *comments;
+@property (nonatomic, strong)NSMutableArray *controllers;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;

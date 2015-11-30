@@ -40,6 +40,8 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
+    NSLog(@"Whats up with this count : %ld", self.selectedImage.comments.count);
     return self.selectedImage.comments.count;
 }
 
@@ -84,10 +86,20 @@
     //[self.selectedImage.comments addObject:commentObject];
     //[self.usersCommentsArray addObject:commentObject];
     if (self.txtField.text.length && ![self.txtField.text isEqualToString:@" "]) {
-        [self.dataStore inputCommentWithComment:self.txtField.text imageID:self.selectedImage.imageID withCompletion:^(PFObject *comment) {
-            NSLog(@"Comment input successfully!");
+        
+        NSLog(@"It's an OK message.");
+        
+        NSString *enteredText = [self.txtField.text copy];
+        
+        [self.dataStore inputCommentWithComment:enteredText imageID:self.selectedImage.imageID withCompletion:^(PFObject *comment) {
             [self.selectedImage.comments addObject:comment];
-            [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }];
+//            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.selectedImage.comments.count inSection:0];
+//            [self.commentsTable reloadRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            
+//            [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }];
     }else{
         NSLog(@"Invalid Comment");

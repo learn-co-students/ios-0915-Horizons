@@ -58,6 +58,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [self.imagesCollectionViewController reloadData];
+    [self.dataStore.controllers addObject: self];
 }
 
 - (RESideMenu *)sideMenuViewController

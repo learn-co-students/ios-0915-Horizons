@@ -30,6 +30,7 @@
   if (self) {
       _comments = [NSMutableArray new];
       _downloadedPictures = [NSMutableArray new];
+      _controllers = [NSMutableArray new];
   }
   return self;
 }
@@ -46,8 +47,13 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery completion:^(NSArray *data) {
         for (PFObject *parseImageObject in data) {
-//            NSString *imageID = parseImageObject[@"imageID"];
-            ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:parseImageObject[@"comments"] objectID:parseImageObject.objectId];
+
+            NSMutableArray *commentsForItem = [NSMutableArray new];
+            if (parseImageObject[@"comments"]) {
+                commentsForItem = parseImageObject[@"comments"];
+            }
+            ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:commentsForItem
+                                                                objectID:parseImageObject.objectId];
             
             //NSLog(@"Image ID: %@", parseImage.imageID);
             [self.downloadedPictures addObject:parseImage];

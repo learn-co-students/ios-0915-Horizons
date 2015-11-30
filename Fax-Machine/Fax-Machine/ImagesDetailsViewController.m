@@ -108,8 +108,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
         
         cell.backgroundColor = [UIColor whiteColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
         
     }
@@ -135,15 +135,17 @@
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
     if (!self.liked) {
-        NSLog(@"Testing!!!");
-        FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
-        self.likesCounter.image = [heart imageWithSize:CGSizeMake(20, 20)];
+        [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
+            self.liked = YES;
+            NSLog(@"Testing!!!");
+            FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
+            self.likesCounter.image = [heart imageWithSize:CGSizeMake(20, 20)];
+            
+            self.image.likes = @([self.image.likes integerValue] + 1);
+            self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
+        }];
         
-        NSUInteger likes = [self.image.likes integerValue] + 1;
         
-        self.likeCountLabel.title = [NSString stringWithFormat:@"%lu", likes];
-        
-        self.liked = YES;
         //self.photoLikesCounter += 1;
         //self.likesCounter.tintColor= [UIColor whiteColor];
         //self.likesCounter.title = [NSString stringWithFormat:@"1"];

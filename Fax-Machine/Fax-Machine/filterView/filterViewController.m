@@ -11,6 +11,7 @@
 
 @interface filterViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 @property (weak, nonatomic) IBOutlet UIPickerView *filterPicker;
+@property (strong, nonatomic) NSString *chosenCountry;
 
 @end
 
@@ -53,17 +54,39 @@
 //third will be moods, which is a pre-defined array
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
+    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
+    NSArray *queryArray = [query findObjects];
+    
     if (component == 0)
     {
         //get count of countries from parse
-        PFQuery *countryquery = [PFQuery queryWithClassName:@"Location"];
-        [countryquery ]
-        return nil;
+        NSMutableArray *countriesArray = [[NSMutableArray alloc] init];
+        for (PFObject *object in queryArray)
+        {
+            NSString *countryOfObject = object[@"country"];
+            if (![countriesArray containsObject:countryOfObject])
+            {
+                [countriesArray addObject:countryOfObject];
+            }
+        }
+        return countriesArray.count;
+        
     }
     else if (component == 1)
     {
-        //get count of cities from parse
-        return nil;
+        //get count of cities of chosen country from parse
+        NSMutableArray *citiesArray = [[NSMutableArray alloc] init];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"country = %@", self.chosenCountry];
+        NSArray *objectsWithMatchingCountry = [queryArray filteredArrayUsingPredicate:predicate];
+        for (PFObject *object in objectsWithMatchingCountry)
+        {
+            NSString *cityOfObject = object[@"city"];
+            if (![citiesArray containsObject:cityOfObject])
+            {
+                [citiesArray addObject:cityOfObject];
+            }
+        }
+        return citiesArray.count;
     }
     else
     {
@@ -72,6 +95,9 @@
     }
 
 }
-
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return nil;
+}
 
 @end

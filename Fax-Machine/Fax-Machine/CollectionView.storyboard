@@ -319,7 +319,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eL2-3r-5qG">
                                         <rect key="frame" x="8" y="569" width="305" height="30"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="8Xx-Dy-pj8">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="8Xx-Dy-pj8">
                                                 <rect key="frame" x="0.0" y="0.0" width="305" height="30"/>
                                                 <animations/>
                                                 <constraints>
@@ -352,7 +352,6 @@
                                     <constraint firstItem="8Xx-Dy-pj8" firstAttribute="leading" secondItem="qMI-X9-Z1B" secondAttribute="leading" constant="8" id="j4B-AH-NMg"/>
                                     <constraint firstItem="8Xx-Dy-pj8" firstAttribute="top" secondItem="xnv-Kq-JNp" secondAttribute="bottom" constant="8" id="pB3-oq-m6I"/>
                                     <constraint firstAttribute="trailing" secondItem="8Xx-Dy-pj8" secondAttribute="trailing" constant="62" id="u1L-6Q-cJb"/>
-                                    <constraint firstItem="8Xx-Dy-pj8" firstAttribute="top" secondItem="qMI-X9-Z1B" secondAttribute="top" constant="569" id="wEo-ed-GO8"/>
                                 </constraints>
                             </scrollView>
                         </subviews>

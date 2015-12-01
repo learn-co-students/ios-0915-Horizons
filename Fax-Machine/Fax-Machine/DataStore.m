@@ -32,6 +32,7 @@
     _userPictures = [[NSMutableArray alloc]init];
       _downloadedPictures = [NSMutableArray new];
       _controllers = [NSMutableArray new];
+    _isUserVC = NO;
   }
   return self;
 }

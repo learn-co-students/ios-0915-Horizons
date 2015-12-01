@@ -52,6 +52,8 @@
 - (void)sideMenu:(RESideMenu *)sideMenu didHideMenuViewController:(UIViewController *)menuViewController
 {
     NSLog(@"didHideMenuViewController: %@", NSStringFromClass([menuViewController class]));
+  
+  
 }
 
 @end

@@ -52,6 +52,11 @@
     
     UIStoryboard *uploadImage = [UIStoryboard storyboardWithName:@"ImageUpload" bundle:nil];
     UINavigationController *navController;
+  
+//  UIStoryboard *baseStoryboard = [UIStoryboard storyboardWithName:@"userViewController" bundle:nil];
+  ImagesViewController *VC = [self.storyboard instantiateViewControllerWithIdentifier:@"userViewController"];
+  ImagesViewController *imageViewVC = self.store.controllers[0];
+
     switch (indexPath.row) {
         case 1:
             [self.sideMenuViewController hideMenuViewController];
@@ -63,13 +68,32 @@
             navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             
             [self.sideMenuViewController setContentViewController:navController];
+        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"isUserVC"];
+
             break;
         case 2:
             [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
             break;
       case 3:
-        [self presentViewController:[[UIStoryboard storyboardWithName:@"CollectionView" bundle:nil] instantiateViewControllerWithIdentifier:@"homeViewController"] animated:YES completion:nil];
+      {
+        [self.store.userPictures removeAllObjects];
+        navController = [[UINavigationController alloc]initWithRootViewController:imageViewVC];
+        navController.navigationBar.shadowImage = [UIImage new];
+        navController.navigationBar.translucent = YES;
+        navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
+          if (complete) {
+            [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+              [self.sideMenuViewController hideMenuViewController];
+              imageViewVC.isUserImageVC = YES;
+              [self.sideMenuViewController setContentViewController:navController];
+              
+            }];
+          }
+        }];
+      }
         break;
+    
         case 5:
             [self.store logoutWithSuccess:^(BOOL success) {
                 [self.store.downloadedPictures removeAllObjects];

@@ -43,6 +43,6 @@
 
 +(void)getUserImagesWithCompletion: (void (^)(BOOL))complete;
 
-
++(void)getFavoriteImagesWithCompletion:(void (^)(NSArray *images))completionBlock;
 
 @end

@@ -21,7 +21,7 @@
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
-@property (nonatomic, strong) NSMutableArray *downloadedImages;
+//@property (nonatomic, strong) NSMutableArray *downloadedImages;
 
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic)NSUInteger *timesThatThisScreenLoaded;
@@ -45,15 +45,15 @@
   //[self.dataStore fetchUserImagesWithCompletion:^(BOOL complete){
   //
 
-  BOOL isUserVC = [[NSUserDefaults standardUserDefaults]objectForKey:@"isUserVC"];
-  NSLog(@"%d",isUserVC);
+
+//    self.isFavorite = NO;
   
     FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
     FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
     self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
     
-    self.downloadedImages = [NSMutableArray new];
+//    self.downloadedImages = [NSMutableArray new];
     self.dataStore = [DataStore sharedDataStore];
     [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
         if (complete) {
@@ -68,6 +68,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    //NSLog(@"isFavorite: %d", self.isFavorite);
     [self.imagesCollectionViewController reloadData];
     [self.dataStore.controllers addObject: self];
 }
@@ -101,24 +102,31 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.dataStore.downloadedPictures.count;
+    if (self.isFavorite) {
+        return self.dataStore.favoriteImages.count;
+    }else{
+        return self.dataStore.downloadedPictures.count;
+    }
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-
-    ImageObject *parseImage = self.dataStore.downloadedPictures[indexPath.row];
+    ImageObject *parseImage;
+    if (self.isFavorite) {
+        parseImage = self.dataStore.favoriteImages[indexPath.row];
+    }else{
+        parseImage = self.dataStore.downloadedPictures[indexPath.row];
+    }
 
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu", parseImage.likes, parseImage.comments.count];
-    //[self.downloadedImages addObject:url];
     
 //    [cell.myImage yy_setImageWithURL:url options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-        if (from == YYWebImageFromDiskCache) {
-            NSLog(@"From Cache!");
-        }
+//        if (from == YYWebImageFromDiskCache) {
+//            NSLog(@"From Cache!");
+//        }
     }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
@@ -151,7 +159,14 @@
         UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
-        imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
+        if (self.isFavorite) {
+            imageVC.image = self.dataStore.favoriteImages[indexPath.row];
+            
+           // [self.dataStore getOwnerWithObjectID:<#(NSString *)#> success:<#^(PFUser *owner)success#>]
+        }else{
+            imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
+        }
+        //imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
     }
     
 }

@@ -334,15 +334,16 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewd-kb-V25">
                                         <rect key="frame" x="305" y="0.0" width="70" height="30"/>
                                         <animations/>
-                                        <state key="normal" title="Post">
-                                            <color key="titleColor" white="0.37" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <state key="normal" title="Post"/>
                                         <connections>
                                             <action selector="addCommentButton:" destination="lGr-98-5rs" eventType="touchUpInside" id="a2l-bq-e0p"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </stackView>
                         </subviews>
                         <animations/>

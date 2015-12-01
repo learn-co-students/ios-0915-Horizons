@@ -377,11 +377,8 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ysa-Al-BRL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< HEAD:Fax-Machine/Fax-Machine/Base.lproj/CollectionView.storyboard
-            <point key="canvasLocation" x="6164.5" y="466.5"/>
-=======
+
             <point key="canvasLocation" x="5848.5" y="380.5"/>
->>>>>>> master:Fax-Machine/Fax-Machine/CollectionView.storyboard
         </scene>
         <!--Profile Menu Root View Controller-->
         <scene sceneID="9yq-qV-AK6">

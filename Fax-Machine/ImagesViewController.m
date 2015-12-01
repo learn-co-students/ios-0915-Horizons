@@ -104,7 +104,9 @@
 {
     if (self.isFavorite) {
         return self.dataStore.favoriteImages.count;
-    }else{
+    } else if (self.isUserImageVC){
+      return self.dataStore.userPictures.count;
+    } else{
         return self.dataStore.downloadedPictures.count;
     }
 }
@@ -114,7 +116,9 @@
     ImageObject *parseImage;
     if (self.isFavorite) {
         parseImage = self.dataStore.favoriteImages[indexPath.row];
-    }else{
+    } else if (self.isUserImageVC){
+      parseImage = self.dataStore.userPictures[indexPath.row];
+    } else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
@@ -163,7 +167,9 @@
             imageVC.image = self.dataStore.favoriteImages[indexPath.row];
             
            // [self.dataStore getOwnerWithObjectID:<#(NSString *)#> success:<#^(PFUser *owner)success#>]
-        }else{
+        } else if (self.isUserImageVC) {
+          imageVC.image = self.dataStore.userPictures[indexPath.row];
+        } else{
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }
         //imageVC.image = self.dataStore.downloadedPictures[indexPath.row];

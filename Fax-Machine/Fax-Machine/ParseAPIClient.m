@@ -45,7 +45,7 @@
                         failure:(void (^)(NSError *))failure{
     //Quering the Photo object from Parse with filter parameters.
     PFQuery *query = [PFQuery queryWithClassName:@"Image" predicate:predicate];
-    [query includeKey:@"comments"];
+    //[query includeKey:@"comments"];
     [query includeKey:@"owner"];
     [query includeKey:@"location"];
     //Setting the maximum numbers of return objects.
@@ -72,6 +72,8 @@
                                 failure:(void (^)(NSError *))failure{
     [ParseAPIClient fetchImageWithImageID:imageID completion:^(PFObject *data) {
         PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+        
+        [query includeKey:@"owner"];
         [query orderByAscending:@"createdAt"];
         //Querying the relatedImage column in Parse with content equal to the given imageObject.
         [query whereKey:@"relatedImage" equalTo:data];
@@ -126,10 +128,6 @@
                       imageObject:(PFObject *)imageObject
                           success:(void (^)(BOOL))success
                           failure:(void (^)(NSError *))failure{
-//    PFObject *parseComment = [PFObject objectWithClassName:@"Comment"];
-//    parseComment[@"userComment"] = comment;
-//    parseComment[@"owner"] = [PFUser currentUser];
-//    parseComment[@"relatedImage"] = imageObject;
     [comment saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             [imageObject addObject:comment forKey:@"comments"];
@@ -186,22 +184,20 @@
     }];
 }
 
+/**
+ *  Retrieving a list of images 
+ *
+ *  @param complete
+ */
 +(void)getUserImagesWithCompletion: (void (^)(BOOL))complete
 {
 
     PFUser *currentUser = [PFUser currentUser];
-    NSMutableArray *images = [[NSMutableArray alloc]init];
+//    NSMutableArray *images = [[NSMutableArray alloc]init];
     PFQuery *photoQuery = [PFQuery queryWithClassName:@"Image"];
     [photoQuery whereKey:@"owner" equalTo:currentUser];
     [photoQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
       if (!error) {
-        NSLog(@"object count: %lu",objects.count);
-        for (PFObject *object in objects) {
-          NSLog(@"%@", object.objectId);
-          NSString *imageID = [object valueForKey:@"imageID"];
-          [images addObject:imageID];
-        }
-        NSLog(@"images: %@",images);
         complete(YES);
         
       } else {
@@ -211,13 +207,17 @@
   
 }
 
+/**
+ *  Retriving all the images an user liked.
+ *
+ *  @param completionBlock Callback with returned images.
+ */
 +(void)getFavoriteImagesWithCompletion:(void (^)(NSArray *))completionBlock{
     PFQuery *userQuery = [PFUser query];
     [userQuery whereKey:@"objectId" equalTo:[PFUser currentUser].objectId];
     [userQuery includeKey:@"savedImages"];
     
     [userQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        NSLog(@"object: %@", object[@"savedImages"]);
         completionBlock(object[@"savedImages"]);
     }];
 }

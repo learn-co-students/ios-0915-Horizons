@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollectionViewController;
 @property (strong, readonly, nonatomic) RESideMenu *sideMenuViewController;
+@property (nonatomic)BOOL isUserImageVC;
 
 @property (nonatomic) BOOL isFavorite;
 

@@ -13,8 +13,10 @@
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import "RESideMenu.h"
 
-@interface ImagesViewController ()
+
+@interface ImagesViewController () <RESideMenuDelegate>
 
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
@@ -22,7 +24,7 @@
 //@property (nonatomic, strong) NSMutableArray *downloadedImages;
 
 @property (nonatomic, strong) DataStore *dataStore;
-
+@property (nonatomic)NSUInteger *timesThatThisScreenLoaded;
 @end
 
 @implementation ImagesViewController
@@ -35,13 +37,14 @@
                                                   green:0.66
                                                    blue:0.66
                                                   alpha:0.75]];
-    
+  self.timesThatThisScreenLoaded = self.timesThatThisScreenLoaded + 1;
 //    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
     self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
   
 //  self.arrayWithImages = [
   //[self.dataStore fetchUserImagesWithCompletion:^(BOOL complete){
   //
+
 
 //    self.isFavorite = NO;
   
@@ -59,11 +62,13 @@
             }];
         }
     }];
-    
+  
+  
+  
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"isFavorite: %d", self.isFavorite);
+    //NSLog(@"isFavorite: %d", self.isFavorite);
     [self.imagesCollectionViewController reloadData];
     [self.dataStore.controllers addObject: self];
 }
@@ -83,7 +88,6 @@
     return nil;
 }
 
-
 - (IBAction)presentLeftMenu:(id)sender {
     
     [self.sideMenuViewController presentLeftMenuViewController];
@@ -99,9 +103,10 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (self.isFavorite) {
-        NSLog(@"Favorite images count: %lu", self.dataStore.favoriteImages.count);
         return self.dataStore.favoriteImages.count;
-    }else{
+    } else if (self.isUserImageVC){
+      return self.dataStore.userPictures.count;
+    } else{
         return self.dataStore.downloadedPictures.count;
     }
 }
@@ -111,7 +116,9 @@
     ImageObject *parseImage;
     if (self.isFavorite) {
         parseImage = self.dataStore.favoriteImages[indexPath.row];
-    }else{
+    } else if (self.isUserImageVC){
+      parseImage = self.dataStore.userPictures[indexPath.row];
+    } else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
@@ -158,7 +165,11 @@
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
         if (self.isFavorite) {
             imageVC.image = self.dataStore.favoriteImages[indexPath.row];
-        }else{
+            
+           // [self.dataStore getOwnerWithObjectID:<#(NSString *)#> success:<#^(PFUser *owner)success#>]
+        } else if (self.isUserImageVC) {
+          imageVC.image = self.dataStore.userPictures[indexPath.row];
+        } else{
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }
         //imageVC.image = self.dataStore.downloadedPictures[indexPath.row];

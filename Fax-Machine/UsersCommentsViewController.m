@@ -46,8 +46,6 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    NSLog(@"Whats up with this count : %ld", self.selectedImage.comments.count);
     return self.selectedImage.comments.count;
 }
 
@@ -66,9 +64,6 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
-        
-        // [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
-        
     }
   
     PFObject *comment = self.selectedImage.comments[indexPath.row];

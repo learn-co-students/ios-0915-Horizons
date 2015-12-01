@@ -46,7 +46,7 @@
 -(void)getFavoriteImagesWithSuccess:(void (^)(BOOL success))success;
 
 -(void)getOwnerWithObjectID:(NSString *)objectId
-                    success:(void (^)(BOOL success))success;
+                    success:(void (^)(PFUser *owner))success;
 
 
 @end

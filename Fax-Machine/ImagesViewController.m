@@ -63,7 +63,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"isFavorite: %d", self.isFavorite);
+    //NSLog(@"isFavorite: %d", self.isFavorite);
     [self.imagesCollectionViewController reloadData];
     [self.dataStore.controllers addObject: self];
 }
@@ -99,7 +99,6 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (self.isFavorite) {
-        NSLog(@"Favorite images count: %lu", self.dataStore.favoriteImages.count);
         return self.dataStore.favoriteImages.count;
     }else{
         return self.dataStore.downloadedPictures.count;
@@ -158,6 +157,8 @@
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
         if (self.isFavorite) {
             imageVC.image = self.dataStore.favoriteImages[indexPath.row];
+            
+           // [self.dataStore getOwnerWithObjectID:<#(NSString *)#> success:<#^(PFUser *owner)success#>]
         }else{
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }

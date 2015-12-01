@@ -78,7 +78,6 @@
     [super viewWillAppear:animated];
     [self.belowPictureTableView reloadData];
     self.commentCountLable.title = [NSString stringWithFormat:@"%lu", self.image.comments.count];
-    NSLog(@"Commets: %lu", self.image.comments.count);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,19 +113,14 @@
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
         
     }
-    //PFUser *user = self.image.owner;
     //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
-    //cell.detailTextLabel.text = comment[@"owner"];
+    PFUser *user = comment[@"owner"];
+    cell.detailTextLabel.text = user.username;
     cell.textLabel.text = comment[@"userComment"];
     
     return cell;
 }
-
-//- (IBAction)commentIcon:(UIBarButtonItem *)sender {
-//    
-//}
-//
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
@@ -146,12 +140,6 @@
             self.image.likes = @([self.image.likes integerValue] + 1);
             self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
         }];
-        
-        
-        //self.photoLikesCounter += 1;
-        //self.likesCounter.tintColor= [UIColor whiteColor];
-        //self.likesCounter.title = [NSString stringWithFormat:@"1"];
-        //self.likesCounter.title = [NSString stringWithFormat:@"❤️ %ld", self.photoLikesCounter];
     }
 }
 @end

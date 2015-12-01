@@ -27,9 +27,9 @@
 		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
-		B75CA7BA1C050A98005334C2 /* CustomTextInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
-		B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */; };
+		B7708AFF1C0DFB7A00F66FE5 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B7708AFE1C0DFB7A00F66FE5 /* APIConstants.m */; };
+		B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
 		B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426F1BFCD2490068B249 /* ImagesCustomCell.m */; };
 		B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B79E42811BFD39110068B249 /* Selma-Notes.rtf */; };
@@ -45,7 +45,6 @@
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
-		E2F6A9BE1C05217B003BCEBE /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F6A9BD1C05217B003BCEBE /* APIConstants.m */; };
 		E2F6A9C31C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -87,10 +86,9 @@
 		89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
-		B75CA7B81C050A98005334C2 /* CustomTextInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextInputViewController.h; sourceTree = "<group>"; };
-		B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextInputViewController.m; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
-		B76D0E261BFF7BDF002056A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CollectionView.storyboard; sourceTree = "<group>"; };
+		B7708AFE1C0DFB7A00F66FE5 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 		B79E426B1BFCD0E70068B249 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = ../ImagesViewController.h; sourceTree = "<group>"; };
 		B79E426C1BFCD0E70068B249 /* ImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagesViewController.m; path = ../ImagesViewController.m; sourceTree = "<group>"; };
 		B79E426E1BFCD2490068B249 /* ImagesCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesCustomCell.h; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 		E262C0011BFCE1FB00C81C53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ImageUpload.storyboard; sourceTree = "<group>"; };
 		E262C0031BFCEA4000C81C53 /* AWSDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSDownloadManager.h; sourceTree = "<group>"; };
 		E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSDownloadManager.m; sourceTree = "<group>"; };
-		E2F6A9BD1C05217B003BCEBE /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
 		E2F6A9BF1C0CAA0E003BCEBE /* userPhotos.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = userPhotos.storyboard; sourceTree = "<group>"; };
 		E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPhotosCollectionViewController.h; sourceTree = "<group>"; };
 		E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPhotosCollectionViewController.m; sourceTree = "<group>"; };
@@ -180,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
-				E2F6A9BD1C05217B003BCEBE /* APIConstants.m */,
+				B7708AFE1C0DFB7A00F66FE5 /* APIConstants.m */,
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
 				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
 			);
@@ -246,7 +243,7 @@
 			children = (
 				E2F6A9BF1C0CAA0E003BCEBE /* userPhotos.storyboard */,
 				8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */,
-				B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */,
+				B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */,
 				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
 				E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */,
 				8965CA671C050ED100E37A30 /* filterViewController.h */,
@@ -319,8 +316,6 @@
 		B76D0E321BFF8E9F002056A2 /* CustomTextInput */ = {
 			isa = PBXGroup;
 			children = (
-				B75CA7B81C050A98005334C2 /* CustomTextInputViewController.h */,
-				B75CA7B91C050A98005334C2 /* CustomTextInputViewController.m */,
 			);
 			name = CustomTextInput;
 			sourceTree = "<group>";
@@ -417,7 +412,7 @@
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
 				E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
-				B76D0E2A1BFF7BDF002056A2 /* CollectionView.storyboard in Resources */,
+				B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7708AFF1C0DFB7A00F66FE5 /* APIConstants.m in Sources */,
 				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
 				89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */,
@@ -490,7 +486,6 @@
 				B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */,
 				B7D3E2B91BFECACB00E28028 /* SearchViewController.m in Sources */,
 				E24802FB1BFD3062005AB1D5 /* AWSUploadManager.m in Sources */,
-				E2F6A9BE1C05217B003BCEBE /* APIConstants.m in Sources */,
 				E24803041BFE2993005AB1D5 /* SignUpViewController.m in Sources */,
 				E24802F81BFD16AA005AB1D5 /* DataStore.m in Sources */,
 				766FC17C1BFBA81000C4140E /* main.m in Sources */,
@@ -502,7 +497,6 @@
 				E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */,
 				761E1EAA1BFD2B2D00BD5375 /* Comment.m in Sources */,
 				761E1EB71BFD320F00BD5375 /* ImageObject.m in Sources */,
-				B75CA7BA1C050A98005334C2 /* CustomTextInputViewController.m in Sources */,
 				761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */,
 				E2F6A9C31C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m in Sources */,
 				761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */,
@@ -512,14 +506,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B76D0E261BFF7BDF002056A2 /* Base */,
-			);
-			name = CollectionView.storyboard;
-			sourceTree = "<group>";
-		};
 		E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -15,7 +15,11 @@
 
 @interface ImagesDetailsViewController ()
 
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (weak, nonatomic) IBOutlet UIImageView *imageDetails;
+@property (weak, nonatomic) IBOutlet UITableView *belowPictureTableView;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *likeButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
@@ -33,20 +37,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataStore = [DataStore sharedDataStore];
-    //NSLog(@"Commets: %@", self.dataStore.comments[0]);
+
     self.belowPictureTableView.delegate = self;
     self.belowPictureTableView.dataSource = self;
-    //self.imageDetails.image = self.img;
-    self.likesCounter.tintColor= [UIColor whiteColor];
-    // Do any additional setup after loading the view.
+
     [self.view setBackgroundColor:[UIColor colorWithRed:0.66
                                                   green:0.66
                                                    blue:0.66
                                                   alpha:0.75]];
-//    self.likesCounter.tintColor= [UIColor grayColor];
-//    self.view.backgroundColor = [UIColor whiteColor];
     self.belowPictureTableView.backgroundColor =[UIColor whiteColor];
-
+    
+    self.toolBar.barTintColor = [UIColor colorWithWhite:0 alpha:0.25];
     
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
@@ -62,13 +63,13 @@
         self.liked = YES;
         NSLog(@"Liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
-        self.likesCounter.image = [heart imageWithSize:CGSizeMake(20, 20)];
+        self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }else{
         self.liked = NO;
         NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartOIconWithSize:20];
-        self.likesCounter.image = [heart imageWithSize:CGSizeMake(20, 20)];
+        self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }
 }
@@ -140,7 +141,7 @@
             self.liked = YES;
             NSLog(@"Testing!!!");
             FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
-            self.likesCounter.image = [heart imageWithSize:CGSizeMake(20, 20)];
+            self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
             
             self.image.likes = @([self.image.likes integerValue] + 1);
             self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];

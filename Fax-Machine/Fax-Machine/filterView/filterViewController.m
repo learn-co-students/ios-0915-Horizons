@@ -8,11 +8,17 @@
 
 #import "filterViewController.h"
 #import "ParseAPIClient.h"
+#import "ImagesViewController.h"
+#import "DataStore.h"
 
 @interface filterViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 @property (weak, nonatomic) IBOutlet UIPickerView *filterPicker;
 @property (strong, nonatomic) NSString *chosenCountry;
 @property (strong, nonatomic) NSArray *arrayFromQuery;
+@property (weak, nonatomic) IBOutlet UIButton *filterButton;
+@property (strong, nonatomic) NSMutableDictionary *filtering;
+@property (strong, nonatomic) DataStore *dataStore;
+
 
 @end
 
@@ -21,16 +27,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIPickerView *filterPicker = [[UIPickerView alloc] init];
-    _filterPicker.delegate = self;
-    _filterPicker.dataSource = self;
+    
     self.moodsArray = @[@"Happy",
                         @"Gloomy",
                         @"Snowy?",
-                        @"Autumn"];
+                        @"Autumn",
+                        @"Cloudy"];
 
     PFQuery *query = [PFQuery queryWithClassName:@"Location"];
     NSArray *queryArray = [query findObjects];
     self.arrayFromQuery = queryArray;
+    
+    //need to set it up
+    
+    _filterPicker.delegate = self;
+    _filterPicker.dataSource = self;
+    [self setupPickerView:filterPicker];
+    
+    self.filterButton.accessibilityLabel = @"Filter";
+    
+    self.dataStore = [DataStore sharedDataStore];
     //get arrays for countries and cities in viewDidLoad
     // Do any additional setup after loading the view.
 }
@@ -60,7 +76,7 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     
-    
+
     if (component == 0)
     {
         //get count of countries from parse
@@ -83,6 +99,7 @@
 }
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
+
     if (component == 0)
     {
         NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
@@ -117,6 +134,7 @@
 
 -(NSMutableArray *)gettingAnArrayOfCitiesWithMatchingCountry:(NSArray *)arrayOfPFObjects
 {
+//    [self.filterPicker reloadComponent:1];
     [self gettingChosenCountry:self.filterPicker];
     NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"country = %@", self.chosenCountry];
@@ -139,7 +157,50 @@
     NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
     self.chosenCountry = arrayOfCountries[selectedRowForCountry];
 }
-- (IBAction)filterButtonTapped:(id)sender
+//- (IBAction)filterButtonTapped:(id)sender
+//{
+////    NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
+////    NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
+////    arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
+////    arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+////    NSInteger countrySelection = [self.filterPicker selectedRowInComponent:0];
+////    NSInteger citySelection = [self.filterPicker selectedRowInComponent:1];
+////    NSInteger moodSelection = [self.filterPicker selectedRowInComponent:2];
+////    
+////    
+////    NSDictionary *filterParameters = @{
+////                                       @"country" : arrayOfCountries[countrySelection],
+////                                       @"city" : arrayOfCities[citySelection],
+////                                       @"mood" : self.moodsArray[moodSelection]
+////                                        };
+////    self.filtering = [filterParameters mutableCopy];
+//    
+//    //got a dictionary of filter parameters, but what if a user doesn't want to use all of the filters?
+//}
+
+-(void)setupPickerView:(UIPickerView *)pickerView
+{
+    [self numberOfComponentsInPickerView:pickerView];
+    for (NSUInteger i = 0; i < pickerView.numberOfComponents; i++)
+    {
+        [pickerView numberOfRowsInComponent:i];
+        for (NSUInteger x = 0; x < ([self.filterPicker numberOfRowsInComponent:i]); x++)
+        {
+            [self pickerView:pickerView titleForRow:x forComponent:i];
+        }
+    }
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if (component == 0)
+    {
+        [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+        [pickerView reloadComponent:1];
+    }
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
     NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
@@ -154,20 +215,13 @@
                                        @"country" : arrayOfCountries[countrySelection],
                                        @"city" : arrayOfCities[citySelection],
                                        @"mood" : self.moodsArray[moodSelection]
-                                        };
-    //got a dictionary of filter parameters, but what if a user doesn't want to use all of the filters?
+                                       };
+    self.filtering = [filterParameters mutableCopy];
+
+    ImagesViewController *imagesVC = segue.destinationViewController;
+    imagesVC.filterParameters = [filterParameters mutableCopy];
+//    self.dataStore.filterDictionary = self.filtering;
+    
 }
 
--(void)setupPickerView:(UIPickerView *)pickerView
-{
-    [self numberOfComponentsInPickerView:pickerView];
-    for (NSUInteger i = 0; i < 3; i++)
-    {
-        [pickerView numberOfRowsInComponent:i];
-        for (NSUInteger x = 0; x < ([pickerView numberOfRowsInComponent:i]); x++)
-        {
-            [self pickerView:pickerView titleForRow:x forComponent:i];
-        }
-    }
-}
 @end

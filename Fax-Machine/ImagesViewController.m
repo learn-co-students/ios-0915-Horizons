@@ -13,6 +13,7 @@
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import "filterViewController.h"
 
 @interface ImagesViewController ()
 
@@ -20,6 +21,8 @@
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
 @property (nonatomic, strong) NSMutableArray *downloadedImages;
+
+
 
 @property (nonatomic, strong) DataStore *dataStore;
 
@@ -149,7 +152,8 @@
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
         imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
     }
-    
+
 }
+
 
 @end

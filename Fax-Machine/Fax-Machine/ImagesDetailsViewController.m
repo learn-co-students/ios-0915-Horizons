@@ -15,11 +15,7 @@
 
 @interface ImagesDetailsViewController ()
 
-@property (weak, nonatomic) IBOutlet UIToolbar *likeIcon;
-@property (weak, nonatomic) IBOutlet UIImageView *imageDetails;
-//@property (nonatomic, strong) UIImage *img;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *likesCounter;
-@property (weak, nonatomic) IBOutlet UITableView *belowPictureTableView;
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
@@ -47,6 +43,10 @@
                                                   green:0.66
                                                    blue:0.66
                                                   alpha:0.75]];
+//    self.likesCounter.tintColor= [UIColor grayColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
+    self.belowPictureTableView.backgroundColor =[UIColor whiteColor];
+
     
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];

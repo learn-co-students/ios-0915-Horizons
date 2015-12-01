@@ -14,9 +14,6 @@
 
 @property (nonatomic, strong)DataStore *dataStore;
 
-@property (weak, nonatomic) IBOutlet UITableView *commentsTable;
-@property (weak, nonatomic) IBOutlet UITextField *txtField;
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbarIBOutlet;
 
 @end
 
@@ -27,9 +24,18 @@
     self.dataStore = [DataStore sharedDataStore];
     self.commentsTable.delegate = self;
     self.commentsTable.dataSource = self;
-    self.txtField.delegate = self;
-    self.view.backgroundColor = [UIColor grayColor];
-    
+    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
+                                                  green:0.66
+                                                   blue:0.66
+                                                  alpha:0.75]];
+    [self.commentsTable setBackgroundColor:[UIColor  colorWithRed:0.66
+                                                                     green:0.66
+                                                                      blue:0.66
+                                                                     alpha:0.75]];    [self.postButton setEnabled:YES];
+    [self.postButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.commentTxtField.placeholder = @"Write a comment...";
+    self.commentTxtField.layer.borderColor = [[UIColor grayColor]CGColor];
+    self.commentTxtField.layer.borderWidth=2.0;
 }
 
 
@@ -57,16 +63,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
         
         cell.backgroundColor = [UIColor whiteColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
         
         // [[cell mydiscriptionLabel]setText:[self.arrayWithDescriptions objectAtIndex:indexPath.item]];
         
     }
-    //PFObject *user = [DataStore getUserWithObjectID:self.selectedImage.owner.objectId] ;
-    //NSLog(@"User: %@", user[@"username"]);
-    //cell.detailTextLabel.text = user[@"username"];
+  
     PFObject *comment = self.selectedImage.comments[indexPath.row];
     cell.textLabel.text = comment[@"userComment"];
     return cell;
@@ -85,33 +89,47 @@
     //PFObject *
     //[self.selectedImage.comments addObject:commentObject];
     //[self.usersCommentsArray addObject:commentObject];
-    if (self.txtField.text.length && ![self.txtField.text isEqualToString:@" "]) {
+    if (self.commentTxtField.text.length && ![self.commentTxtField.text isEqualToString:@" "]) {
         
         NSLog(@"It's an OK message.");
         
-        NSString *enteredText = [self.txtField.text copy];
+        NSString *enteredText = [self.commentTxtField.text copy];
         
         [self.dataStore inputCommentWithComment:enteredText imageID:self.selectedImage.imageID withCompletion:^(PFObject *comment) {
             [self.selectedImage.comments addObject:comment];
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             }];
-//            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.selectedImage.comments.count inSection:0];
-//            [self.commentsTable reloadRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            
-//            [self.commentsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }];
-    }else{
+    }];
+    }else
+    {
         NSLog(@"Invalid Comment");
     }
-    self.txtField.text = @"";
+    self.commentTxtField.text = @"";
 }
 
-- (IBAction)textFieldAction:(UITextField *)sender {
-        self.txtField.autocorrectionType = UITextAutocorrectionTypeNo;
-         [self.txtField setClearButtonMode:UITextFieldViewModeWhileEditing];
+- (IBAction)textFieldAction:(UITextField *)sender
+{
+        self.commentTxtField.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.commentTxtField setClearButtonMode:UITextFieldViewModeWhileEditing];
 
 }
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    
+    [self.ScrollView setContentOffset:(CGPointMake(0, 230)) animated:YES];
+    
+}
+
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self.ScrollView setContentOffset:(CGPointMake(0, 0)) animated:YES];
+    [self.commentTxtField resignFirstResponder];
+    return TRUE;
+}
+
+
 
 
 @end

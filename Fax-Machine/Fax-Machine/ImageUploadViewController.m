@@ -408,20 +408,27 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     //Below section is for face detection in image with Core Image.
-    CIImage *image = [CIImage imageWithCGImage: self.selectedImage.CGImage];
+    NSData *imageData = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage]);
+    CIImage *image = [CIImage imageWithData:imageData];
     NSDictionary *opts = @{CIDetectorAccuracy : CIDetectorAccuracyHigh};
     CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
                                               context:nil
                                               options:opts];
+    
+//    NSData *jpeg1 = UIImageJPEGRepresentation(info[UIImagePickerControllerOriginalImage], 1);
+//    NSData *jpeg2 = UIImageJPEGRepresentation(info[UIImagePickerControllerOriginalImage], 0.5);
+//    
+//    NSData *png = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage]);
     
     NSNumber *orientation = [self getImageOrientationWithImage:self.selectedImage];
     opts = @{CIDetectorImageOrientation : orientation};
     NSArray *features = [detector featuresInImage:image options:opts];
     
     NSOperationQueue *bgQueue = [NSOperationQueue new];
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^
+    NSLog(@"Features: %lu", features.count);
+    if (!features.count)
     {
-        if (!features.count)
+        NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^
         {
             self.selectedImage = info[UIImagePickerControllerOriginalImage];
             NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
@@ -491,16 +498,20 @@
                     }];
                 }];
             }
-        }
-        else
-        {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self invalidImageAlert];
-                [picker dismissViewControllerAnimated:YES completion:nil];
-            }];
-        }
-    }];
-    [bgQueue addOperation:operation];
+        }];
+        [bgQueue addOperation:operation];
+    }
+    else
+    {
+        [picker dismissViewControllerAnimated:YES completion:nil];
+        NSLog(@"Invalid image");
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self invalidImageAlert];
+        }];
+        
+    }
+    
+    
     
     //Displaying the selected image in the image view holder.
 }

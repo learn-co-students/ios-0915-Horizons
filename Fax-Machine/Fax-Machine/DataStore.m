@@ -26,6 +26,7 @@
 
 - (instancetype)init
 {
+
     self = [super init];
     if (self) {
         _comments = [NSMutableArray new];
@@ -33,6 +34,8 @@
         _downloadedPictures = [NSMutableArray new];
         _controllers = [NSMutableArray new];
         _favoriteImages = [NSMutableArray new];
+        _isUserVC = NO;
+
     }
     return self;
 }

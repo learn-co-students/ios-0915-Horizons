@@ -14,6 +14,9 @@
 
 @property (nonatomic, strong)DataStore *dataStore;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *stackViewBottomConstraint;
+
+- (void)keyboardWillChangePosition:(NSNotification *)notifcatiion;
 
 @end
 
@@ -36,8 +39,54 @@
     self.commentTxtField.placeholder = @"Write a comment...";
     self.commentTxtField.layer.borderColor = [[UIColor grayColor]CGColor];
     self.commentTxtField.layer.borderWidth=2.0;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
+- (void)keyboardWillChangePosition:(NSNotification *)notifcatiion {
+    
+    
+    NSLog(@"GETTING CALLED!!!");
+    
+    // Each notification includes a nil object and a userInfo dictionary containing the
+    // begining and ending keyboard frame in screen coordinates. Use the various UIView and
+    // UIWindow convertRect facilities to get the frame in the desired coordinate system.
+    // Animation key/value pairs are only available for the "will" family of notification.
+    
+    CGRect keyboardFrame;
+    if ([notifcatiion.name isEqualToString:UIKeyboardWillHideNotification]) {
+        
+        NSLog(@"KEYBOARD WILL HDIE!!");
+        keyboardFrame = CGRectZero;
+    } else {
+        
+        NSLog(@"Keybaord NOT hiding")   ;
+        
+        keyboardFrame = [notifcatiion.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    }
+    
+    UIViewAnimationCurve curve = [notifcatiion.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    
+    NSTimeInterval duration = [notifcatiion.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    
+    
+    [UIView animateWithDuration:duration
+                     animations:^{
+                         
+                         NSLog(@"animation getting called?");
+                         [UIView setAnimationCurve:curve];
+                         
+                         self.stackViewBottomConstraint.constant = (keyboardFrame.size.height) * -1;
+                         
+                         [self.view layoutIfNeeded];
+                     }];
+
+    
+}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -113,6 +162,7 @@
 {
     
     [self.ScrollView setContentOffset:(CGPointMake(0, 230)) animated:YES];
+    
     
 }
 

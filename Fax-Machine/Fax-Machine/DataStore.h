@@ -18,6 +18,7 @@
 @property (nonatomic, strong)NSMutableArray *comments;
 @property (nonatomic, strong)NSMutableArray *userPictures;
 @property (nonatomic, strong)NSMutableArray *controllers;
+@property (nonatomic)BOOL isUserVC;
 @property (nonatomic, strong) NSMutableArray *favoriteImages;
 
 + (instancetype)sharedDataStore;

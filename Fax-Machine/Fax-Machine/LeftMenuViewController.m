@@ -55,7 +55,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     UIStoryboard *uploadImage = [UIStoryboard storyboardWithName:@"ImageUpload" bundle:nil];
     UINavigationController *navController;
     ImagesViewController *imageViewVC = self.store.controllers[0];
@@ -74,21 +73,38 @@
             navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             
             imageViewVC.isFavorite = NO;
+          imageViewVC.isUserImageVC = NO;
             
             [self.sideMenuViewController setContentViewController:navController];
+        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"isUserVC"];
+
             break;
         }
         case 2:
         {
             [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
             break;
-        }
-        case 3:
-        {
-            [self presentViewController:[[UIStoryboard storyboardWithName:@"CollectionView" bundle:nil] instantiateViewControllerWithIdentifier:@"homeViewController"] animated:YES completion:nil];
-            break;
-        }
-        case 4:
+      case 3:
+      {
+        [self.store.userPictures removeAllObjects];
+        navController = [[UINavigationController alloc]initWithRootViewController:imageViewVC];
+        navController.navigationBar.shadowImage = [UIImage new];
+        navController.navigationBar.translucent = YES;
+        navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
+          if (complete) {
+            [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+              [self.sideMenuViewController hideMenuViewController];
+              imageViewVC.isUserImageVC = YES;
+              imageViewVC.isFavorite = NO;
+              [self.sideMenuViewController setContentViewController:navController];
+              
+            }];
+          }
+        }];
+      }
+        break;
+             case 4:
         {
             [self.store.favoriteImages removeAllObjects];
             navController = [[UINavigationController alloc] initWithRootViewController:imageViewVC];
@@ -100,6 +116,7 @@
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                         [self.sideMenuViewController hideMenuViewController];
                         imageViewVC.isFavorite = YES;
+                      imageViewVC.isUserImageVC = NO;
                         [self.sideMenuViewController setContentViewController:navController];
                     }];
                 }
@@ -116,6 +133,7 @@
             break;
         }
     }
+}
 }
 
 #pragma mark -
@@ -139,13 +157,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row == 0) {
         // The profile photo
-        
         static NSString *profileCellIdentifier = @"ProfileCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:profileCellIdentifier];
         
         if(!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:profileCellIdentifier];
-            
             cell.backgroundColor = [UIColor clearColor];
             cell.selectedBackgroundView = [[UIView alloc] init];
             
@@ -220,10 +236,11 @@
             default:
                 break;
         }
-        
         return cell;
     }
 }
+  
+
 
 
 /**

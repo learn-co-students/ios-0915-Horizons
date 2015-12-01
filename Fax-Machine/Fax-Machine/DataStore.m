@@ -15,25 +15,26 @@
 
 @implementation DataStore
 + (instancetype)sharedDataStore {
-  static DataStore *_sharedDataStore = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    _sharedDataStore = [[DataStore alloc] init];
-  });
-  
-  return _sharedDataStore;
+    static DataStore *_sharedDataStore = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedDataStore = [[DataStore alloc] init];
+    });
+    
+    return _sharedDataStore;
 }
 
 - (instancetype)init
 {
-  self = [super init];
-  if (self) {
-      _comments = [NSMutableArray new];
-    _userPictures = [[NSMutableArray alloc]init];
-      _downloadedPictures = [NSMutableArray new];
-      _controllers = [NSMutableArray new];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        _comments = [NSMutableArray new];
+        _userPictures = [[NSMutableArray alloc]init];
+        _downloadedPictures = [NSMutableArray new];
+        _controllers = [NSMutableArray new];
+        _favoriteImages = [NSMutableArray new];
+    }
+    return self;
 }
 
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock
@@ -171,11 +172,6 @@
   }];
 }
 
-+(PFUser *)getUserWithObjectID:(NSString *)objectID{
-    PFUser *user = [PFQuery getUserObjectWithId:objectID];
-    return user;
-}
-
 -(void)getAllCommentsWithImageID:(NSString *)imageID withCompletion:(void (^)(BOOL))completionBlock{
     [ParseAPIClient fetchAllCommentsWithRelatedImage:imageID completion:^(NSArray *data) {
         for (PFObject *parseComment in data) {
@@ -185,6 +181,32 @@
         completionBlock(YES);
     } failure:^(NSError *error) {
         NSLog(@"Fetch Comments error: %@", error.localizedDescription);
+    }];
+}
+
+-(void)getFavoriteImagesWithSuccess:(void (^)(BOOL))success{
+    [ParseAPIClient getFavoriteImagesWithCompletion:^(NSArray *images) {
+        for (PFObject *parseImageObject in images) {
+            if (parseImageObject[@"comments"]) {
+                [ParseAPIClient fetchAllCommentsWithRelatedImage:parseImageObject[@"imageID"] completion:^(NSArray *data) {
+                    ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:[data mutableCopy]
+                                                                        objectID:parseImageObject.objectId];
+                    
+                    [self.favoriteImages addObject:parseImage];
+                    success(YES);
+
+                } failure:^(NSError *error) {
+                    NSLog(@"Fetch Comments error: %@", error.localizedDescription);
+                }];
+            }else{
+                NSMutableArray *commentsForItem = [NSMutableArray new];
+                ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:commentsForItem
+                                                                    objectID:parseImageObject.objectId];
+                
+                [self.favoriteImages addObject:parseImage];
+                success(YES);
+            }
+        }
     }];
 }
 

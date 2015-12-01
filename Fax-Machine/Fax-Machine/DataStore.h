@@ -18,6 +18,7 @@
 @property (nonatomic, strong)NSMutableArray *comments;
 @property (nonatomic, strong)NSMutableArray *userPictures;
 @property (nonatomic, strong)NSMutableArray *controllers;
+@property (nonatomic, strong) NSMutableArray *favoriteImages;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -39,9 +40,9 @@
 
 -(void)fetchUserImagesWithCompletion:(void(^)(BOOL complete))completionBlock;
 
-+(PFUser *)getUserWithObjectID:(NSString *)objectID;
+//-(void)getAllCommentsWithImageID:(NSString *)imageID
+//                  withCompletion:(void(^)(BOOL complete))completionBlock;
 
--(void)getAllCommentsWithImageID:(NSString *)imageID
-                  withCompletion:(void(^)(BOOL complete))completionBlock;
+-(void)getFavoriteImagesWithSuccess:(void (^)(BOOL success))success;
 
 @end

@@ -211,4 +211,15 @@
   
 }
 
++(void)getFavoriteImagesWithCompletion:(void (^)(NSArray *))completionBlock{
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"objectId" equalTo:[PFUser currentUser].objectId];
+    [userQuery includeKey:@"savedImages"];
+    
+    [userQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        NSLog(@"object: %@", object[@"savedImages"]);
+        completionBlock(object[@"savedImages"]);
+    }];
+}
+
 @end

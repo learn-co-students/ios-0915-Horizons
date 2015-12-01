@@ -52,31 +52,58 @@
     
     UIStoryboard *uploadImage = [UIStoryboard storyboardWithName:@"ImageUpload" bundle:nil];
     UINavigationController *navController;
+    ImagesViewController *imageViewVC = self.store.controllers[0];
     switch (indexPath.row) {
         case 1:
+        {
             [self.sideMenuViewController hideMenuViewController];
-            //[self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"homeViewController"]]
-            //                                             animated:YES];
-             navController = [[UINavigationController alloc] initWithRootViewController:self.store.controllers[0]];
+            navController = [[UINavigationController alloc] initWithRootViewController:self.store.controllers[0]];
             navController.navigationBar.shadowImage = [UIImage new];
             navController.navigationBar.translucent = YES;
             navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             
+            imageViewVC.isFavorite = NO;
+            
             [self.sideMenuViewController setContentViewController:navController];
             break;
+        }
         case 2:
+        {
             [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
             break;
-      case 3:
-        [self presentViewController:[[UIStoryboard storyboardWithName:@"CollectionView" bundle:nil] instantiateViewControllerWithIdentifier:@"homeViewController"] animated:YES completion:nil];
-        break;
+        }
+        case 3:
+        {
+            [self presentViewController:[[UIStoryboard storyboardWithName:@"CollectionView" bundle:nil] instantiateViewControllerWithIdentifier:@"homeViewController"] animated:YES completion:nil];
+            break;
+        }
+        case 4:
+        {
+            [self.store.favoriteImages removeAllObjects];
+            navController = [[UINavigationController alloc] initWithRootViewController:imageViewVC];
+            navController.navigationBar.shadowImage = [UIImage new];
+            navController.navigationBar.translucent = YES;
+            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
+                if (success) {
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [self.sideMenuViewController hideMenuViewController];
+                        imageViewVC.isFavorite = YES;
+                        [self.sideMenuViewController setContentViewController:navController];
+                    }];
+                }
+            }];
+            break;
+        }
         case 5:
+        {
             [self.store logoutWithSuccess:^(BOOL success) {
                 [self.store.downloadedPictures removeAllObjects];
                 [self.store.comments removeAllObjects];
                 [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
             }];
             break;
+        }
     }
 }
 
@@ -139,7 +166,7 @@
             cell.selectedBackgroundView = [[UIView alloc] init];
         }
         
-        NSArray *title = @[@"Home", @"Upload", @"My Images", @"Saved Images", @"Log Out"];
+        NSArray *title = @[@"Home", @"Upload", @"My Images", @"Favorites", @"Log Out"];
         
         cell.textLabel.text = title[indexPath.row - 1];
         FAKFontAwesome *icon = [FAKFontAwesome new];

@@ -113,9 +113,10 @@
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
         
     }
-    PFUser *user = self.image.owner;
-    cell.detailTextLabel.text = user[@"username"];
+    //PFUser *user = self.image.owner;
+    //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
+    //cell.detailTextLabel.text = comment[@"owner"];
     cell.textLabel.text = comment[@"userComment"];
     
     return cell;

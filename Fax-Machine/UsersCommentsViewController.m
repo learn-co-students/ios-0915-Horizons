@@ -25,20 +25,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataStore = [DataStore sharedDataStore];
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    
+    self.commentsTable.backgroundColor = [UIColor clearColor];
+    self.commentsTable.opaque = NO;
+    self.commentsTable.separatorColor = [UIColor clearColor];
+    self.commentsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.commentsTable.separatorInset = UIEdgeInsetsZero;
     self.commentsTable.delegate = self;
     self.commentsTable.dataSource = self;
-    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
-                                                  green:0.66
-                                                   blue:0.66
-                                                  alpha:0.75]];
-    [self.commentsTable setBackgroundColor:[UIColor  colorWithRed:0.66
-                                                                     green:0.66
-                                                                      blue:0.66
-                                                                     alpha:0.75]];    [self.postButton setEnabled:YES];
-    [self.postButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+
+    [self.postButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.postButton.opaque = NO;
+    self.postButton.backgroundColor = [UIColor clearColor];
+    
+    self.commentTxtField.borderStyle = UITextBorderStyleRoundedRect;
     self.commentTxtField.placeholder = @"Write a comment...";
-    self.commentTxtField.layer.borderColor = [[UIColor grayColor]CGColor];
-    self.commentTxtField.layer.borderWidth=2.0;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];
     
@@ -109,7 +112,12 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
         
-        cell.backgroundColor = [UIColor whiteColor];
+        cell.opaque = NO;
+        cell.backgroundColor = [UIColor colorWithWhite:0.55 alpha:0.85];
+        if (indexPath.row % 2 == 1) {
+            cell.backgroundColor = [UIColor colorWithWhite:0.45 alpha:0.85];
+        }
+        cell.textLabel.textColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];

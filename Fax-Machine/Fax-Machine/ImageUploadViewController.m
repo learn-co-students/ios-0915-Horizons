@@ -252,17 +252,66 @@
             NSLog(@"poolID: %@",POOL_ID);
             uploadRequest.bucket = @"fissamplebucket";
             NSLog(@"uploadRequest: %@", uploadRequest);
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            }];
+            [self uploadThumbnail:image fileName:fileName];
+            
             [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 NSLog(@"upload completed!");
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }];
             }];
         }else{
             NSLog(@"Issue with upload");
         }
     }];
     
+}
+
+-(void)uploadThumbnail:(UIImage *)image fileName:(NSString *)fileName{
+    UIImage *originalImage = image;
+    
+    fileName = [NSString stringWithFormat:@"thumbnail%@", fileName];
+    
+    CGFloat ratio = originalImage.size.height / originalImage.size.width;
+    CGSize destinationSize;
+    if (originalImage.size.width <= originalImage.size.height) {
+        destinationSize = CGSizeMake(300, 300*ratio);
+    }else{
+        destinationSize = CGSizeMake(300 / ratio, 300);
+    }
+    
+    UIGraphicsBeginImageContext(destinationSize);
+    [originalImage drawInRect:CGRectMake(0,0,destinationSize.width,destinationSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    //Upload thumbnail image to Amazon
+    //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-thumbnail.tmp"];
+    NSLog(@"filepath %@", filePath);
+    
+    NSData * imageData = UIImagePNGRepresentation(newImage);
+    
+    [imageData writeToFile:filePath atomically:YES];
+    
+    AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+    uploadRequest.body = [NSURL fileURLWithPath:filePath];
+    uploadRequest.key = fileName;
+    uploadRequest.contentType = @"image/png";
+    //          [uploadRequest setValue:@"image/png" forKey:@"Content-Type"];
+    NSLog(@"poolID: %@",POOL_ID);
+    uploadRequest.bucket = @"fissamplebucket";
+    NSLog(@"thumbnail uploadRequest: %@", uploadRequest);
+    
+    [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSLog(@"Thumbnail upload completed!");
+    }];
 }
 
 /**

@@ -110,7 +110,7 @@
     [ParseAPIClient saveLocationWithLocation:parseLocation success:^(BOOL success) {
         if (success) {
             PFObject *image = [PFObject objectWithClassName:@"Image"];
-            NSLog(@"Current User: %@", [PFUser currentUser]);
+//            NSLog(@"Current User: %@", [PFUser currentUser]);
             image[@"owner"] = [PFUser currentUser];
             image[@"title"] = imageObject.title;
             image[@"imageID"] = imageObject.imageID;

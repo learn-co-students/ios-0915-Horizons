@@ -36,17 +36,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.dataStore = [DataStore sharedDataStore];
+    
+    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
 
+    self.belowPictureTableView.backgroundColor = [UIColor clearColor];
+    self.belowPictureTableView.opaque = NO;
+    self.belowPictureTableView.separatorColor = [UIColor clearColor];
+    self.belowPictureTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.belowPictureTableView.separatorInset = UIEdgeInsetsZero;
     self.belowPictureTableView.delegate = self;
     self.belowPictureTableView.dataSource = self;
 
-    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
-                                                  green:0.66
-                                                   blue:0.66
-                                                  alpha:0.75]];
-    self.belowPictureTableView.backgroundColor =[UIColor whiteColor];
-    
     self.toolBar.barTintColor = [UIColor colorWithWhite:0 alpha:0.25];
     
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
@@ -55,6 +58,9 @@
 
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
+    
+    FAKFontAwesome *commentIcon = [FAKFontAwesome commentIconWithSize:20];
+    self.commentButton.image = [commentIcon imageWithSize:CGSizeMake(20, 20)];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId MATCHES %@", self.image.objectID];
     NSArray *filteredResult = [savedImages filteredArrayUsingPredicate:predicate];
@@ -107,7 +113,13 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
         
-        cell.backgroundColor = [UIColor whiteColor];
+        cell.opaque = NO;
+        cell.backgroundColor = [UIColor colorWithWhite:0.55 alpha:0.85];
+        if (indexPath.row % 2 == 1) {
+            cell.backgroundColor = [UIColor colorWithWhite:0.45 alpha:0.85];
+        }
+        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.15 alpha:1];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];

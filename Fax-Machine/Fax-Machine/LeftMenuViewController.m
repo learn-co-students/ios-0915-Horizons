@@ -224,7 +224,7 @@
                 cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
                 break;
             case 4:
-                icon = [FAKFontAwesome archiveIconWithSize:24];
+                icon = [FAKFontAwesome heartIconWithSize:24];
                 [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
                 cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
                 break;

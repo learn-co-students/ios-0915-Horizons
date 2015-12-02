@@ -34,6 +34,7 @@
     // Override point for customization after application launch.
 
     // AWS STUFF
+    self.window.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
     AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionUSEast1
                                                                                                     identityPoolId:POOL_ID

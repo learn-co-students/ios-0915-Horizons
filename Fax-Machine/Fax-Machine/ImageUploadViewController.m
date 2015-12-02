@@ -309,7 +309,6 @@
     NSLog(@"thumbnail uploadRequest: %@", uploadRequest);
     
     [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSLog(@"Thumbnail upload completed!");
     }];
 }

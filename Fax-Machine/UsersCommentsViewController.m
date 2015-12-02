@@ -26,7 +26,8 @@
     [super viewDidLoad];
     self.dataStore = [DataStore sharedDataStore];
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    self.view.backgroundColor = [UIColor clearColor];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
     self.commentsTable.backgroundColor = [UIColor clearColor];
     self.commentsTable.opaque = NO;
@@ -40,7 +41,10 @@
     self.postButton.opaque = NO;
     self.postButton.backgroundColor = [UIColor clearColor];
     
-    self.commentTxtField.borderStyle = UITextBorderStyleRoundedRect;
+//    self.commentTxtField.borderStyle = UITextBorderStyleRoundedRect;
+//    self.commentTxtField.layer.borderColor = [UIColor whiteColor].CGColor;
+//    self.commentTxtField.backgroundColor = [UIColor whiteColor];
+    self.commentTxtField.layer.borderWidth = 1;
     self.commentTxtField.placeholder = @"Write a comment...";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];

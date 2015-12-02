@@ -12,6 +12,7 @@
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface ImagesDetailsViewController ()
 
@@ -23,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *downloadButton;
 
 @property (nonatomic) NSUInteger photoLikesCounter;
 @property (nonatomic) UsersCommentsViewController *userCommentsVCObject;
@@ -40,7 +42,7 @@
     self.dataStore = [DataStore sharedDataStore];
     
     self.view.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
 
     self.belowPictureTableView.backgroundColor = [UIColor clearColor];
     self.belowPictureTableView.opaque = NO;
@@ -61,6 +63,8 @@
     
     FAKFontAwesome *commentIcon = [FAKFontAwesome commentIconWithSize:20];
     self.commentButton.image = [commentIcon imageWithSize:CGSizeMake(20, 20)];
+    FAKFontAwesome *download = [FAKFontAwesome downloadIconWithSize:20];
+    self.downloadButton.image = [download imageWithSize:CGSizeMake(20, 20)];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId MATCHES %@", self.image.objectID];
     NSArray *filteredResult = [savedImages filteredArrayUsingPredicate:predicate];
@@ -153,5 +157,13 @@
             self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
         }];
     }
+}
+
+- (IBAction)downloadImage:(id)sender {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.imageDetails.image yy_saveToAlbumWithCompletionBlock:^(NSURL *assetURL, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSLog(@"Saved image url: %@, error: %@", assetURL, error.localizedDescription);
+    }];
 }
 @end

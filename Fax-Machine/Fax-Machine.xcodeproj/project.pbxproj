@@ -249,8 +249,6 @@
 				B76D0E251BFF7BDF002056A2 /* CollectionView.storyboard */,
 				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
 				E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */,
-				8965CA671C050ED100E37A30 /* filterViewController.h */,
-				8965CA681C050ED100E37A30 /* filterViewController.m */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -258,6 +256,8 @@
 		76C7AD1A1C02A29700038FA2 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				8965CA671C050ED100E37A30 /* filterViewController.h */,
+				8965CA681C050ED100E37A30 /* filterViewController.m */,
 				E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */,
 				E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */,
 				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,

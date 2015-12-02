@@ -55,19 +55,24 @@
     
     self.downloadedImages = [NSMutableArray new];
     self.dataStore = [DataStore sharedDataStore];
-    [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
-        if (complete) {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.imagesCollectionViewController reloadData];
-            }];
-        }
-    }];
     
+    if (!self.isFiltered) {
+        [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
+            if (complete) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.imagesCollectionViewController reloadData];
+                }];
+            }
+        }];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    NSLog(@"%@", self.filterParameters[@"city"]);
+    
     [self.imagesCollectionViewController reloadData];
     [self.dataStore.controllers addObject: self];
+    
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -153,6 +158,31 @@
         imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
     }
 
+}
+
+-(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters
+{
+    //self.dataStore.downloadedImages is an array of ImageObject, which has the Location property; Location has city and country properties
+    //need multiple predicates?
+    NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
+    //NSPredicate *cityPredicate = [NSPredicate predicateWithFormat:@"location = %@", filterParameters[@"city"]];
+    //NSArray *predicates = @[countryPredicate, cityPredicate];
+    //NSPredicate *multiplePredicates = [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
+    
+//    NSLog(@"\n\nFilter method!!!!");
+//    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+//    {
+//        if (complete)
+//        {
+            NSLog(@"\n\nDid I completed???");
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^
+            {
+                [self.imagesCollectionViewController reloadData];
+            }];
+//        }
+//
+//    }];
+   
 }
 
 

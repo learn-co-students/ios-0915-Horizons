@@ -44,5 +44,8 @@
 
 -(void)getAllCommentsWithImageID:(NSString *)imageID
                   withCompletion:(void(^)(BOOL complete))completionBlock;
+-(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate
+                               numberOfImages:(NSUInteger)number
+                               WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 @end

@@ -32,7 +32,7 @@
                         @"Gloomy",
                         @"Snowy?",
                         @"Autumn",
-                        @"Cloudy"];
+                        @"Mostly Cloudy"];
 
     PFQuery *query = [PFQuery queryWithClassName:@"Location"];
     NSArray *queryArray = [query findObjects];
@@ -218,8 +218,22 @@
                                        };
     self.filtering = [filterParameters mutableCopy];
 
+    NSLog(@"Segue method!!!");
     ImagesViewController *imagesVC = segue.destinationViewController;
     imagesVC.filterParameters = [filterParameters mutableCopy];
+    imagesVC.isFiltered = YES;
+    [self.dataStore.downloadedPictures removeAllObjects];
+    //[imagesVC.imagesCollectionViewController reloadData];
+    NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
+    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+     {
+         if (complete)
+         {
+            [imagesVC filteringImagesCountryLevel:filterParameters];
+         }
+         
+     }];
+    
 //    self.dataStore.filterDictionary = self.filtering;
     
 }

@@ -14,5 +14,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollectionViewController;
 @property (strong, readonly, nonatomic) RESideMenu *sideMenuViewController;
 @property (nonatomic, strong) NSMutableDictionary *filterParameters;
+@property(nonatomic)BOOL isFiltered;
+
+-(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters;
 
 @end

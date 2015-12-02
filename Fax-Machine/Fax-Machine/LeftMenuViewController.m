@@ -11,6 +11,9 @@
 #import "DataStore.h"
 #import "ImagesViewController.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import "APIConstants.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <YYWebImage/YYWebImage.h>
 
 @interface LeftMenuViewController ()
 
@@ -73,67 +76,67 @@
             navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             
             imageViewVC.isFavorite = NO;
-          imageViewVC.isUserImageVC = NO;
+            imageViewVC.isUserImageVC = NO;
             
             [self.sideMenuViewController setContentViewController:navController];
-        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"isUserVC"];
-
+            [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"isUserVC"];
+            
             break;
         }
         case 2:
         {
             [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
             break;
-      case 3:
-      {
-        [self.store.userPictures removeAllObjects];
-        navController = [[UINavigationController alloc]initWithRootViewController:imageViewVC];
-        navController.navigationBar.shadowImage = [UIImage new];
-        navController.navigationBar.translucent = YES;
-        navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
-          if (complete) {
-            [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-              [self.sideMenuViewController hideMenuViewController];
-              imageViewVC.isUserImageVC = YES;
-              imageViewVC.isFavorite = NO;
-              [self.sideMenuViewController setContentViewController:navController];
-              
-            }];
-          }
-        }];
-      }
-        break;
-             case 4:
-        {
-            [self.store.favoriteImages removeAllObjects];
-            navController = [[UINavigationController alloc] initWithRootViewController:imageViewVC];
-            navController.navigationBar.shadowImage = [UIImage new];
-            navController.navigationBar.translucent = YES;
-            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-            [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
-                if (success) {
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        [self.sideMenuViewController hideMenuViewController];
-                        imageViewVC.isFavorite = YES;
-                      imageViewVC.isUserImageVC = NO;
-                        [self.sideMenuViewController setContentViewController:navController];
-                    }];
-                }
-            }];
+        case 3:
+            {
+                [self.store.userPictures removeAllObjects];
+                navController = [[UINavigationController alloc]initWithRootViewController:imageViewVC];
+                navController.navigationBar.shadowImage = [UIImage new];
+                navController.navigationBar.translucent = YES;
+                navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+                [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
+                    if (complete) {
+                        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                            [self.sideMenuViewController hideMenuViewController];
+                            imageViewVC.isUserImageVC = YES;
+                            imageViewVC.isFavorite = NO;
+                            [self.sideMenuViewController setContentViewController:navController];
+                            
+                        }];
+                    }
+                }];
+            }
             break;
-        }
+        case 4:
+            {
+                [self.store.favoriteImages removeAllObjects];
+                navController = [[UINavigationController alloc] initWithRootViewController:imageViewVC];
+                navController.navigationBar.shadowImage = [UIImage new];
+                navController.navigationBar.translucent = YES;
+                navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+                [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
+                    if (success) {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            [self.sideMenuViewController hideMenuViewController];
+                            imageViewVC.isFavorite = YES;
+                            imageViewVC.isUserImageVC = NO;
+                            [self.sideMenuViewController setContentViewController:navController];
+                        }];
+                    }
+                }];
+                break;
+            }
         case 5:
-        {
-            [self.store logoutWithSuccess:^(BOOL success) {
-                [self.store.downloadedPictures removeAllObjects];
-                [self.store.comments removeAllObjects];
-                [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
-            }];
-            break;
+            {
+                [self.store logoutWithSuccess:^(BOOL success) {
+                    [self.store.downloadedPictures removeAllObjects];
+                    [self.store.comments removeAllObjects];
+                    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+                }];
+                break;
+            }
         }
     }
-}
 }
 
 #pragma mark -
@@ -178,13 +181,12 @@
         
         UIImageView *ourImageView = [cell viewWithTag:99];
         
-        NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:@"profilePic"];
-        if (path == nil) {
-            ourImageView.image = [UIImage imageNamed:@"profile_placeholder"];
-        }else if (self.selectedImage){
+        if (self.selectedImage){
             ourImageView.image = self.selectedImage;
         }else{
-            ourImageView.image = [UIImage imageWithContentsOfFile:path];
+            NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
+            NSURL *profileUrl = [NSURL URLWithString:urlString];
+            [ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
         }
         
         return cell;
@@ -299,19 +301,27 @@
     self.selectedImage = info[UIImagePickerControllerEditedImage];
     [self.tableView reloadData];
     [picker dismissViewControllerAnimated:YES completion:^{
-        NSData *imageData = UIImagePNGRepresentation(self.selectedImage);
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *profilePicDirectory = [paths objectAtIndex:0];
-        NSString *imagePath = [profilePicDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", @"cached"]];
+        NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
+        NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
+        NSLog(@"filepath %@", filePath);
         
-        NSLog(@"Writing profile pic to local");
-        if (![imageData writeToFile:imagePath atomically:NO]) {
-            NSLog(@"Failed to cached!");
-        }else{
-            NSLog(@"The cached image path is: %@", imagePath);
-        }
+        NSData * imageData = UIImagePNGRepresentation(self.selectedImage);
         
-        [[NSUserDefaults standardUserDefaults] setObject:imagePath forKey:@"profilePic"];
+        [imageData writeToFile:filePath atomically:YES];
+        
+        AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+        uploadRequest.body = [NSURL fileURLWithPath:filePath];
+        uploadRequest.key = fileName;
+        uploadRequest.contentType = @"image/png";
+        uploadRequest.bucket = @"fissamplebucket";
+        NSLog(@"Profile picture uploadRequest: %@", uploadRequest);
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+            NSLog(@"Profile picture upload completed!");
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            }];
+        }];
     }];
 }
 

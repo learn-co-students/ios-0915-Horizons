@@ -56,6 +56,7 @@
     
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
+    self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive | YYWebImageOptionProgressiveBlur ];
 
     PFUser *user = [PFUser currentUser];

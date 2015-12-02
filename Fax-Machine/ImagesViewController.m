@@ -36,13 +36,6 @@
     
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
-//    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
-//                                                  green:0.66
-//                                                   blue:0.66
-//                                                  alpha:0.75]];
-//    self.timesThatThisScreenLoaded = self.timesThatThisScreenLoaded + 1;
-//    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
-//    self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
 
     FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
     FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
@@ -50,7 +43,7 @@
     self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
     
     self.dataStore = [DataStore sharedDataStore];
-    [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
+    [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
         if (complete) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [self.imagesCollectionViewController reloadData];
@@ -63,7 +56,6 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    //NSLog(@"isFavorite: %d", self.isFavorite);
     [self.imagesCollectionViewController reloadData];
     [self.dataStore.controllers addObject: self];
 }
@@ -156,9 +148,17 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
-    *targetContentOffset = scrollView.contentOffset;;
-    
-    [self.imageCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+    *targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
+//    float pageHeight = (float)self.imageCollectionView.bounds.size.width;
+//    int minSpace = 10;
+//    
+//    int cellToSwipe = (scrollView.contentOffset.y)/(pageHeight + minSpace) + 0.5; // cell width + min spacing for lines
+//    if (cellToSwipe < 0) {
+//        cellToSwipe = 0;
+//    } else if (cellToSwipe >= self.dataStore.downloadedPictures.count) {
+//        cellToSwipe = ((int)self.dataStore.downloadedPictures.count) - 1;
+//    }
+//    [self.imageCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -171,14 +171,11 @@
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
         if (self.isFavorite) {
             imageVC.image = self.dataStore.favoriteImages[indexPath.row];
-            
-           // [self.dataStore getOwnerWithObjectID:<#(NSString *)#> success:<#^(PFUser *owner)success#>]
         } else if (self.isUserImageVC) {
           imageVC.image = self.dataStore.userPictures[indexPath.row];
         } else{
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }
-        //imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
     }
     
 }

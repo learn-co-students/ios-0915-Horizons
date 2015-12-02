@@ -12,17 +12,19 @@
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface ImagesDetailsViewController ()
 
-@property (weak, nonatomic) IBOutlet UIToolbar *likeIcon;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIImageView *imageDetails;
-//@property (nonatomic, strong) UIImage *img;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *likesCounter;
 @property (weak, nonatomic) IBOutlet UITableView *belowPictureTableView;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *likeButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *downloadButton;
 
 @property (nonatomic) NSUInteger photoLikesCounter;
 @property (nonatomic) UsersCommentsViewController *userCommentsVCObject;
@@ -36,17 +38,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.dataStore = [DataStore sharedDataStore];
-    //NSLog(@"Commets: %@", self.dataStore.comments[0]);
+    
+    self.view.backgroundColor = [UIColor clearColor];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+
+    self.belowPictureTableView.backgroundColor = [UIColor clearColor];
+    self.belowPictureTableView.opaque = NO;
+    self.belowPictureTableView.separatorColor = [UIColor clearColor];
+    self.belowPictureTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.belowPictureTableView.separatorInset = UIEdgeInsetsZero;
     self.belowPictureTableView.delegate = self;
     self.belowPictureTableView.dataSource = self;
-    //self.imageDetails.image = self.img;
-    self.likesCounter.tintColor= [UIColor whiteColor];
-    // Do any additional setup after loading the view.
-    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
-                                                  green:0.66
-                                                   blue:0.66
-                                                  alpha:0.75]];
+
+    self.toolBar.barTintColor = [UIColor colorWithWhite:0 alpha:0.25];
     
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
@@ -55,6 +61,11 @@
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
     
+    FAKFontAwesome *commentIcon = [FAKFontAwesome commentIconWithSize:20];
+    self.commentButton.image = [commentIcon imageWithSize:CGSizeMake(20, 20)];
+    FAKFontAwesome *download = [FAKFontAwesome downloadIconWithSize:20];
+    self.downloadButton.image = [download imageWithSize:CGSizeMake(20, 20)];
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId MATCHES %@", self.image.objectID];
     NSArray *filteredResult = [savedImages filteredArrayUsingPredicate:predicate];
     
@@ -62,13 +73,13 @@
         self.liked = YES;
         NSLog(@"Liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
-        self.likesCounter.image = [heart imageWithSize:CGSizeMake(20, 20)];
+        self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }else{
         self.liked = NO;
         NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartOIconWithSize:20];
-        self.likesCounter.image = [heart imageWithSize:CGSizeMake(20, 20)];
+        self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }
 }
@@ -77,7 +88,6 @@
     [super viewWillAppear:animated];
     [self.belowPictureTableView reloadData];
     self.commentCountLable.title = [NSString stringWithFormat:@"%lu", self.image.comments.count];
-    NSLog(@"Commets: %lu", self.image.comments.count);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,24 +117,26 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
         
-        cell.backgroundColor = [UIColor whiteColor];
+        cell.opaque = NO;
+        cell.backgroundColor = [UIColor colorWithWhite:0.55 alpha:0.85];
+        if (indexPath.row % 2 == 1) {
+            cell.backgroundColor = [UIColor colorWithWhite:0.45 alpha:0.85];
+        }
+        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.15 alpha:1];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
         
     }
-    PFUser *user = self.image.owner;
-    cell.detailTextLabel.text = user[@"username"];
+    //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
+    PFUser *user = comment[@"owner"];
+    cell.detailTextLabel.text = user.username;
     cell.textLabel.text = comment[@"userComment"];
     
     return cell;
 }
-
-//- (IBAction)commentIcon:(UIBarButtonItem *)sender {
-//    
-//}
-//
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
@@ -139,17 +151,19 @@
             self.liked = YES;
             NSLog(@"Testing!!!");
             FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
-            self.likesCounter.image = [heart imageWithSize:CGSizeMake(20, 20)];
+            self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
             
             self.image.likes = @([self.image.likes integerValue] + 1);
             self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
         }];
-        
-        
-        //self.photoLikesCounter += 1;
-        //self.likesCounter.tintColor= [UIColor whiteColor];
-        //self.likesCounter.title = [NSString stringWithFormat:@"1"];
-        //self.likesCounter.title = [NSString stringWithFormat:@"❤️ %ld", self.photoLikesCounter];
     }
+}
+
+- (IBAction)downloadImage:(id)sender {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.imageDetails.image yy_saveToAlbumWithCompletionBlock:^(NSURL *assetURL, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSLog(@"Saved image url: %@, error: %@", assetURL, error.localizedDescription);
+    }];
 }
 @end

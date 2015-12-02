@@ -15,7 +15,10 @@
 @property (strong, readonly, nonatomic) RESideMenu *sideMenuViewController;
 @property (nonatomic, strong) NSMutableDictionary *filterParameters;
 @property(nonatomic)BOOL isFiltered;
+@property (nonatomic)BOOL isUserImageVC;
+@property (nonatomic) BOOL isFavorite;
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters;
+
 
 @end

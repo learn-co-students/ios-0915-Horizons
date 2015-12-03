@@ -45,6 +45,7 @@
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
+		E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */; };
 		E2F6A9C31C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -119,6 +120,8 @@
 		E262C0011BFCE1FB00C81C53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ImageUpload.storyboard; sourceTree = "<group>"; };
 		E262C0031BFCEA4000C81C53 /* AWSDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSDownloadManager.h; sourceTree = "<group>"; };
 		E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSDownloadManager.m; sourceTree = "<group>"; };
+		E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseUploadViewController.h; sourceTree = "<group>"; };
+		E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseUploadViewController.m; sourceTree = "<group>"; };
 		E2F6A9BF1C0CAA0E003BCEBE /* userPhotos.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = userPhotos.storyboard; sourceTree = "<group>"; };
 		E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPhotosCollectionViewController.h; sourceTree = "<group>"; };
 		E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPhotosCollectionViewController.m; sourceTree = "<group>"; };
@@ -255,6 +258,8 @@
 		76C7AD1A1C02A29700038FA2 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */,
+				E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */,
 				E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */,
 				E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */,
 				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
@@ -499,6 +504,7 @@
 				761E1EB71BFD320F00BD5375 /* ImageObject.m in Sources */,
 				761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */,
 				E2F6A9C31C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m in Sources */,
+				E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */,
 				761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

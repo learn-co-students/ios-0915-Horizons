@@ -71,7 +71,20 @@
         }
         case 2:
         {
-            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+//          [navController presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+//            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+          
+          [self.sideMenuViewController hideMenuViewController];
+          navController = [[UINavigationController alloc] initWithRootViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"]];
+//          navController.navigationBar.shadowImage = [UIImage new];
+//          navController.navigationBar.translucent = YES;
+//          navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+          navController.navigationBar.hidden = YES;
+          
+          imageViewVC.isFavorite = NO;
+          imageViewVC.isUserImageVC = NO;
+          
+          [self.sideMenuViewController setContentViewController:navController];
             break;
       case 3:
       {

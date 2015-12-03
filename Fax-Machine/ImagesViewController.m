@@ -14,6 +14,8 @@
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "RESideMenu.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 
 
 @interface ImagesViewController () <RESideMenuDelegate>
@@ -63,7 +65,16 @@
         }
     }];
   
-  
+  if ([FBSDKAccessToken currentAccessToken]) {
+    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
+
+     startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+       if (!error) {
+         NSLog(@"fetched user:%@", result);
+         
+       }
+     }];
+  }
   
 }
 

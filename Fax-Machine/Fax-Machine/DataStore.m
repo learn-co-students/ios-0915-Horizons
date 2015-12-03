@@ -97,7 +97,7 @@
     }];
 }
 
--(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate numberOfImages:(NSUInteger)number WithCompletion:(void(^)(BOOL complete))completionBlock
+-(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate andLocation:(Location *)location numberOfImages:(NSUInteger)number WithCompletion:(void(^)(BOOL complete))completionBlock
 {
     
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:number completion:^(NSArray *data) {
@@ -112,7 +112,10 @@
             
             NSLog(@"Image ID: %@", parseImage.location);
             NSString *country = parseImageObject[@"location"][@"country"];
-            if ([country isEqualToString:@"Iceland"]) {
+            NSString *city = parseImageObject[@"location"][@"city"];
+            
+            if ([country isEqualToString:location.country] && [city isEqualToString:location.city])
+            {
                 [self.downloadedPictures addObject:parseImage];
             }
         }

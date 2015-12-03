@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *filterButton;
 @property (strong, nonatomic) NSMutableDictionary *filtering;
 @property (strong, nonatomic) DataStore *dataStore;
-
+@property (strong, nonatomic) NSArray *moodArrayFromQuery;
 
 @end
 
@@ -28,14 +28,19 @@
     [super viewDidLoad];
     UIPickerView *filterPicker = [[UIPickerView alloc] init];
     
-    self.moodsArray = @[@"Happy",
-                        @"Gloomy",
-                        @"Snowy?",
-                        @"Autumn",
-                        @"Mostly Cloudy"];
+//    self.moodsArray = @[@"Happy",
+//                        @"Gloomy",
+//                        @"Snowy?",
+//                        @"Autumn",
+//                        @"Mostly Cloudy"];
 
     PFQuery *query = [PFQuery queryWithClassName:@"Location"];
     NSArray *queryArray = [query findObjects];
+    
+    PFQuery *moodQuery = [PFQuery queryWithClassName:@"Image"];
+    NSArray *moodsArray = [moodQuery findObjects];
+    
+    self.moodArrayFromQuery = moodsArray;
     self.arrayFromQuery = queryArray;
     
     //need to set it up
@@ -93,7 +98,8 @@
     else
     {
         //moods
-        return [self.moodsArray count];
+        NSMutableArray *moodsArray = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+        return moodsArray.count;
     }
 
 }
@@ -112,7 +118,8 @@
     }
     else
     {
-        return self.moodsArray[row];
+        NSMutableArray *arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+        return arrayOfMoods[row];
     }
     
     return nil;
@@ -149,6 +156,20 @@
         }
     }
     return arrayOfCities;
+}
+
+-(NSMutableArray *)gettingAnArrayOfMoods:(NSArray *)arrayOfPFObjects
+{
+    NSMutableArray *arrayOfMoods = [[NSMutableArray alloc] init];
+    for (PFObject *object in arrayOfPFObjects)
+    {
+        NSString *moodOfObject = object[@"mood"];
+        if (![arrayOfMoods containsObject:moodOfObject])
+        {
+            [arrayOfMoods addObject:moodOfObject];
+        }
+    }
+    return arrayOfMoods;
 }
 
 -(void)gettingChosenCountry:(UIPickerView *)pickerView
@@ -204,8 +225,12 @@
 {
     NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
     NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
+    NSMutableArray *arrayOfMoods = [[NSMutableArray alloc] init];
+    
+    arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
     arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
     arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+    
     NSInteger countrySelection = [self.filterPicker selectedRowInComponent:0];
     NSInteger citySelection = [self.filterPicker selectedRowInComponent:1];
     NSInteger moodSelection = [self.filterPicker selectedRowInComponent:2];
@@ -214,7 +239,7 @@
     NSDictionary *filterParameters = @{
                                        @"country" : arrayOfCountries[countrySelection],
                                        @"city" : arrayOfCities[citySelection],
-                                       @"mood" : self.moodsArray[moodSelection]
+                                       @"mood" : arrayOfMoods[moodSelection]
                                        };
     self.filtering = [filterParameters mutableCopy];
 
@@ -225,14 +250,26 @@
     [self.dataStore.downloadedPictures removeAllObjects];
     //[imagesVC.imagesCollectionViewController reloadData];
     NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
-    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
-     {
-         if (complete)
-         {
+    Location *locationForPredicate = [[Location alloc] init];
+    locationForPredicate.city = arrayOfCities[citySelection];
+    locationForPredicate.country = arrayOfCountries[countrySelection];
+    
+    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+    {
+        if (complete)
+        {
             [imagesVC filteringImagesCountryLevel:filterParameters];
-         }
-         
-     }];
+        }
+    }];
+    self.dataStore.filterDictionary = self.filtering;
+//    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+//     {
+//         if (complete)
+//         {
+//            [imagesVC filteringImagesCountryLevel:filterParameters];
+//         }
+//         
+//     }];
     
 //    self.dataStore.filterDictionary = self.filtering;
     

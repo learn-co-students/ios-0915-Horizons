@@ -36,7 +36,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-    
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
 //    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
@@ -79,6 +78,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     NSLog(@"%@", self.filterParameters[@"city"]);
+    self.isFiltered = NO;
 
     //NSLog(@"isFavorite: %d", self.isFavorite);
     [self.imagesCollectionViewController reloadData];
@@ -205,7 +205,7 @@
 {
     //self.dataStore.downloadedImages is an array of ImageObject, which has the Location property; Location has city and country properties
     //need multiple predicates?
-    NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
+    //NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
     //NSPredicate *cityPredicate = [NSPredicate predicateWithFormat:@"location = %@", filterParameters[@"city"]];
     //NSArray *predicates = @[countryPredicate, cityPredicate];
     //NSPredicate *multiplePredicates = [NSCompoundPredicate andPredicateWithSubpredicates:predicates];

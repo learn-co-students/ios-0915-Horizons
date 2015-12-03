@@ -149,16 +149,21 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
     *targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
-//    float pageHeight = (float)self.imageCollectionView.bounds.size.width;
-//    int minSpace = 10;
-//    
-//    int cellToSwipe = (scrollView.contentOffset.y)/(pageHeight + minSpace) + 0.5; // cell width + min spacing for lines
-//    if (cellToSwipe < 0) {
-//        cellToSwipe = 0;
-//    } else if (cellToSwipe >= self.dataStore.downloadedPictures.count) {
-//        cellToSwipe = ((int)self.dataStore.downloadedPictures.count) - 1;
-//    }
-//    [self.imageCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+
+    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 300) > scrollView.contentSize.height) {
+        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
+            if (complete) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//                    NSLog(@"# of images: %lu", self.dataStore.downloadedPictures.count);
+                    [self.imagesCollectionViewController reloadData];
+                }];
+            }
+        }];
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+   
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

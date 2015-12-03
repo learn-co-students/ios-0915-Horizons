@@ -23,6 +23,7 @@
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
 //@property (nonatomic, strong) NSMutableArray *downloadedImages;
 @property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
+@property (nonatomic) CGFloat scrollOffset;
 
 @property (nonatomic, strong) DataStore *dataStore;
 //@property (nonatomic)NSUInteger *timesThatThisScreenLoaded;
@@ -32,11 +33,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
+    //self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
 
+    self.scrollOffset = 0;
+    
     FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
     FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
     self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
@@ -50,8 +54,6 @@
             }];
         }
     }];
-  
-  
   
 }
 
@@ -109,8 +111,8 @@
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
-    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
-    NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
+    //NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -147,8 +149,27 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
-    *targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
+    //*targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
 
+//    NSLog(@"Scroll Velocity: %.2f", velocity.y);
+//    NSLog(@"Scroll view offset y: %.2f", scrollView.contentOffset.y);
+//    NSLog(@"Scroll view content height: %.2f", scrollView.contentSize.height);
+    
+    if (velocity.y <= -4) {
+        self.navigationController.navigationBarHidden = NO;
+        *targetContentOffset = CGPointMake(0, 0);
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (scrollView.contentOffset.y <= 0){
+        self.navigationController.navigationBarHidden = NO;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (velocity.y != 0 ) {
+        self.navigationController.navigationBarHidden = YES;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (scrollView.contentOffset.y < self.scrollOffset){
+        self.navigationController.navigationBarHidden = NO;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }
+    
     if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 300) > scrollView.contentSize.height) {
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
             if (complete) {
@@ -159,10 +180,6 @@
             }
         }];
     }
-}
-
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-   
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

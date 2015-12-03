@@ -194,7 +194,7 @@
                                 <animations/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OpD-vO-aK1">
-                                <rect key="frame" x="0.0" y="442" width="375" height="225"/>
+                                <rect key="frame" x="0.0" y="442" width="375" height="179"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" red="0.84828756309999997" green="0.84828756309999997" blue="0.84828756309999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -226,20 +226,57 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2h-4Y-Fzt">
+                                <rect key="frame" x="0.0" y="621" width="375" height="46"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3pK-ja-PEG">
+                                        <rect key="frame" x="8" y="8" width="320" height="30"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="textFieldAction:" destination="WTS-eO-ffq" eventType="editingDidEnd" id="mQ6-6T-aAZ"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXq-66-OLZ">
+                                        <rect key="frame" x="336" y="8" width="31" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Post"/>
+                                        <connections>
+                                            <action selector="postCommentButton:" destination="WTS-eO-ffq" eventType="touchUpInside" id="Ccp-ss-Hul"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="0.69515115022659302" green="0.93311077356338501" blue="0.74739652872085571" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="aXq-66-OLZ" secondAttribute="bottom" constant="8" id="2XN-9u-leE"/>
+                                    <constraint firstAttribute="trailing" secondItem="aXq-66-OLZ" secondAttribute="trailing" constant="8" id="3lc-zx-BvP"/>
+                                    <constraint firstAttribute="height" constant="46" id="J0G-FD-fvW"/>
+                                    <constraint firstItem="3pK-ja-PEG" firstAttribute="top" secondItem="G2h-4Y-Fzt" secondAttribute="top" constant="8" id="K2u-1p-8ht"/>
+                                    <constraint firstItem="aXq-66-OLZ" firstAttribute="top" secondItem="G2h-4Y-Fzt" secondAttribute="top" constant="8" id="Mof-Dv-4xH"/>
+                                    <constraint firstItem="3pK-ja-PEG" firstAttribute="leading" secondItem="G2h-4Y-Fzt" secondAttribute="leading" constant="8" id="dmq-Q4-QfB"/>
+                                    <constraint firstItem="aXq-66-OLZ" firstAttribute="leading" secondItem="3pK-ja-PEG" secondAttribute="trailing" constant="8" id="hU2-8I-BIA"/>
+                                    <constraint firstAttribute="bottom" secondItem="3pK-ja-PEG" secondAttribute="bottom" constant="8" id="x2h-1x-Wqa"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="sIw-31-7nT" secondAttribute="trailing" id="0HS-35-b90"/>
                             <constraint firstItem="sIw-31-7nT" firstAttribute="height" secondItem="2PH-wx-3WH" secondAttribute="height" multiplier="0.5" id="3Sv-FX-wgZ"/>
+                            <constraint firstAttribute="trailing" secondItem="G2h-4Y-Fzt" secondAttribute="trailing" id="CDr-kl-42j"/>
                             <constraint firstItem="OpD-vO-aK1" firstAttribute="top" secondItem="KUJ-3U-oXB" secondAttribute="bottom" id="Gdt-zs-BGW"/>
                             <constraint firstItem="KUJ-3U-oXB" firstAttribute="leading" secondItem="2PH-wx-3WH" secondAttribute="leading" id="Gef-Si-G3B"/>
                             <constraint firstAttribute="trailing" secondItem="KUJ-3U-oXB" secondAttribute="trailing" id="Hdy-79-jnS"/>
-                            <constraint firstItem="5Vj-bA-iab" firstAttribute="top" secondItem="OpD-vO-aK1" secondAttribute="bottom" id="OVh-03-Nb9"/>
+                            <constraint firstItem="5Vj-bA-iab" firstAttribute="top" secondItem="G2h-4Y-Fzt" secondAttribute="bottom" id="MSZ-vp-40F"/>
                             <constraint firstItem="KUJ-3U-oXB" firstAttribute="top" secondItem="sIw-31-7nT" secondAttribute="bottom" id="RVl-aZ-hC3"/>
                             <constraint firstItem="OpD-vO-aK1" firstAttribute="leading" secondItem="2PH-wx-3WH" secondAttribute="leading" id="WQy-Mw-Xm1"/>
+                            <constraint firstItem="G2h-4Y-Fzt" firstAttribute="leading" secondItem="2PH-wx-3WH" secondAttribute="leading" id="czL-jE-gGk"/>
                             <constraint firstAttribute="trailing" secondItem="OpD-vO-aK1" secondAttribute="trailing" id="d5W-z4-q1d"/>
                             <constraint firstItem="sIw-31-7nT" firstAttribute="top" secondItem="UAi-66-QtX" secondAttribute="bottom" id="fug-JZ-ZkR"/>
+                            <constraint firstItem="G2h-4Y-Fzt" firstAttribute="top" secondItem="OpD-vO-aK1" secondAttribute="bottom" id="hXp-NB-xlY"/>
                             <constraint firstItem="sIw-31-7nT" firstAttribute="leading" secondItem="2PH-wx-3WH" secondAttribute="leading" id="tGB-wr-RsO"/>
                         </constraints>
                     </view>
@@ -247,12 +284,17 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="belowPictureTableView" destination="OpD-vO-aK1" id="tKi-Rd-vnN"/>
+                        <outlet property="commenSectionBottomConstraint" destination="MSZ-vp-40F" id="txB-xO-oJw"/>
                         <outlet property="commentButton" destination="pvB-q4-1Rq" id="fz1-h1-GnC"/>
                         <outlet property="commentCountLable" destination="XVl-8H-Chq" id="ilB-9i-aLi"/>
+                        <outlet property="commentSectionView" destination="G2h-4Y-Fzt" id="ZJR-Wy-wPA"/>
+                        <outlet property="commentTextField" destination="3pK-ja-PEG" id="QYW-Lw-FL5"/>
                         <outlet property="downloadButton" destination="sbD-ZO-Dcr" id="Z6P-oJ-rYm"/>
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
+                        <outlet property="imageViewTopConstraint" destination="fug-JZ-ZkR" id="jIh-j0-ez2"/>
                         <outlet property="likeButton" destination="zZT-UH-2Iv" id="c8g-zg-71u"/>
                         <outlet property="likeCountLabel" destination="FFz-69-hDA" id="Qm7-5z-96P"/>
+                        <outlet property="postButton" destination="aXq-66-OLZ" id="H30-UD-i0V"/>
                         <outlet property="toolBar" destination="KUJ-3U-oXB" id="GIw-dM-Lpv"/>
                     </connections>
                 </viewController>
@@ -370,7 +412,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ysa-Al-BRL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5848.5" y="380.5"/>
+            <point key="canvasLocation" x="6007.5" y="380.5"/>
         </scene>
         <!--Profile Menu Root View Controller-->
         <scene sceneID="9yq-qV-AK6">

@@ -26,6 +26,13 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *downloadButton;
 
+@property (weak, nonatomic) IBOutlet UIView *commentSectionView;
+@property (weak, nonatomic) IBOutlet UIButton *postButton;
+@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commenSectionBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTopConstraint;
+
 @property (nonatomic) NSUInteger photoLikesCounter;
 @property (nonatomic) UsersCommentsViewController *userCommentsVCObject;
 @property (nonatomic, strong)DataStore *dataStore;
@@ -41,10 +48,10 @@
     
     self.dataStore = [DataStore sharedDataStore];
     
-    self.view.backgroundColor = [UIColor clearColor];
-    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    //self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
 
-    self.belowPictureTableView.backgroundColor = [UIColor clearColor];
+    self.belowPictureTableView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
     self.belowPictureTableView.opaque = NO;
     self.belowPictureTableView.separatorColor = [UIColor clearColor];
     self.belowPictureTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -54,10 +61,14 @@
 
     self.toolBar.barTintColor = [UIColor colorWithWhite:0 alpha:0.25];
     
+    self.commentTextField.delegate = self;
+    self.commentTextField.placeholder = @"Enter a comment to post";
+    self.commentSectionView.backgroundColor = [UIColor blackColor];
+    
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
-    [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive | YYWebImageOptionProgressiveBlur ];
+    [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
 
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
@@ -83,6 +94,10 @@
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -167,4 +182,65 @@
         NSLog(@"Saved image url: %@, error: %@", assetURL, error.localizedDescription);
     }];
 }
+
+
+#pragma text field protocols
+
+- (IBAction)postCommentButton:(UIButton *)sender {
+    if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
+        
+        NSLog(@"It's an OK message.");
+        
+        NSString *enteredText = [self.commentTextField.text copy];
+        
+        [self.dataStore inputCommentWithComment:enteredText imageID:self.image.imageID withCompletion:^(PFObject *comment) {
+            [self.image.comments addObject:comment];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.belowPictureTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }];
+        }];
+        self.commentTextField.text = @"";
+        [self.commentTextField resignFirstResponder];
+    }else
+    {
+        NSLog(@"Invalid Comment");
+    }
+}
+
+- (IBAction)textFieldAction:(UITextField *)sender
+{
+    [sender setClearButtonMode:UITextFieldViewModeWhileEditing];
+    
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return TRUE;
+}
+
+- (void)keyboardWillChangePosition:(NSNotification *)notifcatiion {
+    CGRect keyboardFrame;
+    CGFloat imageTopConstant = 0;
+    if ([notifcatiion.name isEqualToString:UIKeyboardWillHideNotification]) {
+        NSLog(@"KEYBOARD WILL HDIE!!");
+        keyboardFrame = CGRectZero;
+    } else {
+        NSLog(@"Keybaord NOT hiding")   ;
+        imageTopConstant = -(self.view.frame.size.height/2);
+        keyboardFrame = [notifcatiion.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    }
+    
+    UIViewAnimationCurve curve = [notifcatiion.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    
+    NSTimeInterval duration = [notifcatiion.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    [UIView animateWithDuration:duration animations:^{
+        [UIView setAnimationCurve:curve];
+        self.commenSectionBottomConstraint.constant = (keyboardFrame.size.height);
+        self.imageViewTopConstraint.constant = imageTopConstant;
+        [self.view layoutIfNeeded];
+    }];
+}
+
 @end

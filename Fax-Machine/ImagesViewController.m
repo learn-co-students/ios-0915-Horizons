@@ -195,7 +195,7 @@
 {
     if ([segue.identifier isEqualToString:@"photoDetails"])
     {
-    
+        self.navigationController.navigationBarHidden = NO;
         UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
         ImagesDetailsViewController *imageVC = segue.destinationViewController;

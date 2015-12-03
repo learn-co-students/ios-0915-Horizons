@@ -26,6 +26,7 @@
 
 @property (nonatomic, strong) DataStore *dataStore;
 //@property (nonatomic)NSUInteger *timesThatThisScreenLoaded;
+
 @end
 
 @implementation ImagesViewController
@@ -50,9 +51,7 @@
             }];
         }
     }];
-  
-  
-  
+    [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -184,5 +183,6 @@
     }
     
 }
+
 
 @end

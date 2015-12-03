@@ -14,6 +14,7 @@
 #import "APIConstants.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <YYWebImage/YYWebImage.h>
+#import "ImagesViewController.h"
 
 @interface LeftMenuViewController ()
 
@@ -85,7 +86,21 @@
         }
         case 2:
         {
-            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+            PFObject *user = PFUser.currentUser;
+            
+            if(![[user objectForKey:@"emailVerified"] boolValue])
+            {
+                [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
+                //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
+                NSLog(@"It is not verified!");
+            }else{
+            
+        
+                [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+                NSLog(@"You're email is verified!");
+            }
+        }
+            
             break;
         case 3:
             {
@@ -137,7 +152,7 @@
             }
         }
     }
-}
+//}
 
 #pragma mark -
 #pragma mark UITableView Datasource

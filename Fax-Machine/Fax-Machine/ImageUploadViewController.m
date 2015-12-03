@@ -107,9 +107,10 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-  
-  if (self.firstTime) {
+
+    if (self.firstTime){
         self.firstTime = NO;
+      
       [self imageUpLoadSource];
   
     }

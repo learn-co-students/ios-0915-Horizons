@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <RESideMenu/RESideMenu.h>
+#import "HelperMethods.h"
 
 @interface ImagesViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 

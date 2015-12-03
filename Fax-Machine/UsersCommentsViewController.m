@@ -51,6 +51,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillHideNotification object:nil];
     
+    
+    
 }
 
 - (void)keyboardWillChangePosition:(NSNotification *)notifcatiion {

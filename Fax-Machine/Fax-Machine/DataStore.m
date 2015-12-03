@@ -49,9 +49,9 @@
 
 -(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery WithCompletion:(void(^)(BOOL complete))completionBlock
 {
-    NSUInteger page = self.downloadedPictures.count / imagesToDownloadFromParseQuery;
+    NSUInteger page =ceil(self.downloadedPictures.count / (imagesToDownloadFromParseQuery * 1.00f));
     
-    NSLog(@"Page: %lu", page);
+    NSLog(@"Page: %lu downloaded image: %lu", page, self.downloadedPictures.count);
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {
@@ -89,8 +89,10 @@
     parseLocation[@"country"] = imageObject.location.country;
     parseLocation[@"geoPoint"] = imageObject.location.geoPoint;
     parseLocation[@"dateTaken"] = imageObject.location.dateTaken;
-    parseLocation[@"weather"] = imageObject.location.weather;
-    
+    parseLocation[@"weather"] = @{};
+    if (imageObject.location.weather) {
+        parseLocation[@"weather"] = imageObject.location.weather;
+    }
     [ParseAPIClient saveLocationWithLocation:parseLocation success:^(BOOL success) {
         if (success) {
             PFObject *image = [PFObject objectWithClassName:@"Image"];

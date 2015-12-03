@@ -49,9 +49,9 @@
 
 -(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery WithCompletion:(void(^)(BOOL complete))completionBlock
 {
-    NSUInteger page = self.downloadedPictures.count / imagesToDownloadFromParseQuery;
+    NSUInteger page =ceil(self.downloadedPictures.count / (imagesToDownloadFromParseQuery * 1.00f));
     
-    NSLog(@"Page: %lu", page);
+    NSLog(@"Page: %lu downloaded image: %lu", page, self.downloadedPictures.count);
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {
@@ -81,6 +81,35 @@
     }];
 }
 
+
+-(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate andLocation:(Location *)location numberOfImages:(NSUInteger)number WithCompletion:(void(^)(BOOL complete))completionBlock
+{
+    
+    [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:number completion:^(NSArray *data) {
+        for (PFObject *parseImageObject in data) {
+            
+            NSMutableArray *commentsForItem = [NSMutableArray new];
+            if (parseImageObject[@"comments"]) {
+                commentsForItem = parseImageObject[@"comments"];
+            }
+            ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:commentsForItem
+                                                                objectID:parseImageObject.objectId];
+            
+            NSLog(@"Image ID: %@", parseImage.location);
+            NSString *city = parseImageObject[@"location"][@"city"];
+            
+            if ([city isEqualToString:location.city])
+            {
+                [self.downloadedPictures addObject:parseImage];
+            }
+        }
+        completionBlock(YES);
+        
+    } failure:^(NSError *error) {
+        NSLog(@"Download images error: %@", error.localizedDescription);
+    }];
+}
+
 -(void)uploadImageWithImageObject:(ImageObject*)imageObject
                    WithCompletion:(void(^)(BOOL complete))completionBlock{
     
@@ -89,8 +118,10 @@
     parseLocation[@"country"] = imageObject.location.country;
     parseLocation[@"geoPoint"] = imageObject.location.geoPoint;
     parseLocation[@"dateTaken"] = imageObject.location.dateTaken;
-    parseLocation[@"weather"] = imageObject.location.weather;
-    
+    parseLocation[@"weather"] = @{};
+    if (imageObject.location.weather) {
+        parseLocation[@"weather"] = imageObject.location.weather;
+    }
     [ParseAPIClient saveLocationWithLocation:parseLocation success:^(BOOL success) {
         if (success) {
             PFObject *image = [PFObject objectWithClassName:@"Image"];

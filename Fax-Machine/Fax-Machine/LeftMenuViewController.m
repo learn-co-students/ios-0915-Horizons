@@ -75,7 +75,7 @@
             navController.navigationBar.shadowImage = [UIImage new];
             navController.navigationBar.translucent = YES;
             navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-            
+            imageViewVC.title = @"Home";
             imageViewVC.isFavorite = NO;
             imageViewVC.isUserImageVC = NO;
             
@@ -109,6 +109,8 @@
                 navController.navigationBar.shadowImage = [UIImage new];
                 navController.navigationBar.translucent = YES;
                 navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+                imageViewVC.title = @"My Images";
+                
                 [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
                     if (complete) {
                         [[NSOperationQueue mainQueue]addOperationWithBlock:^{
@@ -129,6 +131,8 @@
                 navController.navigationBar.shadowImage = [UIImage new];
                 navController.navigationBar.translucent = YES;
                 navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+                imageViewVC.title = @"My Favorites";
+                
                 [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
                     if (success) {
                         [[NSOperationQueue mainQueue] addOperationWithBlock:^{

@@ -26,10 +26,10 @@
     [super viewDidLoad];
     self.dataStore = [DataStore sharedDataStore];
     
-    self.view.backgroundColor = [UIColor clearColor];
-    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    //self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
-    self.commentsTable.backgroundColor = [UIColor clearColor];
+    self.commentsTable.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
     self.commentsTable.opaque = NO;
     self.commentsTable.separatorColor = [UIColor clearColor];
     self.commentsTable.separatorStyle = UITableViewCellSeparatorStyleNone;

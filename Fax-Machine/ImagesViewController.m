@@ -162,7 +162,7 @@
     }else if (scrollView.contentOffset.y <= 0){
         self.navigationController.navigationBarHidden = NO;
         self.scrollOffset = scrollView.contentOffset.y;
-    }else if (velocity.y != 0 ) {
+    }else if (fabs(velocity.y) > 2) {
         self.navigationController.navigationBarHidden = YES;
         self.scrollOffset = scrollView.contentOffset.y;
     }else if (scrollView.contentOffset.y < self.scrollOffset){

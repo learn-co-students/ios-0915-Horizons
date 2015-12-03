@@ -114,7 +114,7 @@
             NSString *country = parseImageObject[@"location"][@"country"];
             NSString *city = parseImageObject[@"location"][@"city"];
             
-            if ([country isEqualToString:location.country] && [city isEqualToString:location.city])
+            if ([city isEqualToString:location.city])
             {
                 [self.downloadedPictures addObject:parseImage];
             }

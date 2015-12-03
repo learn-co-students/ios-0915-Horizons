@@ -26,14 +26,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mountains_hd"]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]]];
     UIPickerView *filterPicker = [[UIPickerView alloc] init];
-    
-//    self.moodsArray = @[@"Happy",
-//                        @"Gloomy",
-//                        @"Snowy?",
-//                        @"Autumn",
-//                        @"Mostly Cloudy"];
-
     PFQuery *query = [PFQuery queryWithClassName:@"Location"];
     NSArray *queryArray = [query findObjects];
     
@@ -249,18 +244,35 @@
     imagesVC.isFiltered = YES;
     [self.dataStore.downloadedPictures removeAllObjects];
     //[imagesVC.imagesCollectionViewController reloadData];
-    NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
+    
     Location *locationForPredicate = [[Location alloc] init];
     locationForPredicate.city = arrayOfCities[citySelection];
     locationForPredicate.country = arrayOfCountries[countrySelection];
     
-    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+    if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"])
     {
-        if (complete)
-        {
-            [imagesVC filteringImagesCountryLevel:filterParameters];
-        }
-    }];
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood != %@", @""];
+        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+         {
+             if (complete)
+             {
+                 [imagesVC filteringImagesCountryLevel:filterParameters];
+             }
+         }];
+    }
+    
+    else
+    {
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
+        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+         {
+             if (complete)
+             {
+                 [imagesVC filteringImagesCountryLevel:filterParameters];
+             }
+         }];
+    }
+    
     self.dataStore.filterDictionary = self.filtering;
 //    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
 //     {

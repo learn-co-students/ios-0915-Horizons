@@ -18,12 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JTc-MS-qQs">
-                                <rect key="frame" x="0.0" y="226" width="375" height="216"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
-                            </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G0o-tx-KWO">
                                 <rect key="frame" x="166" y="526" width="43" height="30"/>
                                 <color key="backgroundColor" red="0.15469549450851838" green="0.38118203235075221" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -32,6 +26,13 @@
                                     <segue destination="AyC-Ad-cZq" kind="show" id="N5V-2Y-Zgo"/>
                                 </connections>
                             </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JTc-MS-qQs">
+                                <rect key="frame" x="0.0" y="226" width="375" height="216"/>
+                                <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>

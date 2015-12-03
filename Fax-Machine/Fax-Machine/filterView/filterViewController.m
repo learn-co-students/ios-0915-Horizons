@@ -251,8 +251,10 @@
     
     if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"])
     {
-        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"(mood != %@) OR (mood = %@)", @"", @""];
+        NSString *nilString = nil;
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"likes >= 0"];
         
+    
         [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
          {
              if (complete)

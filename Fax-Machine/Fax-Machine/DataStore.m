@@ -96,6 +96,7 @@
         NSLog(@"Download images error: %@", error.localizedDescription);
     }];
 }
+//Downloading pictures with only city selected.
 
 -(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate andLocation:(Location *)location numberOfImages:(NSUInteger)number WithCompletion:(void(^)(BOOL complete))completionBlock
 {

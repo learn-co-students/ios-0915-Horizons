@@ -60,5 +60,9 @@
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL complete))completionBlock;
 
+-(void)downloadPicturesToDisplayWithLocation:(Location *)location
+                              numberOfImages:(NSUInteger)number
+                              WithCompletion:(void(^)(BOOL complete))completionBlock;
+
 
 @end

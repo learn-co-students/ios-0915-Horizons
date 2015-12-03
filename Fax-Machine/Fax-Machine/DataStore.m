@@ -96,7 +96,7 @@
         NSLog(@"Download images error: %@", error.localizedDescription);
     }];
 }
-//Downloading pictures with only city selected.
+
 
 -(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate andLocation:(Location *)location numberOfImages:(NSUInteger)number WithCompletion:(void(^)(BOOL complete))completionBlock
 {
@@ -112,7 +112,6 @@
                                                                 objectID:parseImageObject.objectId];
             
             NSLog(@"Image ID: %@", parseImage.location);
-            NSString *country = parseImageObject[@"location"][@"country"];
             NSString *city = parseImageObject[@"location"][@"city"];
             
             if ([city isEqualToString:location.city])

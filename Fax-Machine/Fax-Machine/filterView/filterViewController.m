@@ -173,26 +173,6 @@
     NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
     self.chosenCountry = arrayOfCountries[selectedRowForCountry];
 }
-//- (IBAction)filterButtonTapped:(id)sender
-//{
-////    NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
-////    NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
-////    arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
-////    arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
-////    NSInteger countrySelection = [self.filterPicker selectedRowInComponent:0];
-////    NSInteger citySelection = [self.filterPicker selectedRowInComponent:1];
-////    NSInteger moodSelection = [self.filterPicker selectedRowInComponent:2];
-////    
-////    
-////    NSDictionary *filterParameters = @{
-////                                       @"country" : arrayOfCountries[countrySelection],
-////                                       @"city" : arrayOfCities[citySelection],
-////                                       @"mood" : self.moodsArray[moodSelection]
-////                                        };
-////    self.filtering = [filterParameters mutableCopy];
-//    
-//    //got a dictionary of filter parameters, but what if a user doesn't want to use all of the filters?
-//}
 
 -(void)setupPickerView:(UIPickerView *)pickerView
 {
@@ -251,10 +231,7 @@
     
     if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"])
     {
-        NSString *nilString = nil;
         NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"likes >= 0"];
-        
-    
         [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
          {
              if (complete)
@@ -263,7 +240,6 @@
              }
          }];
     }
-    
     else
     {
         NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
@@ -275,19 +251,7 @@
              }
          }];
     }
-    
     self.dataStore.filterDictionary = self.filtering;
-//    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
-//     {
-//         if (complete)
-//         {
-//            [imagesVC filteringImagesCountryLevel:filterParameters];
-//         }
-//         
-//     }];
-    
-//    self.dataStore.filterDictionary = self.filtering;
-    
 }
 
 @end

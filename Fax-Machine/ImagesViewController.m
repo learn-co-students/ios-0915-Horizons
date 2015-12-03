@@ -24,6 +24,7 @@
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
 //@property (nonatomic, strong) NSMutableArray *downloadedImages;
 @property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
+@property (nonatomic) CGFloat scrollOffset;
 
 
 
@@ -35,17 +36,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
+
+    //self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
-//    [self.view setBackgroundColor:[UIColor colorWithRed:0.66
-//                                                  green:0.66
-//                                                   blue:0.66
-//                                                  alpha:0.75]];
-//    self.timesThatThisScreenLoaded = self.timesThatThisScreenLoaded + 1;
-//    self.arrayWithImages =[[NSArray alloc]initWithObjects:@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",@"img5.jpg",@"img2.jpg",@"img3.jpg",@"img4.jpg",@"img5.jpg",@"img6.jpg",@"img6.jpg",@"img7.jpg",@"img8.jpg",@"img9.jpg",@"img10.jpg",@"img1.JPG",nil];
-//    self.arrayWithDescriptions =[[NSArray alloc]initWithObjects:@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",@"♡",nil];
 
+    self.scrollOffset = 0;
+    
     FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
     FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
     self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
@@ -53,18 +52,8 @@
     
     self.dataStore = [DataStore sharedDataStore];
     
-    
-    
-//    [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
-//        if (complete) {
-//            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                [self.imagesCollectionViewController reloadData];
-//            }];
-//        }
-//    }];
-    
     if (!self.isFiltered) {
-        [self.dataStore downloadPicturesToDisplay:20 WithCompletion:^(BOOL complete) {
+        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
             if (complete) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.imagesCollectionViewController reloadData];
@@ -77,10 +66,8 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"%@", self.filterParameters[@"city"]);
     self.isFiltered = NO;
 
-    //NSLog(@"isFavorite: %d", self.isFavorite);
     [self.imagesCollectionViewController reloadData];
     [self.dataStore.controllers addObject: self];
     
@@ -141,8 +128,7 @@
     
     NSURL *url = [NSURL URLWithString:urlString];
     cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu", parseImage.likes, parseImage.comments.count];
-    //NSLog(@"Image ID: %@", url);
-//    [cell.myImage yy_setImageWithURL:url options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
+
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
 //        if (from == YYWebImageFromDiskCache) {
 //            NSLog(@"From Cache!");
@@ -174,9 +160,37 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
-    *targetContentOffset = scrollView.contentOffset;;
+    //*targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
+
+//    NSLog(@"Scroll Velocity: %.2f", velocity.y);
+//    NSLog(@"Scroll view offset y: %.2f", scrollView.contentOffset.y);
+//    NSLog(@"Scroll view content height: %.2f", scrollView.contentSize.height);
     
-    [self.imageCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+    if (velocity.y <= -4) {
+        self.navigationController.navigationBarHidden = NO;
+        *targetContentOffset = CGPointMake(0, 0);
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (scrollView.contentOffset.y <= 0){
+        self.navigationController.navigationBarHidden = NO;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (fabs(velocity.y) > 2) {
+        self.navigationController.navigationBarHidden = YES;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (scrollView.contentOffset.y < self.scrollOffset){
+        self.navigationController.navigationBarHidden = NO;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }
+    
+    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 300) > scrollView.contentSize.height) {
+        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
+            if (complete) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//                    NSLog(@"# of images: %lu", self.dataStore.downloadedPictures.count);
+                    [self.imagesCollectionViewController reloadData];
+                }];
+            }
+        }];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -189,14 +203,11 @@
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
         if (self.isFavorite) {
             imageVC.image = self.dataStore.favoriteImages[indexPath.row];
-            
-           // [self.dataStore getOwnerWithObjectID:<#(NSString *)#> success:<#^(PFUser *owner)success#>]
         } else if (self.isUserImageVC) {
           imageVC.image = self.dataStore.userPictures[indexPath.row];
         } else{
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }
-        //imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
     }
 
 }

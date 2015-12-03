@@ -34,7 +34,7 @@
     // Override point for customization after application launch.
 
     // AWS STUFF
-    self.window.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    //self.window.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
     AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionUSEast1
                                                                                                     identityPoolId:POOL_ID
@@ -54,8 +54,6 @@
   
     return YES;
 }
-
-
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   return [[FBSDKApplicationDelegate sharedInstance] application:application

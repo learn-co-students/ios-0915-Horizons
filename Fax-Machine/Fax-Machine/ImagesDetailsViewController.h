@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UsersCommentsViewController.h"
 
-@interface ImagesDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ImagesDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) ImageObject *image;
 @property (nonatomic, strong) NSMutableArray *owners;

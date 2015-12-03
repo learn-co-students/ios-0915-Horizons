@@ -47,30 +47,14 @@
   }];
 }
 
-/*if (parseImageObject[@"comments"]) {
-    [ParseAPIClient fetchAllCommentsWithRelatedImage:parseImageObject[@"imageID"] completion:^(NSArray *data) {
-        ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:[data mutableCopy]
-                                                            objectID:parseImageObject.objectId];
-        
-        [self.favoriteImages addObject:parseImage];
-        success(YES);
-        
-    } failure:^(NSError *error) {
-        NSLog(@"Fetch Comments error: %@", error.localizedDescription);
-    }];
-}else{
-    NSMutableArray *commentsForItem = [NSMutableArray new];
-    ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:commentsForItem
-                                                        objectID:parseImageObject.objectId];
-    
-    [self.favoriteImages addObject:parseImage];
-    success(YES);
-}*/
-
 -(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery WithCompletion:(void(^)(BOOL complete))completionBlock
 {
+    NSUInteger page =ceil(self.downloadedPictures.count / (imagesToDownloadFromParseQuery * 1.00f));
+    
+    NSLog(@"Page: %lu downloaded image: %lu", page, self.downloadedPictures.count);
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
-    [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery completion:^(NSArray *data) {
+    [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {
         for (PFObject *parseImageObject in data) {
             if (parseImageObject[@"comments"]) {
                 [ParseAPIClient fetchAllCommentsWithRelatedImage:parseImageObject[@"imageID"] completion:^(NSArray *data) {
@@ -134,8 +118,10 @@
     parseLocation[@"country"] = imageObject.location.country;
     parseLocation[@"geoPoint"] = imageObject.location.geoPoint;
     parseLocation[@"dateTaken"] = imageObject.location.dateTaken;
-    parseLocation[@"weather"] = imageObject.location.weather;
-    
+    parseLocation[@"weather"] = @{};
+    if (imageObject.location.weather) {
+        parseLocation[@"weather"] = imageObject.location.weather;
+    }
     [ParseAPIClient saveLocationWithLocation:parseLocation success:^(BOOL success) {
         if (success) {
             PFObject *image = [PFObject objectWithClassName:@"Image"];

@@ -20,6 +20,12 @@
                      completion:(void (^)(NSArray *data))completionBlock
                         failure:(void(^)(NSError *error))failure;
 
++(void)fetchImagesWithPredicate:(NSPredicate *)predicate
+                 numberOfImages:(NSUInteger)numberOfImages
+                           page:(NSUInteger)page
+                     completion:(void (^)(NSArray *))completionBlock
+                        failure:(void (^)(NSError *))failure;
+
 +(void)fetchAllCommentsWithRelatedImage:(NSString *)imageID
                              completion:(void (^)(NSArray *data))completionBlock
                                 failure:(void(^)(NSError *error))failure;

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <RESideMenu/RESideMenu.h>
 
-@interface LeftMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RESideMenuDelegate>
+@interface LeftMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RESideMenuDelegate>
 
 @end

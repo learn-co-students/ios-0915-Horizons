@@ -59,6 +59,7 @@
     }];
 }
 
+
 /**
  *  Fetch images info from Parse
  *

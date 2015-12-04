@@ -42,6 +42,7 @@
     
     _filterPicker.delegate = self;
     _filterPicker.dataSource = self;
+    
     [self setupPickerView:filterPicker];
     
     self.filterButton.accessibilityLabel = @"Filter";
@@ -98,27 +99,102 @@
     }
 
 }
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
+//
+//
+//Two lines per component in pickerview
 
+-(UIView *)pickerView:(UIPickerView *)pickerView
+           viewForRow:(NSInteger)row
+         forComponent:(NSInteger)component
+          reusingView:(UIView *)view
+{
     if (component == 0)
     {
         NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
-        return arrayOfCountries[row];
+        UILabel *pickerLabel = (UILabel *)view;
+        
+        if (pickerLabel == nil)
+        {
+            CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
+            pickerLabel = [[UILabel alloc] initWithFrame:frame];
+            [pickerLabel setTextAlignment:UITextAlignmentLeft];
+            [pickerLabel setBackgroundColor:[UIColor clearColor]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            
+            pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            pickerLabel.numberOfLines = 2;
+            
+        }
+        [pickerLabel setText:arrayOfCountries[row]];
+         return pickerLabel;
     }
     else if (component == 1)
     {
         NSMutableArray *arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
-        return arrayOfCities[row];
+        UILabel *pickerLabel = (UILabel *)view;
+        
+        if (pickerLabel == nil)
+        {
+            CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
+            pickerLabel = [[UILabel alloc] initWithFrame:frame];
+            [pickerLabel setTextAlignment:UITextAlignmentLeft];
+            [pickerLabel setBackgroundColor:[UIColor clearColor]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            
+            pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            pickerLabel.numberOfLines = 2;
+            
+        }
+        [pickerLabel setText:arrayOfCities[row]];
+        return pickerLabel;
+    }
+    else if (component == 2)
+    {
+        NSMutableArray *arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+        UILabel *pickerLabel = (UILabel *)view;
+        
+        if (pickerLabel == nil)
+        {
+            CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
+            pickerLabel = [[UILabel alloc] initWithFrame:frame];
+            [pickerLabel setTextAlignment:UITextAlignmentLeft];
+            [pickerLabel setBackgroundColor:[UIColor clearColor]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            
+            pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            pickerLabel.numberOfLines = 2;
+            
+        }
+        [pickerLabel setText:arrayOfMoods[row]];
+        return pickerLabel;
     }
     else
     {
-        NSMutableArray *arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
-        return arrayOfMoods[row];
+        return nil;
     }
-    
-    return nil;
 }
+
+//-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+//{
+//
+//    if (component == 0)
+//    {
+//        NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
+//        return arrayOfCountries[row];
+//    }
+//    else if (component == 1)
+//    {
+//        NSMutableArray *arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+//        return arrayOfCities[row];
+//    }
+//    else
+//    {
+//        NSMutableArray *arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+//        return arrayOfMoods[row];
+//    }
+//    
+//    return nil;
+//}
 
 -(NSMutableArray *)gettingAnArrayOfCountries:(NSArray *)arrayOfPFObjects
 {
@@ -228,8 +304,9 @@
     Location *locationForPredicate = [[Location alloc] init];
     locationForPredicate.city = arrayOfCities[citySelection];
     locationForPredicate.country = arrayOfCountries[countrySelection];
+    NSString *moodFilter = filterParameters[@"mood"];
     
-    if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"])
+    if ([moodFilter isEqualToString:@"Default Mood"])
     {
         NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"likes >= 0"];
         [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
@@ -242,7 +319,7 @@
     }
     else
     {
-        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@", moodFilter];
         [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
          {
              if (complete)

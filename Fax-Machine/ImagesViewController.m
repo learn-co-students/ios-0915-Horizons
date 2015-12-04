@@ -82,7 +82,10 @@
     }
     
     //Initial call to fetch images to display
-    if (!self.isFiltered) {
+    if (!self.isFiltered && !self.isFirstTime) {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
+        self.isFirstTime = YES;
+        
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
             if (complete) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -90,12 +93,6 @@
                 }];
             }
         }];
-    }
-    
-    //Alert user on the initial screen for email verify.
-    if (!self.isFirstTime) {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
-        self.isFirstTime = YES;
     }
 }
 

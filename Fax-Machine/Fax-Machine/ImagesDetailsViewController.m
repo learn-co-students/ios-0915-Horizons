@@ -149,7 +149,8 @@
     //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
     PFUser *user = comment[@"owner"];
-    cell.detailTextLabel.text = user.username;
+    NSString *username = [user.email componentsSeparatedByString:@"@"][0];
+    cell.detailTextLabel.text = username;
     cell.textLabel.text = comment[@"userComment"];
     
     return cell;
@@ -192,13 +193,13 @@
     
     if(![[user objectForKey:@"emailVerified"] boolValue])
     {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can post!" viewController:self];
         //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
-        NSLog(@"It is not verified!");
+        //NSLog(@"It is not verified!");
     }else{
         if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
             
-            NSLog(@"It's an OK message.");
+            //NSLog(@"It's an OK message.");
             
             NSString *enteredText = [self.commentTextField.text copy];
             

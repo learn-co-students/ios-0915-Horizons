@@ -14,6 +14,7 @@
 #import "APIConstants.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <YYWebImage/YYWebImage.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "ImagesViewController.h"
 
 @interface LeftMenuViewController ()
@@ -87,6 +88,22 @@
         }
         case 2:
         {
+<<<<<<< HEAD
+//          [navController presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+//            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+          
+          [self.sideMenuViewController hideMenuViewController];
+          navController = [[UINavigationController alloc] initWithRootViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"]];
+//          navController.navigationBar.shadowImage = [UIImage new];
+//          navController.navigationBar.translucent = YES;
+//          navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+          navController.navigationBar.hidden = YES;
+          
+          imageViewVC.isFavorite = NO;
+          imageViewVC.isUserImageVC = NO;
+          
+          [self.sideMenuViewController setContentViewController:navController];
+=======
             PFObject *user = PFUser.currentUser;
             
             if(![[user objectForKey:@"emailVerified"] boolValue])
@@ -102,6 +119,7 @@
             }
         }
             
+>>>>>>> master
             break;
         case 3:
             {
@@ -179,6 +197,19 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row == 0) {
+     __block NSString *facebookUrl = @"";
+      if ([FBSDKAccessToken currentAccessToken]) {
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
+         
+         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+           if (!error) {
+             NSLog(@"fetched user:%@", result);
+             facebookUrl = result[@"picture"][@"data"][@"url"];
+             
+           }
+         }];
+      }
+      
         // The profile photo
         static NSString *profileCellIdentifier = @"ProfileCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:profileCellIdentifier];
@@ -203,10 +234,15 @@
         
         if (self.selectedImage){
             ourImageView.image = self.selectedImage;
-        }else{
+        }
+//        else if ([FBSDKAccessToken currentAccessToken]) {
+//
+//        }
+        else{
             NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
             NSURL *profileUrl = [NSURL URLWithString:urlString];
             [ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
+          NSLog(@"profile url: %@",profileUrl);
         }
         
         return cell;

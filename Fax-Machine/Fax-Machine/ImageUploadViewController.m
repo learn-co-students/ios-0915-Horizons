@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageHolderView;
 @property (nonatomic, strong) UIAlertController *sourcePicker;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
-@property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic) BOOL firstTime;
 @property (nonatomic, strong)NSMutableArray *countriesArray;
 @property (nonatomic, strong)UITableView *autocompleteTableView;
@@ -35,12 +34,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *countryTextField;
 @property (weak, nonatomic) IBOutlet UITextField *moodTextField;
 
-@property (nonatomic, strong)Location *location;
 
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic, strong) ImageObject *parseImageObject;
 
-@property (nonatomic, strong) FCCurrentLocationGeocoder *geoCoder;
 
 @property (nonatomic, strong) NSDate *creationDate;
 @property (nonatomic, strong)NSLayoutConstraint *bottomConstraint;
@@ -48,6 +45,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerVerticallyConstraint;
 @property (nonatomic)CGFloat initialConstraintConstant;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageAspectRatio;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet UITextField *captionTextBox;
 
 @end
 
@@ -66,6 +66,16 @@
   self.countryTextField.delegate = self;
   self.cityTextField.delegate = self;
   self.moodTextField.delegate = self;
+  self.countryTextField.text = self.country;
+  self.cityTextField.text = self.city;
+  self.moodTextField.text = self.mood;
+  self.imageHolderView.image = self.selectedImage;
+  
+  if (!self.country || !self.city || !self.mood) {
+    self.doneButton.enabled = NO;
+  } else {
+    self.doneButton.enabled = YES;
+  }
   
   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardControl:) name:UIKeyboardWillShowNotification object:nil];
 
@@ -75,6 +85,8 @@
   self.bottomConstraint.active = NO;
   
   self.initialConstraintConstant = self.centerVerticallyConstraint.constant;
+  
+//  self.doneButton.enabled = NO;
 }
 
 -(void)keyboardControl:(NSNotification*)notification
@@ -90,7 +102,8 @@
     if ([notification.name isEqualToString:@"UIKeyboardWillShowNotification"]) {
 //      self.centerVerticallyConstraint.active = NO;
 //      self.imageHolderView.hidden = YES;
-      [self.view sendSubviewToBack:self.stackView];
+//      [self.view sendSubviewToBack:self.stackView];
+      [self.view bringSubviewToFront:self.navigationBar];
       self.centerVerticallyConstraint.constant = self.initialConstraintConstant - smallerSize;
 //      self.bottomConstraint.constant = keyboardSize.height;
 //      self.bottomConstraint.active = YES;
@@ -110,8 +123,8 @@
 
     if (self.firstTime){
         self.firstTime = NO;
-      
-      [self imageUpLoadSource];
+//      [self imageUpLoadSource];
+
   
     }
 }
@@ -153,7 +166,9 @@
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
 //    [textField resignFirstResponder];
   
-  if ([textField isEqual:self.cityTextField]) {
+  if([textField isEqual:self.captionTextBox]){
+    [self.cityTextField becomeFirstResponder];
+  } else if ([textField isEqual:self.cityTextField]) {
     [self.countryTextField becomeFirstResponder];
   } else if ([textField isEqual:self.countryTextField]) {
     [self.moodTextField becomeFirstResponder];
@@ -174,10 +189,13 @@
       [self presentInvalidLocationAlert];
       return;
     } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
         [self presentInvalidCityAlert];
     } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
       [self presentInvalidCountryAlert];
     } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
       [self presentInvalidLocationAlert];
     }
     
@@ -192,6 +210,7 @@
          {
            self.cityTextField.text = city;
            self.countryTextField.text = country;
+           self.doneButton.enabled = YES;
          }];
       }];
     }
@@ -207,7 +226,7 @@
     //Calling the UIAlertController when screen loaded.
     //NSLog(@"City: %@",[FCCurrentLocationGeocoder sharedGeocoder].locationCity);
     //[[FCCurrentLocationGeocoder sharedGeocoder] cancelGeocode];
-    [self imageUpLoadSource];
+//    [self imageUpLoadSource];
 }
 
 /**
@@ -314,57 +333,12 @@
     }];
 }
 
-/**
- *  When user cancel the image select view.
- *
- *  @param sender UINavigation left bar Cancel button.
- */
+
 - (IBAction)cancelImageSelect:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
-/**
- *  Creating an alert view to ask for user's input on the image source
- */
-- (void)imageUpLoadSource{
-    
-    //UIAlertController to fetch user input
-    self.sourcePicker = [UIAlertController alertControllerWithTitle:@"Image Source" message:@"Please choose where you want to pull your image" preferredStyle:UIAlertControllerStyleAlert];
-    
-    //Setting the Camera source option
-    //***Reminder*** camera source does not work in simulator.
-    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"📷" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        //Setting the pickerDelegate and allow editting.
-        self.imagePickerController.delegate = self;
-        self.imagePickerController.allowsEditing = NO;
-        
-        //Setting the source of the image as type Camera.
-        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:self.imagePickerController animated:YES completion:nil];
-    }];
-    
-    //Setting the Photo library as the source of the image
-    UIAlertAction *photo = [UIAlertAction actionWithTitle:@"🖼" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    
-        self.imagePickerController.delegate = self;
-        self.imagePickerController.allowsEditing = NO;
-        
-        //Setting the source type as Photo library
-        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:self.imagePickerController animated:YES completion:nil];
-    }];
-    
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    
-    //Adding all the actions to the UIAlerController.
-    [self.sourcePicker addAction:camera];
-    [self.sourcePicker addAction:photo];
-    [self.sourcePicker addAction:cancel];
-    
-    [self presentViewController:self.sourcePicker animated:YES completion:nil];
 
-}
 
 -(void)upload:(AWSS3TransferManagerUploadRequest*)uploadRequest
 {
@@ -412,158 +386,121 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
--(NSNumber *)getImageOrientationWithImage:(UIImage *)image{
-    //Returning the orientation of the image for better detection.
-    NSUInteger exifOrientation;
-    switch (image.imageOrientation) {
-        case UIImageOrientationUp:
-            exifOrientation = 1;
-            break;
-        case UIImageOrientationDown:
-            exifOrientation = 3;
-            break;
-        case UIImageOrientationLeft:
-            exifOrientation = 8;
-            break;
-        case UIImageOrientationRight:
-            exifOrientation = 6;
-            break;
-        case UIImageOrientationUpMirrored:
-            exifOrientation = 2;
-            break;
-        case UIImageOrientationDownMirrored:
-            exifOrientation = 4;
-            break;
-        case UIImageOrientationLeftMirrored:
-            exifOrientation = 5;
-            break;
-        case UIImageOrientationRightMirrored:
-            exifOrientation = 7;
-            break;
-        default:
-            break;
-    }
-    
-    return @(exifOrientation);
-}
+
 
 #pragma mark - UIImage picker protocols
-/**
- *  Handling the image after selection is performed.
- *
- *  @param picker The image picker
- *  @param info   Info of the selected image
- */
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
-{
-    //Below section is for face detection in image with Core Image.
-    NSData *imageData = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage]);
-    CIImage *image = [CIImage imageWithData:imageData];
-    NSDictionary *opts = @{CIDetectorAccuracy : CIDetectorAccuracyHigh};
-    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
-                                              context:nil
-                                              options:opts];
-    
-//    NSData *jpeg1 = UIImageJPEGRepresentation(info[UIImagePickerControllerOriginalImage], 1);
-//    NSData *jpeg2 = UIImageJPEGRepresentation(info[UIImagePickerControllerOriginalImage], 0.5);
+
+
+//-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+//{
+//    //Below section is for face detection in image with Core Image.
+//    NSData *imageData = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage]);
+//    CIImage *image = [CIImage imageWithData:imageData];
+//    NSDictionary *opts = @{CIDetectorAccuracy : CIDetectorAccuracyHigh};
+//    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
+//                                              context:nil
+//                                              options:opts];
 //    
-//    NSData *png = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage]);
-    
-    NSNumber *orientation = [self getImageOrientationWithImage:self.selectedImage];
-    opts = @{CIDetectorImageOrientation : orientation};
-    NSArray *features = [detector featuresInImage:image options:opts];
-    
-    NSOperationQueue *bgQueue = [NSOperationQueue new];
-    NSLog(@"Features: %lu", features.count);
-    if (!features.count)
-    {
-        NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^
-        {
-            self.selectedImage = info[UIImagePickerControllerOriginalImage];
-            NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^
-             {
-                 self.imageHolderView.image = self.selectedImage;
-             }];
-            [picker dismissViewControllerAnimated:YES completion:nil];
-            
-            if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
-                PHAsset *asset = [LocationData logMetaDataFromImage:imageUrl];
-                
-                //If image asset contains geo data, fetch and display it on textfield.
-                if (asset.location) {
-                    PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
-                    NSMutableDictionary *dic = [@{@"location" : asset.location,
-                                                  @"date" : asset.creationDate} mutableCopy];
-                    self.creationDate = asset.creationDate;
-                    [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
-                     {
-                         self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
-                         [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
-                          {
-                              [[NSOperationQueue mainQueue] addOperationWithBlock:^
-                               {
-                                   NSString *weatherOfImage = weather[@"currently"][@"summary"];
-                                   self.moodTextField.text = weatherOfImage;
-                                   self.countryTextField.text = self.location.country;
-                                   self.cityTextField.text = self.location.city;
-                               }];
-                          }];
-                         
-                     }];
-                }
-                
-            } else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
-                //When image source equals to Camera
-                self.creationDate = [NSDate date];
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    self.geoCoder = [FCCurrentLocationGeocoder sharedGeocoder];
-                    self.geoCoder.canUseIPAddressAsFallback = YES;
-                    self.geoCoder.timeoutErrorDelay = 5;
-                    NSLog(@"GeoCode enable: %d", [self.geoCoder canGeocode]);
-                    [self.geoCoder geocode:^(BOOL success) {
-                        if (success) {
-                            PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:self.geoCoder.location];
-                            NSMutableDictionary *newDictionary = [@{@"location": self.geoCoder.location,
-                                                                    @"date":[NSDate date]} mutableCopy];
-                            [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
-                             {
-                                 self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
-                                 [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
-                                  {
-                                      [[NSOperationQueue mainQueue] addOperationWithBlock:^
-                                       {
-                                           NSString *weatherOfImage = weather[@"currently"][@"summary"];
-                                           self.moodTextField.text = weatherOfImage;
-                                           self.countryTextField.text = self.location.country;
-                                           self.cityTextField.text = self.location.city;
-                                           self.location.weather = weather;
-                                       }];
-                                  }];
-                             }];
-                        }else{
-                            NSLog(@"Time out fetch geo loadtion!");
-                        }
-                    }];
-                }];
-            }
-        }];
-        [bgQueue addOperation:operation];
-    }
-    else
-    {
-        [picker dismissViewControllerAnimated:YES completion:nil];
-        NSLog(@"Invalid image");
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self invalidImageAlert];
-        }];
-        
-    }
-    
-    
-    
-    //Displaying the selected image in the image view holder.
-}
+////    NSData *jpeg1 = UIImageJPEGRepresentation(info[UIImagePickerControllerOriginalImage], 1);
+////    NSData *jpeg2 = UIImageJPEGRepresentation(info[UIImagePickerControllerOriginalImage], 0.5);
+////    
+////    NSData *png = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage]);
+//    
+//    NSNumber *orientation = [self getImageOrientationWithImage:self.selectedImage];
+//    opts = @{CIDetectorImageOrientation : orientation};
+//    NSArray *features = [detector featuresInImage:image options:opts];
+//    
+//    NSOperationQueue *bgQueue = [NSOperationQueue new];
+//    NSLog(@"Features: %lu", features.count);
+//    if (!features.count)
+//    {
+//        NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^
+//        {
+//            self.selectedImage = info[UIImagePickerControllerOriginalImage];
+//            NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
+//            [[NSOperationQueue mainQueue] addOperationWithBlock:^
+//             {
+//                 self.imageHolderView.image = self.selectedImage;
+//             }];
+//            [picker dismissViewControllerAnimated:YES completion:nil];
+//            
+//            if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+//                PHAsset *asset = [LocationData logMetaDataFromImage:imageUrl];
+//                
+//                //If image asset contains geo data, fetch and display it on textfield.
+//                if (asset.location) {
+//                    PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
+//                    NSMutableDictionary *dic = [@{@"location" : asset.location,
+//                                                  @"date" : asset.creationDate} mutableCopy];
+//                    self.creationDate = asset.creationDate;
+//                    [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
+//                     {
+//                         self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+//                         [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
+//                          {
+//                              [[NSOperationQueue mainQueue] addOperationWithBlock:^
+//                               {
+//                                   NSString *weatherOfImage = weather[@"currently"][@"summary"];
+//                                   self.moodTextField.text = weatherOfImage;
+//                                   self.countryTextField.text = self.location.country;
+//                                   self.cityTextField.text = self.location.city;
+//                               }];
+//                          }];
+//                         
+//                     }];
+//                }
+//                
+//            } else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
+//                //When image source equals to Camera
+//                self.creationDate = [NSDate date];
+//                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//                    self.geoCoder = [FCCurrentLocationGeocoder sharedGeocoder];
+//                    self.geoCoder.canUseIPAddressAsFallback = YES;
+//                    self.geoCoder.timeoutErrorDelay = 5;
+//                    NSLog(@"GeoCode enable: %d", [self.geoCoder canGeocode]);
+//                    [self.geoCoder geocode:^(BOOL success) {
+//                        if (success) {
+//                            PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:self.geoCoder.location];
+//                            NSMutableDictionary *newDictionary = [@{@"location": self.geoCoder.location,
+//                                                                    @"date":[NSDate date]} mutableCopy];
+//                            [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
+//                             {
+//                                 self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+//                                 [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
+//                                  {
+//                                      [[NSOperationQueue mainQueue] addOperationWithBlock:^
+//                                       {
+//                                           NSString *weatherOfImage = weather[@"currently"][@"summary"];
+//                                           self.moodTextField.text = weatherOfImage;
+//                                           self.countryTextField.text = self.location.country;
+//                                           self.cityTextField.text = self.location.city;
+//                                           self.location.weather = weather;
+//                                       }];
+//                                  }];
+//                             }];
+//                        }else{
+//                            NSLog(@"Time out fetch geo loadtion!");
+//                        }
+//                    }];
+//                }];
+//            }
+//        }];
+//        [bgQueue addOperation:operation];
+//    }
+//    else
+//    {
+//        [picker dismissViewControllerAnimated:YES completion:nil];
+//        NSLog(@"Invalid image");
+//        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//            [self invalidImageAlert];
+//        }];
+//        
+//    }
+//    
+//    
+//    
+//    //Displaying the selected image in the image view holder.
+//}
 
 /**
  *  Dimissing picker view if user cancels image select.

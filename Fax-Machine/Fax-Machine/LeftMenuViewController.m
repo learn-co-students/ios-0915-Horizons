@@ -88,38 +88,20 @@
         }
         case 2:
         {
-<<<<<<< HEAD
-//          [navController presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
-//            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
-          
-          [self.sideMenuViewController hideMenuViewController];
-          navController = [[UINavigationController alloc] initWithRootViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"]];
-//          navController.navigationBar.shadowImage = [UIImage new];
-//          navController.navigationBar.translucent = YES;
-//          navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-          navController.navigationBar.hidden = YES;
-          
-          imageViewVC.isFavorite = NO;
-          imageViewVC.isUserImageVC = NO;
-          
-          [self.sideMenuViewController setContentViewController:navController];
-=======
             PFObject *user = PFUser.currentUser;
-            
             if(![[user objectForKey:@"emailVerified"] boolValue])
             {
                 [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
-                //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
                 NSLog(@"It is not verified!");
             }else{
-            
-        
-                [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
-                NSLog(@"You're email is verified!");
+                [self.sideMenuViewController hideMenuViewController];
+                imageViewVC.isFavorite = NO;
+                imageViewVC.isUserImageVC = NO;
+                [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
+                //NSLog(@"You're email is verified!");
             }
         }
             
->>>>>>> master
             break;
         case 3:
             {

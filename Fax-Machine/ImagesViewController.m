@@ -17,9 +17,6 @@
 #import "RESideMenu.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
-
-
-
 @interface ImagesViewController () <RESideMenuDelegate>
 
 @property (strong, nonatomic) NSArray *arrayWithImages;
@@ -28,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
 @property (nonatomic) CGFloat scrollOffset;
 
+@property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
 
 @end
@@ -36,62 +34,54 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.dataStore = [DataStore sharedDataStore];
 
-    //self.view.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-
+    
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
-
-    self.scrollOffset = 0;
     
+    self.scrollOffset = 0;
     FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
     FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
     self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
     
-    self.dataStore = [DataStore sharedDataStore];
-    [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-        if (complete) {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.imagesCollectionViewController reloadData];
-            }];
-        }
-    }];
-  
-  if ([FBSDKAccessToken currentAccessToken]) {
-    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
-
-     startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-       if (!error) {
-         NSLog(@"fetched user:%@", result);
+    //Getting and setting the facebook profile pic as the default profile picture.
+    if ([FBSDKAccessToken currentAccessToken]) {
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
          
-         NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
-         NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
-         
-         NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
-         NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
-         NSLog(@"filepath %@", filePath);
-         NSData *imageData = [NSData dataWithContentsOfURL:url];
-         [imageData writeToFile:filePath atomically:YES];
-         AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
-         uploadRequest.body = [NSURL fileURLWithPath:filePath];
-         uploadRequest.key = fileName;
-         uploadRequest.contentType = @"image/png";
-         uploadRequest.bucket = @"fissamplebucket";
-         NSLog(@"Profile picture uploadRequest: %@", uploadRequest);
-         
-         [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
-           NSLog(@"Profile picture upload completed!");
-           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-           }];
+         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+             if (!error) {
+                 NSLog(@"fetched user:%@", result);
+                 
+                 NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
+                 NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
+                 
+                 NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
+                 NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
+                 NSLog(@"filepath %@", filePath);
+                 NSData *imageData = [NSData dataWithContentsOfURL:url];
+                 [imageData writeToFile:filePath atomically:YES];
+                 AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+                 uploadRequest.body = [NSURL fileURLWithPath:filePath];
+                 uploadRequest.key = fileName;
+                 uploadRequest.contentType = @"image/png";
+                 uploadRequest.bucket = @"fissamplebucket";
+                 NSLog(@"Profile picture uploadRequest: %@", uploadRequest);
+                 
+                 [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+                     NSLog(@"Profile picture upload completed!");
+                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                     }];
+                 }];
+                 
+             }
          }];
- 
-       }
-     }];
-  }
-  
-
+    }
+    
+    //Initial call to fetch images to display
     if (!self.isFiltered) {
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
             if (complete) {
@@ -101,7 +91,12 @@
             }
         }];
     }
-    [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
+    
+    //Alert user on the initial screen for email verify.
+    if (!self.isFirstTime) {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
+        self.isFirstTime = YES;
+    }
 }
 
 
@@ -206,27 +201,34 @@
 //    NSLog(@"Scroll Velocity: %.2f", velocity.y);
 //    NSLog(@"Scroll view offset y: %.2f", scrollView.contentOffset.y);
 //    NSLog(@"Scroll view content height: %.2f", scrollView.contentSize.height);
+//    NSLog(@"Default scroll offset: %.2f", self.scrollOffset);
     
-    if (velocity.y <= -4) {
-        self.navigationController.navigationBarHidden = NO;
-        *targetContentOffset = CGPointMake(0, 0);
-        self.scrollOffset = scrollView.contentOffset.y;
-    }else if (scrollView.contentOffset.y <= 0){
-        self.navigationController.navigationBarHidden = NO;
-        self.scrollOffset = scrollView.contentOffset.y;
-    }else if (fabs(velocity.y) > 2) {
-        self.navigationController.navigationBarHidden = YES;
-        self.scrollOffset = scrollView.contentOffset.y;
-    }else if (scrollView.contentOffset.y < self.scrollOffset){
-        self.navigationController.navigationBarHidden = NO;
-        self.scrollOffset = scrollView.contentOffset.y;
-    }
+    [UIView animateWithDuration:1 animations:^{
+        if (velocity.y <= -4) {
+            self.navigationController.navigationBarHidden = NO;
+            *targetContentOffset = CGPointMake(0, 0);
+            self.scrollOffset = scrollView.contentOffset.y;
+        }else if (scrollView.contentOffset.y <= 0){
+            self.navigationController.navigationBarHidden = NO;
+            self.scrollOffset = scrollView.contentOffset.y;
+        }else if (fabs(velocity.y) >= 0.5) {
+            self.navigationController.navigationBarHidden = YES;
+            self.scrollOffset = scrollView.contentOffset.y;
+        }else if (scrollView.contentOffset.y < self.scrollOffset){
+            self.navigationController.navigationBarHidden = NO;
+            self.scrollOffset = scrollView.contentOffset.y;
+        }else{
+            self.navigationController.navigationBarHidden = NO;
+            self.scrollOffset = scrollView.contentOffset.y;
+        }
+        
+        [self.view layoutIfNeeded];
+    }];
     
     if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 300) > scrollView.contentSize.height) {
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
             if (complete) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                    NSLog(@"# of images: %lu", self.dataStore.downloadedPictures.count);
                     [self.imagesCollectionViewController reloadData];
                 }];
             }

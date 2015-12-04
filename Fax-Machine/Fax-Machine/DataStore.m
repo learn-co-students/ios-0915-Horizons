@@ -51,7 +51,7 @@
 {
     NSUInteger page =ceil(self.downloadedPictures.count / (imagesToDownloadFromParseQuery * 1.00f));
     
-    //NSLog(@"Page: %lu downloaded image: %lu", page, self.downloadedPictures.count);
+    NSLog(@"Page: %lu downloaded image: %lu", page, self.downloadedPictures.count);
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {

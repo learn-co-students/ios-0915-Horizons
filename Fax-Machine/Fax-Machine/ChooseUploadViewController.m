@@ -19,6 +19,7 @@
 #import <Photos/Photos.h>
 #import <FCCurrentLocationGeocoder/FCCurrentLocationGeocoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UIImage+fixOrientation.h"
 
 
 
@@ -149,8 +150,14 @@
  */
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
+ 
+    UIImage *fixedOrientationImage = info[UIImagePickerControllerOriginalImage];
+    
+    self.selectedImage = fixedOrientationImage.fixOrientation;
     //Below section is for face detection in image with Core Image.
     CIImage *image = [CIImage imageWithCGImage: self.selectedImage.CGImage];
+    
+    
     NSDictionary *opts = @{CIDetectorAccuracy : CIDetectorAccuracyHigh};
     CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
                                               context:nil
@@ -159,7 +166,7 @@
     NSNumber *orientation = [self getImageOrientationWithImage:self.selectedImage];
     opts = @{CIDetectorImageOrientation : orientation};
     NSArray *features = [detector featuresInImage:image options:opts];
-    
+    NSLog(@"Features: %@", features);
     if (!features.count)
     {
         self.selectedImage = info[UIImagePickerControllerOriginalImage];
@@ -192,8 +199,11 @@
                                }];
                            }];
                       }];
-                     
                  }];
+            }else{
+                [picker dismissViewControllerAnimated:YES completion:^{
+                    [self performSegueWithIdentifier:@"uploadSegue" sender:self];
+                }];
             }
             
         } else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
@@ -221,7 +231,10 @@
                                    self.city = self.location.city;
                                    self.location.weather = weather;
                                    self.hasAllMetadata = YES;
-                                   [self performSegueWithIdentifier:@"uploadSegue" sender:self];
+                                   
+                                   [picker dismissViewControllerAnimated:YES completion:^{
+                                       [self performSegueWithIdentifier:@"uploadSegue" sender:self];
+                                   }];
                                }];
                           }];
                      }];
@@ -231,7 +244,9 @@
             }];
         }
     }else{
-        [self invalidImageAlert];
+        [picker dismissViewControllerAnimated:YES completion:^{
+            [self invalidImageAlert];
+        }];
     }
 }
 

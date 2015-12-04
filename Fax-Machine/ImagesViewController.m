@@ -155,8 +155,8 @@
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
-    //NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
+    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
+    NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -200,7 +200,7 @@
 //    NSLog(@"Scroll view content height: %.2f", scrollView.contentSize.height);
 //    NSLog(@"Default scroll offset: %.2f", self.scrollOffset);
     
-    [UIView animateWithDuration:1 animations:^{
+    [UIView animateWithDuration:0.5 animations:^{
         if (velocity.y <= -4) {
             self.navigationController.navigationBarHidden = NO;
             *targetContentOffset = CGPointMake(0, 0);
@@ -221,6 +221,7 @@
         
         [self.view layoutIfNeeded];
     }];
+    
     
     if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 300) > scrollView.contentSize.height) {
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {

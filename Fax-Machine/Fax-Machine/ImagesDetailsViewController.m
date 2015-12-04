@@ -13,6 +13,7 @@
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "HelperMethods.h"
 
 @interface ImagesDetailsViewController ()
 
@@ -187,24 +188,35 @@
 #pragma text field protocols
 
 - (IBAction)postCommentButton:(UIButton *)sender {
-    if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
-        
-        NSLog(@"It's an OK message.");
-        
-        NSString *enteredText = [self.commentTextField.text copy];
-        
-        [self.dataStore inputCommentWithComment:enteredText imageID:self.image.imageID withCompletion:^(PFObject *comment) {
-            [self.image.comments addObject:comment];
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.belowPictureTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }];
-        }];
-        self.commentTextField.text = @"";
-        [self.commentTextField resignFirstResponder];
-    }else
+    PFObject *user = PFUser.currentUser;
+    
+    if(![[user objectForKey:@"emailVerified"] boolValue])
     {
-        NSLog(@"Invalid Comment");
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
+        //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
+        NSLog(@"It is not verified!");
+    }else{
+        if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
+            
+            NSLog(@"It's an OK message.");
+            
+            NSString *enteredText = [self.commentTextField.text copy];
+            
+            [self.dataStore inputCommentWithComment:enteredText imageID:self.image.imageID withCompletion:^(PFObject *comment) {
+                [self.image.comments addObject:comment];
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.belowPictureTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+                }];
+            }];
+            self.commentTextField.text = @"";
+            [self.commentTextField resignFirstResponder];
+        }else
+        {
+            NSLog(@"Invalid Comment");
+        }
+
     }
+
 }
 
 - (IBAction)textFieldAction:(UITextField *)sender

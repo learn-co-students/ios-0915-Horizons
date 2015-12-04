@@ -18,6 +18,7 @@
 
 
 
+
 @interface ImagesViewController () <RESideMenuDelegate>
 
 @property (strong, nonatomic) NSArray *arrayWithImages;
@@ -60,6 +61,27 @@
        if (!error) {
          NSLog(@"fetched user:%@", result);
          
+         NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
+         NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
+         
+         NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
+         NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
+         NSLog(@"filepath %@", filePath);
+         NSData *imageData = [NSData dataWithContentsOfURL:url];
+         [imageData writeToFile:filePath atomically:YES];
+         AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+         uploadRequest.body = [NSURL fileURLWithPath:filePath];
+         uploadRequest.key = fileName;
+         uploadRequest.contentType = @"image/png";
+         uploadRequest.bucket = @"fissamplebucket";
+         NSLog(@"Profile picture uploadRequest: %@", uploadRequest);
+         
+         [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+           NSLog(@"Profile picture upload completed!");
+           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+           }];
+         }];
+ 
        }
      }];
   }

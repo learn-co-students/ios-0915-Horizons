@@ -14,7 +14,7 @@
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
-+ (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations;
+//+ (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations;
 
 + (void)getWeatherInfoFromDictionary:(NSDictionary *)retrievedDictionary withCompletion:(void (^)(NSDictionary *))completionBlock;
 

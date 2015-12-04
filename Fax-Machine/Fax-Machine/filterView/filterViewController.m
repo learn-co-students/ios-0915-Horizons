@@ -232,7 +232,7 @@
     if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"])
     {
         NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"likes >= 0"];
-        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:12 WithCompletion:^(BOOL complete)
          {
              if (complete)
              {
@@ -243,7 +243,7 @@
     else
     {
         NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
-        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:12 WithCompletion:^(BOOL complete)
          {
              if (complete)
              {

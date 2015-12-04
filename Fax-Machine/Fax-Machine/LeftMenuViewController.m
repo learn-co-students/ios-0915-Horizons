@@ -33,6 +33,7 @@
     [super viewDidLoad];
     //Initiating the image picker controller.
     self.imagePickerController = [UIImagePickerController new];
+    self.view.backgroundColor = [UIColor clearColor];
     
     self.store = [DataStore sharedDataStore];
     self.tableView = ({

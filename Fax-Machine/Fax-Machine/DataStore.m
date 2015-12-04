@@ -51,7 +51,7 @@
 {
     NSUInteger page =ceil(self.downloadedPictures.count / (imagesToDownloadFromParseQuery * 1.00f));
     
-    NSLog(@"Page: %lu downloaded image: %lu", page, self.downloadedPictures.count);
+    //NSLog(@"Page: %lu downloaded image: %lu", page, self.downloadedPictures.count);
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {
@@ -84,8 +84,8 @@
 
 -(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate andLocation:(Location *)location numberOfImages:(NSUInteger)number WithCompletion:(void(^)(BOOL complete))completionBlock
 {
-    
-    [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:number completion:^(NSArray *data) {
+    NSUInteger page =ceil(self.downloadedPictures.count / ( number * 1.00f));
+    [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:number page:page completion:^(NSArray *data) {
         for (PFObject *parseImageObject in data) {
             
             NSMutableArray *commentsForItem = [NSMutableArray new];

@@ -212,7 +212,6 @@
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters
 {
-   NSLog(@"\n\nDid I completed???");
    [[NSOperationQueue mainQueue] addOperationWithBlock:^
    {
       [self.imagesCollectionViewController reloadData]; 

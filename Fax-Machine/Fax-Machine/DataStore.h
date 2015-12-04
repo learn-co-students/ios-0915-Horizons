@@ -42,9 +42,6 @@
 
 -(void)fetchUserImagesWithCompletion:(void(^)(BOOL complete))completionBlock;
 
-//-(void)getAllCommentsWithImageID:(NSString *)imageID
-//                  withCompletion:(void(^)(BOOL complete))completionBlock;
-
 -(void)getFavoriteImagesWithSuccess:(void (^)(BOOL success))success;
 
 -(void)getOwnerWithObjectID:(NSString *)objectId
@@ -52,17 +49,15 @@
 
 -(void)getAllCommentsWithImageID:(NSString *)imageID
                   withCompletion:(void(^)(BOOL complete))completionBlock;
-//-(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate
-//                               numberOfImages:(NSUInteger)number
-//                               WithCompletion:(void(^)(BOOL complete))completionBlock;
+
 -(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate
                                   andLocation:(Location *)location
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL complete))completionBlock;
 
--(void)downloadPicturesToDisplayWithLocation:(Location *)location
-                              numberOfImages:(NSUInteger)number
-                              WithCompletion:(void(^)(BOOL complete))completionBlock;
+//-(void)downloadPicturesToDisplayWithLocation:(Location *)location
+//                              numberOfImages:(NSUInteger)number
+//                              WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 
 @end

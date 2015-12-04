@@ -10,7 +10,4 @@
 
 @interface filterViewController : UIViewController
 
-//@property (strong, nonatomic) NSArray *moodsArray;
-
-
 @end

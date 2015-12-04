@@ -81,6 +81,35 @@
     }];
 }
 
+
+-(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate andLocation:(Location *)location numberOfImages:(NSUInteger)number WithCompletion:(void(^)(BOOL complete))completionBlock
+{
+    
+    [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:number completion:^(NSArray *data) {
+        for (PFObject *parseImageObject in data) {
+            
+            NSMutableArray *commentsForItem = [NSMutableArray new];
+            if (parseImageObject[@"comments"]) {
+                commentsForItem = parseImageObject[@"comments"];
+            }
+            ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:commentsForItem
+                                                                objectID:parseImageObject.objectId];
+            
+            NSLog(@"Image ID: %@", parseImage.location);
+            NSString *city = parseImageObject[@"location"][@"city"];
+            
+            if ([city isEqualToString:location.city])
+            {
+                [self.downloadedPictures addObject:parseImage];
+            }
+        }
+        completionBlock(YES);
+        
+    } failure:^(NSError *error) {
+        NSLog(@"Download images error: %@", error.localizedDescription);
+    }];
+}
+
 -(void)uploadImageWithImageObject:(ImageObject*)imageObject
                    WithCompletion:(void(^)(BOOL complete))completionBlock{
     

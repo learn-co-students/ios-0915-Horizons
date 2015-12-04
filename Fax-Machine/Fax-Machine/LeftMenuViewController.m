@@ -15,7 +15,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <YYWebImage/YYWebImage.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-
+#import "ImagesViewController.h"
 
 @interface LeftMenuViewController ()
 
@@ -87,6 +87,7 @@
         }
         case 2:
         {
+<<<<<<< HEAD
 //          [navController presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
 //            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
           
@@ -101,6 +102,23 @@
           imageViewVC.isUserImageVC = NO;
           
           [self.sideMenuViewController setContentViewController:navController];
+=======
+            PFObject *user = PFUser.currentUser;
+            
+            if(![[user objectForKey:@"emailVerified"] boolValue])
+            {
+                [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
+                //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
+                NSLog(@"It is not verified!");
+            }else{
+            
+        
+                [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+                NSLog(@"You're email is verified!");
+            }
+        }
+            
+>>>>>>> master
             break;
         case 3:
             {
@@ -156,7 +174,7 @@
             }
         }
     }
-}
+//}
 
 #pragma mark -
 #pragma mark UITableView Datasource

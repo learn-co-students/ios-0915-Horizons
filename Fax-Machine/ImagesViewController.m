@@ -13,6 +13,7 @@
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import "filterViewController.h"
 #import "RESideMenu.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
@@ -24,22 +25,26 @@
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
-//@property (nonatomic, strong) NSMutableArray *downloadedImages;
 @property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
+@property (nonatomic) CGFloat scrollOffset;
 
 @property (nonatomic, strong) DataStore *dataStore;
-//@property (nonatomic)NSUInteger *timesThatThisScreenLoaded;
+
 @end
 
 @implementation ImagesViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
-    
+
+    //self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
 
+    self.scrollOffset = 0;
+    
     FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
     FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
     self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
@@ -86,11 +91,27 @@
      }];
   }
   
+
+    if (!self.isFiltered) {
+        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
+            if (complete) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.imagesCollectionViewController reloadData];
+                }];
+            }
+        }];
+    }
+    [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
 }
 
+
+
 -(void)viewWillAppear:(BOOL)animated{
+    self.isFiltered = NO;
+
     [self.imagesCollectionViewController reloadData];
     [self.dataStore.controllers addObject: self];
+    
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -142,8 +163,8 @@
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
-    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
-    NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
+    //NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -180,8 +201,27 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
-    *targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
+    //*targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
 
+//    NSLog(@"Scroll Velocity: %.2f", velocity.y);
+//    NSLog(@"Scroll view offset y: %.2f", scrollView.contentOffset.y);
+//    NSLog(@"Scroll view content height: %.2f", scrollView.contentSize.height);
+    
+    if (velocity.y <= -4) {
+        self.navigationController.navigationBarHidden = NO;
+        *targetContentOffset = CGPointMake(0, 0);
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (scrollView.contentOffset.y <= 0){
+        self.navigationController.navigationBarHidden = NO;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (fabs(velocity.y) > 2) {
+        self.navigationController.navigationBarHidden = YES;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }else if (scrollView.contentOffset.y < self.scrollOffset){
+        self.navigationController.navigationBarHidden = NO;
+        self.scrollOffset = scrollView.contentOffset.y;
+    }
+    
     if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 300) > scrollView.contentSize.height) {
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
             if (complete) {
@@ -194,15 +234,11 @@
     }
 }
 
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-   
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"photoDetails"])
     {
-    
+        self.navigationController.navigationBarHidden = NO;
         UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
@@ -214,7 +250,17 @@
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }
     }
-    
+
 }
+
+-(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters
+{
+   NSLog(@"\n\nDid I completed???");
+   [[NSOperationQueue mainQueue] addOperationWithBlock:^
+   {
+      [self.imagesCollectionViewController reloadData]; 
+   }];
+}
+
 
 @end

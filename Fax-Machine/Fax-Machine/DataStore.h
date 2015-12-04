@@ -18,6 +18,7 @@
 @property (nonatomic, strong)NSMutableArray *comments;
 @property (nonatomic, strong)NSMutableArray *userPictures;
 @property (nonatomic, strong)NSMutableArray *controllers;
+@property (nonatomic, strong)NSMutableDictionary *filterDictionary;
 @property (nonatomic)BOOL isUserVC;
 @property (nonatomic, strong) NSMutableArray *favoriteImages;
 
@@ -48,6 +49,20 @@
 
 -(void)getOwnerWithObjectID:(NSString *)objectId
                     success:(void (^)(PFUser *owner))success;
+
+-(void)getAllCommentsWithImageID:(NSString *)imageID
+                  withCompletion:(void(^)(BOOL complete))completionBlock;
+//-(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate
+//                               numberOfImages:(NSUInteger)number
+//                               WithCompletion:(void(^)(BOOL complete))completionBlock;
+-(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate
+                                  andLocation:(Location *)location
+                               numberOfImages:(NSUInteger)number
+                               WithCompletion:(void(^)(BOOL complete))completionBlock;
+
+-(void)downloadPicturesToDisplayWithLocation:(Location *)location
+                              numberOfImages:(NSUInteger)number
+                              WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 
 @end

@@ -84,13 +84,13 @@
     
     if (filteredResult.count) {
         self.liked = YES;
-        NSLog(@"Liked!!!!!!!!!!: %@", self.image.likes);
+        //NSLog(@"Liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }else{
         self.liked = NO;
-        NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
+        //NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartOIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
@@ -207,6 +207,7 @@
                 [self.image.comments addObject:comment];
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.belowPictureTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", self.image.comments.count];
                 }];
             }];
             self.commentTextField.text = @"";

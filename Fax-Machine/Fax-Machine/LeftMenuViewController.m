@@ -224,7 +224,7 @@
             NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
             NSURL *profileUrl = [NSURL URLWithString:urlString];
             [ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
-          NSLog(@"profile url: %@",profileUrl);
+          //NSLog(@"profile url: %@",profileUrl);
         }
         
         return cell;

@@ -11,6 +11,7 @@
 #import "Location.h"
 #import "ImageObject.h"
 #import "Comment.h"
+#import "ParseAPIClient.h"
 
 @interface DataStore : NSObject
 
@@ -21,6 +22,7 @@
 @property (nonatomic, strong)NSMutableDictionary *filterDictionary;
 @property (nonatomic)BOOL isUserVC;
 @property (nonatomic, strong) NSMutableArray *favoriteImages;
+@property (nonatomic, strong) NSMutableArray *followingList;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -55,9 +57,9 @@
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL complete))completionBlock;
 
-//-(void)downloadPicturesToDisplayWithLocation:(Location *)location
-//                              numberOfImages:(NSUInteger)number
-//                              WithCompletion:(void(^)(BOOL complete))completionBlock;
+-(void)followImageOwner:(PFUser *)owner
+                completion:(void (^)(BOOL success))completion;
 
+-(void)getFollowingUsersWithSuccess:(void (^)(BOOL success))success;
 
 @end

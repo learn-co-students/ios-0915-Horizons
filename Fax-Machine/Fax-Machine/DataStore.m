@@ -10,8 +10,6 @@
 #import "AWSDownloadManager.h"
 #import "AWSUploadManager.h"
 #import <AWSS3/AWSS3.h>
-#import "ParseAPIClient.h"
-
 
 @implementation DataStore
 + (instancetype)sharedDataStore {
@@ -282,6 +280,21 @@
         if (!error) {
             success((PFUser *)object);
         }
+    }];
+}
+
+-(void)followImageOwner:(PFUser *)owner completion:(void (^)(BOOL))completion{
+    [ParseAPIClient followUserWithUser:owner success:^(BOOL success) {
+        completion(success);
+    } failure:^(NSError *error) {
+        NSLog(@"Following user with error: %@", error.localizedDescription);
+    }];
+}
+
+-(void)getFollowingUsersWithSuccess:(void (^)(BOOL success))success{
+    [ParseAPIClient getFolowingUsersWithCompletion:^(NSArray *owners) {
+        self.followingList = [owners mutableCopy];
+        success(YES);
     }];
 }
 

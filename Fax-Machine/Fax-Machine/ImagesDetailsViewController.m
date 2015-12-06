@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *downloadButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *ownerFollow;
 
 @property (weak, nonatomic) IBOutlet UIView *commentSectionView;
 @property (weak, nonatomic) IBOutlet UIButton *postButton;
@@ -78,6 +79,13 @@
     self.commentButton.image = [commentIcon imageWithSize:CGSizeMake(20, 20)];
     FAKFontAwesome *download = [FAKFontAwesome downloadIconWithSize:20];
     self.downloadButton.image = [download imageWithSize:CGSizeMake(20, 20)];
+    
+    //Displaying the owner of the image.
+    PFUser *imageOwner = self.image.owner;
+    NSString *displayName = [[imageOwner.email componentsSeparatedByString:@"@"] firstObject];
+    self.ownerFollow.title = [NSString stringWithFormat:@"follow %@", displayName];
+    //NSLog(@"My objectNameAndId: %@ %@", user.email, user.objectId);
+    //NSLog(@"My ownerNameAndId: %@ %@", imageOwner.email, imageOwner.objectId);
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId MATCHES %@", self.image.objectID];
     NSArray *filteredResult = [savedImages filteredArrayUsingPredicate:predicate];
@@ -185,6 +193,33 @@
     }];
 }
 
+- (IBAction)followUser:(id)sender {
+    PFUser *user = self.image.owner;
+    if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
+        [self.dataStore followImageOwner:user completion:^(BOOL success) {
+            if (success) {
+                NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self followingAlertWithMessage:message];
+                }];
+            }
+        }];
+    }else{
+        [self followingAlertWithMessage:@"Sorry, but you cannot follow yourself!"];
+    }
+}
+
+-(void)followingAlertWithMessage:(NSString *)message
+{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Following" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *defautAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        //enter code here
+    }];
+    [alert addAction:defautAction];
+    //Present action where needed
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 #pragma text field protocols
 

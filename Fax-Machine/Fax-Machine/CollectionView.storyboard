@@ -228,6 +228,11 @@
                                             <action selector="downloadImage:" destination="WTS-eO-ffq" id="sOf-eC-rSz"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Item" id="V36-v3-ddS">
+                                        <connections>
+                                            <action selector="followUser:" destination="WTS-eO-ffq" id="3qc-Pn-S6Q"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2h-4Y-Fzt">
@@ -298,6 +303,7 @@
                         <outlet property="imageViewTopConstraint" destination="fug-JZ-ZkR" id="jIh-j0-ez2"/>
                         <outlet property="likeButton" destination="zZT-UH-2Iv" id="c8g-zg-71u"/>
                         <outlet property="likeCountLabel" destination="FFz-69-hDA" id="Qm7-5z-96P"/>
+                        <outlet property="ownerFollow" destination="V36-v3-ddS" id="86r-OJ-ayW"/>
                         <outlet property="postButton" destination="aXq-66-OLZ" id="H30-UD-i0V"/>
                         <outlet property="toolBar" destination="KUJ-3U-oXB" id="GIw-dM-Lpv"/>
                     </connections>
@@ -494,7 +500,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="y5Y-Hb-qTZ" customClass="imagesCustomCell">
-                                        <rect key="frame" x="95" y="64" width="186" height="138"/>
+                                        <rect key="frame" x="94.5" y="64" width="186" height="138"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="186" height="138"/>

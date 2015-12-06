@@ -252,4 +252,53 @@
     }];
 }
 
+/**
+ *  Save image owner info to the following list.
+ *
+ *  @param user    image owner to follow
+ *  @param success Call back with status
+ *  @param failure Call back with error
+ */
++(void)followUserWithUser:(PFUser *)user
+                  success:(void (^)(BOOL))success
+                  failure:(void (^)(NSError *))failure{
+    
+    PFUser *currentUser = [PFUser currentUser];
+    [currentUser addObject:user forKey:@"following"];
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+//            [user addObject:currentUser forKey:@"followers"];
+//            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//                if (succeeded) {
+//                    success(succeeded);
+//                }else{
+//                    failure(error);
+//                }
+//            }];
+            success(succeeded);
+        }else{
+            failure(error);
+        }
+    }];
+}
+
+/**
+ *  Retriving all the following users.
+ *
+ *  @param completionBlock Callback with returned images.
+ */
++(void)getFolowingUsersWithCompletion:(void (^)(NSArray *owners))completionBlock{
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"objectId" equalTo:[PFUser currentUser].objectId];
+    [userQuery includeKey:@"following"];
+    
+    [userQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (!error) {
+            completionBlock(object[@"following"]);
+        } else {
+            NSLog(@"Get following list error: %@", error.localizedDescription);
+        }
+    }];
+}
+
 @end

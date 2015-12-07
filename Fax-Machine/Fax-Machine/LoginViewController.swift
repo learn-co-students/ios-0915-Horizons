@@ -27,7 +27,7 @@ class LoginViewController : PFLogInViewController {
     
     
     let logo = UILabel()
-    logo.text = "Our App"
+    logo.text = "Horizons"
     logo.textColor = UIColor.whiteColor()
     logo.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 70)
     logo.shadowColor = UIColor.lightGrayColor()

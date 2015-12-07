@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <RESideMenu/RESideMenu.h>
+#import "HelperMethods.h"
 
 @interface ImagesViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -17,6 +18,7 @@
 @property(nonatomic)BOOL isFiltered;
 @property (nonatomic)BOOL isUserImageVC;
 @property (nonatomic) BOOL isFavorite;
+@property (nonatomic) BOOL isFollowing;
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters;
 

@@ -20,6 +20,11 @@
 		766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1861BFBA81000C4140E /* Assets.xcassets */; };
 		766FC18A1BFBA81000C4140E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC1921BFBABC000C4140E /* ImageUploadViewController.m */; };
+		76AF838E1C11E9CD00326535 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AF838D1C11E9CD00326535 /* APIConstants.m */; };
+		76AF83911C122F4500326535 /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AF83901C122F4500326535 /* UIImage+fixOrientation.m */; };
+		76AF83931C13E25B00326535 /* following.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76AF83921C13E25B00326535 /* following.storyboard */; };
+		76AF83961C13E32F00326535 /* FollowingListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AF83951C13E32F00326535 /* FollowingListTableViewCell.m */; };
+		76AF83991C13E79A00326535 /* FollowingListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AF83981C13E79A00326535 /* FollowingListTableViewController.m */; };
 		76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
 		8965CA691C050ED100E37A30 /* filterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965CA681C050ED100E37A30 /* filterViewController.m */; };
 		8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */; };
@@ -28,8 +33,8 @@
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
-		B7708AFF1C0DFB7A00F66FE5 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B7708AFE1C0DFB7A00F66FE5 /* APIConstants.m */; };
 		B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */; };
+		B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B791CF091C10E365000E74C7 /* HelperMethods.m */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
 		B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426F1BFCD2490068B249 /* ImagesCustomCell.m */; };
 		B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B79E42811BFD39110068B249 /* Selma-Notes.rtf */; };
@@ -45,6 +50,7 @@
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
+		E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */; };
 		E2F6A9C31C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +82,14 @@
 		766FC18B1BFBA81000C4140E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		766FC1911BFBABC000C4140E /* ImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadViewController.h; sourceTree = "<group>"; };
 		766FC1921BFBABC000C4140E /* ImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadViewController.m; sourceTree = "<group>"; };
+		76AF838D1C11E9CD00326535 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		76AF838F1C122F4500326535 /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
+		76AF83901C122F4500326535 /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
+		76AF83921C13E25B00326535 /* following.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = following.storyboard; sourceTree = "<group>"; };
+		76AF83941C13E32F00326535 /* FollowingListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowingListTableViewCell.h; sourceTree = "<group>"; };
+		76AF83951C13E32F00326535 /* FollowingListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowingListTableViewCell.m; sourceTree = "<group>"; };
+		76AF83971C13E79A00326535 /* FollowingListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowingListTableViewController.h; sourceTree = "<group>"; };
+		76AF83981C13E79A00326535 /* FollowingListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowingListTableViewController.m; sourceTree = "<group>"; };
 		8965CA671C050ED100E37A30 /* filterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filterViewController.h; path = filterView/filterViewController.h; sourceTree = "<group>"; };
 		8965CA681C050ED100E37A30 /* filterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = filterViewController.m; path = filterView/filterViewController.m; sourceTree = "<group>"; };
 		8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = filterStoryboard.storyboard; path = ../filterStoryboard.storyboard; sourceTree = "<group>"; };
@@ -87,8 +101,9 @@
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
-		B7708AFE1C0DFB7A00F66FE5 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
 		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
+		B791CF081C10E365000E74C7 /* HelperMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperMethods.h; sourceTree = "<group>"; };
+		B791CF091C10E365000E74C7 /* HelperMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelperMethods.m; sourceTree = "<group>"; };
 		B79E426B1BFCD0E70068B249 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = ../ImagesViewController.h; sourceTree = "<group>"; };
 		B79E426C1BFCD0E70068B249 /* ImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagesViewController.m; path = ../ImagesViewController.m; sourceTree = "<group>"; };
 		B79E426E1BFCD2490068B249 /* ImagesCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesCustomCell.h; sourceTree = "<group>"; };
@@ -119,6 +134,8 @@
 		E262C0011BFCE1FB00C81C53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ImageUpload.storyboard; sourceTree = "<group>"; };
 		E262C0031BFCEA4000C81C53 /* AWSDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSDownloadManager.h; sourceTree = "<group>"; };
 		E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSDownloadManager.m; sourceTree = "<group>"; };
+		E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseUploadViewController.h; sourceTree = "<group>"; };
+		E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseUploadViewController.m; sourceTree = "<group>"; };
 		E2F6A9BF1C0CAA0E003BCEBE /* userPhotos.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = userPhotos.storyboard; sourceTree = "<group>"; };
 		E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPhotosCollectionViewController.h; sourceTree = "<group>"; };
 		E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPhotosCollectionViewController.m; sourceTree = "<group>"; };
@@ -176,10 +193,14 @@
 		761E1EB91BFD808F00BD5375 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				76AF838D1C11E9CD00326535 /* APIConstants.m */,
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
-				B7708AFE1C0DFB7A00F66FE5 /* APIConstants.m */,
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
 				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
+				B791CF081C10E365000E74C7 /* HelperMethods.h */,
+				B791CF091C10E365000E74C7 /* HelperMethods.m */,
+				76AF838F1C122F4500326535 /* UIImage+fixOrientation.h */,
+				76AF83901C122F4500326535 /* UIImage+fixOrientation.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -213,15 +234,11 @@
 				761E1EB91BFD808F00BD5375 /* Helper */,
 				761E1EB81BFD806000BD5375 /* APIs */,
 				E24803051BFE4BA1005AB1D5 /* Login files */,
+				76AF839A1C13E7A000326535 /* Following */,
 				761E1EAB1BFD2B3400BD5375 /* Models */,
 				766FC1941BFBB36500C4140E /* Storyboards */,
 				76C7AD1A1C02A29700038FA2 /* SideMenu */,
-				89E2B9551BFBE69400AF43E1 /* LocationData.h */,
-				89E2B9561BFBE69400AF43E1 /* LocationData.m */,
-				89C98F9A1BFD133F007D3613 /* FXMCity.h */,
-				89C98F9B1BFD133F007D3613 /* FXMCity.m */,
-				89C98F9D1BFD1366007D3613 /* FXMWeather.h */,
-				89C98F9E1BFD1366007D3613 /* FXMWeather.m */,
+				76AF839B1C13EAC700326535 /* LocationAndWeather */,
 				766FC17A1BFBA81000C4140E /* Supporting Files */,
 			);
 			path = "Fax-Machine";
@@ -246,13 +263,40 @@
 				B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */,
 				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
 				E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */,
+				76AF83921C13E25B00326535 /* following.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		76AF839A1C13E7A000326535 /* Following */ = {
+			isa = PBXGroup;
+			children = (
+				76AF83941C13E32F00326535 /* FollowingListTableViewCell.h */,
+				76AF83951C13E32F00326535 /* FollowingListTableViewCell.m */,
+				76AF83971C13E79A00326535 /* FollowingListTableViewController.h */,
+				76AF83981C13E79A00326535 /* FollowingListTableViewController.m */,
+			);
+			name = Following;
+			sourceTree = "<group>";
+		};
+		76AF839B1C13EAC700326535 /* LocationAndWeather */ = {
+			isa = PBXGroup;
+			children = (
+				89E2B9551BFBE69400AF43E1 /* LocationData.h */,
+				89E2B9561BFBE69400AF43E1 /* LocationData.m */,
+				89C98F9A1BFD133F007D3613 /* FXMCity.h */,
+				89C98F9B1BFD133F007D3613 /* FXMCity.m */,
+				89C98F9D1BFD1366007D3613 /* FXMWeather.h */,
+				89C98F9E1BFD1366007D3613 /* FXMWeather.m */,
+			);
+			name = LocationAndWeather;
 			sourceTree = "<group>";
 		};
 		76C7AD1A1C02A29700038FA2 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */,
+				E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */,
 				8965CA671C050ED100E37A30 /* filterViewController.h */,
 				8965CA681C050ED100E37A30 /* filterViewController.m */,
 				E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */,
@@ -378,7 +422,9 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 5RF862A226;
+
+						DevelopmentTeam = 3P65N5866H;
+
 					};
 				};
 			};
@@ -412,6 +458,7 @@
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
 				E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
+				76AF83931C13E25B00326535 /* following.storyboard in Resources */,
 				B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,7 +518,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7708AFF1C0DFB7A00F66FE5 /* APIConstants.m in Sources */,
+
+				76AF838E1C11E9CD00326535 /* APIConstants.m in Sources */,
+				B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */,
 				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
 				89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */,
@@ -481,6 +530,7 @@
 				B7D3E2B61BFEBEBF00E28028 /* UsersCommentsViewController.m in Sources */,
 				B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */,
 				8965CA691C050ED100E37A30 /* filterViewController.m in Sources */,
+				76AF83991C13E79A00326535 /* FollowingListTableViewController.m in Sources */,
 				76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */,
 				B7D3E2B31BFEA4E200E28028 /* ImagesDetailsViewController.m in Sources */,
 				B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */,
@@ -488,10 +538,12 @@
 				E24802FB1BFD3062005AB1D5 /* AWSUploadManager.m in Sources */,
 				E24803041BFE2993005AB1D5 /* SignUpViewController.m in Sources */,
 				E24802F81BFD16AA005AB1D5 /* DataStore.m in Sources */,
+				76AF83911C122F4500326535 /* UIImage+fixOrientation.m in Sources */,
 				766FC17C1BFBA81000C4140E /* main.m in Sources */,
 				761E1EB11BFD2D6B00BD5375 /* Location.m in Sources */,
 				E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */,
 				E24803081BFE4DF7005AB1D5 /* LoginViewController.swift in Sources */,
+				76AF83961C13E32F00326535 /* FollowingListTableViewCell.m in Sources */,
 				E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */,
 				761E1ECA1BFF87BC00BD5375 /* RightMenuViewController.m in Sources */,
 				E248030A1BFE511B005AB1D5 /* BaseLoginViewController.swift in Sources */,
@@ -499,6 +551,7 @@
 				761E1EB71BFD320F00BD5375 /* ImageObject.m in Sources */,
 				761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */,
 				E2F6A9C31C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m in Sources */,
+				E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */,
 				761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

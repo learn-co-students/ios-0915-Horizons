@@ -117,7 +117,7 @@
         {
             CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
-            [pickerLabel setTextAlignment:UITextAlignmentLeft];
+            [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
             [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
             
@@ -137,7 +137,7 @@
         {
             CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
-            [pickerLabel setTextAlignment:UITextAlignmentLeft];
+            [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
             [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
             
@@ -157,7 +157,7 @@
         {
             CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
-            [pickerLabel setTextAlignment:UITextAlignmentLeft];
+            [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
             [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
             
@@ -298,7 +298,7 @@
     ImagesViewController *imagesVC = segue.destinationViewController;
     imagesVC.filterParameters = [filterParameters mutableCopy];
     imagesVC.isFiltered = YES;
-    [self.dataStore.downloadedPictures removeAllObjects];
+    [self.dataStore.filteredImageList removeAllObjects];
     //[imagesVC.imagesCollectionViewController reloadData];
     
     Location *locationForPredicate = [[Location alloc] init];
@@ -308,8 +308,10 @@
     
     if ([moodFilter isEqualToString:@"Default Mood"])
     {
-        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"objectID != nil"];
-        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"objectId != %@", @""];
+        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:12 WithCompletion:^(BOOL complete)
+
          {
              if (complete)
              {
@@ -319,8 +321,10 @@
     }
     else
     {
-        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@", moodFilter];
-        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
+        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:12 WithCompletion:^(BOOL complete)
+
          {
              if (complete)
              {

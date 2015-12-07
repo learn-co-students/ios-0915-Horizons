@@ -13,6 +13,7 @@
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "HelperMethods.h"
 
 @interface ImagesDetailsViewController ()
 
@@ -25,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *downloadButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *ownerFollow;
 
 @property (weak, nonatomic) IBOutlet UIView *commentSectionView;
 @property (weak, nonatomic) IBOutlet UIButton *postButton;
@@ -52,6 +54,7 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
 
     self.belowPictureTableView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
+    //self.belowPictureTableView.backgroundColor = [UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:0.95];
     self.belowPictureTableView.opaque = NO;
     self.belowPictureTableView.separatorColor = [UIColor clearColor];
     self.belowPictureTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -64,6 +67,7 @@
     self.commentTextField.delegate = self;
     self.commentTextField.placeholder = @"Enter a comment to post";
     self.commentSectionView.backgroundColor = [UIColor blackColor];
+    self.commentButton.enabled = NO;
     
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
@@ -78,18 +82,25 @@
     FAKFontAwesome *download = [FAKFontAwesome downloadIconWithSize:20];
     self.downloadButton.image = [download imageWithSize:CGSizeMake(20, 20)];
     
+    //Displaying the owner of the image.
+    PFUser *imageOwner = self.image.owner;
+    NSString *displayName = [[imageOwner.email componentsSeparatedByString:@"@"] firstObject];
+    self.ownerFollow.title = [NSString stringWithFormat:@"follow %@", displayName];
+    //NSLog(@"My objectNameAndId: %@ %@", user.email, user.objectId);
+    //NSLog(@"My ownerNameAndId: %@ %@", imageOwner.email, imageOwner.objectId);
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId MATCHES %@", self.image.objectID];
     NSArray *filteredResult = [savedImages filteredArrayUsingPredicate:predicate];
     
     if (filteredResult.count) {
         self.liked = YES;
-        NSLog(@"Liked!!!!!!!!!!: %@", self.image.likes);
+        //NSLog(@"Liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }else{
         self.liked = NO;
-        NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
+        //NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartOIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
@@ -148,7 +159,8 @@
     //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
     PFUser *user = comment[@"owner"];
-    cell.detailTextLabel.text = user.username;
+    NSString *username = [user.email componentsSeparatedByString:@"@"][0];
+    cell.detailTextLabel.text = username;
     cell.textLabel.text = comment[@"userComment"];
     
     return cell;
@@ -183,28 +195,67 @@
     }];
 }
 
+- (IBAction)followUser:(id)sender {
+    PFUser *user = self.image.owner;
+    if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
+        [self.dataStore followImageOwner:user completion:^(BOOL success) {
+            if (success) {
+                NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self followingAlertWithMessage:message];
+                }];
+            }
+        }];
+    }else{
+        [self followingAlertWithMessage:@"Sorry, but you cannot follow yourself!"];
+    }
+}
+
+-(void)followingAlertWithMessage:(NSString *)message
+{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Following" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *defautAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        //enter code here
+    }];
+    [alert addAction:defautAction];
+    //Present action where needed
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 #pragma text field protocols
 
 - (IBAction)postCommentButton:(UIButton *)sender {
-    if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
-        
-        NSLog(@"It's an OK message.");
-        
-        NSString *enteredText = [self.commentTextField.text copy];
-        
-        [self.dataStore inputCommentWithComment:enteredText imageID:self.image.imageID withCompletion:^(PFObject *comment) {
-            [self.image.comments addObject:comment];
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.belowPictureTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }];
-        }];
-        self.commentTextField.text = @"";
-        [self.commentTextField resignFirstResponder];
-    }else
+    PFObject *user = PFUser.currentUser;
+    
+    if(![[user objectForKey:@"emailVerified"] boolValue])
     {
-        NSLog(@"Invalid Comment");
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can post!" viewController:self];
+        //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
+        //NSLog(@"It is not verified!");
+    }else{
+        if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
+            
+            //NSLog(@"It's an OK message.");
+            
+            NSString *enteredText = [self.commentTextField.text copy];
+            
+            [self.dataStore inputCommentWithComment:enteredText imageID:self.image.imageID withCompletion:^(PFObject *comment) {
+                [self.image.comments addObject:comment];
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.belowPictureTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", self.image.comments.count];
+                }];
+            }];
+            self.commentTextField.text = @"";
+            [self.commentTextField resignFirstResponder];
+        }else
+        {
+            NSLog(@"Invalid Comment");
+        }
+
     }
+
 }
 
 - (IBAction)textFieldAction:(UITextField *)sender

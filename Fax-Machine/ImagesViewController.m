@@ -16,7 +16,7 @@
 #import "filterViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
-@interface ImagesViewController () <RESideMenuDelegate>
+@interface ImagesViewController () <RESideMenuDelegate, FilterImageProtocol>
 
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
@@ -244,8 +244,47 @@
     }
 }
 
+-(void)filterImageWithDictionary:(NSMutableDictionary *)filterDict
+            withCountryPredicate:(NSPredicate *)countryPredicate
+                     andLocation:(Location *)location {
+    
+    self.isFiltered = YES;
+
+    
+    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate
+                                               andLocation:location
+                                            numberOfImages:40
+     NSString *city = parseImageObject[@"location"][@"city"];
+                                            WithCompletion:^(BOOL complete) {
+                                                
+                                                if (complete) {
+                                                    
+//                                                    NSLog(@"How many times getting called: %ld", counter);
+//                                                    NSLog(@"\n\n\n");
+//                                                    
+//                                                    counter ++;
+                                                    
+
+                                                    
+                                                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                        
+                                                        [self.imagesCollectionViewController reloadData];
+                                 
+                                                    }];
+                                                }
+                                            }];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([segue.identifier isEqualToString:@"filterSegue"]) {
+        
+        filterViewController *destVC = segue.destinationViewController;
+        destVC.delegate = self;
+    }
+
+    
+    
     if ([segue.identifier isEqualToString:@"photoDetails"])
     {
         self.navigationController.navigationBarHidden = NO;

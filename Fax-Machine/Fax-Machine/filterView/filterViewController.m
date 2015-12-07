@@ -242,6 +242,13 @@
     }
     return arrayOfMoods;
 }
+- (IBAction)filterButtonTapped:(id)sender {
+    
+    [self filterTheThing];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
 
 -(void)gettingChosenCountry:(UIPickerView *)pickerView
 {
@@ -272,7 +279,9 @@
     }
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+
+
+-(void)filterTheThing
 {
     NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
     NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
@@ -292,47 +301,41 @@
                                        @"city" : arrayOfCities[citySelection],
                                        @"mood" : arrayOfMoods[moodSelection]
                                        };
+    
+    [self.filtering removeAllObjects];
+    
     self.filtering = [filterParameters mutableCopy];
 
-    NSLog(@"Segue method!!!");
-    ImagesViewController *imagesVC = segue.destinationViewController;
-    imagesVC.filterParameters = [filterParameters mutableCopy];
-    imagesVC.isFiltered = YES;
     [self.dataStore.filteredImageList removeAllObjects];
-    //[imagesVC.imagesCollectionViewController reloadData];
     
     Location *locationForPredicate = [[Location alloc] init];
     locationForPredicate.city = arrayOfCities[citySelection];
     locationForPredicate.country = arrayOfCountries[countrySelection];
+    
     NSString *moodFilter = filterParameters[@"mood"];
     
-    if ([moodFilter isEqualToString:@"Default Mood"])
-    {
+    NSPredicate *countryPredicate = [[NSPredicate alloc] init];
+    
+    if ([moodFilter isEqualToString:@"Default Mood"]) {
 
-        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"objectId != %@", @""];
-        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:12 WithCompletion:^(BOOL complete)
+        countryPredicate = [NSPredicate predicateWithFormat:@"objectId != %@", @""];
+        
+//        NSString *city = parseImageObject[@"location"][@"city"];
+        
+        
+    } else {
+        
+    
+        countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
 
-         {
-             if (complete)
-             {
-                 [imagesVC filteringImagesCountryLevel:filterParameters];
-             }
-         }];
     }
-    else
-    {
-
-        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
-        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:12 WithCompletion:^(BOOL complete)
-
-         {
-             if (complete)
-             {
-                 [imagesVC filteringImagesCountryLevel:filterParameters];
-             }
-         }];
-    }
+    
     self.dataStore.filterDictionary = self.filtering;
+
+    [self.delegate filterImageWithDictionary:[filterParameters mutableCopy]
+                        withCountryPredicate:countryPredicate
+                                 andLocation:locationForPredicate];
+    
 }
 
 @end

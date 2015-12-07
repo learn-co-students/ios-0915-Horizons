@@ -10,7 +10,7 @@
 
 @interface FXMWeather : NSObject
 
-@property (nonatomic, strong) NSString *description;
+//@property (nonatomic, strong) NSString *description;
 @property (nonatomic, strong) NSString *name;
 
 

@@ -189,8 +189,7 @@
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         
         if (error) {
-            NSLog(@"Error");
-            completionBlock(@"",nil, nil, NO);
+            NSLog(@"Get Location error: %@", error.localizedDescription);
         }
         
         CLPlacemark *locationPlacemark = [placemarks objectAtIndex:0];

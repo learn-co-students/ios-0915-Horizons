@@ -34,6 +34,7 @@
     [super viewDidLoad];
     //Initiating the image picker controller.
     self.imagePickerController = [UIImagePickerController new];
+    self.view.backgroundColor = [UIColor clearColor];
     
     self.store = [DataStore sharedDataStore];
     self.tableView = ({
@@ -101,18 +102,18 @@
           imageViewVC.isUserImageVC = NO;
           
           [self.sideMenuViewController setContentViewController:navController];
+
             PFObject *user = PFUser.currentUser;
-            
             if(![[user objectForKey:@"emailVerified"] boolValue])
             {
                 [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
-                //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
                 NSLog(@"It is not verified!");
             }else{
-            
-        
-                [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
-                NSLog(@"You're email is verified!");
+                [self.sideMenuViewController hideMenuViewController];
+                imageViewVC.isFavorite = NO;
+                imageViewVC.isUserImageVC = NO;
+                [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
+                //NSLog(@"You're email is verified!");
             }
         }
             
@@ -238,7 +239,7 @@
             NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
             NSURL *profileUrl = [NSURL URLWithString:urlString];
             [ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
-          NSLog(@"profile url: %@",profileUrl);
+          //NSLog(@"profile url: %@",profileUrl);
         }
         
         return cell;

@@ -32,6 +32,8 @@
         _downloadedPictures = [NSMutableArray new];
         _controllers = [NSMutableArray new];
         _favoriteImages = [NSMutableArray new];
+        _followingOwnerImageList = [NSMutableArray new];
+        _filteredImageList = [NSMutableArray new];
         _isUserVC = NO;
 
     }
@@ -92,7 +94,7 @@
                                                                         objectID:parseImageObject.objectId];
                     if ([city isEqualToString:location.city])
                     {
-                        [self.downloadedPictures addObject:parseImage];
+                        [self.filteredImageList addObject:parseImage];
                     }
                     completionBlock(YES);
                     
@@ -105,13 +107,49 @@
                                                                     objectID:parseImageObject.objectId];
                 if ([city isEqualToString:location.city])
                 {
-                    [self.downloadedPictures addObject:parseImage];
+                    [self.filteredImageList addObject:parseImage];
                 }
                 completionBlock(YES);
             }
         }
         completionBlock(YES);
         
+    } failure:^(NSError *error) {
+        NSLog(@"Download images error: %@", error.localizedDescription);
+    }];
+}
+
+-(void)downloadPicturesToDisplay:(NSUInteger)numberOfImages
+                       predicate:(NSPredicate *)predicate
+                  WithCompletion:(void(^)(BOOL complete))completionBlock
+{
+    NSUInteger page =ceil(self.followingOwnerImageList.count / (numberOfImages * 1.00f));
+    [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:numberOfImages page:page completion:^(NSArray *data) {
+        if (data.count) {
+            for (PFObject *parseImageObject in data) {
+                if (parseImageObject[@"comments"]) {
+                    [ParseAPIClient fetchAllCommentsWithRelatedImage:parseImageObject[@"imageID"] completion:^(NSArray *data) {
+                        ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:[data mutableCopy]
+                                                                            objectID:parseImageObject.objectId];
+                        
+                        [self.followingOwnerImageList addObject:parseImage];
+                        completionBlock(YES);
+                        
+                    } failure:^(NSError *error) {
+                        NSLog(@"Fetch Comments error: %@", error.localizedDescription);
+                    }];
+                }else{
+                    NSMutableArray *commentsForItem = [NSMutableArray new];
+                    ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:commentsForItem
+                                                                        objectID:parseImageObject.objectId];
+                    
+                    [self.followingOwnerImageList addObject:parseImage];
+                    completionBlock(YES);
+                }
+            }
+        }else{
+            completionBlock(YES);
+        }
     } failure:^(NSError *error) {
         NSLog(@"Download images error: %@", error.localizedDescription);
     }];

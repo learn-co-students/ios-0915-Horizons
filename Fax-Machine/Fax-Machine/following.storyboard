@@ -25,7 +25,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2aj-46-LUv">
-                                            <rect key="frame" x="16" y="25" width="120" height="120"/>
+                                            <rect key="frame" x="16" y="8" width="120" height="120"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="2aj-46-LUv" secondAttribute="height" multiplier="1:1" id="Rmh-fE-zjG"/>
@@ -33,31 +33,31 @@
                                             </constraints>
                                         </imageView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="UcQ-4p-aVb">
-                                            <rect key="frame" x="151" y="25" width="255" height="120"/>
+                                            <rect key="frame" x="151" y="8" width="255" height="120"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sQF-lH-Tdr">
-                                                    <rect key="frame" x="0.0" y="0.0" width="79" height="20.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="79" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvM-hn-qQw">
-                                                    <rect key="frame" x="0.0" y="33" width="41" height="20.5"/>
+                                                    <rect key="frame" x="0.0" y="33" width="41" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Numbers on images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u6W-gx-Oat">
-                                                    <rect key="frame" x="0.0" y="66.5" width="153" height="20.5"/>
+                                                    <rect key="frame" x="0.0" y="67" width="153" height="20"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total of likes from all images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OGl-EY-4F5">
-                                                    <rect key="frame" x="0.0" y="99.5" width="216.5" height="20.5"/>
+                                                    <rect key="frame" x="0.0" y="100" width="217" height="20"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -75,8 +75,8 @@
                                         <constraint firstItem="UcQ-4p-aVb" firstAttribute="trailing" secondItem="XYi-pL-ZNl" secondAttribute="trailingMargin" id="78x-pf-hZm"/>
                                         <constraint firstItem="2aj-46-LUv" firstAttribute="leading" secondItem="XYi-pL-ZNl" secondAttribute="leadingMargin" constant="8" id="OEI-fK-SVG"/>
                                         <constraint firstItem="UcQ-4p-aVb" firstAttribute="leading" secondItem="2aj-46-LUv" secondAttribute="trailing" constant="15" id="Rno-KH-FVV"/>
-                                        <constraint firstItem="2aj-46-LUv" firstAttribute="top" secondItem="XYi-pL-ZNl" secondAttribute="topMargin" constant="17" id="cHe-U8-c6G"/>
-                                        <constraint firstItem="UcQ-4p-aVb" firstAttribute="top" secondItem="XYi-pL-ZNl" secondAttribute="topMargin" constant="17" id="jO7-fH-tbt"/>
+                                        <constraint firstItem="2aj-46-LUv" firstAttribute="top" secondItem="XYi-pL-ZNl" secondAttribute="topMargin" id="cHe-U8-c6G"/>
+                                        <constraint firstItem="UcQ-4p-aVb" firstAttribute="top" secondItem="XYi-pL-ZNl" secondAttribute="topMargin" id="jO7-fH-tbt"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <animations/>
@@ -94,7 +94,13 @@
                             <outlet property="delegate" destination="vbV-az-fT3" id="dfX-po-YW3"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Following" id="Dj2-NJ-Qcx"/>
+                    <navigationItem key="navigationItem" title="Following" id="Dj2-NJ-Qcx">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="UEY-g7-06V">
+                            <connections>
+                                <action selector="displayMenu:" destination="vbV-az-fT3" id="EGF-fV-UGV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2GD-C6-cww" userLabel="First Responder" sceneMemberID="firstResponder"/>

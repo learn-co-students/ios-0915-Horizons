@@ -23,6 +23,8 @@
 @property (nonatomic)BOOL isUserVC;
 @property (nonatomic, strong) NSMutableArray *favoriteImages;
 @property (nonatomic, strong) NSMutableArray *followingList;
+@property (nonatomic, strong) NSMutableArray *followingOwnerImageList;
+@property (nonatomic, strong) NSMutableArray *filteredImageList;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -56,6 +58,10 @@
                                   andLocation:(Location *)location
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL complete))completionBlock;
+
+-(void)downloadPicturesToDisplay:(NSUInteger)numberOfImages
+                       predicate:(NSPredicate *)predicate
+                  WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)followImageOwner:(PFUser *)owner
                 completion:(void (^)(BOOL success))completion;

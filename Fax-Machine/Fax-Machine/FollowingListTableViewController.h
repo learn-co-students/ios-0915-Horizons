@@ -11,10 +11,16 @@
 #import "FollowingListTableViewCell.h"
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
+#import <FontAwesomeKit/FontAwesomeKit.h>
+#import "ImagesViewController.h"
+#import <RESideMenu/RESideMenu.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface FollowingListTableViewController : UITableViewController
 
+//@property (strong, readonly, nonatomic) RESideMenu *sideMenuViewController;
 @property (nonatomic, strong) NSMutableArray *followingList;
 @property (nonatomic, strong) DataStore *dataStore;
+@property (nonatomic, strong) RESideMenu *sideMenu;
 
 @end

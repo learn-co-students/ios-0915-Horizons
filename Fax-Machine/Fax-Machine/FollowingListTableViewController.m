@@ -10,6 +10,8 @@
 
 @interface FollowingListTableViewController ()
 
+@property (nonatomic, strong) ImagesViewController *imageVC;
+
 @end
 
 @implementation FollowingListTableViewController
@@ -17,9 +19,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.dataStore = [DataStore sharedDataStore];
+    self.imageVC = self.dataStore.controllers[0];
+    
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    
+    FAKFontAwesome *navIcon = [FAKFontAwesome homeIconWithSize:35];
+    self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
 }
 
+- (IBAction)displayMenu:(id)sender {
+    NSLog(@"Menu tapped");
+    self.imageVC.isFollowing = NO;
+    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self.sideMenuViewController presentLeftMenuViewController];
+}
 
 #pragma mark - Table view data source
 
@@ -45,7 +60,7 @@
     NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH, owner.objectId];
     NSURL *profileUrl = [NSURL URLWithString:urlString];
     
-    UIImageView *ourImageView = [[UIImageView alloc] initWithFrame:CGRectMake(16, 25, 120, 120)];
+    UIImageView *ourImageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 8, 120, 120)];
     ourImageView.layer.cornerRadius = 60;
     ourImageView.layer.masksToBounds = YES;
     ourImageView.layer.borderWidth = 1;
@@ -59,12 +74,38 @@
     cell.followingListName.font = [UIFont systemFontOfSize:20 weight:0.75];
     cell.followingListEmail.text = owner.email;
     cell.followingListNumberOfImages.text = [NSString stringWithFormat:@"Images: %lu", [owner[@"myImages"] count]];
-    //cell.followingListTotalLikes.text = [NSString stringWithFormat:@"Total of likes: %@", owner[@"likes"]]
     
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
+    NSLog(@"Predicate: %@", self.followingList[indexPath.row]);
+    [self.dataStore.followingOwnerImageList removeAllObjects];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"owner = %@", self.followingList[indexPath.row]];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.imageVC];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    NSLog(@"Indexpath: %lu", indexPath.row);
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.dataStore downloadPicturesToDisplay:50 predicate:predicate WithCompletion:^(BOOL complete) {
+        //NSLog(@"Returned images: %lu", self.dataStore.followingOwnerImageList.count);
+        self.imageVC.isFollowing = complete;
+        //[self presentViewController:imageVC animated:YES completion:nil];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self dismissViewControllerAnimated:YES completion:^{
+                [self.sideMenu setContentViewController:navController];
+            }];
+        }];
+    }];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 138;
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

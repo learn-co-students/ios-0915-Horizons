@@ -80,6 +80,8 @@
             imageViewVC.title = @"Home";
             imageViewVC.isFavorite = NO;
             imageViewVC.isUserImageVC = NO;
+            imageViewVC.isFollowing = NO;
+            imageViewVC.isFiltered = NO;
             
             [self.sideMenuViewController setContentViewController:navController];
             [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"isUserVC"];
@@ -158,6 +160,7 @@
             [self.store getFollowingUsersWithSuccess:^(BOOL success) {
                 if (success) {
                     desVC.followingList = self.store.followingList;
+                    desVC.sideMenu = self.sideMenuViewController;
                     [self presentViewController:navController animated:YES completion:^{
                         [self.sideMenuViewController hideMenuViewController];
                     }];

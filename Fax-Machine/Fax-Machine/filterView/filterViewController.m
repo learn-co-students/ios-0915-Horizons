@@ -222,7 +222,7 @@
     ImagesViewController *imagesVC = segue.destinationViewController;
     imagesVC.filterParameters = [filterParameters mutableCopy];
     imagesVC.isFiltered = YES;
-    [self.dataStore.downloadedPictures removeAllObjects];
+    [self.dataStore.filteredImageList removeAllObjects];
     //[imagesVC.imagesCollectionViewController reloadData];
     
     Location *locationForPredicate = [[Location alloc] init];
@@ -231,7 +231,7 @@
     
     if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"])
     {
-        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"likes >= 0"];
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"objectId != %@", @""];
         [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:12 WithCompletion:^(BOOL complete)
          {
              if (complete)

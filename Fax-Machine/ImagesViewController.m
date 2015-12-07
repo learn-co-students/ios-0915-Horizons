@@ -35,7 +35,8 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
-
+    [DataStore checkUserFollow];
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     self.imageCollectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     

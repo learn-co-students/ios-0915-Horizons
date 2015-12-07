@@ -349,4 +349,22 @@
     }];
 }
 
++(void)checkUserFollow{
+    PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
+    [query whereKey:@"userId" equalTo:[PFUser currentUser].objectId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (error.code == 101) {
+            PFObject *follow = [PFObject objectWithClassName:@"Follow"];
+            follow[@"userId"] = [PFUser currentUser].objectId;
+            [follow saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"Initiating follow error: %@", error.localizedDescription);
+                }
+            }];
+        }else{
+            NSLog(@"Get follow error: %@", error.localizedDescription);
+        }
+    }];
+}
+
 @end

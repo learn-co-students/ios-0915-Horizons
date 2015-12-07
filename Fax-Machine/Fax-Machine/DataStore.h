@@ -72,4 +72,5 @@
 
 -(void)getFollowersWithUserId:(NSString *)userId success:(void (^)(BOOL success))success;
 
++(void)checkUserFollow;
 @end

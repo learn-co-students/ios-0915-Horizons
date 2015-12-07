@@ -35,6 +35,8 @@
         _followingOwnerImageList = [NSMutableArray new];
         _filteredImageList = [NSMutableArray new];
         _isUserVC = NO;
+        _followerCount = 0;
+        _followerList = [NSMutableArray new];
 
     }
     return self;
@@ -330,8 +332,19 @@
 }
 
 -(void)getFollowingUsersWithSuccess:(void (^)(BOOL success))success{
-    [ParseAPIClient getFolowingUsersWithCompletion:^(NSArray *owners) {
+    [ParseAPIClient getFollowingUsersWithCompletion:^(NSArray *owners) {
         self.followingList = [owners mutableCopy];
+        success(YES);
+    }];
+}
+
+-(void)getFollowersWithUserId:(NSString *)userId success:(void (^)(BOOL))success{
+    [ParseAPIClient getFollowersWithUserId:userId withCompletion:^(NSArray *owners) {
+        if (userId != [PFUser currentUser].objectId) {
+            self.followerCount = owners.count;
+        }else{
+            self.followerList = [owners mutableCopy];
+        }
         success(YES);
     }];
 }

@@ -197,7 +197,17 @@
 
 - (IBAction)followUser:(id)sender {
     PFUser *user = self.image.owner;
-    if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
+    
+    BOOL isFollowed = NO;
+    for (PFUser *followingUser in [PFUser currentUser][@"following"]) {
+        if ([followingUser.objectId isEqualToString:self.image.owner.objectId]) {
+            isFollowed = YES;
+        }
+    }
+    
+    if (isFollowed){
+        [self followingAlertWithMessage:@"You already followed this user!"];
+    }else if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
         [self.dataStore followImageOwner:user completion:^(BOOL success) {
             if (success) {
                 NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];

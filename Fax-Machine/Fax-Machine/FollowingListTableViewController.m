@@ -75,6 +75,13 @@
     cell.followingListEmail.text = owner.email;
     cell.followingListNumberOfImages.text = [NSString stringWithFormat:@"Images: %lu", [owner[@"myImages"] count]];
     
+    cell.followingListTotalLikes.text = @"Followers: 0";
+    [self.dataStore getFollowersWithUserId:owner.objectId success:^(BOOL success) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            cell.followingListTotalLikes.text = [NSString stringWithFormat:@"Followers: %lu", self.dataStore.followerCount];
+        }];
+    }];
+    
     return cell;
 }
 

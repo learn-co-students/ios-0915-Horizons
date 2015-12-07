@@ -38,7 +38,7 @@
     
     self.store = [DataStore sharedDataStore];
     self.tableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - (54 * 7 + 46)) / 2.0f, self.view.frame.size.width, 54 * 7 + 46) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - (54 * 8 + 46)) / 2.0f, self.view.frame.size.width, 54 * 8 + 46) style:UITableViewStylePlain];
         
         tableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         tableView.delegate = self;
@@ -170,6 +170,27 @@
         }
         case 6:
         {
+            UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
+            
+            FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
+            navController = [[UINavigationController alloc] initWithRootViewController:desVC];
+            navController.navigationBar.shadowImage = [UIImage new];
+            navController.navigationBar.translucent = YES;
+            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            
+            [self.store getFollowersWithUserId:[PFUser currentUser].objectId success:^(BOOL success) {
+                if (success) {
+                    desVC.followingList = self.store.followerList;
+                    desVC.sideMenu = self.sideMenuViewController;
+                    [self presentViewController:navController animated:YES completion:^{
+                        [self.sideMenuViewController hideMenuViewController];
+                    }];
+                }
+            }];
+            break;
+        }
+        case 7:
+        {
             [self.store logoutWithSuccess:^(BOOL success) {
                 [self.store.downloadedPictures removeAllObjects];
                 [self.store.comments removeAllObjects];
@@ -195,7 +216,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 7;
+    return 8;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -264,7 +285,7 @@
             cell.selectedBackgroundView = [[UIView alloc] init];
         }
         
-        NSArray *title = @[@"Home", @"Upload", @"My Images", @"Favorites", @"Following", @"Log Out"];
+        NSArray *title = @[@"Home", @"Upload", @"My Images", @"Favorites", @"Following", @"Followers", @"Log Out"];
         
         cell.textLabel.text = title[indexPath.row - 1];
         FAKFontAwesome *icon = [FAKFontAwesome new];
@@ -285,6 +306,9 @@
                 icon = [FAKFontAwesome linkIconWithSize:24];
                 break;
             case 6:
+                icon = [FAKFontAwesome groupIconWithSize:24];
+                break;
+            case 7:
                 icon = [FAKFontAwesome userIconWithSize:24];
                 break;
             default:

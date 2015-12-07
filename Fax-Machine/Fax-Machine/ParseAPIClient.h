@@ -55,6 +55,8 @@
                   success:(void (^)(BOOL success))success
                   failure:(void(^)(NSError *error))failure;
 
-+(void)getFolowingUsersWithCompletion:(void (^)(NSArray *owners))completionBlock;
++(void)getFollowingUsersWithCompletion:(void (^)(NSArray *owners))completionBlock;
+
++(void)getFollowersWithUserId:(NSString *)userId withCompletion:(void (^)(NSArray *owners))completionBlock;
 
 @end

@@ -22,5 +22,6 @@
 @property (nonatomic, strong) NSMutableArray *followingList;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic, strong) RESideMenu *sideMenu;
+@property (nonatomic) BOOL *isFollowers;
 
 @end

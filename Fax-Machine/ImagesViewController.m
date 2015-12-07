@@ -254,12 +254,11 @@
     [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate
                                                andLocation:location
                                             numberOfImages:40
-     NSString *city = parseImageObject[@"location"][@"city"];
                                             WithCompletion:^(BOOL complete) {
                                                 
                                                 if (complete) {
                                                     
-//                                                    NSLog(@"How many times getting called: %ld", counter);
+//:NSLog(@"How many times getting called: %ld", counter);
 //                                                    NSLog(@"\n\n\n");
 //                                                    
 //                                                    counter ++;

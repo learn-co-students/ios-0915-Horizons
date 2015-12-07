@@ -308,7 +308,7 @@
     
     if ([moodFilter isEqualToString:@"Default Mood"])
     {
-        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"likes >= 0"];
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"objectID != nil"];
         [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
          {
              if (complete)

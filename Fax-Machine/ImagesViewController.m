@@ -16,6 +16,8 @@
 #import "filterViewController.h"
 #import "RESideMenu.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseTwitterUtils/ParseTwitterUtils.h>
+
 
 
 
@@ -66,6 +68,11 @@
        if (!error) {
          NSLog(@"fetched user:%@", result);
          
+         [PFUser currentUser].username = result[@"name"];
+         NSLog(@"result name:%@", result[@"name"]);
+         NSLog(@"parse name: %@",[PFUser currentUser].username);
+
+
          NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
          NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
          
@@ -89,8 +96,30 @@
  
        }
      }];
+  } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
+    NSLog(@"twitter:%@",[PFTwitterUtils twitter].screenName);
+    [PFUser currentUser].username = [PFTwitterUtils twitter].screenName;
+    
   }
   
+  
+  NSString *profileImageUrl = [[PFUser currentUser] objectForKey:@"profile_image_url"];
+  
+  //  As an example we could set an image's content to the image
+  dispatch_async
+  (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    NSData *imageData =
+    [NSData dataWithContentsOfURL:
+     [NSURL URLWithString:profileImageUrl]];
+    
+    UIImage *image = [UIImage imageWithData:imageData];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      NSLog(@"profile picture: %@ %@",imageData,image);
+    });
+  });
+
+
 
     if (!self.isFiltered) {
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {

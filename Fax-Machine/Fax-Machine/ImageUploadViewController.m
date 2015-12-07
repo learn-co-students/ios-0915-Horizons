@@ -87,6 +87,7 @@
   self.initialConstraintConstant = self.centerVerticallyConstraint.constant;
   
 //  self.doneButton.enabled = NO;
+  
 }
 
 -(void)keyboardControl:(NSNotification*)notification

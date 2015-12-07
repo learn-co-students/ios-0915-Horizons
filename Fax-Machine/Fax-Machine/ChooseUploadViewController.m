@@ -174,7 +174,7 @@
                                 NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
 
                                 [picker dismissViewControllerAnimated:YES completion:nil];
-                                                                                 [self performSegueWithIdentifier:@"uploadSegue" sender:self];
+//                                                                                 [self performSegueWithIdentifier:@"uploadSegue" sender:self];
                                 
                                 if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
                                   PHAsset *asset = [LocationData logMetaDataFromImage:imageUrl];

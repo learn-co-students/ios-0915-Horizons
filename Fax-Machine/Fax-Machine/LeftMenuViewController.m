@@ -87,7 +87,6 @@
         }
         case 2:
         {
-<<<<<<< HEAD
 //          [navController presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
 //            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
           
@@ -102,7 +101,6 @@
           imageViewVC.isUserImageVC = NO;
           
           [self.sideMenuViewController setContentViewController:navController];
-=======
             PFObject *user = PFUser.currentUser;
             
             if(![[user objectForKey:@"emailVerified"] boolValue])
@@ -118,7 +116,6 @@
             }
         }
             
->>>>>>> master
             break;
         case 3:
             {

@@ -15,12 +15,13 @@
 		761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC31BFF70D700BD5375 /* ProfileMenuRootViewController.m */; };
 		761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */; };
 		761E1ECA1BFF87BC00BD5375 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */; };
+		76513EC11C1720D70003FF9B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76513EC01C1720D70003FF9B /* Reachability.m */; };
+		76513EC41C17212C0003FF9B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76513EC31C17212C0003FF9B /* SystemConfiguration.framework */; };
 		766FC17C1BFBA81000C4140E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17B1BFBA81000C4140E /* main.m */; };
 		766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17E1BFBA81000C4140E /* AppDelegate.m */; };
 		766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 766FC1861BFBA81000C4140E /* Assets.xcassets */; };
 		766FC18A1BFBA81000C4140E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC1921BFBABC000C4140E /* ImageUploadViewController.m */; };
-		76AF838E1C11E9CD00326535 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AF838D1C11E9CD00326535 /* APIConstants.m */; };
 		76AF83911C122F4500326535 /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AF83901C122F4500326535 /* UIImage+fixOrientation.m */; };
 		76AF83931C13E25B00326535 /* following.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76AF83921C13E25B00326535 /* following.storyboard */; };
 		76AF83961C13E32F00326535 /* FollowingListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AF83951C13E32F00326535 /* FollowingListTableViewCell.m */; };
@@ -28,6 +29,7 @@
 		76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
 		8965CA691C050ED100E37A30 /* filterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965CA681C050ED100E37A30 /* filterViewController.m */; };
 		8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */; };
+		89C7BDF61C175E0A001DE9D0 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57A1C172E9700E73BAB /* APIConstants.m */; };
 		89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9B1BFD133F007D3613 /* FXMCity.m */; };
 		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
@@ -74,6 +76,9 @@
 		761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideBarViewController.m; sourceTree = "<group>"; };
 		761E1EC81BFF87BC00BD5375 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
 		761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
+		76513EBF1C1720D70003FF9B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		76513EC01C1720D70003FF9B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		76513EC31C17212C0003FF9B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		766FC1771BFBA81000C4140E /* Fax-Machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fax-Machine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766FC17B1BFBA81000C4140E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		766FC17D1BFBA81000C4140E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,7 +87,6 @@
 		766FC18B1BFBA81000C4140E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		766FC1911BFBABC000C4140E /* ImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadViewController.h; sourceTree = "<group>"; };
 		766FC1921BFBABC000C4140E /* ImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadViewController.m; sourceTree = "<group>"; };
-		76AF838D1C11E9CD00326535 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
 		76AF838F1C122F4500326535 /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
 		76AF83901C122F4500326535 /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
 		76AF83921C13E25B00326535 /* following.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = following.storyboard; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
+		B781F57A1C172E9700E73BAB /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
 		B791CF081C10E365000E74C7 /* HelperMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperMethods.h; sourceTree = "<group>"; };
 		B791CF091C10E365000E74C7 /* HelperMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelperMethods.m; sourceTree = "<group>"; };
 		B79E426B1BFCD0E70068B249 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = ../ImagesViewController.h; sourceTree = "<group>"; };
@@ -146,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76513EC41C17212C0003FF9B /* SystemConfiguration.framework in Frameworks */,
 				89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */,
 				5D86B138F7A09BBD09ED0557 /* libPods-Fax-Machine.a in Frameworks */,
 			);
@@ -157,6 +163,7 @@
 		3ABA1FB6560CAAF5A2F68A3F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				76513EC31C17212C0003FF9B /* SystemConfiguration.framework */,
 				E248030D1BFFB57B005AB1D5 /* FBSDKCoreKit.framework */,
 				C01A12ADED23683384E43AB7 /* libPods.a */,
 				6B336C30F03165A7211BA806 /* libPods-Fax-Machine.a */,
@@ -193,7 +200,7 @@
 		761E1EB91BFD808F00BD5375 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				76AF838D1C11E9CD00326535 /* APIConstants.m */,
+				B781F57A1C172E9700E73BAB /* APIConstants.m */,
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
 				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
@@ -203,6 +210,15 @@
 				76AF83901C122F4500326535 /* UIImage+fixOrientation.m */,
 			);
 			name = Helper;
+			sourceTree = "<group>";
+		};
+		76513EC21C1721060003FF9B /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				76513EBF1C1720D70003FF9B /* Reachability.h */,
+				76513EC01C1720D70003FF9B /* Reachability.m */,
+			);
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 		766FC16E1BFBA81000C4140E = {
@@ -240,6 +256,7 @@
 				76C7AD1A1C02A29700038FA2 /* SideMenu */,
 				76AF839B1C13EAC700326535 /* LocationAndWeather */,
 				766FC17A1BFBA81000C4140E /* Supporting Files */,
+				76513EC21C1721060003FF9B /* Reachability */,
 			);
 			path = "Fax-Machine";
 			sourceTree = "<group>";
@@ -516,7 +533,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76AF838E1C11E9CD00326535 /* APIConstants.m in Sources */,
+				89C7BDF61C175E0A001DE9D0 /* APIConstants.m in Sources */,
 				B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */,
 				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
@@ -540,6 +557,7 @@
 				761E1EB11BFD2D6B00BD5375 /* Location.m in Sources */,
 				E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */,
 				E24803081BFE4DF7005AB1D5 /* LoginViewController.swift in Sources */,
+				76513EC11C1720D70003FF9B /* Reachability.m in Sources */,
 				76AF83961C13E32F00326535 /* FollowingListTableViewCell.m in Sources */,
 				E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */,
 				761E1ECA1BFF87BC00BD5375 /* RightMenuViewController.m in Sources */,

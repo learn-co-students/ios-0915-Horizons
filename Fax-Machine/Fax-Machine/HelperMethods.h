@@ -11,6 +11,7 @@
 
 @interface HelperMethods : NSObject
 
++(void)verifyAlertWithMessage:(NSString *)message viewController:(UIViewController *)view;
 -(void)parseVerifyEmailWithMessage:(NSString *)message viewController:(UIViewController *)view;
 
 @end

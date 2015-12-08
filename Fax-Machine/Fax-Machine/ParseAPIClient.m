@@ -59,6 +59,7 @@
     }];
 }
 
+
 /**
  *  Fetch images info from Parse
  *
@@ -74,12 +75,13 @@
                         failure:(void (^)(NSError *))failure{
     //Quering the Photo object from Parse with filter parameters.
     PFQuery *query = [PFQuery queryWithClassName:@"Image" predicate:predicate];
+    
     //[query includeKey:@"comments"];
     [query includeKey:@"owner"];
     [query includeKey:@"location"];
     //Setting the maximum numbers of return objects.
     query.limit = numberOfImages;
-    query.skip = page * numberOfImages;
+//    query.skip = page * numberOfImages;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (!error) {
             completionBlock(objects);
@@ -88,6 +90,37 @@
         }
     }];
 }
+
+///**
+// *  Fetch images info from Parse
+// *
+// *  @param predicate       Filter input
+// *  @param numberOfImages  Number of images wanted to return
+// *  @param completionBlock Call back to pass the returned array of image information
+// *  @param failure         Call back with error incase of failure
+// */
+//+(void)fetchImagesWithPredicate:(NSPredicate *)predicate
+//                 numberOfImages:(NSUInteger)numberOfImages
+//                           page:(NSUInteger)page
+//                     completion:(void (^)(NSArray *))completionBlock
+//                        failure:(void (^)(NSError *))failure{
+//    //Quering the Photo object from Parse with filter parameters.
+//    PFQuery *query = [PFQuery queryWithClassName:@"Image" predicate:predicate];
+//    
+//    //[query includeKey:@"comments"];
+//    [query includeKey:@"owner"];
+//    [query includeKey:@"location"];
+//    //Setting the maximum numbers of return objects.
+//    query.limit = numberOfImages;
+//    //    query.skip = page * numberOfImages;
+//    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//        if (!error) {
+//            completionBlock(objects);
+//        }else{
+//            failure(error);
+//        }
+//    }];
+//}
 
 /**
  *  Fetch all comments relating to an image from Parse.

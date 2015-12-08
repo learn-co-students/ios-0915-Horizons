@@ -25,7 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *downloadButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *socialSharing;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ownerFollow;
 
 @property (weak, nonatomic) IBOutlet UIView *commentSectionView;
@@ -40,6 +40,7 @@
 @property (nonatomic, strong)DataStore *dataStore;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic) BOOL liked;
+
 
 @end
 
@@ -80,7 +81,7 @@
     FAKFontAwesome *commentIcon = [FAKFontAwesome commentIconWithSize:20];
     self.commentButton.image = [commentIcon imageWithSize:CGSizeMake(20, 20)];
     FAKFontAwesome *download = [FAKFontAwesome downloadIconWithSize:20];
-    self.downloadButton.image = [download imageWithSize:CGSizeMake(20, 20)];
+    self.socialSharing.image = [download imageWithSize:CGSizeMake(20, 20)];
     
     //Displaying the owner of the image.
     PFUser *imageOwner = self.image.owner;
@@ -175,8 +176,8 @@
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
     if (!self.liked) {
+        self.liked = YES;
         [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
-            self.liked = YES;
             NSLog(@"Testing!!!");
             FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
             self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
@@ -187,12 +188,21 @@
     }
 }
 
-- (IBAction)downloadImage:(id)sender {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.imageDetails.image yy_saveToAlbumWithCompletionBlock:^(NSURL *assetURL, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSLog(@"Saved image url: %@, error: %@", assetURL, error.localizedDescription);
-    }];
+- (IBAction)socialSharing:(id)sender {
+    
+    UIImage * image = self.imageDetails.image;
+    
+    NSArray * shareItems = @[image];
+    
+    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+    
+    [self presentViewController:avc animated:YES completion:nil];
+ //code below , download picture
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [self.imageDetails.image yy_saveToAlbumWithCompletionBlock:^(NSURL *assetURL, NSError *error) {
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        NSLog(@"Saved image url: %@, error: %@", assetURL, error.localizedDescription);
+//    }];
 }
 
 - (IBAction)followUser:(id)sender {

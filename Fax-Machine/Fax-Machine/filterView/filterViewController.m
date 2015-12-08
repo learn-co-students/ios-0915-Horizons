@@ -312,28 +312,15 @@
     locationForPredicate.city = arrayOfCities[citySelection];
     locationForPredicate.country = arrayOfCountries[countrySelection];
     
-    NSString *moodFilter = filterParameters[@"mood"];
-    
-    NSPredicate *countryPredicate = [[NSPredicate alloc] init];
-    
-    if ([moodFilter isEqualToString:@"Default Mood"]) {
-
-        countryPredicate = [NSPredicate predicateWithFormat:@"objectId != %@", @""];
-        
-//        NSString *city = parseImageObject[@"location"][@"city"];
-        
-        
-    } else {
-        
-    
-        countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@",filterParameters[@"mood"]];
-
+    NSString *mood = filterParameters[@"mood"];
+    if ([mood isEqualToString:@"Default Mood"]) {
+        mood = @"";
     }
     
     self.dataStore.filterDictionary = self.filtering;
 
     [self.delegate filterImageWithDictionary:[filterParameters mutableCopy]
-                        withCountryPredicate:countryPredicate
+                                    withMood:mood
                                  andLocation:locationForPredicate];
     
 }

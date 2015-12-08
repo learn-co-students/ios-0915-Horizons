@@ -165,8 +165,8 @@
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
-    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
-    NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
+    //NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -245,31 +245,44 @@
 }
 
 -(void)filterImageWithDictionary:(NSMutableDictionary *)filterDict
-            withCountryPredicate:(NSPredicate *)countryPredicate
-                     andLocation:(Location *)location {
+                        withMood:(NSString *)mood
+                     andLocation:(Location *)location
+{
     
     self.isFiltered = YES;
 
     
-    [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate
+    [self.dataStore downloadPicturesToDisplayWithMood:mood
                                                andLocation:location
                                             numberOfImages:12
-                                            WithCompletion:^(BOOL complete) {
-                                                
-                                                if (complete) {
-                                                    
-//:NSLog(@"How many times getting called: %ld", counter);
-//                                                    NSLog(@"\n\n\n");
-//                                                    
-//                                                    counter ++;
-                                                    
+                                            WithCompletion:^(BOOL complete)
+    {
 
+                                                if (complete)
+                                                {
                                                     
                                                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                                                         
                                                         [self.imagesCollectionViewController reloadData];
                                  
                                                     }];
+                                                }
+                                                else
+                                                {
+                                                    [self.imagesCollectionViewController reloadData];
+                                                    
+                                                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Oops!"
+                                                                                                                             message:@"There was an error loading one or more comments"
+                                                                                                                      preferredStyle:UIAlertControllerStyleAlert];
+                                                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                                    {
+                                                        NSLog(@"OK");
+                                                    }];
+                                                    
+                                                    [alertController addAction:okAction];
+                                                    
+                                                    [self presentViewController:alertController animated:YES completion:nil];
+                                                    // present alert that says "there was an error loading some comments"
                                                 }
                                             }];
 }

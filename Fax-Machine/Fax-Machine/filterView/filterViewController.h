@@ -13,7 +13,7 @@
 @protocol FilterImageProtocol <NSObject>
 
 - (void)filterImageWithDictionary:(NSMutableDictionary *)filterDict
-             withCountryPredicate:(NSPredicate *)countryPredicate
+                         withMood:(NSString *)mood
                       andLocation:(Location *)location;
 
 @end

@@ -175,8 +175,8 @@
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
     if (!self.liked) {
+        self.liked = YES;
         [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
-            self.liked = YES;
             NSLog(@"Testing!!!");
             FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
             self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];

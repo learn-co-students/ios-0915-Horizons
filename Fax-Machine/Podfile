@@ -19,23 +19,10 @@ inhibit_all_warnings!
  pod 'FCCurrentLocationGeocoder'
  pod 'MBProgressHUD'
  pod 'YYWebImage'
+ pod 'SCLAlertView-Objective-C'
 
  pod 'AWSCore'
-# pod 'AWSAutoScaling'
-# pod 'AWSCloudWatch'
-# pod 'AWSDynamoDB'
-# pod 'AWSEC2'
-# pod 'AWSElasticLoadBalancing'
-# pod 'AWSKinesis'
-# pod 'AWSLambda'
-# pod 'AWSMachineLearning'
-# pod 'AWSMobileAnalytics'
  pod 'AWSS3'
-# pod 'AWSSES'
-# pod 'AWSSimpleDB'
-# pod 'AWSSNS'
-# pod 'AWSSQS'
-# pod 'AWSCognito'
 
 end
 

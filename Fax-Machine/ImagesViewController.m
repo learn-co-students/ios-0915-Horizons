@@ -39,8 +39,9 @@
     [DataStore checkUserFollow];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-    
+//    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+  self.imagesCollectionViewController.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
+  
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
     
@@ -51,7 +52,10 @@
     self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
-    
+  
+  
+  self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+  
     self.dataStore = [DataStore sharedDataStore];
     [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
         if (complete) {

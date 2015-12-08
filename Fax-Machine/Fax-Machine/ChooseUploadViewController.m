@@ -47,12 +47,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.imagePickerController = [UIImagePickerController new];
-    
-    
-    [[self.savedPhotosButton layer] setBorderWidth:1.0f];
+  [[self.savedPhotosButton layer] setBorderWidth:1.0f];
     //  [[self.savedPhotosButton layer]setBorderColor:[UIColor darkGrayColor].CGColor];
     
-    
+  self.savedPhotosButton.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
+  self.takePhotoButton.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
     [[self.takePhotoButton layer] setBorderWidth:1.0f];
     //  [[self.takePhotoButton layer]setBorderColor:[UIColor darkGrayColor].CGColor];
 }

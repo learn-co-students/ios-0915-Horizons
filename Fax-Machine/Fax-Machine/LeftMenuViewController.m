@@ -180,13 +180,18 @@
             
             [self.store getFollowingUsersWithSuccess:^(BOOL success) {
                 if (success) {
+                  [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                    [self.sideMenuViewController hideMenuViewController];
                     desVC.followingList = self.store.followingList;
                     desVC.sideMenu = self.sideMenuViewController;
                     imageViewVC.isFavorite = NO;
                     imageViewVC.isUserImageVC = NO;
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
-                    [self presentViewController:navController animated:YES completion:nil];
+                    //                    [self presentViewController:navController animated:YES completion:nil];
+                    [self.sideMenuViewController setContentViewController:navController];
+
+                  }];
                 }
             }];
             break;
@@ -203,13 +208,19 @@
             
             [self.store getFollowersWithUserId:[PFUser currentUser].objectId success:^(BOOL success) {
                 if (success) {
+                  [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                    [self.sideMenuViewController hideMenuViewController];
                     desVC.followingList = self.store.followerList;
                     desVC.sideMenu = self.sideMenuViewController;
                     imageViewVC.isFavorite = NO;
                     imageViewVC.isUserImageVC = NO;
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
-                    [self presentViewController:navController animated:YES completion:nil];
+//                    [self presentViewController:navController animated:YES completion:nil];
+                    [self.sideMenuViewController setContentViewController:navController];
+
+                  }];
+
                 }
             }];
             break;

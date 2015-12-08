@@ -21,6 +21,7 @@
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITextFieldDelegate>
 
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *viewTapped;
 @property (weak, nonatomic) IBOutlet UIImageView *imageHolderView;
 @property (nonatomic, strong) UIAlertController *sourcePicker;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
@@ -29,6 +30,7 @@
 @property (nonatomic, strong)UITableView *autocompleteTableView;
 @property (nonatomic, strong)NSMutableArray *autocompleteCountries;
 
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 
 @property (weak, nonatomic) IBOutlet UITextField *cityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *countryTextField;
@@ -48,6 +50,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UITextField *captionTextBox;
+@property (nonatomic, strong)NSString *caption;
 
 @end
 
@@ -62,16 +65,18 @@
     self.imageHolderView.image = placeholder;
     
     self.firstTime = YES;
-    
+  self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
     self.countryTextField.delegate = self;
     self.cityTextField.delegate = self;
     self.moodTextField.delegate = self;
+    self.captionTextBox.delegate = self;
     self.countryTextField.text = self.country;
     self.cityTextField.text = self.city;
     self.moodTextField.text = self.mood;
     self.imageHolderView.image = self.selectedImage;
+  self.captionTextBox.text = self.caption;
     
-    if (!self.country || !self.city || !self.mood) {
+    if (!self.country || !self.city || !self.mood || !self.caption) {
         self.doneButton.enabled = NO;
     } else {
         self.doneButton.enabled = YES;
@@ -86,8 +91,16 @@
     self.bottomConstraint.active = NO;
     
     self.initialConstraintConstant = self.centerVerticallyConstraint.constant;
-    
-    //  self.doneButton.enabled = NO;
+  
+  self.viewTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
+  [self.view addGestureRecognizer:self.viewTapped];
+}
+-(void)dismissKeyboard
+{
+  [self.cityTextField resignFirstResponder];
+  [self.countryTextField resignFirstResponder];
+  [self.captionTextBox resignFirstResponder];
+  [self.moodTextField resignFirstResponder];
 }
 
 -(void)keyboardControl:(NSNotification*)notification
@@ -131,9 +144,14 @@
     }];
 }
 
-
--(void)presentInvalidCityAlert
-{
+-(void)presentMissingFieldAlert {
+  UIAlertController *missingField = [UIAlertController alertControllerWithTitle:@"Uho" message:@"Please fill in empty fields" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [missingField addAction:ok];
+  [self presentViewController:missingField animated:YES completion:^{
+  }];
+}
+-(void)presentInvalidCityAlert {
     UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [invalidLocation addAction:ok];
@@ -143,8 +161,7 @@
 }
 
 
--(void)presentInvalidCountryAlert
-{
+-(void)presentInvalidCountryAlert {
     UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [invalidLocation addAction:ok];
@@ -152,16 +169,34 @@
         self.countryTextField.text = @"";
     }];
 }
+-(void)presentInvalidCaptionAlert
+{
+  UIAlertController *invalidCaption = [UIAlertController alertControllerWithTitle:@"Please add a caption to your image" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [invalidCaption addAction:ok];
+  [self presentViewController:invalidCaption animated:YES completion:^{
+  }];
+  
+}
+
+-(void)presentInvalidMoodAlert
+{
+  UIAlertController *invalidMood = [UIAlertController alertControllerWithTitle:@"Please add a mood to your image" message:@"P" preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+  [invalidMood addAction:ok];
+  [self presentViewController:invalidMood animated:YES completion:^{
+  }];
+}
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     //    [textField resignFirstResponder];
     
-    if([textField isEqual:self.captionTextBox]){
-        [self.cityTextField becomeFirstResponder];
-    } else if ([textField isEqual:self.cityTextField]) {
+    if ([textField isEqual:self.cityTextField]) {
         [self.countryTextField becomeFirstResponder];
     } else if ([textField isEqual:self.countryTextField]) {
         [self.moodTextField becomeFirstResponder];
+    } else if ([textField isEqual:self.captionTextBox]) {
+      [self.cityTextField becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
     }
@@ -178,15 +213,24 @@
             NSLog(@"Error: %@", [error localizedDescription]);
             [self presentInvalidLocationAlert];
             return;
-        } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""]) {
+        } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
             self.doneButton.enabled = NO;
             [self presentInvalidCityAlert];
-        } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""]) {
+        } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
             self.doneButton.enabled = NO;
             [self presentInvalidCountryAlert];
-        } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""]) {
+        } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
             self.doneButton.enabled = NO;
             [self presentInvalidLocationAlert];
+        } else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && [self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+          self.doneButton.enabled = NO;
+          [self presentInvalidCaptionAlert];
+        }  else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && [self.moodTextField.text isEqualToString:@""]) {
+          self.doneButton.enabled = NO;
+          [self presentInvalidMoodAlert];
+        }  else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || [self.moodTextField.text isEqualToString:@""]) {
+          self.doneButton.enabled = NO;
+          [self presentMissingFieldAlert];
         }
         
         if ([placemarks count] > 0) {
@@ -212,6 +256,8 @@
  *
  *  @param sender UINavigation right bar Done button.
  */
+
+
 - (IBAction)finishedImageSelect:(id)sender {
     
   NSLog(@"done");
@@ -221,9 +267,9 @@
   
   [self resignFirstResponder];
   //For creating image object for Parse
-  
+  NSString *title = self.captionTextBox.text;
   if (self.location.city.length) {
-    self.parseImageObject = [[ImageObject alloc] initWithTitle:@"Some title" imageID:fileName mood:self.moodTextField.text location:self.location];
+    self.parseImageObject = [[ImageObject alloc] initWithTitle:title imageID:fileName mood:self.moodTextField.text location:self.location];
     NSLog(@"With location info!");
   }
   else{

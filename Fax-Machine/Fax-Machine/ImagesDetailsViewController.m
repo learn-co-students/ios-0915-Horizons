@@ -41,6 +41,8 @@
 @property (nonatomic, strong)DataStore *dataStore;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic) BOOL liked;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navigationItem;
+@property (weak, nonatomic) IBOutlet UITextView *imageDescriptionLabel;
 
 @end
 
@@ -69,11 +71,20 @@
     self.commentTextField.placeholder = @"Enter a comment to post";
     self.commentSectionView.backgroundColor = [UIColor blackColor];
     self.commentButton.enabled = NO;
-    
+
+  self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@",self.image.title];
+  self.imageDescriptionLabel.editable = YES;
+  self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
+  self.imageDescriptionLabel.textColor = [UIColor whiteColor];
+  self.imageDescriptionLabel.editable = NO;
+  
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
+  self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
+  
+//self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];  
 
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
@@ -86,6 +97,8 @@
     //Displaying the owner of the image.
     PFUser *imageOwner = self.image.owner;
     NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
+
+  
     self.ownerFollow.title = [NSString stringWithFormat:@"follow %@", displayName];
     //NSLog(@"My objectNameAndId: %@ %@", user.email, user.objectId);
     //NSLog(@"My ownerNameAndId: %@ %@", imageOwner.email, imageOwner.objectId);

@@ -253,7 +253,7 @@
     
     [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate
                                                andLocation:location
-                                            numberOfImages:40
+                                            numberOfImages:12
                                             WithCompletion:^(BOOL complete) {
                                                 
                                                 if (complete) {

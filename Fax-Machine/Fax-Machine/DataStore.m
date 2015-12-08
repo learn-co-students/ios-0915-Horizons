@@ -87,7 +87,7 @@
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL complete))completionBlock
 {
-    NSUInteger page =ceil(self.downloadedPictures.count / ( number * 1.00f));
+    NSUInteger page =ceil(self.filteredImageList.count / ( number * 1.00f));
     
     NSLog(@"What is this number for page: %ld\n\n\n\n", page);
     

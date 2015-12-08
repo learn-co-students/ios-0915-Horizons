@@ -15,6 +15,9 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "filterViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import "Reachability.h"
+#import "AppDelegate.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 @interface ImagesViewController () <RESideMenuDelegate, FilterImageProtocol>
 
@@ -25,6 +28,7 @@
 
 @property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
+@property (nonatomic) NSInteger isConnected;
 
 @end
 
@@ -32,6 +36,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //The below coding actively checking for network connection in a background thread.
+    Reachability *reach = [Reachability reachabilityWithHostName:@"www.google.com"];
+    reach.reachableBlock = ^(Reachability *reach){
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSLog(@"There is network connection!");
+            if (self.isConnected == -1) {
+                //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                [alert showSuccess:@"Network is connected!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+                self.isConnected = 1;
+            }
+        }];
+    };
+    
+    reach.unreachableBlock = ^(Reachability *reach){
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.isConnected = -1;
+            NSLog(@"There is no network connection!");
+            SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+            [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+            //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            
+        }];
+    };
+    [reach startNotifier];
+    //
     
     self.dataStore = [DataStore sharedDataStore];
     [DataStore checkUserFollow];

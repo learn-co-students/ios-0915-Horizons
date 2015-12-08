@@ -81,7 +81,7 @@
             }
         }
     } failure:^(NSError *error) {
-        NSLog(@"Download images error: %@", error.localizedDescription);
+        NSLog(@"Download images error: %@ code: %lu", error.localizedDescription, error.code);
     }];
 }
 

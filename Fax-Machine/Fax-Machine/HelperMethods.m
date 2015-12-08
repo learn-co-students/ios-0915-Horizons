@@ -10,7 +10,7 @@
 
 @implementation HelperMethods
 
--(void)verifyEmailAlertWithMessage:(NSString *)message viewController:(UIViewController *)view
++(void)verifyAlertWithMessage:(NSString *)message viewController:(UIViewController *)view
 {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Whoops!" message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -30,7 +30,7 @@
         [user fetch];
         if(![[user objectForKey:@"emailVerified"] boolValue])
         {
-            [self verifyEmailAlertWithMessage:message viewController:view];        }
+            [HelperMethods verifyAlertWithMessage:message viewController:view];        }
         
     }
 }

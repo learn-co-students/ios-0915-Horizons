@@ -34,6 +34,7 @@
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
 		B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */; };
 		B781F57B1C172E9700E73BAB /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57A1C172E9700E73BAB /* APIConstants.m */; };
+		B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57D1C17748000E73BAB /* CommentTableViewCell.m */; };
 		B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B791CF091C10E365000E74C7 /* HelperMethods.m */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
 		B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426F1BFCD2490068B249 /* ImagesCustomCell.m */; };
@@ -102,6 +103,8 @@
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 		B781F57A1C172E9700E73BAB /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		B781F57C1C17748000E73BAB /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
+		B781F57D1C17748000E73BAB /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
 		B791CF081C10E365000E74C7 /* HelperMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperMethods.h; sourceTree = "<group>"; };
 		B791CF091C10E365000E74C7 /* HelperMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelperMethods.m; sourceTree = "<group>"; };
 		B79E426B1BFCD0E70068B249 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = ../ImagesViewController.h; sourceTree = "<group>"; };
@@ -334,6 +337,8 @@
 				B79E426C1BFCD0E70068B249 /* ImagesViewController.m */,
 				B7D3E2B11BFEA4E200E28028 /* ImagesDetailsViewController.h */,
 				B7D3E2B21BFEA4E200E28028 /* ImagesDetailsViewController.m */,
+				B781F57C1C17748000E73BAB /* CommentTableViewCell.h */,
+				B781F57D1C17748000E73BAB /* CommentTableViewCell.m */,
 			);
 			name = CollectionView;
 			sourceTree = "<group>";
@@ -519,6 +524,7 @@
 				B781F57B1C172E9700E73BAB /* APIConstants.m in Sources */,
 				B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */,
 				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
+				B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
 				89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */,
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,

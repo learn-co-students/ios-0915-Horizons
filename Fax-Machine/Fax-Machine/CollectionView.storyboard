@@ -127,7 +127,6 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <animations/>
-                                        <color key="backgroundColor" red="1" green="0.72968775659999996" blue="0.1628731367" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="xfb-f6-p4j" firstAttribute="trailing" secondItem="11J-Tx-dsr" secondAttribute="trailingMargin" id="1Rb-fD-foA"/>
                                             <constraint firstItem="xfb-f6-p4j" firstAttribute="top" secondItem="VUE-j6-8Xo" secondAttribute="bottom" id="6N7-Ta-Laa"/>
@@ -237,6 +236,11 @@
                                             <action selector="downloadImage:" destination="WTS-eO-ffq" id="sOf-eC-rSz"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Item" id="V36-v3-ddS">
+                                        <connections>
+                                            <action selector="followUser:" destination="WTS-eO-ffq" id="3qc-Pn-S6Q"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2h-4Y-Fzt">
@@ -307,6 +311,7 @@
                         <outlet property="imageViewTopConstraint" destination="fug-JZ-ZkR" id="jIh-j0-ez2"/>
                         <outlet property="likeButton" destination="zZT-UH-2Iv" id="c8g-zg-71u"/>
                         <outlet property="likeCountLabel" destination="FFz-69-hDA" id="Qm7-5z-96P"/>
+                        <outlet property="ownerFollow" destination="V36-v3-ddS" id="86r-OJ-ayW"/>
                         <outlet property="postButton" destination="aXq-66-OLZ" id="H30-UD-i0V"/>
                         <outlet property="toolBar" destination="KUJ-3U-oXB" id="GIw-dM-Lpv"/>
                     </connections>
@@ -314,81 +319,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LDe-C9-s28" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5446.5" y="380.5"/>
-        </scene>
-        <!--Users Comments View Controller-->
-        <scene sceneID="Tbf-1K-ycb">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="lGr-98-5rs" customClass="UsersCommentsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="0hg-HD-RsQ"/>
-                        <viewControllerLayoutGuide type="bottom" id="lA1-sZ-TMC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="sta-FE-gqt">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="xnv-Kq-JNp">
-                                <rect key="frame" x="0.0" y="-15" width="600" height="585"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="sectionIndexBackgroundColor" red="0.98039215690000003" green="0.68627450980000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="eL2-3r-5qG">
-                                <rect key="frame" x="0.0" y="570" width="600" height="30"/>
-                                <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="8Xx-Dy-pj8">
-                                        <rect key="frame" x="0.0" y="0.0" width="555" height="30"/>
-                                        <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="gAe-l2-dXO"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="textFieldAction:" destination="lGr-98-5rs" eventType="editingDidEnd" id="UaK-Bl-kb9"/>
-                                            <outlet property="delegate" destination="lGr-98-5rs" id="hW5-gq-deM"/>
-                                        </connections>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewd-kb-V25">
-                                        <rect key="frame" x="555" y="0.0" width="45" height="30"/>
-                                        <animations/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="45" id="0y9-lr-ZGG"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <state key="normal" title="Post"/>
-                                        <connections>
-                                            <action selector="addCommentButton:" destination="lGr-98-5rs" eventType="touchUpInside" id="a2l-bq-e0p"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <animations/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </stackView>
-                        </subviews>
-                        <animations/>
-                        <constraints>
-                            <constraint firstItem="eL2-3r-5qG" firstAttribute="centerX" secondItem="sta-FE-gqt" secondAttribute="centerX" id="5kA-Id-xjb"/>
-                            <constraint firstItem="xnv-Kq-JNp" firstAttribute="width" secondItem="sta-FE-gqt" secondAttribute="width" id="9Kb-Hf-sse"/>
-                            <constraint firstItem="xnv-Kq-JNp" firstAttribute="top" secondItem="0hg-HD-RsQ" secondAttribute="bottom" constant="-35" id="Bbo-hv-ZuC"/>
-                            <constraint firstItem="eL2-3r-5qG" firstAttribute="bottom" secondItem="lA1-sZ-TMC" secondAttribute="top" id="dWO-as-TBv"/>
-                            <constraint firstItem="xnv-Kq-JNp" firstAttribute="bottom" secondItem="eL2-3r-5qG" secondAttribute="top" id="fLl-do-1Kn"/>
-                            <constraint firstItem="xnv-Kq-JNp" firstAttribute="centerX" secondItem="sta-FE-gqt" secondAttribute="centerX" id="iRq-4e-Lkg"/>
-                            <constraint firstItem="eL2-3r-5qG" firstAttribute="width" secondItem="sta-FE-gqt" secondAttribute="width" id="zY4-NE-eMD"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="sc8-JZ-JeL"/>
-                    <connections>
-                        <outlet property="commentTxtField" destination="8Xx-Dy-pj8" id="iNK-vG-FPt"/>
-                        <outlet property="commentsTable" destination="xnv-Kq-JNp" id="WXD-2V-HMK"/>
-                        <outlet property="postButton" destination="ewd-kb-V25" id="pUi-WF-sHB"/>
-                        <outlet property="stackViewBottomConstraint" destination="dWO-as-TBv" id="AkJ-Tt-dl1"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ysa-Al-BRL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6007.5" y="380.5"/>
         </scene>
         <!--Profile Menu Root View Controller-->
         <scene sceneID="9yq-qV-AK6">
@@ -603,6 +533,7 @@
             </objects>
             <point key="canvasLocation" x="4307" y="804"/>
         </scene>
+
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="IQz-sr-TJA"/>

@@ -51,4 +51,12 @@
 
 +(void)getFavoriteImagesWithCompletion:(void (^)(NSArray *images))completionBlock;
 
++(void)followUserWithUser:(PFUser *)user
+                  success:(void (^)(BOOL success))success
+                  failure:(void(^)(NSError *error))failure;
+
++(void)getFollowingUsersWithCompletion:(void (^)(NSArray *owners))completionBlock;
+
++(void)getFollowersWithUserId:(NSString *)userId withCompletion:(void (^)(NSArray *owners))completionBlock;
+
 @end

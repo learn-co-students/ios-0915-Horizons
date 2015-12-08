@@ -18,6 +18,7 @@
 @property(nonatomic)BOOL isFiltered;
 @property (nonatomic)BOOL isUserImageVC;
 @property (nonatomic) BOOL isFavorite;
+@property (nonatomic) BOOL isFollowing;
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters;
 

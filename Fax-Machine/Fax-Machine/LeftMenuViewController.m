@@ -38,7 +38,7 @@
     
     self.store = [DataStore sharedDataStore];
     self.tableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - (54 * 6 + 46)) / 2.0f, self.view.frame.size.width, 54 * 6 + 46) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - (54 * 8 + 46)) / 2.0f, self.view.frame.size.width, 54 * 8 + 46) style:UITableViewStylePlain];
         
         tableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         tableView.delegate = self;
@@ -80,6 +80,8 @@
             imageViewVC.title = @"Home";
             imageViewVC.isFavorite = NO;
             imageViewVC.isUserImageVC = NO;
+            imageViewVC.isFollowing = NO;
+            imageViewVC.isFiltered = NO;
             
             [self.sideMenuViewController setContentViewController:navController];
             [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"isUserVC"];
@@ -112,67 +114,117 @@
                 [self.sideMenuViewController hideMenuViewController];
                 imageViewVC.isFavorite = NO;
                 imageViewVC.isUserImageVC = NO;
+                imageViewVC.isFollowing = NO;
+                imageViewVC.isFiltered = NO;
                 [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
                 //NSLog(@"You're email is verified!");
             }
+            break;
         }
-            
-            break;
         case 3:
-            {
-                [self.store.userPictures removeAllObjects];
-                navController = [[UINavigationController alloc]initWithRootViewController:imageViewVC];
-                navController.navigationBar.shadowImage = [UIImage new];
-                navController.navigationBar.translucent = YES;
-                navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-                imageViewVC.title = @"My Images";
-                
-                [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
-                    if (complete) {
-                        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                            [self.sideMenuViewController hideMenuViewController];
-                            imageViewVC.isUserImageVC = YES;
-                            imageViewVC.isFavorite = NO;
-                            [self.sideMenuViewController setContentViewController:navController];
-                            
-                        }];
-                    }
-                }];
-            }
+        {
+            [self.store.userPictures removeAllObjects];
+            navController = [[UINavigationController alloc]initWithRootViewController:imageViewVC];
+            navController.navigationBar.shadowImage = [UIImage new];
+            navController.navigationBar.translucent = YES;
+            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            imageViewVC.title = @"My Images";
+            
+            [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
+                if (complete) {
+                    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                        [self.sideMenuViewController hideMenuViewController];
+                        imageViewVC.isUserImageVC = YES;
+                        imageViewVC.isFavorite = NO;
+                        imageViewVC.isFollowing = NO;
+                        imageViewVC.isFiltered = NO;
+                        [self.sideMenuViewController setContentViewController:navController];
+                        
+                    }];
+                }
+            }];
             break;
+        }
         case 4:
-            {
-                [self.store.favoriteImages removeAllObjects];
-                navController = [[UINavigationController alloc] initWithRootViewController:imageViewVC];
-                navController.navigationBar.shadowImage = [UIImage new];
-                navController.navigationBar.translucent = YES;
-                navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-                imageViewVC.title = @"My Favorites";
-                
-                [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
-                    if (success) {
-                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                            [self.sideMenuViewController hideMenuViewController];
-                            imageViewVC.isFavorite = YES;
-                            imageViewVC.isUserImageVC = NO;
-                            [self.sideMenuViewController setContentViewController:navController];
-                        }];
-                    }
-                }];
-                break;
-            }
+        {
+            [self.store.favoriteImages removeAllObjects];
+            navController = [[UINavigationController alloc] initWithRootViewController:imageViewVC];
+            navController.navigationBar.shadowImage = [UIImage new];
+            navController.navigationBar.translucent = YES;
+            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            imageViewVC.title = @"My Favorites";
+            
+            [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
+                if (success) {
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [self.sideMenuViewController hideMenuViewController];
+                        imageViewVC.isFavorite = YES;
+                        imageViewVC.isUserImageVC = NO;
+                        imageViewVC.isFollowing = NO;
+                        imageViewVC.isFiltered = NO;
+                        [self.sideMenuViewController setContentViewController:navController];
+                    }];
+                }
+            }];
+            break;
+        }
         case 5:
-            {
-                [self.store logoutWithSuccess:^(BOOL success) {
-                    [self.store.downloadedPictures removeAllObjects];
-                    [self.store.comments removeAllObjects];
-                    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
-                }];
-                break;
-            }
+        {
+            UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
+            
+            FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
+            navController = [[UINavigationController alloc] initWithRootViewController:desVC];
+            navController.navigationBar.shadowImage = [UIImage new];
+            navController.navigationBar.translucent = YES;
+            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            
+            [self.store getFollowingUsersWithSuccess:^(BOOL success) {
+                if (success) {
+                    desVC.followingList = self.store.followingList;
+                    desVC.sideMenu = self.sideMenuViewController;
+                    imageViewVC.isFavorite = NO;
+                    imageViewVC.isUserImageVC = NO;
+                    imageViewVC.isFollowing = NO;
+                    imageViewVC.isFiltered = NO;
+                    [self presentViewController:navController animated:YES completion:nil];
+                }
+            }];
+            break;
+        }
+        case 6:
+        {
+            UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
+            
+            FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
+            navController = [[UINavigationController alloc] initWithRootViewController:desVC];
+            navController.navigationBar.shadowImage = [UIImage new];
+            navController.navigationBar.translucent = YES;
+            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            
+            [self.store getFollowersWithUserId:[PFUser currentUser].objectId success:^(BOOL success) {
+                if (success) {
+                    desVC.followingList = self.store.followerList;
+                    desVC.sideMenu = self.sideMenuViewController;
+                    imageViewVC.isFavorite = NO;
+                    imageViewVC.isUserImageVC = NO;
+                    imageViewVC.isFollowing = NO;
+                    imageViewVC.isFiltered = NO;
+                    [self presentViewController:navController animated:YES completion:nil];
+                }
+            }];
+            break;
+        }
+        case 7:
+        {
+            [self.store logoutWithSuccess:^(BOOL success) {
+                [self.store.downloadedPictures removeAllObjects];
+                [self.store.comments removeAllObjects];
+                [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+            }];
+            break;
         }
     }
-//}
+}
 
 #pragma mark -
 #pragma mark UITableView Datasource
@@ -189,24 +241,24 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+    return 8;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row == 0) {
-     __block NSString *facebookUrl = @"";
-      if ([FBSDKAccessToken currentAccessToken]) {
-        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
-         
-         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-           if (!error) {
-             NSLog(@"fetched user:%@", result);
-             facebookUrl = result[@"picture"][@"data"][@"url"];
+        __block NSString *facebookUrl = @"";
+        if ([FBSDKAccessToken currentAccessToken]) {
+            [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
              
-           }
-         }];
-      }
-      
+             startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                 if (!error) {
+                     NSLog(@"fetched user:%@", result);
+                     facebookUrl = result[@"picture"][@"data"][@"url"];
+                     
+                 }
+             }];
+        }
+        
         // The profile photo
         static NSString *profileCellIdentifier = @"ProfileCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:profileCellIdentifier];
@@ -232,14 +284,14 @@
         if (self.selectedImage){
             ourImageView.image = self.selectedImage;
         }
-//        else if ([FBSDKAccessToken currentAccessToken]) {
-//
-//        }
+        //        else if ([FBSDKAccessToken currentAccessToken]) {
+        //
+        //        }
         else{
             NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
             NSURL *profileUrl = [NSURL URLWithString:urlString];
             [ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
-          //NSLog(@"profile url: %@",profileUrl);
+            //NSLog(@"profile url: %@",profileUrl);
         }
         
         return cell;
@@ -258,39 +310,37 @@
             cell.selectedBackgroundView = [[UIView alloc] init];
         }
         
-        NSArray *title = @[@"Home", @"Upload", @"My Images", @"Favorites", @"Log Out"];
+        NSArray *title = @[@"Home", @"Upload", @"My Images", @"Favorites", @"Following", @"Followers", @"Log Out"];
         
         cell.textLabel.text = title[indexPath.row - 1];
         FAKFontAwesome *icon = [FAKFontAwesome new];
         switch (indexPath.row) {
             case 1:
                 icon = [FAKFontAwesome homeIconWithSize:24];
-                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
                 break;
             case 2:
                 icon = [FAKFontAwesome uploadIconWithSize:24];
-                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
                 break;
             case 3:
                 icon = [FAKFontAwesome imageIconWithSize:24];
-                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
                 break;
             case 4:
                 icon = [FAKFontAwesome heartIconWithSize:24];
-                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
                 break;
             case 5:
+                icon = [FAKFontAwesome linkIconWithSize:24];
+                break;
+            case 6:
+                icon = [FAKFontAwesome groupIconWithSize:24];
+                break;
+            case 7:
                 icon = [FAKFontAwesome userIconWithSize:24];
-                [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-                cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
                 break;
             default:
                 break;
         }
+        [icon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+        cell.imageView.image = [icon imageWithSize:CGSizeMake(24, 24)];
         return cell;
     }
 }

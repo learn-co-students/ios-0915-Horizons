@@ -84,7 +84,7 @@
     
     //Displaying the owner of the image.
     PFUser *imageOwner = self.image.owner;
-    NSString *displayName = [[imageOwner.email componentsSeparatedByString:@"@"] firstObject];
+    NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
     self.ownerFollow.title = [NSString stringWithFormat:@"follow %@", displayName];
     //NSLog(@"My objectNameAndId: %@ %@", user.email, user.objectId);
     //NSLog(@"My ownerNameAndId: %@ %@", imageOwner.email, imageOwner.objectId);
@@ -159,7 +159,7 @@
     //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
     PFUser *user = comment[@"owner"];
-    NSString *username = [user.email componentsSeparatedByString:@"@"][0];
+    NSString *username = [user.username componentsSeparatedByString:@"@"][0];
     cell.detailTextLabel.text = username;
     cell.textLabel.text = comment[@"userComment"];
     
@@ -197,7 +197,17 @@
 
 - (IBAction)followUser:(id)sender {
     PFUser *user = self.image.owner;
-    if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
+    
+    BOOL isFollowed = NO;
+    for (PFUser *followingUser in [PFUser currentUser][@"following"]) {
+        if ([followingUser.objectId isEqualToString:self.image.owner.objectId]) {
+            isFollowed = YES;
+        }
+    }
+    
+    if (isFollowed){
+        [self followingAlertWithMessage:@"You already followed this user!"];
+    }else if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
         [self.dataStore followImageOwner:user completion:^(BOOL success) {
             if (success) {
                 NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];

@@ -25,6 +25,8 @@
 @property (nonatomic, strong) NSMutableArray *followingList;
 @property (nonatomic, strong) NSMutableArray *followingOwnerImageList;
 @property (nonatomic, strong) NSMutableArray *filteredImageList;
+@property (nonatomic) NSUInteger followerCount;
+@property (nonatomic, strong) NSMutableArray *followerList;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -68,4 +70,7 @@
 
 -(void)getFollowingUsersWithSuccess:(void (^)(BOOL success))success;
 
+-(void)getFollowersWithUserId:(NSString *)userId success:(void (^)(BOOL success))success;
+
++(void)checkUserFollow;
 @end

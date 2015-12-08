@@ -26,7 +26,7 @@
 -(void)parseVerifyEmailWithMessage:(NSString *)message viewController:(UIViewController *)view
 {
     PFUser *user = [PFUser currentUser];
-    if (![[user objectForKey:@"emailVerified"] boolValue]) {
+    if (![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil) {
         [user fetch];
         if(![[user objectForKey:@"emailVerified"] boolValue])
         {

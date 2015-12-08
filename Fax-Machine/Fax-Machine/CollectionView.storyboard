@@ -121,7 +121,6 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <animations/>
-                                        <color key="backgroundColor" red="1" green="0.72968775659999996" blue="0.1628731367" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="xfb-f6-p4j" firstAttribute="trailing" secondItem="11J-Tx-dsr" secondAttribute="trailingMargin" id="1Rb-fD-foA"/>
                                             <constraint firstItem="xfb-f6-p4j" firstAttribute="bottom" secondItem="3Hg-8p-ehi" secondAttribute="bottom" id="GN1-9m-omR"/>

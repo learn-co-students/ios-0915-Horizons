@@ -21,7 +21,6 @@
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
-@property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
 @property (nonatomic) CGFloat scrollOffset;
 
 @property (nonatomic)BOOL isFirstTime;
@@ -35,9 +34,10 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
-
+    [DataStore checkUserFollow];
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-    self.imageCollectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
@@ -165,8 +165,8 @@
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
-    //NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
+    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
+    NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];

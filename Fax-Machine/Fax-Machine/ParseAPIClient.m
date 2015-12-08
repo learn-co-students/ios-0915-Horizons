@@ -269,15 +269,22 @@
     [currentUser addObject:user forKey:@"following"];
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
-//            [user addObject:currentUser forKey:@"followers"];
-//            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//                if (succeeded) {
-//                    success(succeeded);
-//                }else{
-//                    failure(error);
-//                }
-//            }];
-            success(succeeded);
+            PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
+            [query whereKey:@"userId" equalTo:user.objectId];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+               if (!error) {
+                    [object addObject:currentUser forKey:@"followers"];
+                    [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                        if (succeeded) {
+                            success(succeeded);
+                        }else{
+                            failure(error);
+                        }
+                    }];
+                }else{
+                    NSLog(@"Get follow error: %@", error.localizedDescription);
+                }
+            }];
         }else{
             failure(error);
         }
@@ -289,7 +296,7 @@
  *
  *  @param completionBlock Callback with returned images.
  */
-+(void)getFolowingUsersWithCompletion:(void (^)(NSArray *owners))completionBlock{
++(void)getFollowingUsersWithCompletion:(void (^)(NSArray *owners))completionBlock{
     PFQuery *userQuery = [PFUser query];
     [userQuery whereKey:@"objectId" equalTo:[PFUser currentUser].objectId];
     [userQuery includeKey:@"following"];
@@ -302,5 +309,26 @@
         }
     }];
 }
+
+/**
+ *  Retrieve a list of followers.
+ *
+ *  @param userId          user id to fetch followers from
+ *  @param completionBlock Callback with returned list of objects
+ */
++(void)getFollowersWithUserId:(NSString *)userId withCompletion:(void (^)(NSArray *))completionBlock{
+    PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
+    [query whereKey:@"userId" equalTo:userId];
+    [query includeKey:@"followers"];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (!error) {
+            completionBlock(object[@"followers"]);
+        }else{
+            NSLog(@"Get followers error: %@", error.localizedDescription);
+        }
+    }];
+}
+
+
 
 @end

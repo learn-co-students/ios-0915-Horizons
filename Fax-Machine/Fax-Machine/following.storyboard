@@ -100,12 +100,17 @@
                                 <action selector="displayMenu:" destination="vbV-az-fT3" id="EGF-fV-UGV"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="uef-nK-Ad6">
+                            <connections>
+                                <action selector="returnHome:" destination="vbV-az-fT3" id="9pm-Km-MBn"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2GD-C6-cww" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1065" y="350"/>
+            <point key="canvasLocation" x="1126" y="367"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ADh-y9-D0A">

@@ -19,7 +19,7 @@
 #import "AppDelegate.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 
-@interface ImagesViewController () <RESideMenuDelegate>
+@interface ImagesViewController () <RESideMenuDelegate, FilterImageProtocol>
 
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
@@ -195,8 +195,8 @@
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
-    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
-    NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
+    //NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -274,8 +274,59 @@
     }
 }
 
+-(void)filterImageWithDictionary:(NSMutableDictionary *)filterDict
+                        withMood:(NSString *)mood
+                     andLocation:(Location *)location
+{
+    
+    self.isFiltered = YES;
+
+    
+    [self.dataStore downloadPicturesToDisplayWithMood:mood
+                                               andLocation:location
+                                            numberOfImages:12
+                                            WithCompletion:^(BOOL complete)
+    {
+
+                                                if (complete)
+                                                {
+                                                    
+                                                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                        
+                                                        [self.imagesCollectionViewController reloadData];
+                                 
+                                                    }];
+                                                }
+                                                else
+                                                {
+                                                    [self.imagesCollectionViewController reloadData];
+                                                    
+                                                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Oops!"
+                                                                                                                             message:@"There was an error loading one or more comments"
+                                                                                                                      preferredStyle:UIAlertControllerStyleAlert];
+                                                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                                    {
+                                                        NSLog(@"OK");
+                                                    }];
+                                                    
+                                                    [alertController addAction:okAction];
+                                                    
+                                                    [self presentViewController:alertController animated:YES completion:nil];
+                                                    // present alert that says "there was an error loading some comments"
+                                                }
+                                            }];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([segue.identifier isEqualToString:@"filterSegue"]) {
+        
+        filterViewController *destVC = segue.destinationViewController;
+        destVC.delegate = self;
+    }
+
+    
+    
     if ([segue.identifier isEqualToString:@"photoDetails"])
     {
         self.navigationController.navigationBarHidden = NO;

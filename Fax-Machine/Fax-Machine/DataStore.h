@@ -56,7 +56,7 @@
 -(void)getAllCommentsWithImageID:(NSString *)imageID
                   withCompletion:(void(^)(BOOL complete))completionBlock;
 
--(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate
+-(void)downloadPicturesToDisplayWithMood:(NSString *)mood
                                   andLocation:(Location *)location
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL complete))completionBlock;

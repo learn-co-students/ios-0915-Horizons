@@ -117,7 +117,7 @@
         {
             CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
-            [pickerLabel setTextAlignment:NSTextAlignmentLeft];
+            [pickerLabel setTextAlignment:UITextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
             [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
             
@@ -137,7 +137,7 @@
         {
             CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
-            [pickerLabel setTextAlignment:NSTextAlignmentLeft];
+            [pickerLabel setTextAlignment:UITextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
             [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
             
@@ -157,7 +157,7 @@
         {
             CGRect frame = CGRectMake(0.0, 0.0, 100, 32);
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
-            [pickerLabel setTextAlignment:NSTextAlignmentLeft];
+            [pickerLabel setTextAlignment:UITextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
             [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
             
@@ -242,13 +242,6 @@
     }
     return arrayOfMoods;
 }
-- (IBAction)filterButtonTapped:(id)sender {
-    
-    [self filterTheThing];
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
 
 -(void)gettingChosenCountry:(UIPickerView *)pickerView
 {
@@ -279,9 +272,7 @@
     }
 }
 
-
-
--(void)filterTheThing
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
     NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
@@ -301,28 +292,43 @@
                                        @"city" : arrayOfCities[citySelection],
                                        @"mood" : arrayOfMoods[moodSelection]
                                        };
-    
-    [self.filtering removeAllObjects];
-    
     self.filtering = [filterParameters mutableCopy];
 
-    [self.dataStore.filteredImageList removeAllObjects];
+    NSLog(@"Segue method!!!");
+    ImagesViewController *imagesVC = segue.destinationViewController;
+    imagesVC.filterParameters = [filterParameters mutableCopy];
+    imagesVC.isFiltered = YES;
+    [self.dataStore.downloadedPictures removeAllObjects];
+    //[imagesVC.imagesCollectionViewController reloadData];
     
     Location *locationForPredicate = [[Location alloc] init];
     locationForPredicate.city = arrayOfCities[citySelection];
     locationForPredicate.country = arrayOfCountries[countrySelection];
+    NSString *moodFilter = filterParameters[@"mood"];
     
-    NSString *mood = filterParameters[@"mood"];
-    if ([mood isEqualToString:@"Default Mood"]) {
-        mood = @"";
+    if ([moodFilter isEqualToString:@"Default Mood"])
+    {
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"likes >= 0"];
+        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+         {
+             if (complete)
+             {
+                 [imagesVC filteringImagesCountryLevel:filterParameters];
+             }
+         }];
     }
-    
+    else
+    {
+        NSPredicate *countryPredicate = [NSPredicate predicateWithFormat:@"mood = %@", moodFilter];
+        [self.dataStore downloadPicturesToDisplayWithPredicate:countryPredicate andLocation:locationForPredicate numberOfImages:20 WithCompletion:^(BOOL complete)
+         {
+             if (complete)
+             {
+                 [imagesVC filteringImagesCountryLevel:filterParameters];
+             }
+         }];
+    }
     self.dataStore.filterDictionary = self.filtering;
-
-    [self.delegate filterImageWithDictionary:[filterParameters mutableCopy]
-                                    withMood:mood
-                                 andLocation:locationForPredicate];
-    
 }
 
 @end

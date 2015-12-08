@@ -86,41 +86,69 @@
 }
 
 
--(void)downloadPicturesToDisplayWithPredicate:(NSPredicate *)predicate andLocation:(Location *)location numberOfImages:(NSUInteger)number WithCompletion:(void(^)(BOOL complete))completionBlock
+-(void)downloadPicturesToDisplayWithMood:(NSString *)mood
+                                  andLocation:(Location *)location
+                               numberOfImages:(NSUInteger)number
+                               WithCompletion:(void(^)(BOOL complete))completionBlock
 {
-    NSUInteger page =ceil(self.downloadedPictures.count / ( number * 1.00f));
-    [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:number page:page completion:^(NSArray *data) {
-        for (PFObject *parseImageObject in data) {
-            PFObject *parseLocation = parseImageObject[@"location"];
-            Location *locationObject = [[Location alloc] initWithCity:parseLocation[@"city"] country:parseLocation[@"country"] geoPoint:parseLocation[@"geoPoint"] dateTaken:parseLocation[@"dateTaken"]];
-            if (parseImageObject[@"comments"]) {
-                [ParseAPIClient fetchAllCommentsWithRelatedImage:parseImageObject[@"imageID"] completion:^(NSArray *data) {
-                    ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:locationObject comments:[data mutableCopy]
-                                                                        objectID:parseImageObject.objectId];
-                    if ([parseImage.location.city isEqualToString:location.city])
-                    {
-                        [self.filteredImageList addObject:parseImage];
-                    }
-                    completionBlock(YES);
-                    
-                } failure:^(NSError *error) {
-                    NSLog(@"Fetch Comments error: %@", error.localizedDescription);
-                }];
-            }else{
-                NSMutableArray *commentsForItem = [NSMutableArray new];
-                ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:parseImageObject[@"location"] comments:commentsForItem
-                                                                    objectID:parseImageObject.objectId];
-                if ([parseImage.location.city isEqualToString:location.city])
+    NSUInteger page =ceil(self.filteredImageList.count / ( number * 1.00f));
+    
+    NSLog(@"What is this number for page: %ld\n\n\n\n", page);
+    
+
+    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
+    [query whereKey:@"city" equalTo:location.city];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        //PFQuery *imageQuery = [PFQuery queryWithClassName:@"Image"];
+        //[imageQuery whereKey:@"location" containedIn:objects];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location IN %@", objects];
+        if (mood.length) {
+            predicate = [NSPredicate predicateWithFormat:@"location IN %@ AND mood = %@", objects, mood];
+        }
+        
+        [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:number page:page completion:^(NSArray *data) {
+    
+//            __block NSInteger totalImagesWithComments = 0;
+//            __block NSInteger totalCommentsLoaded = 0;
+//            __block BOOL allCommentsSuccessfullyLoaded = YES;
+            for (PFObject *parseImageObject in data)
+            {
+                PFObject *parseLocation = parseImageObject[@"location"];
+                Location *locationObject = [[Location alloc] initWithCity:parseLocation[@"city"] country:parseLocation[@"country"] geoPoint:parseLocation[@"geoPoint"] dateTaken:parseLocation[@"dateTaken"]];
+
+                
+                if (parseImageObject[@"comments"])
                 {
+                    [ParseAPIClient fetchAllCommentsWithRelatedImage:parseImageObject[@"imageID"] completion:^(NSArray *data)
+                     {
+                         ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:locationObject comments:[data mutableCopy] objectID:parseImageObject.objectId];
+                         [self.filteredImageList addObject:parseImage];
+                         completionBlock(YES);
+                     } failure:^(NSError *error) {
+                         NSLog(@"Fetch Comments error: %@", error.localizedDescription);
+                         completionBlock(NO);
+                     }];
+
+                }else{
+                    NSMutableArray *commentsForItem = [NSMutableArray new];
+                    ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"]
+                                                                           title:parseImageObject[@"title"]
+                                                                         imageID:parseImageObject[@"imageID"]
+                                                                           likes:parseImageObject[@"likes"]
+                                                                            mood:parseImageObject[@"mood"]
+                                                                        location:locationObject
+                                                                        comments:commentsForItem
+                                                                        objectID:parseImageObject.objectId];
                     [self.filteredImageList addObject:parseImage];
                 }
                 completionBlock(YES);
+
             }
-        }
-        completionBlock(YES);
+            
+        } failure:^(NSError *error) {
+            NSLog(@"Download images error: %@", error.localizedDescription);
+        }];
         
-    } failure:^(NSError *error) {
-        NSLog(@"Download images error: %@", error.localizedDescription);
     }];
 }
 

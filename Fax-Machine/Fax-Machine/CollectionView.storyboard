@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="tSK-bv-2Qw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="tSK-bv-2Qw">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -109,7 +109,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="186" height="138"/>
                                                     <animations/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfb-f6-p4j">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfb-f6-p4j">
                                                     <rect key="frame" x="136" y="118" width="42" height="20"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -222,9 +222,9 @@
                                     <barButtonItem title="Item" id="FFz-69-hDA"/>
                                     <barButtonItem title="💬" id="pvB-q4-1Rq"/>
                                     <barButtonItem title="Item" id="XVl-8H-Chq"/>
-                                    <barButtonItem title="Item" id="sbD-ZO-Dcr">
+                                    <barButtonItem title="share" id="sbD-ZO-Dcr" userLabel="SocialSharingButton">
                                         <connections>
-                                            <action selector="downloadImage:" destination="WTS-eO-ffq" id="sOf-eC-rSz"/>
+                                            <action selector="socialSharing:" destination="WTS-eO-ffq" id="nb2-FK-b3Z"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Item" id="V36-v3-ddS">
@@ -233,6 +233,7 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="tintColor" red="0.75911064390000005" green="0.91843621310000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2h-4Y-Fzt">
                                 <rect key="frame" x="0.0" y="621" width="375" height="46"/>
@@ -297,7 +298,6 @@
                         <outlet property="commentCountLable" destination="XVl-8H-Chq" id="ilB-9i-aLi"/>
                         <outlet property="commentSectionView" destination="G2h-4Y-Fzt" id="ZJR-Wy-wPA"/>
                         <outlet property="commentTextField" destination="3pK-ja-PEG" id="QYW-Lw-FL5"/>
-                        <outlet property="downloadButton" destination="sbD-ZO-Dcr" id="Z6P-oJ-rYm"/>
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
                         <outlet property="imageViewTopConstraint" destination="fug-JZ-ZkR" id="jIh-j0-ez2"/>
                         <outlet property="likeButton" destination="zZT-UH-2Iv" id="c8g-zg-71u"/>

@@ -80,6 +80,7 @@ class LoginViewController : PFLogInViewController {
 //    }
   }
 
+ 
   
 //  override func viewDidAppear(animated: Bool) {
 //    super.viewDidAppear(animated)
@@ -97,6 +98,8 @@ class LoginViewController : PFLogInViewController {
 //    }
 //  }
 //  
+  
+  
   
 }
 

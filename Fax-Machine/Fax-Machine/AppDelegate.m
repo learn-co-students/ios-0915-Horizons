@@ -32,7 +32,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
+    
     // AWS STUFF
     self.window.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
@@ -48,8 +48,9 @@
     //Setting up initial connection with the Parse app.
     [Parse setApplicationId:PARSE_APPLICATION_KEY clientKey:PARSE_CLIENT_KEY];
     [PFTwitterUtils initializeWithConsumerKey:TWITTER_CONSUMER_KEY consumerSecret:TWITTER_CONSUMER_SECRET];
-  [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
-  [[FBSDKApplicationDelegate sharedInstance] application:application
+
+    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   
     return YES;

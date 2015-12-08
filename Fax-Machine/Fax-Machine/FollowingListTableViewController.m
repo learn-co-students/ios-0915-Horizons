@@ -35,7 +35,8 @@
 - (IBAction)displayMenu:(id)sender {
     NSLog(@"Menu tapped");
     self.imageVC.isFollowing = NO;
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+      [self.sideMenuViewController presentLeftMenuViewController];
 }
 
 - (IBAction)returnHome:(id)sender {

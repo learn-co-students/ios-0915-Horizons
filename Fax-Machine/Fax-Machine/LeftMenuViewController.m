@@ -90,6 +90,21 @@
         }
         case 2:
         {
+//          [navController presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+//            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
+          
+          [self.sideMenuViewController hideMenuViewController];
+          navController = [[UINavigationController alloc] initWithRootViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"]];
+//          navController.navigationBar.shadowImage = [UIImage new];
+//          navController.navigationBar.translucent = YES;
+//          navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+          navController.navigationBar.hidden = YES;
+          
+          imageViewVC.isFavorite = NO;
+          imageViewVC.isUserImageVC = NO;
+          
+          [self.sideMenuViewController setContentViewController:navController];
+
             PFObject *user = PFUser.currentUser;
             if(![[user objectForKey:@"emailVerified"] boolValue])
             {
@@ -165,13 +180,18 @@
             
             [self.store getFollowingUsersWithSuccess:^(BOOL success) {
                 if (success) {
+                  [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                    [self.sideMenuViewController hideMenuViewController];
                     desVC.followingList = self.store.followingList;
                     desVC.sideMenu = self.sideMenuViewController;
                     imageViewVC.isFavorite = NO;
                     imageViewVC.isUserImageVC = NO;
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
-                    [self presentViewController:navController animated:YES completion:nil];
+                    //                    [self presentViewController:navController animated:YES completion:nil];
+                    [self.sideMenuViewController setContentViewController:navController];
+
+                  }];
                 }
             }];
             break;
@@ -188,13 +208,19 @@
             
             [self.store getFollowersWithUserId:[PFUser currentUser].objectId success:^(BOOL success) {
                 if (success) {
+                  [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                    [self.sideMenuViewController hideMenuViewController];
                     desVC.followingList = self.store.followerList;
                     desVC.sideMenu = self.sideMenuViewController;
                     imageViewVC.isFavorite = NO;
                     imageViewVC.isUserImageVC = NO;
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
-                    [self presentViewController:navController animated:YES completion:nil];
+//                    [self presentViewController:navController animated:YES completion:nil];
+                    [self.sideMenuViewController setContentViewController:navController];
+
+                  }];
+
                 }
             }];
             break;

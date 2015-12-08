@@ -15,6 +15,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "HelperMethods.h"
 #import "CommentTableViewCell.h"
+#import <Parse/Parse.h>
 
 @interface ImagesDetailsViewController ()
 
@@ -41,6 +42,8 @@
 @property (nonatomic, strong)DataStore *dataStore;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic) BOOL liked;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navigationItem;
+@property (weak, nonatomic) IBOutlet UITextView *imageDescriptionLabel;
 
 
 @end
@@ -72,11 +75,20 @@
     self.commentTextField.placeholder = @"Enter a comment to post";
     self.commentSectionView.backgroundColor = [UIColor blackColor];
     self.commentButton.enabled = NO;
-    
+
+  self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@",self.image.title];
+  self.imageDescriptionLabel.editable = YES;
+  self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
+  self.imageDescriptionLabel.textColor = [UIColor whiteColor];
+  self.imageDescriptionLabel.editable = NO;
+  
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
+  self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
+  
+//self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];  
 
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
@@ -89,6 +101,8 @@
     //Displaying the owner of the image.
     PFUser *imageOwner = self.image.owner;
     NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
+
+  
     self.ownerFollow.title = [NSString stringWithFormat:@"follow %@", displayName];
     //NSLog(@"My objectNameAndId: %@ %@", user.email, user.objectId);
     //NSLog(@"My ownerNameAndId: %@ %@", imageOwner.email, imageOwner.objectId);
@@ -102,6 +116,7 @@
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
+
     }else{
         self.liked = NO;
         //NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
@@ -113,6 +128,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillHideNotification object:nil];
+  
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -159,6 +176,7 @@
 
     //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
+
     PFUser *user = comment[@"owner"];
     NSString *username = [user.username componentsSeparatedByString:@"@"][0];
 
@@ -232,8 +250,8 @@
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
     if (!self.liked) {
+        self.liked = YES;
         [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
-            self.liked = YES;
             NSLog(@"Testing!!!");
             FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
             self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
@@ -303,8 +321,9 @@
 
 - (IBAction)postCommentButton:(UIButton *)sender {
     PFObject *user = PFUser.currentUser;
+  PFUser *current = [PFUser currentUser];
     
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && current.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can post!" viewController:self];
         //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];

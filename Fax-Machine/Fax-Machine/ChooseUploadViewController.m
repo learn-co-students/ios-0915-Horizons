@@ -189,7 +189,7 @@
                       {
                           [[NSOperationQueue mainQueue] addOperationWithBlock:^
                            {
-                               NSString *weatherOfImage = weather[@"currently"][@"summary"];
+                               NSString *weatherOfImage = [weather[@"currently"][@"summary"] capitalizedString];
                                self.mood = weatherOfImage;
                                self.country = self.location.country;
                                self.city = self.location.city;
@@ -226,7 +226,12 @@
                               [[NSOperationQueue mainQueue] addOperationWithBlock:^
                                {
                                    NSString *weatherOfImage = weather[@"currently"][@"summary"];
-                                   self.mood = weatherOfImage;
+                                   
+                                   //self.mood = weatherOfImage;
+                                   
+                                   //self.mood is modified in convertingWeatherToMood method
+                                   [self convertingWeatherToMood:weatherOfImage];
+                                   
                                    self.country = self.location.country;
                                    self.city = self.location.city;
                                    self.location.weather = weather;
@@ -258,5 +263,24 @@
     [alert addAction:okay];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
+-(void)convertingWeatherToMood:(NSString *)weather
+{
+    NSArray *moodArray = @[@"exultant", @"somniferous", @"jubilant", @"tumultuous"];
+    if (([weather containsString:@"Clear"]) || ([weather containsString:@"Sunny"]))
+    {
+        self.mood = @"exultant";
+    }
+    else if (([weather containsString:@"Cloudy"]) || ([weather containsString:@"Rain"]) || ([weather containsString:@"Fog"]))
+    {
+        self.mood = @"somniferous";
+    }
+    else if (([weather containsString:@"Snow"]))
+    {
+        self.mood = @"jubilant";
+    }
+    else if (([weather containsString:@"Thunderstorm"] || [weather containsString:@"Storm"]) || ([weather containsString:@"Heavy"]))
+    {
+        self.mood = @"tumultuous";
+    }
+}
 @end

@@ -21,7 +21,6 @@
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
-@property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
 @property (nonatomic) CGFloat scrollOffset;
 
 @property (nonatomic)BOOL isFirstTime;
@@ -38,7 +37,7 @@
     [DataStore checkUserFollow];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-    self.imageCollectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];

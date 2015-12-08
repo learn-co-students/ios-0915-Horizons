@@ -24,16 +24,24 @@
     
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
-    FAKFontAwesome *navIcon = [FAKFontAwesome homeIconWithSize:35];
+    FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
+    FAKFontAwesome *homeIcon = [FAKFontAwesome homeIconWithSize:35];
     self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
+    self.navigationItem.rightBarButtonItem.image = [homeIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
 }
 
 - (IBAction)displayMenu:(id)sender {
     NSLog(@"Menu tapped");
     self.imageVC.isFollowing = NO;
     [self dismissViewControllerAnimated:YES completion:nil];
-    //[self.sideMenuViewController presentLeftMenuViewController];
+}
+
+- (IBAction)returnHome:(id)sender {
+    self.imageVC.isFollowing = NO;
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.sideMenu hideMenuViewController];
 }
 
 #pragma mark - Table view data source
@@ -87,7 +95,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    NSLog(@"Predicate: %@", self.followingList[indexPath.row]);
+    //NSLog(@"Predicate: %@", self.followingList[indexPath.row]);
     [self.dataStore.followingOwnerImageList removeAllObjects];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"owner = %@", self.followingList[indexPath.row]];
     
@@ -104,6 +112,7 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self dismissViewControllerAnimated:YES completion:^{
+                [self.sideMenu hideMenuViewController];
                 [self.sideMenu setContentViewController:navController];
             }];
         }];

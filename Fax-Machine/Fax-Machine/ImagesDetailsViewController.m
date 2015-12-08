@@ -84,7 +84,7 @@
     
     //Displaying the owner of the image.
     PFUser *imageOwner = self.image.owner;
-    NSString *displayName = [[imageOwner.email componentsSeparatedByString:@"@"] firstObject];
+    NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
     self.ownerFollow.title = [NSString stringWithFormat:@"follow %@", displayName];
     //NSLog(@"My objectNameAndId: %@ %@", user.email, user.objectId);
     //NSLog(@"My ownerNameAndId: %@ %@", imageOwner.email, imageOwner.objectId);
@@ -159,7 +159,7 @@
     //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
     PFUser *user = comment[@"owner"];
-    NSString *username = [user.email componentsSeparatedByString:@"@"][0];
+    NSString *username = [user.username componentsSeparatedByString:@"@"][0];
     cell.detailTextLabel.text = username;
     cell.textLabel.text = comment[@"userComment"];
     

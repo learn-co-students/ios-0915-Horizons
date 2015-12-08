@@ -18,7 +18,6 @@
 
 @interface FollowingListTableViewController : UITableViewController
 
-//@property (strong, readonly, nonatomic) RESideMenu *sideMenuViewController;
 @property (nonatomic, strong) NSMutableArray *followingList;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic, strong) RESideMenu *sideMenu;

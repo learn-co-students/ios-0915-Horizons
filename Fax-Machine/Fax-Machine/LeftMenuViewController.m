@@ -99,6 +99,8 @@
                 [self.sideMenuViewController hideMenuViewController];
                 imageViewVC.isFavorite = NO;
                 imageViewVC.isUserImageVC = NO;
+                imageViewVC.isFollowing = NO;
+                imageViewVC.isFiltered = NO;
                 [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
                 //NSLog(@"You're email is verified!");
             }
@@ -119,6 +121,8 @@
                         [self.sideMenuViewController hideMenuViewController];
                         imageViewVC.isUserImageVC = YES;
                         imageViewVC.isFavorite = NO;
+                        imageViewVC.isFollowing = NO;
+                        imageViewVC.isFiltered = NO;
                         [self.sideMenuViewController setContentViewController:navController];
                         
                     }];
@@ -141,6 +145,8 @@
                         [self.sideMenuViewController hideMenuViewController];
                         imageViewVC.isFavorite = YES;
                         imageViewVC.isUserImageVC = NO;
+                        imageViewVC.isFollowing = NO;
+                        imageViewVC.isFiltered = NO;
                         [self.sideMenuViewController setContentViewController:navController];
                     }];
                 }
@@ -161,9 +167,11 @@
                 if (success) {
                     desVC.followingList = self.store.followingList;
                     desVC.sideMenu = self.sideMenuViewController;
-                    [self presentViewController:navController animated:YES completion:^{
-                        [self.sideMenuViewController hideMenuViewController];
-                    }];
+                    imageViewVC.isFavorite = NO;
+                    imageViewVC.isUserImageVC = NO;
+                    imageViewVC.isFollowing = NO;
+                    imageViewVC.isFiltered = NO;
+                    [self presentViewController:navController animated:YES completion:nil];
                 }
             }];
             break;
@@ -182,9 +190,11 @@
                 if (success) {
                     desVC.followingList = self.store.followerList;
                     desVC.sideMenu = self.sideMenuViewController;
-                    [self presentViewController:navController animated:YES completion:^{
-                        [self.sideMenuViewController hideMenuViewController];
-                    }];
+                    imageViewVC.isFavorite = NO;
+                    imageViewVC.isUserImageVC = NO;
+                    imageViewVC.isFollowing = NO;
+                    imageViewVC.isFiltered = NO;
+                    [self presentViewController:navController animated:YES completion:nil];
                 }
             }];
             break;

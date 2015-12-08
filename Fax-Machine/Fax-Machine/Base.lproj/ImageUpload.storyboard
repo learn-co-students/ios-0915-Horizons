@@ -160,7 +160,6 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <action selector="countryEditingDidEnd:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Lva-6F-3Q2"/>
-                                            <action selector="didEditCountryTextField:" destination="BYZ-38-t0r" eventType="editingChanged" id="Ynt-yj-eL9"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter a mood for this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-wa-NeL">
@@ -207,11 +206,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="YVU-qW-Pqg" userLabel="image upload tap">
-                    <connections>
-                        <action selector="selectImageAndView:" destination="BYZ-38-t0r" id="0DA-cV-NnG"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="YVU-qW-Pqg" userLabel="image upload tap"/>
             </objects>
             <point key="canvasLocation" x="748" y="445"/>
         </scene>

@@ -11,6 +11,7 @@
 #import "Location.h"
 #import "ImageObject.h"
 #import "Comment.h"
+#import "ParseAPIClient.h"
 
 @interface DataStore : NSObject
 
@@ -21,6 +22,11 @@
 @property (nonatomic, strong)NSMutableDictionary *filterDictionary;
 @property (nonatomic)BOOL isUserVC;
 @property (nonatomic, strong) NSMutableArray *favoriteImages;
+@property (nonatomic, strong) NSMutableArray *followingList;
+@property (nonatomic, strong) NSMutableArray *followingOwnerImageList;
+@property (nonatomic, strong) NSMutableArray *filteredImageList;
+@property (nonatomic) NSUInteger followerCount;
+@property (nonatomic, strong) NSMutableArray *followerList;
 
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -55,9 +61,16 @@
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL complete))completionBlock;
 
-//-(void)downloadPicturesToDisplayWithLocation:(Location *)location
-//                              numberOfImages:(NSUInteger)number
-//                              WithCompletion:(void(^)(BOOL complete))completionBlock;
+-(void)downloadPicturesToDisplay:(NSUInteger)numberOfImages
+                       predicate:(NSPredicate *)predicate
+                  WithCompletion:(void(^)(BOOL complete))completionBlock;
 
+-(void)followImageOwner:(PFUser *)owner
+                completion:(void (^)(BOOL success))completion;
 
+-(void)getFollowingUsersWithSuccess:(void (^)(BOOL success))success;
+
+-(void)getFollowersWithUserId:(NSString *)userId success:(void (^)(BOOL success))success;
+
++(void)checkUserFollow;
 @end

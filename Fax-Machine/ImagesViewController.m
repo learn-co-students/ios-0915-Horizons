@@ -14,7 +14,6 @@
 #import "APIConstants.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "filterViewController.h"
-#import "RESideMenu.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface ImagesViewController () <RESideMenuDelegate>
@@ -22,7 +21,6 @@
 @property (strong, nonatomic) NSArray *arrayWithImages;
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
-@property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
 @property (nonatomic) CGFloat scrollOffset;
 
 @property (nonatomic)BOOL isFirstTime;
@@ -36,8 +34,10 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
-
+    [DataStore checkUserFollow];
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
     
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
@@ -47,6 +47,8 @@
     FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
     self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
     
     //Getting and setting the facebook profile pic as the default profile picture.
     if ([FBSDKAccessToken currentAccessToken]) {
@@ -82,7 +84,7 @@
     }
     
     //Initial call to fetch images to display
-    if (!self.isFiltered && !self.isFirstTime) {
+    if (!self.isFiltered && !self.isFirstTime && !self.isFollowing) {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
         self.isFirstTime = YES;
         
@@ -99,8 +101,8 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    self.isFiltered = NO;
-
+    //self.isFiltered = NO;
+    self.navigationController.navigationBarHidden = NO;
     [self.imagesCollectionViewController reloadData];
     [self.dataStore.controllers addObject: self];
     
@@ -138,8 +140,12 @@
     if (self.isFavorite) {
         return self.dataStore.favoriteImages.count;
     } else if (self.isUserImageVC){
-      return self.dataStore.userPictures.count;
-    } else{
+        return self.dataStore.userPictures.count;
+    } else if (self.isFiltered){
+        return self.dataStore.filteredImageList.count;
+    } else if (self.isFollowing){
+        return self.dataStore.followingOwnerImageList.count;
+    }else{
         return self.dataStore.downloadedPictures.count;
     }
 }
@@ -150,8 +156,12 @@
     if (self.isFavorite) {
         parseImage = self.dataStore.favoriteImages[indexPath.row];
     } else if (self.isUserImageVC){
-      parseImage = self.dataStore.userPictures[indexPath.row];
-    } else{
+        parseImage = self.dataStore.userPictures[indexPath.row];
+    } else if (self.isFiltered){
+        parseImage = self.dataStore.filteredImageList[indexPath.row];
+    }else if (self.isFollowing){
+        parseImage = self.dataStore.followingOwnerImageList[indexPath.row];
+    }else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
     }
 
@@ -160,7 +170,7 @@
     
     
     NSURL *url = [NSURL URLWithString:urlString];
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu", parseImage.likes, parseImage.comments.count];
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 💭 %lu", parseImage.likes, parseImage.comments.count];
 
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
 //        if (from == YYWebImageFromDiskCache) {
@@ -245,8 +255,12 @@
         if (self.isFavorite) {
             imageVC.image = self.dataStore.favoriteImages[indexPath.row];
         } else if (self.isUserImageVC) {
-          imageVC.image = self.dataStore.userPictures[indexPath.row];
-        } else{
+            imageVC.image = self.dataStore.userPictures[indexPath.row];
+        } else if (self.isFiltered){
+            imageVC.image = self.dataStore.filteredImageList[indexPath.row];
+        } else if (self.isFollowing){
+            imageVC.image = self.dataStore.followingOwnerImageList[indexPath.row];
+        }else{
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }
     }

@@ -5,7 +5,6 @@
 //  Created by Matthew Chang on 11/17/15.
 //  Copyright © 2015 Flatiron-School. All rights reserved.
 //
-
 #import "LocationData.h"
 #import "APIConstants.h"
 #import "FXMCity.h"

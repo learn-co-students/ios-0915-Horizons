@@ -231,9 +231,9 @@
                                     <barButtonItem title="Item" id="FFz-69-hDA"/>
                                     <barButtonItem title="💬" id="pvB-q4-1Rq"/>
                                     <barButtonItem title="Item" id="XVl-8H-Chq"/>
-                                    <barButtonItem title="Item" id="sbD-ZO-Dcr">
+                                    <barButtonItem title="share" id="sbD-ZO-Dcr" userLabel="SocialSharingButton">
                                         <connections>
-                                            <action selector="downloadImage:" destination="WTS-eO-ffq" id="sOf-eC-rSz"/>
+                                            <action selector="socialSharing:" destination="WTS-eO-ffq" id="nb2-FK-b3Z"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Item" id="V36-v3-ddS">
@@ -242,6 +242,7 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="tintColor" red="0.75911064390000005" green="0.91843621310000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2h-4Y-Fzt">
                                 <rect key="frame" x="0.0" y="621" width="375" height="46"/>
@@ -329,8 +330,10 @@
                         <outlet property="commentCountLable" destination="XVl-8H-Chq" id="ilB-9i-aLi"/>
                         <outlet property="commentSectionView" destination="G2h-4Y-Fzt" id="ZJR-Wy-wPA"/>
                         <outlet property="commentTextField" destination="3pK-ja-PEG" id="QYW-Lw-FL5"/>
+
                         <outlet property="downloadButton" destination="sbD-ZO-Dcr" id="Z6P-oJ-rYm"/>
                         <outlet property="imageDescriptionLabel" destination="ouH-tn-wzb" id="nKx-D0-Q9v"/>
+
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
                         <outlet property="imageViewTopConstraint" destination="fug-JZ-ZkR" id="jIh-j0-ez2"/>
                         <outlet property="likeButton" destination="zZT-UH-2Iv" id="c8g-zg-71u"/>

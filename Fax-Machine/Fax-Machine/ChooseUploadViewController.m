@@ -47,12 +47,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.imagePickerController = [UIImagePickerController new];
-    
-    
-    [[self.savedPhotosButton layer] setBorderWidth:1.0f];
+  [[self.savedPhotosButton layer] setBorderWidth:1.0f];
     //  [[self.savedPhotosButton layer]setBorderColor:[UIColor darkGrayColor].CGColor];
     
-    
+  self.savedPhotosButton.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
+  self.takePhotoButton.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
     [[self.takePhotoButton layer] setBorderWidth:1.0f];
     //  [[self.takePhotoButton layer]setBorderColor:[UIColor darkGrayColor].CGColor];
 }
@@ -184,7 +183,7 @@
                 self.creationDate = asset.creationDate;
                 [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
                  {
-                     self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                   self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date ];
                      [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
                       {
                           [[NSOperationQueue mainQueue] addOperationWithBlock:^
@@ -220,7 +219,7 @@
                                                             @"date":[NSDate date]} mutableCopy];
                     [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
                      {
-                         self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                       self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date ];
                          [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
                           {
                               [[NSOperationQueue mainQueue] addOperationWithBlock:^

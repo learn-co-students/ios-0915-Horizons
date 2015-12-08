@@ -15,6 +15,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "filterViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseTwitterUtils/ParseTwitterUtils.h>
 #import "Reachability.h"
 #import "AppDelegate.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
@@ -67,8 +68,9 @@
     [DataStore checkUserFollow];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-    
+//    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+  self.imagesCollectionViewController.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
+  
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
     
@@ -79,17 +81,38 @@
     self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
-    
-    //Getting and setting the facebook profile pic as the default profile picture.
-    if ([FBSDKAccessToken currentAccessToken]) {
-        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
+  
+  
+  self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+  
+    self.dataStore = [DataStore sharedDataStore];
+    [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
+        if (complete) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.imagesCollectionViewController reloadData];
+            }];
+        }
+    }];
+
+  if ([FBSDKAccessToken currentAccessToken]) {
+    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
+
+     startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+       if (!error) {
+         NSLog(@"fetched user:%@", result);
+
          
-         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-             if (!error) {
-                 NSLog(@"fetched user:%@", result);
-                 
-                 NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
-                 NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
+         NSLog(@"result name:%@", result[@"name"]);
+         NSLog(@"_________");
+         NSString *username = result[@"name"];
+         [[PFUser currentUser] setUsername:username];
+         [[PFUser currentUser]saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
+           NSLog(@"saved");
+         }];
+
+         NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
+         NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
+
                  
                  NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
                  NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
@@ -111,6 +134,31 @@
                  
              }
          }];
+ 
+       } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
+    NSLog(@"twitter:%@",[PFTwitterUtils twitter].screenName);
+    NSString *username  = [PFTwitterUtils twitter].screenName;
+     [[PFUser currentUser] setUsername:username];
+    }
+  
+  
+  NSString *profileImageUrl = [[PFUser currentUser] objectForKey:@"profile_image_url"];
+  
+  //  As an example we could set an image's content to the image
+  dispatch_async
+  (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:profileImageUrl]];
+    
+    UIImage *image = [UIImage imageWithData:imageData];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      NSLog(@"profile picture: %@ %@",imageData,image);
+    });
+  });
+
+  
+
+    if (!self.isFiltered) {
     }
     
     //Initial call to fetch images to display
@@ -127,6 +175,7 @@
         }];
     }
 }
+
 
 
 
@@ -183,8 +232,11 @@
 {
    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     ImageObject *parseImage;
+  NSString *location;
     if (self.isFavorite) {
         parseImage = self.dataStore.favoriteImages[indexPath.row];
+      location = parseImage.location.city;
+
     } else if (self.isUserImageVC){
         parseImage = self.dataStore.userPictures[indexPath.row];
     } else if (self.isFiltered){
@@ -193,15 +245,18 @@
         parseImage = self.dataStore.followingOwnerImageList[indexPath.row];
     }else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
+      location = parseImage.location.city;
     }
+
 
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
     //NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 💭 %lu", parseImage.likes, parseImage.comments.count];
 
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu",  parseImage.likes, parseImage.comments.count];
+  cell.placeLabel.text = location;
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
 //        if (from == YYWebImageFromDiskCache) {
 //            NSLog(@"From Cache!");
@@ -210,7 +265,8 @@
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
     
-    
+  cell.placeLabel.textColor= [UIColor whiteColor];
+  cell.placeLabel.font=[UIFont boldSystemFontOfSize:16.0];
     return cell;
 }
 

@@ -57,7 +57,7 @@
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {
-        for (PFObject *parseImageObject in data) {
+      for (PFObject *parseImageObject in data) {
             PFObject *parseLocation = parseImageObject[@"location"];
             Location *locationObject = [[Location alloc] initWithCity:parseLocation[@"city"] country:parseLocation[@"country"] geoPoint:parseLocation[@"geoPoint"] dateTaken:parseLocation[@"dateTaken"]];
             if (parseImageObject[@"comments"]) {
@@ -91,6 +91,7 @@
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL complete))completionBlock
 {
+
     NSUInteger page =ceil(self.filteredImageList.count / ( number * 1.00f));
 
     //NSLog(@"Page number: %lu", page);
@@ -270,6 +271,7 @@
     [photoQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (!error) {
             for (PFObject *parseImageObject in objects) {
+
                 [parseImageObject[@"owner"] fetchInBackgroundWithBlock:nil];
                 [parseImageObject[@"location"] fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
                     PFObject *parseLocation = parseImageObject[@"location"];
@@ -292,6 +294,7 @@
                         
                         [self.userPictures addObject:parseImage];;
                         completionBlock(YES);
+
                     }
                 }];
             }
@@ -318,6 +321,7 @@
 -(void)getFavoriteImagesWithSuccess:(void (^)(BOOL))success{
     [ParseAPIClient getFavoriteImagesWithCompletion:^(NSArray *images) {
         for (PFObject *parseImageObject in images) {
+
             [parseImageObject[@"owner"] fetchInBackgroundWithBlock:nil];
             [parseImageObject[@"location"] fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
                 Location *locationObject = [[Location alloc] initWithCity:object[@"city"] country:object[@"country"] geoPoint:object[@"geoPoint"] dateTaken:object[@"dateTaken"]];
@@ -339,6 +343,7 @@
                     
                     [self.favoriteImages addObject:parseImage];
                     success(YES);
+
                 }
             }];
         }

@@ -48,6 +48,7 @@
     //Setting up initial connection with the Parse app.
     [Parse setApplicationId:PARSE_APPLICATION_KEY clientKey:PARSE_CLIENT_KEY];
     [PFTwitterUtils initializeWithConsumerKey:TWITTER_CONSUMER_KEY consumerSecret:TWITTER_CONSUMER_SECRET];
+
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];

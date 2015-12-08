@@ -14,6 +14,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "HelperMethods.h"
+#import <Parse/Parse.h>
 
 @interface ImagesDetailsViewController ()
 
@@ -88,6 +89,7 @@
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
+
     }else{
         self.liked = NO;
         //NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
@@ -99,6 +101,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillHideNotification object:nil];
+  
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -148,8 +152,13 @@
     }
     //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
-    PFUser *user = comment[@"owner"];
-    NSString *username = [user.email componentsSeparatedByString:@"@"][0];
+//    PFUser *user = comment[@"owner"];
+  PFUser *user = [PFUser currentUser];
+  NSString *username = [user.email componentsSeparatedByString:@"@"][0];
+
+  if (user.email == nil ){
+    username = user.username;
+  }
     cell.detailTextLabel.text = username;
     cell.textLabel.text = comment[@"userComment"];
     
@@ -190,8 +199,9 @@
 
 - (IBAction)postCommentButton:(UIButton *)sender {
     PFObject *user = PFUser.currentUser;
+  PFUser *current = [PFUser currentUser];
     
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && current.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can post!" viewController:self];
         //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];

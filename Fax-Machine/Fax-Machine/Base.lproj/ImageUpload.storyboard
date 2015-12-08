@@ -160,7 +160,6 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <action selector="countryEditingDidEnd:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Lva-6F-3Q2"/>
-                                            <action selector="didEditCountryTextField:" destination="BYZ-38-t0r" eventType="editingChanged" id="Ynt-yj-eL9"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter a mood for this image" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-wa-NeL">
@@ -204,6 +203,7 @@
                         <outlet property="moodTextField" destination="OBc-wa-NeL" id="KXg-HF-FyN"/>
                         <outlet property="navigationBar" destination="iEP-Ti-yg9" id="dox-J8-m2D"/>
                         <outlet property="stackView" destination="yQr-cW-Wpr" id="ofB-fV-I8R"/>
+                        <segue destination="fnm-an-xp0" kind="show" identifier="collectionView" id="qA1-kW-ha3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -213,10 +213,18 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="748" y="445"/>
+            <point key="canvasLocation" x="797" y="532"/>
+        </scene>
+        <!--CollectionView-->
+        <scene sceneID="K2g-Ji-Rvo">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CollectionView" id="fnm-an-xp0" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RXi-HG-1cJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1124" y="532"/>
         </scene>
     </scenes>
     <resources>
-        <image name="mountains_hd" width="2560" height="1600"/>
+        <image name="mountains_hd" width="1920" height="1080"/>
     </resources>
 </document>

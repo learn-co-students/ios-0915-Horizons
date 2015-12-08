@@ -58,18 +58,22 @@
             }];
         }
     }];
-  
+
   if ([FBSDKAccessToken currentAccessToken]) {
     [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
 
      startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
        if (!error) {
          NSLog(@"fetched user:%@", result);
-         
-         [PFUser currentUser].username = result[@"name"];
-         NSLog(@"result name:%@", result[@"name"]);
-         NSLog(@"parse name: %@",[PFUser currentUser].username);
 
+         
+         NSLog(@"result name:%@", result[@"name"]);
+         NSLog(@"_________");
+         NSString *username = result[@"name"];
+         [[PFUser currentUser] setUsername:username];
+         [[PFUser currentUser]saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
+           NSLog(@"saved");
+         }];
 
          NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
          NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
@@ -96,23 +100,19 @@
              }
          }];
  
-       }
-     }];
-  } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
+       } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
     NSLog(@"twitter:%@",[PFTwitterUtils twitter].screenName);
-    [PFUser currentUser].username = [PFTwitterUtils twitter].screenName;
-    
-  }
+    NSString *username  = [PFTwitterUtils twitter].screenName;
+     [[PFUser currentUser] setUsername:username];
+    }
   
   
   NSString *profileImageUrl = [[PFUser currentUser] objectForKey:@"profile_image_url"];
   
   //  As an example we could set an image's content to the image
   dispatch_async
-  (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    NSData *imageData =
-    [NSData dataWithContentsOfURL:
-     [NSURL URLWithString:profileImageUrl]];
+  (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:profileImageUrl]];
     
     UIImage *image = [UIImage imageWithData:imageData];
     
@@ -121,10 +121,9 @@
     });
   });
 
-
+  
 
     if (!self.isFiltered) {
-=======
     }
     
     //Initial call to fetch images to display
@@ -132,7 +131,6 @@
         [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
         self.isFirstTime = YES;
         
->>>>>>> master
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
             if (complete) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -145,7 +143,7 @@
 
 
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated {
     self.isFiltered = NO;
 
     [self.imagesCollectionViewController reloadData];
@@ -194,20 +192,29 @@
 {
    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     ImageObject *parseImage;
+  NSString *location;
     if (self.isFavorite) {
         parseImage = self.dataStore.favoriteImages[indexPath.row];
+      location = parseImage.location.city;
+
     } else if (self.isUserImageVC){
       parseImage = self.dataStore.userPictures[indexPath.row];
+      location = parseImage.location.city;
     } else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
+      location = parseImage.location.city;
     }
-
+  
+ 
     //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
     NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu", parseImage.likes, parseImage.comments.count];
+
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu",  parseImage.likes, parseImage.comments.count];
+  cell.placeLabel.text = @"HI";
+  cell.placeLabel.text = location;
 
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
 //        if (from == YYWebImageFromDiskCache) {
@@ -217,7 +224,8 @@
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
     
-    
+  cell.placeLabel.textColor= [UIColor whiteColor];
+  cell.placeLabel.font=[UIFont boldSystemFontOfSize:16.0];
     return cell;
 }
 

@@ -214,67 +214,66 @@
  */
 - (IBAction)finishedImageSelect:(id)sender {
     
-    NSLog(@"done");
-    UIImage *image = self.selectedImage;
-    NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
-    NSLog(@"filename: %@", fileName);
-    
-    [self resignFirstResponder];
-    //For creating image object for Parse
-    
-    if (self.location.city.length) {
-        self.parseImageObject = [[ImageObject alloc] initWithTitle:@"Some title" imageID:fileName mood:self.moodTextField.text location:self.location];
-        NSLog(@"With location info!");
+  NSLog(@"done");
+  UIImage *image = self.selectedImage;
+  NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
+  NSLog(@"filename: %@", fileName);
+  
+  [self resignFirstResponder];
+  //For creating image object for Parse
+  
+  if (self.location.city.length) {
+    self.parseImageObject = [[ImageObject alloc] initWithTitle:@"Some title" imageID:fileName mood:self.moodTextField.text location:self.location];
+    NSLog(@"With location info!");
+  }
+  else{
+    self.location = [[Location alloc] initWithCity:self.cityTextField.text country:self.countryTextField.text geoPoint:[PFGeoPoint geoPoint] dateTaken:self.creationDate];
+    self.parseImageObject = [[ImageObject alloc]initWithTitle:@"Default Title" imageID:fileName mood:self.moodTextField.text location:self.location];
+    NSLog(@"With no location info!");
+  }
+  [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
+    if (complete) {
+      NSLog(@"Parse upload completed!");
+      //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
+      NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
+      NSLog(@"filepath %@", filePath);
+      
+      NSData * imageData = UIImagePNGRepresentation(image);
+      
+      [imageData writeToFile:filePath atomically:YES];
+      
+      AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+      uploadRequest.body = [NSURL fileURLWithPath:filePath];
+      uploadRequest.key = fileName;
+      uploadRequest.contentType = @"image/png";
+      //          [uploadRequest setValue:@"image/png" forKey:@"Content-Type"];
+      NSLog(@"poolID: %@",POOL_ID);
+      uploadRequest.bucket = @"fissamplebucket";
+      NSLog(@"uploadRequest: %@", uploadRequest);
+      
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+      }];
+      [self uploadThumbnail:image fileName:fileName];
+      
+      [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+        NSLog(@"upload completed!");
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+          [MBProgressHUD hideHUDForView:self.view animated:YES];
+          [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+      }];
+    }else{
+      NSLog(@"Issue with upload");
     }
-    else{
-        self.location = [[Location alloc] initWithCity:self.cityTextField.text country:self.countryTextField.text geoPoint:[PFGeoPoint geoPoint] dateTaken:self.creationDate];
-        self.parseImageObject = [[ImageObject alloc]initWithTitle:@"Default Title" imageID:fileName mood:self.moodTextField.text location:self.location];
-        NSLog(@"With no location info!");
-    }
-    [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
-        if (complete) {
-            NSLog(@"Parse upload completed!");
-            //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
-            NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
-            NSLog(@"filepath %@", filePath);
-            
-            NSData * imageData = UIImagePNGRepresentation(image);
-            
-            [imageData writeToFile:filePath atomically:YES];
-            
-            AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
-            uploadRequest.body = [NSURL fileURLWithPath:filePath];
-            uploadRequest.key = fileName;
-            uploadRequest.contentType = @"image/png";
-            //          [uploadRequest setValue:@"image/png" forKey:@"Content-Type"];
-            NSLog(@"poolID: %@",POOL_ID);
-            uploadRequest.bucket = @"fissamplebucket";
-            NSLog(@"uploadRequest: %@", uploadRequest);
-            
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            }];
-            [self uploadThumbnail:image fileName:fileName];
-            
-            [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
-                NSLog(@"upload completed!");
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                }];
-            }];
-        }else{
-            NSLog(@"Issue with upload");
-        }
-    }];
-    
+  }];
 }
 
 -(void)uploadThumbnail:(UIImage *)image fileName:(NSString *)fileName{
     UIImage *originalImage = image;
-    
+  
     fileName = [NSString stringWithFormat:@"thumbnail%@", fileName];
-    
+  
     CGFloat ratio = originalImage.size.height / originalImage.size.width;
     CGSize destinationSize;
     if (originalImage.size.width <= originalImage.size.height) {

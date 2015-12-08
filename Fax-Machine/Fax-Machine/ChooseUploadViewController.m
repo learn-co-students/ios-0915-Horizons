@@ -184,7 +184,7 @@
                 self.creationDate = asset.creationDate;
                 [LocationData getCityAndDateFromDictionary:dic withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
                  {
-                     self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                   self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date ];
                      [LocationData getWeatherInfoFromDictionary:dic withCompletion:^(NSDictionary *weather)
                       {
                           [[NSOperationQueue mainQueue] addOperationWithBlock:^
@@ -220,7 +220,7 @@
                                                             @"date":[NSDate date]} mutableCopy];
                     [LocationData getCityAndDateFromDictionary:newDictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success)
                      {
-                         self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date];
+                       self.location = [[Location alloc] initWithCity:city country:country geoPoint:newGeoPoint dateTaken:date ];
                          [LocationData getWeatherInfoFromDictionary:newDictionary withCompletion:^(NSDictionary *weather)
                           {
                               [[NSOperationQueue mainQueue] addOperationWithBlock:^

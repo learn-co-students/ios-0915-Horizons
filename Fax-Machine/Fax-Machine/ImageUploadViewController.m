@@ -221,15 +221,15 @@
     [self resignFirstResponder];
     //For creating image object for Parse
     
-    if (self.location.city.length) {
-        self.parseImageObject = [[ImageObject alloc] initWithTitle:@"Some title" imageID:fileName mood:self.moodTextField.text location:self.location];
-        NSLog(@"With location info!");
-    }
-    else{
-        self.location = [[Location alloc] initWithCity:self.cityTextField.text country:self.countryTextField.text geoPoint:[PFGeoPoint geoPoint] dateTaken:self.creationDate];
-        self.parseImageObject = [[ImageObject alloc]initWithTitle:@"Default Title" imageID:fileName mood:self.moodTextField.text location:self.location];
-        NSLog(@"With no location info!");
-    }
+//    if (self.location.city.length) {
+    self.parseImageObject = [[ImageObject alloc] initWithTitle:self.captionTextBox.text imageID:fileName mood:self.moodTextField.text location:self.location];
+//        NSLog(@"With location info!");
+//    }
+//    else{
+//        self.location = [[Location alloc] initWithCity:self.cityTextField.text country:self.countryTextField.text geoPoint:[PFGeoPoint geoPoint] dateTaken:self.creationDate];
+//        self.parseImageObject = [[ImageObject alloc]initWithTitle:@"Default Title" imageID:fileName mood:self.moodTextField.text location:self.location];
+//        NSLog(@"With no location info!");
+//    }
     [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
         if (complete) {
             NSLog(@"Parse upload completed!");

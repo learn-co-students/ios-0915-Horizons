@@ -14,6 +14,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "HelperMethods.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 @interface ImagesDetailsViewController ()
 
@@ -175,72 +176,77 @@
 }
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
-    if (!self.liked) {
-        self.liked = YES;
-        [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
-            NSLog(@"Testing!!!");
-            FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
-            self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
-            
-            self.image.likes = @([self.image.likes integerValue] + 1);
-            self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
-        }];
+    PFUser *user = [PFUser currentUser];
+    if(![[user objectForKey:@"emailVerified"] boolValue])
+    {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can like!" viewController:self];
+    }else{
+        if (!self.liked) {
+            self.liked = YES;
+            [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
+                NSLog(@"Testing!!!");
+                FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
+                self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
+                
+                self.image.likes = @([self.image.likes integerValue] + 1);
+                self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
+            }];
+        }
     }
 }
 
 - (IBAction)socialSharing:(id)sender {
-    
-    UIImage * image = self.imageDetails.image;
-    
-    NSArray * shareItems = @[image];
-    
-    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    
-    [self presentViewController:avc animated:YES completion:nil];
- //code below , download picture
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    [self.imageDetails.image yy_saveToAlbumWithCompletionBlock:^(NSURL *assetURL, NSError *error) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        NSLog(@"Saved image url: %@, error: %@", assetURL, error.localizedDescription);
-//    }];
+    PFUser *user = [PFUser currentUser];
+    if(![[user objectForKey:@"emailVerified"] boolValue])
+    {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can share!" viewController:self];
+    }else{
+        UIImage * image = self.imageDetails.image;
+        
+        NSArray * shareItems = @[image];
+        
+        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+        
+        [self presentViewController:avc animated:YES completion:nil];
+    }
 }
 
 - (IBAction)followUser:(id)sender {
-    PFUser *user = self.image.owner;
-    
-    BOOL isFollowed = NO;
-    for (PFUser *followingUser in [PFUser currentUser][@"following"]) {
-        if ([followingUser.objectId isEqualToString:self.image.owner.objectId]) {
-            isFollowed = YES;
-        }
-    }
-    
-    if (isFollowed){
-        [self followingAlertWithMessage:@"You already followed this user!"];
-    }else if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
-        [self.dataStore followImageOwner:user completion:^(BOOL success) {
-            if (success) {
-                NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self followingAlertWithMessage:message];
-                }];
-            }
-        }];
+    PFUser *user = [PFUser currentUser];
+    if(![[user objectForKey:@"emailVerified"] boolValue])
+    {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can follow!" viewController:self];
     }else{
-        [self followingAlertWithMessage:@"Sorry, but you cannot follow yourself!"];
+        PFUser *user = self.image.owner;
+        
+        BOOL isFollowed = NO;
+        for (PFUser *followingUser in [PFUser currentUser][@"following"]) {
+            if ([followingUser.objectId isEqualToString:self.image.owner.objectId]) {
+                isFollowed = YES;
+            }
+        }
+        
+        if (isFollowed){
+            [self followingAlertWithMessage:@"You already followed this user!"];
+        }else if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
+            [self.dataStore followImageOwner:user completion:^(BOOL success) {
+                if (success) {
+                    NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [self followingAlertWithMessage:message];
+                    }];
+                }
+            }];
+        }else{
+            [self followingAlertWithMessage:@"Sorry, but you cannot follow yourself!"];
+        }
     }
 }
 
 -(void)followingAlertWithMessage:(NSString *)message
 {
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Following" message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *defautAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-        //enter code here
-    }];
-    [alert addAction:defautAction];
-    //Present action where needed
-    [self presentViewController:alert animated:YES completion:nil];
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showNotice:@"Notice!" subTitle:message closeButtonTitle:@"Dimiss" duration:0];
 }
 
 #pragma text field protocols
@@ -251,13 +257,8 @@
     if(![[user objectForKey:@"emailVerified"] boolValue])
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can post!" viewController:self];
-        //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
-        //NSLog(@"It is not verified!");
     }else{
         if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
-            
-            //NSLog(@"It's an OK message.");
-            
             NSString *enteredText = [self.commentTextField.text copy];
             
             [self.dataStore inputCommentWithComment:enteredText imageID:self.image.imageID withCompletion:^(PFObject *comment) {

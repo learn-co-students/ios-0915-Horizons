@@ -105,7 +105,7 @@
     navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     NSLog(@"Indexpath: %lu", indexPath.row);
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.dataStore downloadPicturesToDisplay:50 predicate:predicate WithCompletion:^(BOOL complete) {
+    [self.dataStore downloadPicturesToDisplay:100 predicate:predicate WithCompletion:^(BOOL complete) {
         //NSLog(@"Returned images: %lu", self.dataStore.followingOwnerImageList.count);
         self.imageVC.isFollowing = complete;
         //[self presentViewController:imageVC animated:YES completion:nil];

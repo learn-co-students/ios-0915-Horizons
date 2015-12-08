@@ -262,73 +262,73 @@
         [self.view layoutIfNeeded];
     }];
     
-    
-    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 300) > scrollView.contentSize.height) {
-        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-            if (complete) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self.imagesCollectionViewController reloadData];
-                }];
-            }
-        }];
+    //NSLog(@"Filter params: %@", self.filterParameters);
+    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 700) > scrollView.contentSize.height) {
+        if(self.isFiltered){
+            Location *location = [[Location alloc] init];
+            location.city = self.filterParameters[@"city"];
+            location.country = self.filterParameters[@"country"];
+            [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
+                                                  andLocation:location
+                                               numberOfImages:12
+                                               WithCompletion:^(BOOL complete){
+                                                   if (complete)
+                                                   {
+                                                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                           [self.imagesCollectionViewController reloadData];
+                                                       }];
+                                                   }else
+                                                   {
+                                                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                           [self.imagesCollectionViewController reloadData];
+                                                           SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                                                           [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
+                                                       }];
+                                                   }
+                                               }];
+        }else{
+            [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
+                if (complete) {
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [self.imagesCollectionViewController reloadData];
+                    }];
+                }
+            }];
+        }
     }
 }
 
 -(void)filterImageWithDictionary:(NSMutableDictionary *)filterDict
-                        withMood:(NSString *)mood
                      andLocation:(Location *)location
 {
-    
+    self.filterParameters = filterDict;
     self.isFiltered = YES;
-
-    
-    [self.dataStore downloadPicturesToDisplayWithMood:mood
-                                               andLocation:location
-                                            numberOfImages:12
-                                            WithCompletion:^(BOOL complete)
-    {
-
-                                                if (complete)
-                                                {
-                                                    
-                                                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                                        
-                                                        [self.imagesCollectionViewController reloadData];
-                                 
-                                                    }];
-                                                }
-                                                else
-                                                {
-                                                    [self.imagesCollectionViewController reloadData];
-                                                    
-                                                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Oops!"
-                                                                                                                             message:@"There was an error loading one or more comments"
-                                                                                                                      preferredStyle:UIAlertControllerStyleAlert];
-                                                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                                    {
-                                                        NSLog(@"OK");
-                                                    }];
-                                                    
-                                                    [alertController addAction:okAction];
-                                                    
-                                                    [self presentViewController:alertController animated:YES completion:nil];
-                                                    // present alert that says "there was an error loading some comments"
-                                                }
-                                            }];
+    [self.dataStore downloadPicturesToDisplayWithMood:filterDict[@"mood"]
+                                          andLocation:location
+                                       numberOfImages:12
+                                       WithCompletion:^(BOOL complete){
+         if (complete)
+         {
+             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                 [self.imagesCollectionViewController reloadData];
+             }];
+         }else
+         {
+             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                 [self.imagesCollectionViewController reloadData];
+                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                 [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
+             }];
+         }
+     }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"filterSegue"]) {
-        
         filterViewController *destVC = segue.destinationViewController;
         destVC.delegate = self;
-    }
-
-    
-    
-    if ([segue.identifier isEqualToString:@"photoDetails"])
-    {
+    }else if ([segue.identifier isEqualToString:@"photoDetails"]){
         self.navigationController.navigationBarHidden = NO;
         UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
@@ -345,7 +345,6 @@
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }
     }
-
 }
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters

@@ -18,6 +18,7 @@
 #import <Photos/Photos.h>
 #import <FCCurrentLocationGeocoder/FCCurrentLocationGeocoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITextFieldDelegate>
 
@@ -130,57 +131,74 @@
 
 -(void)presentInvalidLocationAlert
 {
-    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Location Is Invalid" message:@"Please enter a valid location" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [invalidLocation addAction:ok];
-    [self presentViewController:invalidLocation animated:YES completion:^{
-        self.countryTextField.text = @"";
-        self.cityTextField.text = @"";
-    }];
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Location Is Invalid!" subTitle:@"Please enter a valid location" closeButtonTitle:@"Okay" duration:0];
+    self.countryTextField.text = @"";
+    self.cityTextField.text = @"";
 }
 
 -(void)presentMissingFieldAlert {
-  UIAlertController *missingField = [UIAlertController alertControllerWithTitle:@"Uho" message:@"Please fill in empty fields" preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-  [missingField addAction:ok];
-  [self presentViewController:missingField animated:YES completion:^{
-  }];
+    
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Uho!" subTitle:@"Please fill in empty fields" closeButtonTitle:@"Okay" duration:0];
+    
+//  UIAlertController *missingField = [UIAlertController alertControllerWithTitle:@"Uho" message:@"Please fill in empty fields" preferredStyle:UIAlertControllerStyleAlert];
+//  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//  [missingField addAction:ok];
+//  [self presentViewController:missingField animated:YES completion:^{
+//  }];
 }
 -(void)presentInvalidCityAlert {
-    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [invalidLocation addAction:ok];
-    [self presentViewController:invalidLocation animated:YES completion:^{
-        self.cityTextField.text = @"";
-    }];
+    
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"City Is Invalid!" subTitle:@"Please enter a valid city name"closeButtonTitle:@"Okay" duration:0];
+    self.cityTextField.text = @"";
+    
+//    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//    [invalidLocation addAction:ok];
+//    [self presentViewController:invalidLocation animated:YES completion:^{
+//        self.cityTextField.text = @"";
+//    }];
 }
 
 
 -(void)presentInvalidCountryAlert {
-    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [invalidLocation addAction:ok];
-    [self presentViewController:invalidLocation animated:YES completion:^{
-        self.countryTextField.text = @"";
-    }];
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Country Is Invalid!" subTitle:@"Please enter a valid country name"closeButtonTitle:@"Okay" duration:0];
+    self.countryTextField.text = @"";
+    self.cityTextField.text = @"";
+    
+//    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//    [invalidLocation addAction:ok];
+//    [self presentViewController:invalidLocation animated:YES completion:^{
+//        self.countryTextField.text = @"";
+//    }];
 }
 -(void)presentInvalidCaptionAlert
 {
-  UIAlertController *invalidCaption = [UIAlertController alertControllerWithTitle:@"Please add a caption to your image" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-  [invalidCaption addAction:ok];
-  [self presentViewController:invalidCaption animated:YES completion:^{
-  }];
-  
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Caption Needed!" subTitle:@"Please add a caption to your image" closeButtonTitle:@"Okay" duration:0];
+    
+//    UIAlertController *invalidCaption = [UIAlertController alertControllerWithTitle:@"Please add a caption to your image" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//    [invalidCaption addAction:ok];
+//    [self presentViewController:invalidCaption animated:YES completion:^{
+//    }];
+    
 }
 
 -(void)presentInvalidMoodAlert
 {
-  UIAlertController *invalidMood = [UIAlertController alertControllerWithTitle:@"Please add a mood to your image" message:@"P" preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-  [invalidMood addAction:ok];
-  [self presentViewController:invalidMood animated:YES completion:^{
-  }];
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Mood Needed!" subTitle:@"Please add a mood to your image"closeButtonTitle:@"Okay" duration:0];
+    
+//  UIAlertController *invalidMood = [UIAlertController alertControllerWithTitle:@"Please add a mood to your image" message:@"P" preferredStyle:UIAlertControllerStyleAlert];
+//  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//  [invalidMood addAction:ok];
+//  [self presentViewController:invalidMood animated:YES completion:^{
+//  }];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{

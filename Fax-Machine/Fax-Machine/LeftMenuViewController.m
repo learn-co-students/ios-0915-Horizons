@@ -90,21 +90,9 @@
         }
         case 2:
         {
-//          [navController presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
-//            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
-          
-          [self.sideMenuViewController hideMenuViewController];
-          navController = [[UINavigationController alloc] initWithRootViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"]];
-//          navController.navigationBar.shadowImage = [UIImage new];
-//          navController.navigationBar.translucent = YES;
-//          navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-          navController.navigationBar.hidden = YES;
-          
-          imageViewVC.isFavorite = NO;
-          imageViewVC.isUserImageVC = NO;
-          
-          [self.sideMenuViewController setContentViewController:navController];
-
+            imageViewVC.isFavorite = NO;
+            imageViewVC.isUserImageVC = NO;
+            
             PFObject *user = PFUser.currentUser;
             if(![[user objectForKey:@"emailVerified"] boolValue])
             {
@@ -117,7 +105,6 @@
                 imageViewVC.isFollowing = NO;
                 imageViewVC.isFiltered = NO;
                 [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
-                //NSLog(@"You're email is verified!");
             }
             break;
         }
@@ -171,7 +158,6 @@
         case 5:
         {
             UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
-            
             FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
             navController = [[UINavigationController alloc] initWithRootViewController:desVC];
             navController.navigationBar.shadowImage = [UIImage new];
@@ -180,18 +166,16 @@
             
             [self.store getFollowingUsersWithSuccess:^(BOOL success) {
                 if (success) {
-                  [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                    [self.sideMenuViewController hideMenuViewController];
-                    desVC.followingList = self.store.followingList;
-                    desVC.sideMenu = self.sideMenuViewController;
-                    imageViewVC.isFavorite = NO;
-                    imageViewVC.isUserImageVC = NO;
-                    imageViewVC.isFollowing = NO;
-                    imageViewVC.isFiltered = NO;
-                    //                    [self presentViewController:navController animated:YES completion:nil];
-                    [self.sideMenuViewController setContentViewController:navController];
-
-                  }];
+                    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                        [self.sideMenuViewController hideMenuViewController];
+                        imageViewVC.isFavorite = NO;
+                        imageViewVC.isUserImageVC = NO;
+                        imageViewVC.isFollowing = YES;
+                        imageViewVC.isFiltered = NO;
+                        desVC.followingList = self.store.followingList;
+                        desVC.sideMenu = self.sideMenuViewController;
+                        [self.sideMenuViewController setContentViewController:navController];
+                    }];
                 }
             }];
             break;
@@ -208,19 +192,18 @@
             
             [self.store getFollowersWithUserId:[PFUser currentUser].objectId success:^(BOOL success) {
                 if (success) {
-                  [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                    [self.sideMenuViewController hideMenuViewController];
-                    desVC.followingList = self.store.followerList;
-                    desVC.sideMenu = self.sideMenuViewController;
-                    imageViewVC.isFavorite = NO;
-                    imageViewVC.isUserImageVC = NO;
-                    imageViewVC.isFollowing = NO;
-                    imageViewVC.isFiltered = NO;
-//                    [self presentViewController:navController animated:YES completion:nil];
-                    [self.sideMenuViewController setContentViewController:navController];
-
-                  }];
-
+                    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                        [self.sideMenuViewController hideMenuViewController];
+                        imageViewVC.isFavorite = NO;
+                        imageViewVC.isUserImageVC = NO;
+                        imageViewVC.isFollowing = YES;
+                        imageViewVC.isFiltered = NO;
+                        desVC.followingList = self.store.followerList;
+                        desVC.sideMenu = self.sideMenuViewController;
+                        [self.sideMenuViewController setContentViewController:navController];
+                        
+                    }];
+                    
                 }
             }];
             break;
@@ -230,6 +213,8 @@
             [self.store logoutWithSuccess:^(BOOL success) {
                 [self.store.downloadedPictures removeAllObjects];
                 [self.store.comments removeAllObjects];
+                [self.store.followerList removeAllObjects];
+                [self.store.followerList removeAllObjects];
                 [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
             }];
             break;

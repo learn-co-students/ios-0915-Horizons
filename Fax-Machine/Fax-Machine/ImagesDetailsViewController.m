@@ -165,9 +165,9 @@
     CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell" forIndexPath:indexPath];
 
     cell.opaque = NO;
-    cell.backgroundColor = [UIColor colorWithWhite:0.55 alpha:0.85];
+    cell.backgroundColor = [UIColor colorWithWhite:0.95 alpha:0.85];
     if (indexPath.row % 2 == 1) {
-        cell.backgroundColor = [UIColor colorWithWhite:0.45 alpha:0.85];
+        cell.backgroundColor = [UIColor colorWithWhite:0.85 alpha:0.85];
     }
     cell.usernameLabel.textColor = [UIColor whiteColor];
     cell.commentLabel.textColor = [UIColor colorWithWhite:0.15 alpha:1];

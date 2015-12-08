@@ -37,7 +37,6 @@
         _isUserVC = NO;
         _followerCount = 0;
         _followerList = [NSMutableArray new];
-
     }
     return self;
 }

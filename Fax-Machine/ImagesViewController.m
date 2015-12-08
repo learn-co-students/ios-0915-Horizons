@@ -35,13 +35,24 @@
 
 @implementation ImagesViewController
 
+-(instancetype)init{
+    self = [super init];
+    if (self) {
+        _isFavorite = NO;
+        _isFiltered = NO;
+        _isFirstTime = NO;
+        _isFollowing = NO;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     //The below coding actively checking for network connection in a background thread.
     Reachability *reach = [Reachability reachabilityWithHostName:@"www.google.com"];
     reach.reachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            NSLog(@"There is network connection!");
+            //NSLog(@"There is network connection!");
             if (self.isConnected == -1) {
                 //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
@@ -54,7 +65,7 @@
     reach.unreachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.isConnected = -1;
-            NSLog(@"There is no network connection!");
+            //NSLog(@"There is no network connection!");
             SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
             [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
             //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -67,10 +78,10 @@
     self.dataStore = [DataStore sharedDataStore];
     [DataStore checkUserFollow];
     
+    //Initial call to fetch images to display
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-//    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-  self.imagesCollectionViewController.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
-  
+    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
+    
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
     
@@ -81,38 +92,39 @@
     self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
-  
-  
-  self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-  
-    self.dataStore = [DataStore sharedDataStore];
-    [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-        if (complete) {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.imagesCollectionViewController reloadData];
-            }];
-        }
-    }];
-
-  if ([FBSDKAccessToken currentAccessToken]) {
-    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
-
-     startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-       if (!error) {
-         NSLog(@"fetched user:%@", result);
-
+    
+    if (!self.isFiltered && !self.isFirstTime) {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
+        self.isFirstTime = YES;
+        [self.dataStore.controllers addObject: self];
+        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
+            if (complete) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.imagesCollectionViewController reloadData];
+                }];
+            }
+        }];
+    }
+    
+    if ([FBSDKAccessToken currentAccessToken]) {
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
          
-         NSLog(@"result name:%@", result[@"name"]);
-         NSLog(@"_________");
-         NSString *username = result[@"name"];
-         [[PFUser currentUser] setUsername:username];
-         [[PFUser currentUser]saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
-           NSLog(@"saved");
-         }];
-
-         NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
-         NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
-
+         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+             if (!error) {
+                 NSLog(@"fetched user:%@", result);
+                 
+                 
+                 NSLog(@"result name:%@", result[@"name"]);
+                 NSLog(@"_________");
+                 NSString *username = result[@"name"];
+                 [[PFUser currentUser] setUsername:username];
+                 [[PFUser currentUser]saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
+                     NSLog(@"saved");
+                 }];
+                 
+                 NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
+                 NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
+                 
                  
                  NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
                  NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
@@ -134,46 +146,26 @@
                  
              }
          }];
- 
-       } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
-    NSLog(@"twitter:%@",[PFTwitterUtils twitter].screenName);
-    NSString *username  = [PFTwitterUtils twitter].screenName;
-     [[PFUser currentUser] setUsername:username];
-    }
-  
-  
-  NSString *profileImageUrl = [[PFUser currentUser] objectForKey:@"profile_image_url"];
-  
-  //  As an example we could set an image's content to the image
-  dispatch_async
-  (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:profileImageUrl]];
-    
-    UIImage *image = [UIImage imageWithData:imageData];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-      NSLog(@"profile picture: %@ %@",imageData,image);
-    });
-  });
-
-  
-
-    if (!self.isFiltered) {
-    }
-    
-    //Initial call to fetch images to display
-    if (!self.isFiltered && !self.isFirstTime && !self.isFollowing) {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
-        self.isFirstTime = YES;
         
-        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-            if (complete) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self.imagesCollectionViewController reloadData];
-                }];
-            }
-        }];
+    } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
+        NSLog(@"twitter:%@",[PFTwitterUtils twitter].screenName);
+        NSString *username  = [PFTwitterUtils twitter].screenName;
+        [[PFUser currentUser] setUsername:username];
     }
+    
+    NSString *profileImageUrl = [[PFUser currentUser] objectForKey:@"profile_image_url"];
+    
+    //  As an example we could set an image's content to the image
+    dispatch_async
+    (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:profileImageUrl]];
+        
+        UIImage *image = [UIImage imageWithData:imageData];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"profile picture: %@ %@",imageData,image);
+        });
+    });
 }
 
 
@@ -183,8 +175,6 @@
     //self.isFiltered = NO;
     self.navigationController.navigationBarHidden = NO;
     [self.imagesCollectionViewController reloadData];
-    [self.dataStore.controllers addObject: self];
-    
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -288,13 +278,6 @@
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    
-    //*targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
-
-//    NSLog(@"Scroll Velocity: %.2f", velocity.y);
-//    NSLog(@"Scroll view offset y: %.2f", scrollView.contentOffset.y);
-//    NSLog(@"Scroll view content height: %.2f", scrollView.contentSize.height);
-//    NSLog(@"Default scroll offset: %.2f", self.scrollOffset);
     
     [UIView animateWithDuration:0.5 animations:^{
         if (velocity.y <= -4) {

@@ -114,13 +114,8 @@
     
     [UIView animateWithDuration:length delay:0 options:option animations:^{
         if ([notification.name isEqualToString:@"UIKeyboardWillShowNotification"]) {
-            //      self.centerVerticallyConstraint.active = NO;
-            //      self.imageHolderView.hidden = YES;
-            //      [self.view sendSubviewToBack:self.stackView];
             [self.view bringSubviewToFront:self.navigationBar];
             self.centerVerticallyConstraint.constant = self.initialConstraintConstant - smallerSize;
-            //      self.bottomConstraint.constant = keyboardSize.height;
-            //      self.bottomConstraint.active = YES;
             [self.view layoutIfNeeded];
         }
         else {
@@ -296,10 +291,10 @@
       
       [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
         NSLog(@"upload completed!");
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          [MBProgressHUD hideHUDForView:self.view animated:YES];
-          [self dismissViewControllerAnimated:YES completion:nil];
-        }];
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+              [MBProgressHUD hideHUDForView:self.view animated:YES];
+              [self dismissViewControllerAnimated:YES completion:nil];
+          }];
       }];
     }else{
       NSLog(@"Issue with upload");

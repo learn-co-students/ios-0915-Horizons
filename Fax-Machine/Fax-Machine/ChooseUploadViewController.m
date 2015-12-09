@@ -231,7 +231,6 @@
                                    
                                    //self.mood is modified in convertingWeatherToMood method
                                    [self convertingWeatherToMood:weatherOfImage];
-                                   
                                    self.country = self.location.country;
                                    self.city = self.location.city;
                                    self.location.weather = weather;

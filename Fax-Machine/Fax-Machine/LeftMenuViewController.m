@@ -91,9 +91,6 @@
         }
         case 2:
         {
-            imageViewVC.isFavorite = NO;
-            imageViewVC.isUserImageVC = NO;
-            
             PFObject *user = PFUser.currentUser;
             if(![[user objectForKey:@"emailVerified"] boolValue])
             {

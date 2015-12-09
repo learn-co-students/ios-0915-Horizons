@@ -15,6 +15,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "filterViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseTwitterUtils/ParseTwitterUtils.h>
 #import "Reachability.h"
 #import "AppDelegate.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
@@ -34,13 +35,24 @@
 
 @implementation ImagesViewController
 
+-(instancetype)init{
+    self = [super init];
+    if (self) {
+        _isFavorite = NO;
+        _isFiltered = NO;
+        _isFirstTime = NO;
+        _isFollowing = NO;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     //The below coding actively checking for network connection in a background thread.
     Reachability *reach = [Reachability reachabilityWithHostName:@"www.google.com"];
     reach.reachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            NSLog(@"There is network connection!");
+            //NSLog(@"There is network connection!");
             if (self.isConnected == -1) {
                 //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
@@ -53,7 +65,7 @@
     reach.unreachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.isConnected = -1;
-            NSLog(@"There is no network connection!");
+            //NSLog(@"There is no network connection!");
             SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
             [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
             //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -66,8 +78,9 @@
     self.dataStore = [DataStore sharedDataStore];
     [DataStore checkUserFollow];
     
+    //Initial call to fetch images to display
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+    self.imagesCollectionViewController.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
     
     [[self imagesCollectionViewController]setDataSource:self];
     [[self imagesCollectionViewController]setDelegate:self];
@@ -80,7 +93,19 @@
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
     
-    //Getting and setting the facebook profile pic as the default profile picture.
+    if (!self.isFiltered && !self.isFirstTime) {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
+        self.isFirstTime = YES;
+        [self.dataStore.controllers addObject: self];
+        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
+            if (complete) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.imagesCollectionViewController reloadData];
+                }];
+            }
+        }];
+    }
+    
     if ([FBSDKAccessToken currentAccessToken]) {
         [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
          
@@ -88,8 +113,18 @@
              if (!error) {
                  NSLog(@"fetched user:%@", result);
                  
+                 
+                 NSLog(@"result name:%@", result[@"name"]);
+                 NSLog(@"_________");
+                 NSString *username = result[@"name"];
+                 [[PFUser currentUser] setUsername:username];
+                 [[PFUser currentUser]saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
+                     NSLog(@"saved");
+                 }];
+                 
                  NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
                  NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
+                 
                  
                  NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
                  NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
@@ -111,22 +146,28 @@
                  
              }
          }];
+        
+    } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
+        NSLog(@"twitter:%@",[PFTwitterUtils twitter].screenName);
+        NSString *username  = [PFTwitterUtils twitter].screenName;
+        [[PFUser currentUser] setUsername:username];
     }
     
-    //Initial call to fetch images to display
-    if (!self.isFiltered && !self.isFirstTime && !self.isFollowing) {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
-        self.isFirstTime = YES;
+    NSString *profileImageUrl = [[PFUser currentUser] objectForKey:@"profile_image_url"];
+    
+    //  As an example we could set an image's content to the image
+    dispatch_async
+    (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:profileImageUrl]];
         
-        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-            if (complete) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self.imagesCollectionViewController reloadData];
-                }];
-            }
-        }];
-    }
+        UIImage *image = [UIImage imageWithData:imageData];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"profile picture: %@ %@",imageData,image);
+        });
+    });
 }
+
 
 
 
@@ -134,8 +175,6 @@
     //self.isFiltered = NO;
     self.navigationController.navigationBarHidden = NO;
     [self.imagesCollectionViewController reloadData];
-    [self.dataStore.controllers addObject: self];
-    
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -183,8 +222,11 @@
 {
    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     ImageObject *parseImage;
+  NSString *location;
     if (self.isFavorite) {
         parseImage = self.dataStore.favoriteImages[indexPath.row];
+      location = parseImage.location.city;
+
     } else if (self.isUserImageVC){
         parseImage = self.dataStore.userPictures[indexPath.row];
     } else if (self.isFiltered){
@@ -193,15 +235,18 @@
         parseImage = self.dataStore.followingOwnerImageList[indexPath.row];
     }else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
+      location = parseImage.location.city;
     }
 
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
-    //NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
+
+    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
+    NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 💭 %lu", parseImage.likes, parseImage.comments.count];
 
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu",  parseImage.likes, parseImage.comments.count];
+  cell.placeLabel.text = location;
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
 //        if (from == YYWebImageFromDiskCache) {
 //            NSLog(@"From Cache!");
@@ -210,7 +255,8 @@
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
     
-    
+  cell.placeLabel.textColor= [UIColor whiteColor];
+  cell.placeLabel.font=[UIFont boldSystemFontOfSize:16.0];
     return cell;
 }
 
@@ -232,13 +278,6 @@
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    
-    //*targetContentOffset = scrollView.contentOffset; // set acceleration to 0.0
-
-//    NSLog(@"Scroll Velocity: %.2f", velocity.y);
-//    NSLog(@"Scroll view offset y: %.2f", scrollView.contentOffset.y);
-//    NSLog(@"Scroll view content height: %.2f", scrollView.contentSize.height);
-//    NSLog(@"Default scroll offset: %.2f", self.scrollOffset);
     
     [UIView animateWithDuration:0.5 animations:^{
         if (velocity.y <= -4) {
@@ -262,73 +301,73 @@
         [self.view layoutIfNeeded];
     }];
     
-    
-    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 300) > scrollView.contentSize.height) {
-        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-            if (complete) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self.imagesCollectionViewController reloadData];
-                }];
-            }
-        }];
+    //NSLog(@"Filter params: %@", self.filterParameters);
+    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 700) > scrollView.contentSize.height) {
+        if(self.isFiltered){
+            Location *location = [[Location alloc] init];
+            location.city = self.filterParameters[@"city"];
+            location.country = self.filterParameters[@"country"];
+            [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
+                                                  andLocation:location
+                                               numberOfImages:12
+                                               WithCompletion:^(BOOL complete){
+                                                   if (complete)
+                                                   {
+                                                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                           [self.imagesCollectionViewController reloadData];
+                                                       }];
+                                                   }else
+                                                   {
+                                                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                           [self.imagesCollectionViewController reloadData];
+                                                           SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                                                           [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
+                                                       }];
+                                                   }
+                                               }];
+        }else{
+            [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
+                if (complete) {
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [self.imagesCollectionViewController reloadData];
+                    }];
+                }
+            }];
+        }
     }
 }
 
 -(void)filterImageWithDictionary:(NSMutableDictionary *)filterDict
-                        withMood:(NSString *)mood
                      andLocation:(Location *)location
 {
-    
+    self.filterParameters = filterDict;
     self.isFiltered = YES;
-
-    
-    [self.dataStore downloadPicturesToDisplayWithMood:mood
-                                               andLocation:location
-                                            numberOfImages:12
-                                            WithCompletion:^(BOOL complete)
-    {
-
-                                                if (complete)
-                                                {
-                                                    
-                                                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                                        
-                                                        [self.imagesCollectionViewController reloadData];
-                                 
-                                                    }];
-                                                }
-                                                else
-                                                {
-                                                    [self.imagesCollectionViewController reloadData];
-                                                    
-                                                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Oops!"
-                                                                                                                             message:@"There was an error loading one or more comments"
-                                                                                                                      preferredStyle:UIAlertControllerStyleAlert];
-                                                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                                    {
-                                                        NSLog(@"OK");
-                                                    }];
-                                                    
-                                                    [alertController addAction:okAction];
-                                                    
-                                                    [self presentViewController:alertController animated:YES completion:nil];
-                                                    // present alert that says "there was an error loading some comments"
-                                                }
-                                            }];
+    [self.dataStore downloadPicturesToDisplayWithMood:filterDict[@"mood"]
+                                          andLocation:location
+                                       numberOfImages:12
+                                       WithCompletion:^(BOOL complete){
+         if (complete)
+         {
+             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                 [self.imagesCollectionViewController reloadData];
+             }];
+         }else
+         {
+             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                 [self.imagesCollectionViewController reloadData];
+                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                 [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
+             }];
+         }
+     }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"filterSegue"]) {
-        
         filterViewController *destVC = segue.destinationViewController;
         destVC.delegate = self;
-    }
-
-    
-    
-    if ([segue.identifier isEqualToString:@"photoDetails"])
-    {
+    }else if ([segue.identifier isEqualToString:@"photoDetails"]){
         self.navigationController.navigationBarHidden = NO;
         UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
@@ -345,7 +384,6 @@
             imageVC.image = self.dataStore.downloadedPictures[indexPath.row];
         }
     }
-
 }
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters

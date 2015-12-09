@@ -7,22 +7,16 @@
 //
 
 #import "HelperMethods.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 @implementation HelperMethods
 
 +(void)verifyAlertWithMessage:(NSString *)message viewController:(UIViewController *)view
 {
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Whoops!" message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *defautAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-        //enter code here
-    }];
-    [alert addAction:defautAction];
-    //Present action where needed
-    [view presentViewController:alert animated:YES completion:nil];
-    
-    
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showNotice:@"Notice!" subTitle:message closeButtonTitle:@"Okay" duration:0];
 }
+
 -(void)parseVerifyEmailWithMessage:(NSString *)message viewController:(UIViewController *)view
 {
     PFUser *user = [PFUser currentUser];

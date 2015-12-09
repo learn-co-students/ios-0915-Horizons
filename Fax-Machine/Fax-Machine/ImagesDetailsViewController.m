@@ -14,6 +14,9 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "HelperMethods.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
+#import "CommentTableViewCell.h"
+#import <Parse/Parse.h>
 
 @interface ImagesDetailsViewController ()
 
@@ -40,6 +43,8 @@
 @property (nonatomic, strong)DataStore *dataStore;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic) BOOL liked;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navigationItem;
+@property (weak, nonatomic) IBOutlet UITextView *imageDescriptionLabel;
 
 
 @end
@@ -55,6 +60,8 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
 
     self.belowPictureTableView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
+    self.belowPictureTableView.estimatedRowHeight = 100;
+    self.belowPictureTableView.rowHeight = UITableViewAutomaticDimension;
     //self.belowPictureTableView.backgroundColor = [UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:0.95];
     self.belowPictureTableView.opaque = NO;
     self.belowPictureTableView.separatorColor = [UIColor clearColor];
@@ -69,11 +76,20 @@
     self.commentTextField.placeholder = @"Enter a comment to post";
     self.commentSectionView.backgroundColor = [UIColor blackColor];
     self.commentButton.enabled = NO;
-    
+
+  self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@",self.image.title];
+  self.imageDescriptionLabel.editable = YES;
+  self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
+  self.imageDescriptionLabel.textColor = [UIColor whiteColor];
+  self.imageDescriptionLabel.editable = NO;
+  
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
+  self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
+  
+//self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];  
 
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
@@ -86,6 +102,8 @@
     //Displaying the owner of the image.
     PFUser *imageOwner = self.image.owner;
     NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
+
+  
     self.ownerFollow.title = [NSString stringWithFormat:@"follow %@", displayName];
     //NSLog(@"My objectNameAndId: %@ %@", user.email, user.objectId);
     //NSLog(@"My ownerNameAndId: %@ %@", imageOwner.email, imageOwner.objectId);
@@ -99,6 +117,7 @@
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
+
     }else{
         self.liked = NO;
         //NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
@@ -110,6 +129,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillHideNotification object:nil];
+  
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -134,37 +155,91 @@
     return self.image.comments.count;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    return 45.0;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+//{
+//    return 45.0;
+//}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
-        
-        cell.opaque = NO;
-        cell.backgroundColor = [UIColor colorWithWhite:0.55 alpha:0.85];
-        if (indexPath.row % 2 == 1) {
-            cell.backgroundColor = [UIColor colorWithWhite:0.45 alpha:0.85];
-        }
-        cell.textLabel.textColor = [UIColor whiteColor];
-        cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.15 alpha:1];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
-        
+
+    CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell" forIndexPath:indexPath];
+
+    cell.opaque = NO;
+    cell.backgroundColor = [UIColor colorWithWhite:0.95 alpha:0.85];
+    if (indexPath.row % 2 == 1) {
+        cell.backgroundColor = [UIColor colorWithWhite:0.85 alpha:0.85];
     }
+    cell.usernameLabel.textColor = [UIColor whiteColor];
+    cell.commentLabel.textColor = [UIColor colorWithWhite:0.15 alpha:1];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.usernameLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
+
     //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
+
     PFUser *user = comment[@"owner"];
     NSString *username = [user.username componentsSeparatedByString:@"@"][0];
-    cell.detailTextLabel.text = username;
-    cell.textLabel.text = comment[@"userComment"];
-    
+
+    cell.usernameLabel.text = [NSString stringWithFormat:@"%@:",username];
+    cell.commentLabel.text = comment[@"userComment"];
+
     return cell;
+}
+
+//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
+//        
+//        cell.opaque = NO;
+//        cell.backgroundColor = [UIColor colorWithWhite:0.55 alpha:0.85];
+//        if (indexPath.row % 2 == 1) {
+//            cell.backgroundColor = [UIColor colorWithWhite:0.45 alpha:0.85];
+//        }
+//        cell.textLabel.textColor = [UIColor whiteColor];
+//        cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.15 alpha:1];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//        cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
+//        
+//        cell.detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//        cell.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//        
+//        [cell.textLabel.topAnchor constraintEqualToAnchor:cell.topAnchor constant:8].active = YES;
+//        [cell.textLabel.leftAnchor constraintEqualToAnchor:cell.leftAnchor constant:8].active = YES;
+//        [cell.textLabel.rightAnchor constraintEqualToAnchor:cell.rightAnchor constant:-8].active = YES;
+//        
+//        [cell.detailTextLabel.leftAnchor constraintEqualToAnchor:cell.textLabel.leftAnchor].active = YES;
+//        [cell.detailTextLabel.rightAnchor constraintEqualToAnchor:cell.textLabel.rightAnchor].active = YES;
+//        [cell.detailTextLabel.topAnchor constraintEqualToAnchor:cell.textLabel.bottomAnchor constant:8].active = YES;
+//        [cell.detailTextLabel.bottomAnchor constraintEqualToAnchor:cell.bottomAnchor constant:-8].active = YES;
+//        
+//        cell.detailTextLabel.numberOfLines = 0;
+//    }
+//    //cell.detailTextLabel.text = user[@"username"];
+//    PFObject *comment = self.image.comments[indexPath.row];
+//    PFUser *user = comment[@"owner"];
+//    NSString *username = [user.username componentsSeparatedByString:@"@"][0];
+//    
+////    ((UILabel *)[cell viewWithTag:99]).text = [NSString stringWithFormat:@"%@:",username];
+////    ((UILabel *)[cell viewWithTag:98]).text = comment[@"userComment"];
+//    
+//    cell.textLabel.text = [NSString stringWithFormat:@"%@:",username];
+//    cell.detailTextLabel.text = comment[@"userComment"];
+//    
+//        return cell;
+//}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CommentTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    cell.commentLabel.numberOfLines = 0;
+    
+    [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -175,89 +250,90 @@
 }
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
-    if (!self.liked) {
-        self.liked = YES;
-        [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
-            NSLog(@"Testing!!!");
-            FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
-            self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
-            
-            self.image.likes = @([self.image.likes integerValue] + 1);
-            self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
-        }];
+    PFUser *user = [PFUser currentUser];
+    if(![[user objectForKey:@"emailVerified"] boolValue])
+    {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can like!" viewController:self];
+    }else{
+        if (!self.liked) {
+            self.liked = YES;
+            [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
+                NSLog(@"Testing!!!");
+                FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
+                self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
+                
+                self.image.likes = @([self.image.likes integerValue] + 1);
+                self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
+            }];
+        }
     }
 }
 
 - (IBAction)socialSharing:(id)sender {
-    
-    UIImage * image = self.imageDetails.image;
-    
-    NSArray * shareItems = @[image];
-    
-    UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    
-    [self presentViewController:avc animated:YES completion:nil];
- //code below , download picture
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    [self.imageDetails.image yy_saveToAlbumWithCompletionBlock:^(NSURL *assetURL, NSError *error) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        NSLog(@"Saved image url: %@, error: %@", assetURL, error.localizedDescription);
-//    }];
+    PFUser *user = [PFUser currentUser];
+    if(![[user objectForKey:@"emailVerified"] boolValue])
+    {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can share!" viewController:self];
+    }else{
+        UIImage * image = self.imageDetails.image;
+        
+        NSArray * shareItems = @[image];
+        
+        UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
+        
+        [self presentViewController:avc animated:YES completion:nil];
+    }
 }
 
 - (IBAction)followUser:(id)sender {
-    PFUser *user = self.image.owner;
-    
-    BOOL isFollowed = NO;
-    for (PFUser *followingUser in [PFUser currentUser][@"following"]) {
-        if ([followingUser.objectId isEqualToString:self.image.owner.objectId]) {
-            isFollowed = YES;
-        }
-    }
-    
-    if (isFollowed){
-        [self followingAlertWithMessage:@"You already followed this user!"];
-    }else if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
-        [self.dataStore followImageOwner:user completion:^(BOOL success) {
-            if (success) {
-                NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self followingAlertWithMessage:message];
-                }];
-            }
-        }];
+    PFUser *user = [PFUser currentUser];
+    if(![[user objectForKey:@"emailVerified"] boolValue])
+    {
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can follow!" viewController:self];
     }else{
-        [self followingAlertWithMessage:@"Sorry, but you cannot follow yourself!"];
+        PFUser *user = self.image.owner;
+        
+        BOOL isFollowed = NO;
+        for (PFUser *followingUser in [PFUser currentUser][@"following"]) {
+            if ([followingUser.objectId isEqualToString:self.image.owner.objectId]) {
+                isFollowed = YES;
+            }
+        }
+        
+        if (isFollowed){
+            [self followingAlertWithMessage:@"You already followed this user!"];
+        }else if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
+            [self.dataStore followImageOwner:user completion:^(BOOL success) {
+                if (success) {
+                    NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [self followingAlertWithMessage:message];
+                    }];
+                }
+            }];
+        }else{
+            [self followingAlertWithMessage:@"Sorry, but you cannot follow yourself!"];
+        }
     }
 }
 
 -(void)followingAlertWithMessage:(NSString *)message
 {
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Following" message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *defautAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-        //enter code here
-    }];
-    [alert addAction:defautAction];
-    //Present action where needed
-    [self presentViewController:alert animated:YES completion:nil];
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showNotice:@"Notice!" subTitle:message closeButtonTitle:@"Dimiss" duration:0];
 }
 
 #pragma text field protocols
 
 - (IBAction)postCommentButton:(UIButton *)sender {
     PFObject *user = PFUser.currentUser;
+  PFUser *current = [PFUser currentUser];
     
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && current.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can post!" viewController:self];
-        //[imageViewVC parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
-        //NSLog(@"It is not verified!");
     }else{
         if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
-            
-            //NSLog(@"It's an OK message.");
-            
             NSString *enteredText = [self.commentTextField.text copy];
             
             [self.dataStore inputCommentWithComment:enteredText imageID:self.image.imageID withCompletion:^(PFObject *comment) {

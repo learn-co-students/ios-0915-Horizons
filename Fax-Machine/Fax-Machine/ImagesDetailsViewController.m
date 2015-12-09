@@ -76,28 +76,30 @@
     self.commentTextField.placeholder = @"Enter a comment to post";
     self.commentSectionView.backgroundColor = [UIColor blackColor];
     self.commentButton.enabled = NO;
-
-  self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@",self.image.title];
-  self.imageDescriptionLabel.editable = YES;
-  self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
-  self.imageDescriptionLabel.textColor = [UIColor whiteColor];
-  self.imageDescriptionLabel.editable = NO;
-  
+    
+    self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@",self.image.title];
+    self.imageDescriptionLabel.editable = YES;
+    self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
+    self.imageDescriptionLabel.textColor = [UIColor whiteColor];
+    self.imageDescriptionLabel.editable = NO;
+    
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
-  self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
+    self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
   
 //self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];  
 
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
     
-    FAKFontAwesome *commentIcon = [FAKFontAwesome commentIconWithSize:20];
+    FAKFontAwesome *commentIcon = [FAKFontAwesome commentsIconWithSize:20];
     self.commentButton.image = [commentIcon imageWithSize:CGSizeMake(20, 20)];
+    self.commentButton.tintColor = [UIColor whiteColor];
     FAKFontAwesome *download = [FAKFontAwesome downloadIconWithSize:20];
     self.socialSharing.image = [download imageWithSize:CGSizeMake(20, 20)];
+    self.socialSharing.tintColor = [UIColor whiteColor];
     
     //Displaying the owner of the image.
     PFUser *imageOwner = self.image.owner;
@@ -125,6 +127,9 @@
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }
+    self.likeButton.tintColor = [UIColor whiteColor];
+    self.likeCountLabel.enabled = NO;
+    self.commentCountLable.enabled = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];
     

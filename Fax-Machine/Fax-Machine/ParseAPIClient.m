@@ -79,6 +79,7 @@
     //[query includeKey:@"comments"];
     [query includeKey:@"owner"];
     [query includeKey:@"location"];
+    [query orderByDescending:@"createdAt"];
     //Setting the maximum numbers of return objects.
     query.limit = numberOfImages;
     query.skip = page * numberOfImages;

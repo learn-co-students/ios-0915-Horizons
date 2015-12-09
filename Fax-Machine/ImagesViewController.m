@@ -30,6 +30,7 @@
 @property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic) NSInteger isConnected;
+@property (nonatomic, strong) UIView *filterView;
 
 @end
 
@@ -106,6 +107,20 @@
         }];
     }
     
+//    self.filterView = [[UIView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height, self.view.frame.size.width, 55)];
+//    self.filterView.backgroundColor = [UIColor whiteColor];
+//    UIButton *filterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    [filterButton setTitle:@"Filter" forState:UIControlStateNormal];
+//    [filterButton addTarget:self action:@selector(filterTapped:) forControlEvents:UIControlEventTouchUpInside];
+//    [filterButton sizeToFit];
+//    filterButton.backgroundColor = [UIColor lightGrayColor];
+//    filterButton.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.view addSubview:self.filterView];
+//    [self.filterView addSubview: filterButton];
+//    [filterButton.topAnchor constraintEqualToAnchor:self.filterView.topAnchor constant:5].active = YES;
+//    [filterButton.leadingAnchor constraintEqualToAnchor:self.filterView.leadingAnchor constant:5].active = YES;
+//    self.filterView.hidden = YES;
+    
     if ([FBSDKAccessToken currentAccessToken]) {
         [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
          
@@ -169,7 +184,9 @@
 }
 
 
-
+-(IBAction)filterTapped:(id)sender{
+    NSLog(@"Filter tapped!");
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     //self.isFiltered = NO;
@@ -279,7 +296,15 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
-    [UIView animateWithDuration:0.5 animations:^{
+    
+//    if (scrollView.contentOffset.y < 0) {
+//        self.filterView.hidden = NO;
+//        //[self.imagesCollectionViewController.topAnchor constraintEqualToAnchor:self.filterView.bottomAnchor].active = YES;
+//    }else{
+//        self.filterView.hidden = YES;
+//    }
+    
+    [UIView animateWithDuration:0.25 animations:^{
         if (velocity.y <= -4) {
             self.navigationController.navigationBarHidden = NO;
             *targetContentOffset = CGPointMake(0, 0);

@@ -38,15 +38,7 @@
 
 - (IBAction)displayMenu:(id)sender {
     NSLog(@"Menu tapped");
-    self.imageVC.isFollowing = NO;
-//    [self dismissViewControllerAnimated:YES completion:nil];
-      [self.sideMenuViewController presentLeftMenuViewController];
-}
-
-- (IBAction)returnHome:(id)sender {
-    self.imageVC.isFollowing = NO;
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.sideMenu hideMenuViewController];
+    [self.sideMenuViewController presentLeftMenuViewController];
 }
 
 #pragma mark - Table view data source
@@ -113,18 +105,17 @@
     navController.navigationBar.shadowImage = [UIImage new];
     navController.navigationBar.translucent = YES;
     navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    NSLog(@"Indexpath: %lu", indexPath.row);
+    //NSLog(@"Indexpath: %lu", indexPath.row);
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.dataStore downloadPicturesToDisplay:50 predicate:predicate WithCompletion:^(BOOL complete) {
-        //NSLog(@"Returned images: %lu", self.dataStore.followingOwnerImageList.count);
-        self.imageVC.isFollowing = complete;
+    [self.dataStore downloadPicturesToDisplay:100 predicate:predicate WithCompletion:^(BOOL complete) {
         //[self presentViewController:imageVC animated:YES completion:nil];
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self dismissViewControllerAnimated:YES completion:^{
-                [self.sideMenu hideMenuViewController];
-                [self.sideMenu setContentViewController:navController];
-            }];
+            //NSLog(@"Returned images: %lu", self.dataStore.followingOwnerImageList.count);
+            self.imageVC.isFollowing = complete;
+            [self.sideMenu hideMenuViewController];
+            [self.sideMenu setContentViewController:navController];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }];
     }];
 }

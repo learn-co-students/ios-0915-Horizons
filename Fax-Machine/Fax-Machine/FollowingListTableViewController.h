@@ -24,4 +24,5 @@
 @property (nonatomic) BOOL *isFollowers;
 @property (nonatomic, strong) NSString *uhoString;
 
+
 @end

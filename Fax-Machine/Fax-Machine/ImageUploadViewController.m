@@ -18,6 +18,7 @@
 #import <Photos/Photos.h>
 #import <FCCurrentLocationGeocoder/FCCurrentLocationGeocoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITextFieldDelegate>
 
@@ -114,13 +115,8 @@
     
     [UIView animateWithDuration:length delay:0 options:option animations:^{
         if ([notification.name isEqualToString:@"UIKeyboardWillShowNotification"]) {
-            //      self.centerVerticallyConstraint.active = NO;
-            //      self.imageHolderView.hidden = YES;
-            //      [self.view sendSubviewToBack:self.stackView];
             [self.view bringSubviewToFront:self.navigationBar];
             self.centerVerticallyConstraint.constant = self.initialConstraintConstant - smallerSize;
-            //      self.bottomConstraint.constant = keyboardSize.height;
-            //      self.bottomConstraint.active = YES;
             [self.view layoutIfNeeded];
         }
         else {
@@ -135,57 +131,74 @@
 
 -(void)presentInvalidLocationAlert
 {
-    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Location Is Invalid" message:@"Please enter a valid location" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [invalidLocation addAction:ok];
-    [self presentViewController:invalidLocation animated:YES completion:^{
-        self.countryTextField.text = @"";
-        self.cityTextField.text = @"";
-    }];
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Location Is Invalid!" subTitle:@"Please enter a valid location" closeButtonTitle:@"Okay" duration:0];
+    self.countryTextField.text = @"";
+    self.cityTextField.text = @"";
 }
 
 -(void)presentMissingFieldAlert {
-  UIAlertController *missingField = [UIAlertController alertControllerWithTitle:@"Uho" message:@"Please fill in empty fields" preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-  [missingField addAction:ok];
-  [self presentViewController:missingField animated:YES completion:^{
-  }];
+    
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Uho!" subTitle:@"Please fill in empty fields" closeButtonTitle:@"Okay" duration:0];
+    
+//  UIAlertController *missingField = [UIAlertController alertControllerWithTitle:@"Uho" message:@"Please fill in empty fields" preferredStyle:UIAlertControllerStyleAlert];
+//  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//  [missingField addAction:ok];
+//  [self presentViewController:missingField animated:YES completion:^{
+//  }];
 }
 -(void)presentInvalidCityAlert {
-    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [invalidLocation addAction:ok];
-    [self presentViewController:invalidLocation animated:YES completion:^{
-        self.cityTextField.text = @"";
-    }];
+    
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"City Is Invalid!" subTitle:@"Please enter a valid city name"closeButtonTitle:@"Okay" duration:0];
+    self.cityTextField.text = @"";
+    
+//    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//    [invalidLocation addAction:ok];
+//    [self presentViewController:invalidLocation animated:YES completion:^{
+//        self.cityTextField.text = @"";
+//    }];
 }
 
 
 -(void)presentInvalidCountryAlert {
-    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [invalidLocation addAction:ok];
-    [self presentViewController:invalidLocation animated:YES completion:^{
-        self.countryTextField.text = @"";
-    }];
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Country Is Invalid!" subTitle:@"Please enter a valid country name"closeButtonTitle:@"Okay" duration:0];
+    self.countryTextField.text = @"";
+    self.cityTextField.text = @"";
+    
+//    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//    [invalidLocation addAction:ok];
+//    [self presentViewController:invalidLocation animated:YES completion:^{
+//        self.countryTextField.text = @"";
+//    }];
 }
 -(void)presentInvalidCaptionAlert
 {
-  UIAlertController *invalidCaption = [UIAlertController alertControllerWithTitle:@"Please add a caption to your image" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-  [invalidCaption addAction:ok];
-  [self presentViewController:invalidCaption animated:YES completion:^{
-  }];
-  
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Caption Needed!" subTitle:@"Please add a caption to your image" closeButtonTitle:@"Okay" duration:0];
+    
+//    UIAlertController *invalidCaption = [UIAlertController alertControllerWithTitle:@"Please add a caption to your image" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//    [invalidCaption addAction:ok];
+//    [self presentViewController:invalidCaption animated:YES completion:^{
+//    }];
+    
 }
 
 -(void)presentInvalidMoodAlert
 {
-  UIAlertController *invalidMood = [UIAlertController alertControllerWithTitle:@"Please add a mood to your image" message:@"P" preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-  [invalidMood addAction:ok];
-  [self presentViewController:invalidMood animated:YES completion:^{
-  }];
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert showWarning:@"Mood Needed!" subTitle:@"Please add a mood to your image"closeButtonTitle:@"Okay" duration:0];
+    
+//  UIAlertController *invalidMood = [UIAlertController alertControllerWithTitle:@"Please add a mood to your image" message:@"P" preferredStyle:UIAlertControllerStyleAlert];
+//  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//  [invalidMood addAction:ok];
+//  [self presentViewController:invalidMood animated:YES completion:^{
+//  }];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -260,24 +273,16 @@
 
 - (IBAction)finishedImageSelect:(id)sender {
     
-  NSLog(@"done");
-  UIImage *image = self.selectedImage;
-  NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
-  NSLog(@"filename: %@", fileName);
-  
-  [self resignFirstResponder];
-  //For creating image object for Parse
-  NSString *title = self.captionTextBox.text;
-  if (self.location.city.length) {
-    self.parseImageObject = [[ImageObject alloc] initWithTitle:title imageID:fileName mood:self.moodTextField.text location:self.location];
-    NSLog(@"With location info!");
-  }
-  else{
-    self.location = [[Location alloc] initWithCity:self.cityTextField.text country:self.countryTextField.text geoPoint:[PFGeoPoint geoPoint] dateTaken:self.creationDate];
-    self.parseImageObject = [[ImageObject alloc]initWithTitle:@"Default Title" imageID:fileName mood:self.moodTextField.text location:self.location];
-    NSLog(@"With no location info!");
-  }
-  [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
+    NSLog(@"done");
+    UIImage *image = self.selectedImage;
+    NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
+    NSLog(@"filename: %@", fileName);
+    
+    [self resignFirstResponder];
+    //For creating image object for Parse
+
+    self.parseImageObject = [[ImageObject alloc] initWithTitle:self.captionTextBox.text imageID:fileName mood:self.moodTextField.text location:self.location];
+    [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
     if (complete) {
       NSLog(@"Parse upload completed!");
       //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
@@ -304,10 +309,10 @@
       
       [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
         NSLog(@"upload completed!");
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          [MBProgressHUD hideHUDForView:self.view animated:YES];
-          [self dismissViewControllerAnimated:YES completion:nil];
-        }];
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+              [MBProgressHUD hideHUDForView:self.view animated:YES];
+              [self dismissViewControllerAnimated:YES completion:nil];
+          }];
       }];
     }else{
       NSLog(@"Issue with upload");

@@ -16,13 +16,13 @@
 #import <YYWebImage/YYWebImage.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "ImagesViewController.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 @interface LeftMenuViewController ()
 
 @property (nonatomic, readwrite, strong) UITableView *tableView;
 @property (nonatomic, strong) DataStore *store;
 
-@property (nonatomic, strong) UIAlertController *sourcePicker;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *selectedImage;
 
@@ -90,21 +90,9 @@
         }
         case 2:
         {
-//          [navController presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
-//            [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"imageUpload"] animated:YES completion:nil];
-          
-          [self.sideMenuViewController hideMenuViewController];
-          navController = [[UINavigationController alloc] initWithRootViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"]];
-//          navController.navigationBar.shadowImage = [UIImage new];
-//          navController.navigationBar.translucent = YES;
-//          navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-          navController.navigationBar.hidden = YES;
-          
-          imageViewVC.isFavorite = NO;
-          imageViewVC.isUserImageVC = NO;
-          
-          [self.sideMenuViewController setContentViewController:navController];
-
+            imageViewVC.isFavorite = NO;
+            imageViewVC.isUserImageVC = NO;
+            
             PFObject *user = PFUser.currentUser;
             if(![[user objectForKey:@"emailVerified"] boolValue])
             {
@@ -117,7 +105,6 @@
                 imageViewVC.isFollowing = NO;
                 imageViewVC.isFiltered = NO;
                 [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
-                //NSLog(@"You're email is verified!");
             }
             break;
         }
@@ -173,7 +160,6 @@
         case 5:
         {
             UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
-            
             FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
                     desVC.uhoString= @"Uho, \n it looks like you're not following \n anyone yet!";
             navController = [[UINavigationController alloc] initWithRootViewController:desVC];
@@ -197,6 +183,7 @@
                     [self.sideMenuViewController setContentViewController:navController];
 
                   }];
+
                 }
             }];
             break;
@@ -238,6 +225,8 @@
             [self.store logoutWithSuccess:^(BOOL success) {
                 [self.store.downloadedPictures removeAllObjects];
                 [self.store.comments removeAllObjects];
+                [self.store.followerList removeAllObjects];
+                [self.store.followerList removeAllObjects];
                 [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
             }];
             break;
@@ -371,14 +360,8 @@
  *  Creating an alert view to ask for user's input on the image source
  */
 - (void)imageUpLoadSource{
-    
-    //UIAlertController to fetch user input
-    self.sourcePicker = [UIAlertController alertControllerWithTitle:@"Image Source" message:@"Please choose where you want to pull your image" preferredStyle:UIAlertControllerStyleAlert];
-    
-    //Setting the Camera source option
-    //***Reminder*** camera source does not work in simulator.
-    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"📷" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    [alert addButton:@"Camera" actionBlock:^{
         //Setting the pickerDelegate and allow editting.
         self.imagePickerController.delegate = self;
         self.imagePickerController.allowsEditing = YES;
@@ -388,9 +371,7 @@
         [self presentViewController:self.imagePickerController animated:YES completion:nil];
     }];
     
-    //Setting the Photo library as the source of the image
-    UIAlertAction *photo = [UIAlertAction actionWithTitle:@"🖼" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+    [alert addButton:@"Photo" actionBlock:^{
         self.imagePickerController.delegate = self;
         self.imagePickerController.allowsEditing = YES;
         
@@ -399,15 +380,7 @@
         [self presentViewController:self.imagePickerController animated:YES completion:nil];
     }];
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    
-    //Adding all the actions to the UIAlerController.
-    [self.sourcePicker addAction:camera];
-    [self.sourcePicker addAction:photo];
-    [self.sourcePicker addAction:cancel];
-    
-    [self presentViewController:self.sourcePicker animated:YES completion:nil];
-    
+    [alert showInfo:@"Profile Picture" subTitle:@"Please choose where you want to upload your profile picture from." closeButtonTitle:@"Dimiss" duration:0];
 }
 
 #pragma mark - UIImage picker protocols

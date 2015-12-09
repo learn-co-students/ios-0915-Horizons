@@ -29,13 +29,13 @@
 		76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
 		8965CA691C050ED100E37A30 /* filterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965CA681C050ED100E37A30 /* filterViewController.m */; };
 		8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */; };
-		89C7BDF61C175E0A001DE9D0 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57A1C172E9700E73BAB /* APIConstants.m */; };
 		89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9B1BFD133F007D3613 /* FXMCity.m */; };
 		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
 		B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */; };
+		B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57D1C17748000E73BAB /* CommentTableViewCell.m */; };
 		B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B791CF091C10E365000E74C7 /* HelperMethods.m */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
 		B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426F1BFCD2490068B249 /* ImagesCustomCell.m */; };
@@ -107,7 +107,8 @@
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
-		B781F57A1C172E9700E73BAB /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
+		B781F57C1C17748000E73BAB /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
+		B781F57D1C17748000E73BAB /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
 		B791CF081C10E365000E74C7 /* HelperMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperMethods.h; sourceTree = "<group>"; };
 		B791CF091C10E365000E74C7 /* HelperMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelperMethods.m; sourceTree = "<group>"; };
 		B79E426B1BFCD0E70068B249 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = ../ImagesViewController.h; sourceTree = "<group>"; };
@@ -143,7 +144,6 @@
 		E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSDownloadManager.m; sourceTree = "<group>"; };
 		E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseUploadViewController.h; sourceTree = "<group>"; };
 		E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseUploadViewController.m; sourceTree = "<group>"; };
-		E2F6A9BF1C0CAA0E003BCEBE /* userPhotos.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = userPhotos.storyboard; sourceTree = "<group>"; };
 		E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPhotosCollectionViewController.h; sourceTree = "<group>"; };
 		E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPhotosCollectionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,8 +202,6 @@
 		761E1EB91BFD808F00BD5375 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-
-
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
 				E2116C9B1C15EE940056D061 /* APIConstants.m */,
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
@@ -279,7 +277,6 @@
 		766FC1941BFBB36500C4140E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				E2F6A9BF1C0CAA0E003BCEBE /* userPhotos.storyboard */,
 				8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */,
 				B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */,
 				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
@@ -355,6 +352,8 @@
 				B79E426C1BFCD0E70068B249 /* ImagesViewController.m */,
 				B7D3E2B11BFEA4E200E28028 /* ImagesDetailsViewController.h */,
 				B7D3E2B21BFEA4E200E28028 /* ImagesDetailsViewController.m */,
+				B781F57C1C17748000E73BAB /* CommentTableViewCell.h */,
+				B781F57D1C17748000E73BAB /* CommentTableViewCell.m */,
 			);
 			name = CollectionView;
 			sourceTree = "<group>";
@@ -443,7 +442,7 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = GQ6DHHL68B;
+						DevelopmentTeam = 3P65N5866H;
 					};
 				};
 			};
@@ -537,9 +536,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
 				B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */,
 				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
+				B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */,
 				E2116C9C1C15EE940056D061 /* APIConstants.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
 				89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */,

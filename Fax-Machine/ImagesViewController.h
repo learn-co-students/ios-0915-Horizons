@@ -15,6 +15,7 @@
 @interface ImagesViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollectionViewController;
+@property (weak, nonatomic) IBOutlet UILabel *viewTitle;
 @property (strong, readonly, nonatomic) RESideMenu *sideMenuViewController;
 @property (nonatomic, strong) NSMutableDictionary *filterParameters;
 @property(nonatomic)BOOL isFiltered;

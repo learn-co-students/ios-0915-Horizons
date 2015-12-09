@@ -78,6 +78,7 @@
             navController.navigationBar.translucent = YES;
             navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             imageViewVC.title = @"Home";
+            imageViewVC.viewTitle.text = @"Home";
             imageViewVC.isFavorite = NO;
             imageViewVC.isUserImageVC = NO;
             imageViewVC.isFollowing = NO;
@@ -90,13 +91,10 @@
         }
         case 2:
         {
-            imageViewVC.isFavorite = NO;
-            imageViewVC.isUserImageVC = NO;
-            
             PFObject *user = PFUser.currentUser;
             if(![[user objectForKey:@"emailVerified"] boolValue] && [user objectForKey:@"email"]!=nil)
             {
-                [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
+                [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
                 NSLog(@"It is not verified!");
             }else{
                 [self.sideMenuViewController hideMenuViewController];
@@ -116,6 +114,7 @@
             navController.navigationBar.translucent = YES;
             navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             imageViewVC.title = @"My Images";
+            imageViewVC.viewTitle.text = @"My Images";
             
             [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
                 if (complete) {
@@ -141,6 +140,7 @@
             navController.navigationBar.translucent = YES;
             navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             imageViewVC.title = @"My Favorites";
+            imageViewVC.viewTitle.text = @"My Favorites";
             
             [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
                 if (success) {

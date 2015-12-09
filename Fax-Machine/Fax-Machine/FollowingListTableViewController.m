@@ -90,12 +90,13 @@
     cell.followingListName.text = name;
     cell.followingListName.font = [UIFont systemFontOfSize:20 weight:0.75];
     cell.followingListEmail.text = owner.email;
-    cell.followingListNumberOfImages.text = [NSString stringWithFormat:@"Images: %lu", [owner[@"myImages"] count]];
+    NSArray *myImages = owner[@"myImages"];
+    cell.followingListNumberOfImages.text = [NSString stringWithFormat:@"Images: %lu", (unsigned long)myImages.count];
     
     cell.followingListTotalLikes.text = @"Followers: 0";
     [self.dataStore getFollowersWithUserId:owner.objectId success:^(BOOL success) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            cell.followingListTotalLikes.text = [NSString stringWithFormat:@"Followers: %lu", self.dataStore.followerCount];
+            cell.followingListTotalLikes.text = [NSString stringWithFormat:@"Followers: %lu", (unsigned long)self.dataStore.followerCount];
         }];
     }];
     

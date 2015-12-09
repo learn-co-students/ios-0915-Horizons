@@ -7,7 +7,6 @@
 //
 
 #import "ImagesDetailsViewController.h"
-#import "UsersCommentsViewController.h"
 #import "DataStore.h"
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
@@ -40,7 +39,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTopConstraint;
 
 @property (nonatomic) NSUInteger photoLikesCounter;
-@property (nonatomic) UsersCommentsViewController *userCommentsVCObject;
 @property (nonatomic, strong)DataStore *dataStore;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic) BOOL liked;
@@ -136,7 +134,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.belowPictureTableView reloadData];
-    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", self.image.comments.count];
+    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", (unsigned long)self.image.comments.count];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -210,13 +208,6 @@
     cell.commentLabel.numberOfLines = 0;
     
     [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
-        UsersCommentsViewController *destinationVC = segue.destinationViewController;
-        destinationVC.selectedImage = self.image;
-    }
 }
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
@@ -310,7 +301,7 @@
                 [self.image.comments addObject:comment];
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.belowPictureTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", self.image.comments.count];
+                    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", (unsigned long)self.image.comments.count];
                 }];
             }];
             self.commentTextField.text = @"";

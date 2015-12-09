@@ -44,9 +44,7 @@
     Reachability *reach = [Reachability reachabilityWithHostName:@"www.google.com"];
     reach.reachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            //NSLog(@"There is network connection!");
             if (self.isConnected == -1) {
-                //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                 [alert showSuccess:@"Network is connected!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
                 self.isConnected = 1;
@@ -57,16 +55,11 @@
     reach.unreachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.isConnected = -1;
-            //NSLog(@"There is no network connection!");
             SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
             [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
-            //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            
         }];
     };
     [reach startNotifier];
-    //
-  NSLog(@"count: %lu",self.imagesCount);
   
     self.dataStore = [DataStore sharedDataStore];
     [DataStore checkUserFollow];
@@ -100,7 +93,6 @@
     }
     
     self.scrollTopView.backgroundColor = [UIColor clearColor];
-    self.navigationController.navigationItem.title = @"Home";
 
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navTapped:)];
     tapGesture.numberOfTapsRequired = 1;
@@ -293,7 +285,7 @@
     
     NSURL *url = [NSURL URLWithString:urlString];
     
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️%@ 💬%lu",  parseImage.likes, parseImage.comments.count];
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️%@ 💬%lu",  parseImage.likes, (unsigned long)parseImage.comments.count];
     cell.placeLabel.text = location;
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
         //        if (from == YYWebImageFromDiskCache) {
@@ -326,8 +318,8 @@
 }
 
 -(IBAction)navTapped:(id)sender{
-    NSLog(@"navTapped@");
-    [self.imagesCollectionViewController setContentOffset:CGPointMake(0, -self.imagesCollectionViewController.contentInset.top) animated:YES];
+    //-self.imagesCollectionViewController.contentInset.top
+    [self.imagesCollectionViewController setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {

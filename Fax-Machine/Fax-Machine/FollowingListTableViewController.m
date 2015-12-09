@@ -11,6 +11,8 @@
 @interface FollowingListTableViewController ()
 
 @property (nonatomic, strong) ImagesViewController *imageVC;
+@property (weak, nonatomic) IBOutlet UIView *uhoView;
+@property (weak, nonatomic) IBOutlet UILabel *uhoLabel;
 
 @end
 
@@ -22,14 +24,16 @@
     self.dataStore = [DataStore sharedDataStore];
     self.imageVC = self.dataStore.controllers[0];
     
-    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-    
+
+  self.tableView.backgroundColor = [UIColor clearColor];
     FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
     FAKFontAwesome *homeIcon = [FAKFontAwesome homeIconWithSize:35];
     self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.rightBarButtonItem.image = [homeIcon imageWithSize:CGSizeMake(35, 35)];
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+  
+  self.uhoLabel.text = self.uhoString;
 }
 
 - (IBAction)displayMenu:(id)sender {
@@ -44,6 +48,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  if (self.followingList.count == 0) {
+    self.uhoView.hidden = NO;
+  } else {
+    self.uhoView.hidden = YES;
+  }
     return self.followingList.count;
 }
 
@@ -74,12 +83,13 @@
     cell.followingListName.text = name;
     cell.followingListName.font = [UIFont systemFontOfSize:20 weight:0.75];
     cell.followingListEmail.text = owner.email;
-    cell.followingListNumberOfImages.text = [NSString stringWithFormat:@"Images: %lu", [owner[@"myImages"] count]];
+    NSArray *myImages = owner[@"myImages"];
+    cell.followingListNumberOfImages.text = [NSString stringWithFormat:@"Images: %lu", (unsigned long)myImages.count];
     
     cell.followingListTotalLikes.text = @"Followers: 0";
     [self.dataStore getFollowersWithUserId:owner.objectId success:^(BOOL success) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            cell.followingListTotalLikes.text = [NSString stringWithFormat:@"Followers: %lu", self.dataStore.followerCount];
+            cell.followingListTotalLikes.text = [NSString stringWithFormat:@"Followers: %lu", (unsigned long)self.dataStore.followerCount];
         }];
     }];
     

@@ -206,12 +206,10 @@
             }
             
         } else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
-            //When image source equals to Camera
             self.creationDate = [NSDate date];
             self.geoCoder = [FCCurrentLocationGeocoder sharedGeocoder];
             self.geoCoder.canUseIPAddressAsFallback = YES;
             self.geoCoder.timeoutErrorDelay = 5;
-            //NSLog(@"GeoCode enable: %d", [self.geoCoder canGeocode]);
             [self.geoCoder geocode:^(BOOL success) {
                 if (success) {
                     PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:self.geoCoder.location];

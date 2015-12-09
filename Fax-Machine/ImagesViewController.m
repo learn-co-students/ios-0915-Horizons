@@ -26,26 +26,17 @@
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
 @property (nonatomic) CGFloat scrollOffset;
+@property (weak, nonatomic) IBOutlet UILabel *nothingToShowLabel;
 
+@property (weak, nonatomic) IBOutlet UIImageView *frowningFace;
 @property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic) NSInteger isConnected;
-@property (nonatomic, strong) UIView *filterView;
+@property (weak, nonatomic) IBOutlet UIView *scrollTopView;
 
 @end
 
 @implementation ImagesViewController
-
--(instancetype)init{
-    self = [super init];
-    if (self) {
-        _isFavorite = NO;
-        _isFiltered = NO;
-        _isFirstTime = NO;
-        _isFollowing = NO;
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,9 +44,7 @@
     Reachability *reach = [Reachability reachabilityWithHostName:@"www.google.com"];
     reach.reachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            //NSLog(@"There is network connection!");
             if (self.isConnected == -1) {
-                //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                 [alert showSuccess:@"Network is connected!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
                 self.isConnected = 1;
@@ -66,16 +55,12 @@
     reach.unreachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.isConnected = -1;
-            //NSLog(@"There is no network connection!");
             SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
             [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
-            //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            
         }];
     };
     [reach startNotifier];
-    //
-    
+  
     self.dataStore = [DataStore sharedDataStore];
     [DataStore checkUserFollow];
     
@@ -95,7 +80,7 @@
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
     
     if (!self.isFiltered && !self.isFirstTime) {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!"];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
@@ -107,19 +92,12 @@
         }];
     }
     
-//    self.filterView = [[UIView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height, self.view.frame.size.width, 55)];
-//    self.filterView.backgroundColor = [UIColor whiteColor];
-//    UIButton *filterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [filterButton setTitle:@"Filter" forState:UIControlStateNormal];
-//    [filterButton addTarget:self action:@selector(filterTapped:) forControlEvents:UIControlEventTouchUpInside];
-//    [filterButton sizeToFit];
-//    filterButton.backgroundColor = [UIColor lightGrayColor];
-//    filterButton.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.view addSubview:self.filterView];
-//    [self.filterView addSubview: filterButton];
-//    [filterButton.topAnchor constraintEqualToAnchor:self.filterView.topAnchor constant:5].active = YES;
-//    [filterButton.leadingAnchor constraintEqualToAnchor:self.filterView.leadingAnchor constant:5].active = YES;
-//    self.filterView.hidden = YES;
+    self.scrollTopView.backgroundColor = [UIColor clearColor];
+
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navTapped:)];
+    tapGesture.numberOfTapsRequired = 1;
+    [self.scrollTopView addGestureRecognizer:tapGesture];
+    self.scrollTopView.userInteractionEnabled = YES;
     
     if ([FBSDKAccessToken currentAccessToken]) {
         [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
@@ -168,24 +146,20 @@
         [[PFUser currentUser] setUsername:username];
     }
     
+
     NSString *profileImageUrl = [[PFUser currentUser] objectForKey:@"profile_image_url"];
     
     //  As an example we could set an image's content to the image
     dispatch_async
     (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:profileImageUrl]];
-        
+      
         UIImage *image = [UIImage imageWithData:imageData];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"profile picture: %@ %@",imageData,image);
         });
     });
-}
-
-
--(IBAction)filterTapped:(id)sender{
-    NSLog(@"Filter tapped!");
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -224,17 +198,62 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (self.isFavorite) {
+      if (self.dataStore.favoriteImages.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n it looks like you haven't favorited \n any images yet!";
+      }else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.favoriteImages.count;
     } else if (self.isUserImageVC){
+      if (self.dataStore.userPictures.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n it looks like you haven't \n shared any images yet!";
+
+      }else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.userPictures.count;
     } else if (self.isFiltered){
+      if (self.dataStore.filteredImageList.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n it looks like there aren't \n any images matching \n that description";
+      }else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.filteredImageList.count;
     } else if (self.isFollowing){
+      if (self.dataStore.followingOwnerImageList.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n you're not following anyone!";
+      }else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.followingOwnerImageList.count;
     }else{
+      if (self.dataStore.downloadedPictures.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n it looks like there has been \n a problem downloading images!";
+      } else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.downloadedPictures.count;
     }
 }
+
+-(void)checkIfThereIsNothingToDisplay
+{
+  self.frowningFace.hidden = NO;
+  self.nothingToShowLabel.hidden = NO;
+}
+
+
+
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
@@ -246,12 +265,16 @@
         
     } else if (self.isUserImageVC){
         parseImage = self.dataStore.userPictures[indexPath.row];
+
     } else if (self.isFiltered){
         parseImage = self.dataStore.filteredImageList[indexPath.row];
+
     }else if (self.isFollowing){
         parseImage = self.dataStore.followingOwnerImageList[indexPath.row];
+
     }else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
+
         location = parseImage.location.city;
     }
     
@@ -262,7 +285,7 @@
     
     NSURL *url = [NSURL URLWithString:urlString];
     
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️%@ 💬%lu",  parseImage.likes, parseImage.comments.count];
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️%@ 💬%lu",  parseImage.likes, (unsigned long)parseImage.comments.count];
     cell.placeLabel.text = location;
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
         //        if (from == YYWebImageFromDiskCache) {
@@ -294,15 +317,12 @@
     return 0;
 }
 
+-(IBAction)navTapped:(id)sender{
+    //-self.imagesCollectionViewController.contentInset.top
+    [self.imagesCollectionViewController setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    
-    
-//    if (scrollView.contentOffset.y < 0) {
-//        self.filterView.hidden = NO;
-//        //[self.imagesCollectionViewController.topAnchor constraintEqualToAnchor:self.filterView.bottomAnchor].active = YES;
-//    }else{
-//        self.filterView.hidden = YES;
-//    }
     
     [UIView animateWithDuration:0.25 animations:^{
         if (velocity.y <= -4) {

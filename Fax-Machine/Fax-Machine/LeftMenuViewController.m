@@ -94,7 +94,7 @@
             imageViewVC.isUserImageVC = NO;
             
             PFObject *user = PFUser.currentUser;
-            if(![[user objectForKey:@"emailVerified"] boolValue])
+            if(![[user objectForKey:@"emailVerified"] boolValue] && [user objectForKey:@"email"]!=nil)
             {
                 [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
                 NSLog(@"It is not verified!");

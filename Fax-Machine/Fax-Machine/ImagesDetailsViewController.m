@@ -45,6 +45,7 @@
 @property (nonatomic) BOOL liked;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navigationItem;
 @property (weak, nonatomic) IBOutlet UITextView *imageDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 
 
 @end
@@ -58,8 +59,8 @@
   self.commentTextField.delegate = self;
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
   [self.view addGestureRecognizer:tap];
-    //self.view.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+  self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
 
     self.belowPictureTableView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
     self.belowPictureTableView.estimatedRowHeight = 100;

@@ -34,6 +34,13 @@
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
   
   self.uhoLabel.text = self.uhoString;
+  
+  
+  NSArray *array = [[NSArray alloc]init];
+  [array sortedArrayUsingSelector:@selector(ascending)];
+  
+  
+  
 }
 
 - (IBAction)displayMenu:(id)sender {

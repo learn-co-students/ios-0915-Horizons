@@ -230,7 +230,7 @@
                                    //self.mood = weatherOfImage;
                                    
                                    //self.mood is modified in convertingWeatherToMood method
-                                   [self convertingWeatherToMood:weatherOfImage];
+                                   [self convertingWeatherToMood:[weatherOfImage capitalizedString]];
                                    self.country = self.location.country;
                                    self.city = self.location.city;
                                    self.location.weather = weather;
@@ -269,7 +269,7 @@
     {
         self.mood = @"exultant";
     }
-    else if (([weather containsString:@"Overcast"]) || ([weather containsString:@"Fog"]))
+    else if (([weather containsString:@"Overcast"]) || ([weather containsString:@"Fog"])|| ([weather containsString:@"Cloudy"]))
     {
         self.mood = @"sleepy";
     }

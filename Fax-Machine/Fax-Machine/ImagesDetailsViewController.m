@@ -56,7 +56,9 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
-    
+  self.commentTextField.delegate = self;
+  UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
+  [self.view addGestureRecognizer:tap];
     //self.view.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
 
@@ -77,15 +79,16 @@
     self.commentTextField.placeholder = @"Enter a comment to post";
     self.commentSectionView.backgroundColor = [UIColor blackColor];
     self.commentButton.enabled = NO;
-    
+
     PFUser *imageOwner = self.image.owner;
     NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
     self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@-%@",displayName, self.image.title];
     self.imageDescriptionLabel.editable = YES;
+    self.imageDescriptionLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
     self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
     self.imageDescriptionLabel.textColor = [UIColor whiteColor];
     self.imageDescriptionLabel.editable = NO;
-    
+
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
@@ -139,6 +142,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
+}
+-(void)dismissKeyboard
+{
+  [self.commentTextField resignFirstResponder];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

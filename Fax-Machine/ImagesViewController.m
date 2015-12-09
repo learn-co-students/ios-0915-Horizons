@@ -26,7 +26,9 @@
 @property (strong, nonatomic) NSArray *arrayWithDescriptions;
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
 @property (nonatomic) CGFloat scrollOffset;
+@property (weak, nonatomic) IBOutlet UILabel *nothingToShowLabel;
 
+@property (weak, nonatomic) IBOutlet UIImageView *frowningFace;
 @property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic) NSInteger isConnected;
@@ -64,7 +66,8 @@
     };
     [reach startNotifier];
     //
-    
+  NSLog(@"count: %lu",self.imagesCount);
+  
     self.dataStore = [DataStore sharedDataStore];
     [DataStore checkUserFollow];
     
@@ -151,13 +154,14 @@
         [[PFUser currentUser] setUsername:username];
     }
     
+
     NSString *profileImageUrl = [[PFUser currentUser] objectForKey:@"profile_image_url"];
     
     //  As an example we could set an image's content to the image
     dispatch_async
     (dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:profileImageUrl]];
-        
+      
         UIImage *image = [UIImage imageWithData:imageData];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -202,17 +206,62 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (self.isFavorite) {
+      if (self.dataStore.favoriteImages.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n it looks like you haven't favorited \n any images yet!";
+      }else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.favoriteImages.count;
     } else if (self.isUserImageVC){
+      if (self.dataStore.userPictures.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n it looks like you haven't \n shared any images yet!";
+
+      }else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.userPictures.count;
     } else if (self.isFiltered){
+      if (self.dataStore.filteredImageList.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n it looks like there aren't \n any images matching \n that description";
+      }else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.filteredImageList.count;
     } else if (self.isFollowing){
+      if (self.dataStore.followingOwnerImageList.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n you're not following anyone!";
+      }else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.followingOwnerImageList.count;
     }else{
+      if (self.dataStore.downloadedPictures.count == 0) {
+        [self checkIfThereIsNothingToDisplay];
+        self.nothingToShowLabel.text = @"Uho, \n it looks like there has been \n a problem downloading images!";
+      } else {
+        self.frowningFace.hidden = YES;
+        self.nothingToShowLabel.hidden = YES;
+      }
         return self.dataStore.downloadedPictures.count;
     }
 }
+
+-(void)checkIfThereIsNothingToDisplay
+{
+  self.frowningFace.hidden = NO;
+  self.nothingToShowLabel.hidden = NO;
+}
+
+
+
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
@@ -224,12 +273,16 @@
         
     } else if (self.isUserImageVC){
         parseImage = self.dataStore.userPictures[indexPath.row];
+
     } else if (self.isFiltered){
         parseImage = self.dataStore.filteredImageList[indexPath.row];
+
     }else if (self.isFollowing){
         parseImage = self.dataStore.followingOwnerImageList[indexPath.row];
+
     }else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
+
         location = parseImage.location.city;
     }
     

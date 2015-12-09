@@ -22,6 +22,9 @@
 @property (nonatomic)BOOL isUserImageVC;
 @property (nonatomic) BOOL isFavorite;
 @property (nonatomic) BOOL isFollowing;
+@property (strong, nonatomic) UIWindow *window;
+@property (nonatomic)NSUInteger imagesCount;
+
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters;
 

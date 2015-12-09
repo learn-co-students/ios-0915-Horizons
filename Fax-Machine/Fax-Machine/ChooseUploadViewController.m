@@ -264,14 +264,18 @@
 }
 -(void)convertingWeatherToMood:(NSString *)weather
 {
-    NSArray *moodArray = @[@"exultant", @"somniferous", @"jubilant", @"tumultuous"];
+    NSArray *moodArray = @[@"exultant", @"sleepy", @"jubilant", @"tumultuous", @"sad"];
     if (([weather containsString:@"Clear"]) || ([weather containsString:@"Sunny"]))
     {
         self.mood = @"exultant";
     }
-    else if (([weather containsString:@"Cloudy"]) || ([weather containsString:@"Rain"]) || ([weather containsString:@"Fog"]))
+    else if (([weather containsString:@"Overcast"]) || ([weather containsString:@"Fog"]))
     {
-        self.mood = @"somniferous";
+        self.mood = @"sleepy";
+    }
+    else if (([weather containsString:@"Rain"]))
+    {
+        self.mood = @"sad";
     }
     else if (([weather containsString:@"Snow"]))
     {

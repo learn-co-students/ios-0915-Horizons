@@ -220,13 +220,13 @@
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-   imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     ImageObject *parseImage;
-  NSString *location;
+    NSString *location;
     if (self.isFavorite) {
         parseImage = self.dataStore.favoriteImages[indexPath.row];
-      location = parseImage.location.city;
-
+        location = parseImage.location.city;
+        
     } else if (self.isUserImageVC){
         parseImage = self.dataStore.userPictures[indexPath.row];
     } else if (self.isFiltered){
@@ -235,28 +235,28 @@
         parseImage = self.dataStore.followingOwnerImageList[indexPath.row];
     }else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
-      location = parseImage.location.city;
+        location = parseImage.location.city;
     }
-
-
+    
+    
     //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
     NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
-
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️ %@ 🗯 %lu",  parseImage.likes, parseImage.comments.count];
-  cell.placeLabel.text = location;
+    
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️%@ 💬%lu",  parseImage.likes, parseImage.comments.count];
+    cell.placeLabel.text = location;
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-//        if (from == YYWebImageFromDiskCache) {
-//            NSLog(@"From Cache!");
-//        }
+        //        if (from == YYWebImageFromDiskCache) {
+        //            NSLog(@"From Cache!");
+        //        }
     }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
     
-  cell.placeLabel.textColor= [UIColor whiteColor];
-  cell.placeLabel.font=[UIFont boldSystemFontOfSize:16.0];
+    cell.placeLabel.textColor= [UIColor whiteColor];
+    cell.placeLabel.font=[UIFont boldSystemFontOfSize:16.0];
     return cell;
 }
 

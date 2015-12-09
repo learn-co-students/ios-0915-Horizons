@@ -189,7 +189,8 @@
                           [[NSOperationQueue mainQueue] addOperationWithBlock:^
                            {
                                NSString *weatherOfImage = [weather[@"currently"][@"summary"] capitalizedString];
-                               self.mood = weatherOfImage;
+                               [self convertingWeatherToMood:weatherOfImage];
+//                               self.mood = weatherOfImage;
                                self.country = self.location.country;
                                self.city = self.location.city;
                                self.hasAllMetadata = YES;
@@ -254,7 +255,7 @@
 }
 
 -(void)invalidImageAlert{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invliad Image"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Image"
                                                                    message:@"Sorry, but selfies are prohibited!"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okay = [UIAlertAction actionWithTitle:@"okay" style:UIAlertActionStyleCancel handler:nil];
@@ -279,6 +280,10 @@
     else if (([weather containsString:@"Thunderstorm"] || [weather containsString:@"Storm"]) || ([weather containsString:@"Heavy"]))
     {
         self.mood = @"tumultuous";
+    }
+    else
+    {
+        self.mood = nil;
     }
 }
 @end

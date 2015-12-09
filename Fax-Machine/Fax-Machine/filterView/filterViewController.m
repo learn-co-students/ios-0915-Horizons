@@ -112,7 +112,7 @@
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
             [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
-            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:12]];
             
             pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
             pickerLabel.numberOfLines = 2;
@@ -133,7 +133,7 @@
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
             [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
-            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:12]];
             
             pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
             pickerLabel.numberOfLines = 2;
@@ -153,7 +153,7 @@
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
             [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
-            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:12]];
             
             pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
             pickerLabel.numberOfLines = 2;
@@ -203,6 +203,7 @@
 -(NSMutableArray *)gettingAnArrayOfMoods:(NSArray *)arrayOfPFObjects
 {
     NSMutableArray *arrayOfMoods = [[NSMutableArray alloc] init];
+    [arrayOfMoods addObject: @"Default Mood"];
     for (PFObject *object in arrayOfPFObjects)
     {
         NSString *moodOfObject = object[@"mood"];
@@ -270,7 +271,7 @@
     NSInteger moodSelection = [self.filterPicker selectedRowInComponent:2];
     
     
-    NSDictionary *filterParameters = @{
+    NSMutableDictionary *filterParameters = [@{
                                        @"country" : sortedArrayOfCountries[countrySelection],
                                        @"city" : sortedArrayOfCities[citySelection],
 
@@ -284,8 +285,10 @@
     locationForPredicate.city = sortedArrayOfCities[citySelection];
     locationForPredicate.country = sortedArrayOfCountries[countrySelection];
     
-    if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"]) {
-        filterParameters[@"mood"] = @"";
+    if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"])
+    {
+        [filterParameters setObject:@"" forKey:@"mood"];
+        
     }
     
     self.filtering = [filterParameters mutableCopy];

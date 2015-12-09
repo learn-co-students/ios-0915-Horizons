@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UsersCommentsViewController.h"
+#import "ImageObject.h"
 
 @interface ImagesDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 

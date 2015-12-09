@@ -52,9 +52,7 @@
 {
     NSUInteger page =ceil(self.downloadedPictures.count / (imagesToDownloadFromParseQuery * 1.00f));
     
-    //NSLog(@"Page: %lu downloaded image: %lu", page, self.downloadedPictures.count);
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@", @(0)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@ AND report < %@ OR report = %@", @(0), @5, nil];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {
       for (PFObject *parseImageObject in data) {
             PFObject *parseLocation = parseImageObject[@"location"];
@@ -80,7 +78,7 @@
             }
         }
     } failure:^(NSError *error) {
-        NSLog(@"Download images error: %@ code: %lu", error.localizedDescription, error.code);
+        NSLog(@"Download images error: %@ code: %ld", error.localizedDescription, (long)error.code);
     }];
 }
 
@@ -346,6 +344,7 @@
                 }
             }];
         }
+        success(YES);
     }];
 }
 
@@ -403,6 +402,29 @@
             NSLog(@"Get follow error: %@", error.localizedDescription);
         }
     }];
+}
+
+-(void)reportImage:(ImageObject *)reportedImage success:(void (^)(BOOL))success{
+    [ParseAPIClient fetchImageWithImageID:reportedImage.imageID completion:^(PFObject *data) {
+        [data incrementKey:@"report" byAmount:@1];
+        [data saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (succeeded) {
+                PFUser *user = [PFUser currentUser];
+                [user addObject:data forKey:@"reportedImages"];
+                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    if (succeeded) {
+                        success(succeeded);
+                    }
+                }];
+            }else{
+                NSLog(@"Report image error: %@", error.localizedDescription);
+            }
+        }];
+    } failure:^(NSError *error) {
+        NSLog(@"Report image fetch error: %@", error.localizedDescription);
+    }];
+    
+    
 }
 
 @end

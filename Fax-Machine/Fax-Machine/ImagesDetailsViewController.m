@@ -7,7 +7,6 @@
 //
 
 #import "ImagesDetailsViewController.h"
-#import "UsersCommentsViewController.h"
 #import "DataStore.h"
 #import <YYWebImage/YYWebImage.h>
 #import "APIConstants.h"
@@ -30,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *commentCountLable;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *socialSharing;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ownerFollow;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *reportButton;
 
 @property (weak, nonatomic) IBOutlet UIView *commentSectionView;
 @property (weak, nonatomic) IBOutlet UIButton *postButton;
@@ -39,12 +39,12 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTopConstraint;
 
 @property (nonatomic) NSUInteger photoLikesCounter;
-@property (nonatomic) UsersCommentsViewController *userCommentsVCObject;
 @property (nonatomic, strong)DataStore *dataStore;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic) BOOL liked;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navigationItem;
 @property (weak, nonatomic) IBOutlet UITextView *imageDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 
 
 @end
@@ -55,9 +55,11 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
-    
-    //self.view.backgroundColor = [UIColor clearColor];
+  self.commentTextField.delegate = self;
+  UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
+  [self.view addGestureRecognizer:tap];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
+  self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
 
     self.belowPictureTableView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
     self.belowPictureTableView.estimatedRowHeight = 100;
@@ -77,36 +79,30 @@
     self.commentSectionView.backgroundColor = [UIColor blackColor];
     self.commentButton.enabled = NO;
 
-  self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@",self.image.title];
-  self.imageDescriptionLabel.editable = YES;
-  self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
-  self.imageDescriptionLabel.textColor = [UIColor whiteColor];
-  self.imageDescriptionLabel.editable = NO;
-  
+    PFUser *imageOwner = self.image.owner;
+    NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
+    self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@-%@",displayName, self.image.title];
+    self.imageDescriptionLabel.editable = YES;
+    self.imageDescriptionLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+    self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
+    self.imageDescriptionLabel.textColor = [UIColor whiteColor];
+    self.imageDescriptionLabel.editable = NO;
+
     NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, self.image.imageID];
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
-  self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
-  
-//self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];  
+    self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
 
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
     
-    FAKFontAwesome *commentIcon = [FAKFontAwesome commentIconWithSize:20];
+    FAKFontAwesome *commentIcon = [FAKFontAwesome commentsIconWithSize:20];
     self.commentButton.image = [commentIcon imageWithSize:CGSizeMake(20, 20)];
+    self.commentButton.tintColor = [UIColor whiteColor];
     FAKFontAwesome *download = [FAKFontAwesome downloadIconWithSize:20];
     self.socialSharing.image = [download imageWithSize:CGSizeMake(20, 20)];
-    
-    //Displaying the owner of the image.
-    PFUser *imageOwner = self.image.owner;
-    NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
-
-  
-    self.ownerFollow.title = [NSString stringWithFormat:@"follow %@", displayName];
-    //NSLog(@"My objectNameAndId: %@ %@", user.email, user.objectId);
-    //NSLog(@"My ownerNameAndId: %@ %@", imageOwner.email, imageOwner.objectId);
+    self.socialSharing.tintColor = [UIColor whiteColor];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId MATCHES %@", self.image.objectID];
     NSArray *filteredResult = [savedImages filteredArrayUsingPredicate:predicate];
@@ -125,6 +121,9 @@
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
     }
+    self.likeButton.tintColor = [UIColor whiteColor];
+    self.likeCountLabel.enabled = NO;
+    self.commentCountLable.enabled = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillShowNotification object:nil];
     
@@ -136,12 +135,16 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.belowPictureTableView reloadData];
-    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", self.image.comments.count];
+    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", (unsigned long)self.image.comments.count];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
+}
+-(void)dismissKeyboard
+{
+  [self.commentTextField resignFirstResponder];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -155,10 +158,22 @@
     return self.image.comments.count;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-//{
-//    return 45.0;
-//}
+- (IBAction)reportTapped:(id)sender {
+    PFUser *user = [PFUser currentUser];
+    NSArray *savedImages = user[@"reportedImages"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId MATCHES %@", self.image.objectID];
+    NSArray *filteredResult = [savedImages filteredArrayUsingPredicate:predicate];
+    if (filteredResult.count) {
+        [HelperMethods verifyAlertWithMessage:@"You already reported this image"];
+    }else{
+        [self.dataStore reportImage:self.image success:^(BOOL success) {
+            if (success) {
+                SCLAlertView *alert = [SCLAlertView new];
+                [alert showSuccess:self title:@"Reported!" subTitle:@"Our team will review this image as soon as possible. If there are other reports, we will hide this image for display." closeButtonTitle:@"Okay" duration:0];
+            }
+        }];
+    }
+}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
@@ -187,52 +202,6 @@
     return cell;
 }
 
-//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
-//        
-//        cell.opaque = NO;
-//        cell.backgroundColor = [UIColor colorWithWhite:0.55 alpha:0.85];
-//        if (indexPath.row % 2 == 1) {
-//            cell.backgroundColor = [UIColor colorWithWhite:0.45 alpha:0.85];
-//        }
-//        cell.textLabel.textColor = [UIColor whiteColor];
-//        cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.15 alpha:1];
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//        cell.textLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
-//        
-//        cell.detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        cell.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        
-//        [cell.textLabel.topAnchor constraintEqualToAnchor:cell.topAnchor constant:8].active = YES;
-//        [cell.textLabel.leftAnchor constraintEqualToAnchor:cell.leftAnchor constant:8].active = YES;
-//        [cell.textLabel.rightAnchor constraintEqualToAnchor:cell.rightAnchor constant:-8].active = YES;
-//        
-//        [cell.detailTextLabel.leftAnchor constraintEqualToAnchor:cell.textLabel.leftAnchor].active = YES;
-//        [cell.detailTextLabel.rightAnchor constraintEqualToAnchor:cell.textLabel.rightAnchor].active = YES;
-//        [cell.detailTextLabel.topAnchor constraintEqualToAnchor:cell.textLabel.bottomAnchor constant:8].active = YES;
-//        [cell.detailTextLabel.bottomAnchor constraintEqualToAnchor:cell.bottomAnchor constant:-8].active = YES;
-//        
-//        cell.detailTextLabel.numberOfLines = 0;
-//    }
-//    //cell.detailTextLabel.text = user[@"username"];
-//    PFObject *comment = self.image.comments[indexPath.row];
-//    PFUser *user = comment[@"owner"];
-//    NSString *username = [user.username componentsSeparatedByString:@"@"][0];
-//    
-////    ((UILabel *)[cell viewWithTag:99]).text = [NSString stringWithFormat:@"%@:",username];
-////    ((UILabel *)[cell viewWithTag:98]).text = comment[@"userComment"];
-//    
-//    cell.textLabel.text = [NSString stringWithFormat:@"%@:",username];
-//    cell.detailTextLabel.text = comment[@"userComment"];
-//    
-//        return cell;
-//}
-
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CommentTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -242,18 +211,11 @@
     [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.destinationViewController isKindOfClass:[UsersCommentsViewController class]]) {
-        UsersCommentsViewController *destinationVC = segue.destinationViewController;
-        destinationVC.selectedImage = self.image;
-    }
-}
-
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
     PFUser *user = [PFUser currentUser];
     if(![[user objectForKey:@"emailVerified"] boolValue])
     {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can like!" viewController:self];
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can like!"];
     }else{
         if (!self.liked) {
             self.liked = YES;
@@ -273,7 +235,7 @@
     PFUser *user = [PFUser currentUser];
     if(![[user objectForKey:@"emailVerified"] boolValue])
     {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can share!" viewController:self];
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can share!"];
     }else{
         UIImage * image = self.imageDetails.image;
         
@@ -289,7 +251,7 @@
     PFUser *user = [PFUser currentUser];
     if(![[user objectForKey:@"emailVerified"] boolValue])
     {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can follow!" viewController:self];
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can follow!"];
     }else{
         PFUser *user = self.image.owner;
         
@@ -331,7 +293,7 @@
     
     if(![[user objectForKey:@"emailVerified"] boolValue] && current.email != nil)
     {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can post!" viewController:self];
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can post!"];
     }else{
         if (self.commentTextField.text.length && ![self.commentTextField.text isEqualToString:@" "]) {
             NSString *enteredText = [self.commentTextField.text copy];
@@ -340,7 +302,7 @@
                 [self.image.comments addObject:comment];
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.belowPictureTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", self.image.comments.count];
+                    self.commentCountLable.title = [NSString stringWithFormat:@"%lu", (unsigned long)self.image.comments.count];
                 }];
             }];
             self.commentTextField.text = @"";

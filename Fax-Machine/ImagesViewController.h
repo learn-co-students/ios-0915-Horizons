@@ -15,12 +15,16 @@
 @interface ImagesViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollectionViewController;
+@property (weak, nonatomic) IBOutlet UILabel *viewTitle;
 @property (strong, readonly, nonatomic) RESideMenu *sideMenuViewController;
 @property (nonatomic, strong) NSMutableDictionary *filterParameters;
 @property(nonatomic)BOOL isFiltered;
 @property (nonatomic)BOOL isUserImageVC;
 @property (nonatomic) BOOL isFavorite;
 @property (nonatomic) BOOL isFollowing;
+@property (strong, nonatomic) UIWindow *window;
+@property (nonatomic)NSUInteger imagesCount;
+
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters;
 

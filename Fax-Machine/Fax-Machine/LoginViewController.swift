@@ -38,15 +38,6 @@ class LoginViewController : PFLogInViewController {
 
     self.signUpController = SignUpViewController()
 
-//    logInView?.logInButton?.setBackgroundImage(nil, forState: .Normal)
-//    logInView?.logInButton?.backgroundColor = UIColor.blueColor()
-//    logInView?.signUpButton?.alpha = 0.9
-    
-    
-    
-//    customizeButton(logInView?.facebookButton!)
-//    customizeButton(logInView?.twitterButton!)
-//    customizeButton(logInView?.signUpButton!)
     
     viewsToAnimate = [self.logInView?.usernameField, self.logInView?.passwordField, self.logInView?.logInButton, self.logInView?.passwordForgottenButton, self.logInView?.facebookButton, self.logInView?.twitterButton, self.logInView?.signUpButton, self.logInView?.logo]
 
@@ -67,39 +58,7 @@ class LoginViewController : PFLogInViewController {
     logInView!.logo!.sizeToFit()
     let logoFrame = logInView!.logo!.frame
     logInView!.logo!.frame = CGRectMake(logoFrame.origin.x, logInView!.usernameField!.frame.origin.y - logoFrame.height - 16, logInView!.frame.width,  logoFrame.height)
-    
-//    logInView!.signUpButton?.backgroundColor = UIColor.grayColor();
-    
-    
-    
-//    viewsFinalYPosition = [CGFloat]();
-//    for viewToAnimate in viewsToAnimate {
-//      let currentFrame = viewToAnimate.frame
-//      viewsFinalYPosition.append(currentFrame.origin.y)
-//      viewToAnimate.frame = CGRectMake(currentFrame.origin.x, self.view.frame.height + currentFrame.origin.y, currentFrame.width, currentFrame.height)
-//    }
   }
-
- 
-  
-//  override func viewDidAppear(animated: Bool) {
-//    super.viewDidAppear(animated)
-//    
-//    // Now we'll animate all our views back into view
-//    // and, using the final position we stored, we'll
-//    // reset them to where they should be
-//    if viewsFinalYPosition.count == self.viewsToAnimate.count {
-//      UIView.animateWithDuration(1, delay: 0.0, options: .CurveEaseInOut,  animations: { () -> Void in
-//        for viewToAnimate in self.viewsToAnimate {
-//          let currentFrame = viewToAnimate.frame
-//          viewToAnimate.frame = CGRectMake(currentFrame.origin.x, self.viewsFinalYPosition.removeAtIndex(0), currentFrame.width, currentFrame.height)
-//        }
-//        }, completion: nil)
-//    }
-//  }
-//  
-  
-  
   
 }
 

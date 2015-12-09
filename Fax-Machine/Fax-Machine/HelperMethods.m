@@ -11,21 +11,20 @@
 
 @implementation HelperMethods
 
-+(void)verifyAlertWithMessage:(NSString *)message viewController:(UIViewController *)view
-{
++(void)verifyAlertWithMessage:(NSString *)message{
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showNotice:@"Notice!" subTitle:message closeButtonTitle:@"Okay" duration:0];
 }
 
--(void)parseVerifyEmailWithMessage:(NSString *)message viewController:(UIViewController *)view
+-(void)parseVerifyEmailWithMessage:(NSString *)message
 {
     PFUser *user = [PFUser currentUser];
     if (![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil) {
         [user fetch];
         if(![[user objectForKey:@"emailVerified"] boolValue])
         {
-            [HelperMethods verifyAlertWithMessage:message viewController:view];        }
-        
+            [HelperMethods verifyAlertWithMessage:message];
+        }
     }
 }
 

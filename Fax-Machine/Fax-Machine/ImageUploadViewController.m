@@ -39,7 +39,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *countryTextField;
 @property (weak, nonatomic) IBOutlet UITextField *moodTextField;
 
-
+@property (nonatomic)BOOL isValid;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic, strong) ImageObject *parseImageObject;
 
@@ -106,6 +106,7 @@
   [self.countryTextField resignFirstResponder];
   [self.captionTextBox resignFirstResponder];
   [self.moodTextField resignFirstResponder];
+  [self checkIfEverythingValid];
 }
 
 -(void)keyboardControl:(NSNotification*)notification
@@ -139,12 +140,14 @@
     [alert showWarning:@"Location Is Invalid!" subTitle:@"Please enter a valid location" closeButtonTitle:@"Okay" duration:0];
     self.countryTextField.text = @"";
     self.cityTextField.text = @"";
+  self.doneButton.enabled = NO;
 }
 
 -(void)presentMissingFieldAlert {
     
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"Uho!" subTitle:@"Please fill in empty fields" closeButtonTitle:@"Okay" duration:0];
+  self.doneButton.enabled = NO;
     
 //  UIAlertController *missingField = [UIAlertController alertControllerWithTitle:@"Uho" message:@"Please fill in empty fields" preferredStyle:UIAlertControllerStyleAlert];
 //  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -157,6 +160,7 @@
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"City Is Invalid!" subTitle:@"Please enter a valid city name"closeButtonTitle:@"Okay" duration:0];
     self.cityTextField.text = @"";
+  self.doneButton.enabled = NO;
     
 //    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
 //    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -172,6 +176,7 @@
     [alert showWarning:@"Country Is Invalid!" subTitle:@"Please enter a valid country name"closeButtonTitle:@"Okay" duration:0];
     self.countryTextField.text = @"";
     self.cityTextField.text = @"";
+  self.doneButton.enabled = NO;
     
 //    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
 //    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -184,6 +189,7 @@
 {
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"Caption Needed!" subTitle:@"Please add a caption to your image" closeButtonTitle:@"Okay" duration:0];
+  self.doneButton.enabled = NO;
     
 //    UIAlertController *invalidCaption = [UIAlertController alertControllerWithTitle:@"Please add a caption to your image" message:@"" preferredStyle:UIAlertControllerStyleAlert];
 //    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -195,15 +201,15 @@
 
 -(void)presentInvalidMoodAlert
 {
+
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"Mood Needed!" subTitle:@"Please enter 'exultant', 'somniferous' , 'jubilant', or 'tumultuous'"closeButtonTitle:@"Okay" duration:0];
-
-    
 //  UIAlertController *invalidMood = [UIAlertController alertControllerWithTitle:@"Please add a mood to your image" message:@"P" preferredStyle:UIAlertControllerStyleAlert];
 //  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
 //  [invalidMood addAction:ok];
 //  [self presentViewController:invalidMood animated:YES completion:^{
 //  }];
+  [self checkIfEverythingValid];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -217,6 +223,7 @@
       [self.cityTextField becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
+      [self checkIfEverythingValid];
     }
     
     
@@ -238,25 +245,30 @@
         else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""])
         {
             self.doneButton.enabled = NO;
+          self.isValid = NO;
             [self presentInvalidCityAlert];
         }
         else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""])
         {
             self.doneButton.enabled = NO;
+          self.isValid = NO;
             [self presentInvalidCountryAlert];
         }
         else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""])
         {
             self.doneButton.enabled = NO;
+          self.isValid = NO;
             [self presentInvalidLocationAlert];
         }
         else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && [self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""])
         {
           self.doneButton.enabled = NO;
+          self.isValid = NO;
           [self presentInvalidCaptionAlert];
         }
         else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && [self.moodTextField.text isEqualToString:@""]) {
           self.doneButton.enabled = NO;
+          self.isValid = NO;
           [self presentInvalidMoodAlert];
         }
         else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moods containsObject:self.moodTextField.text])
@@ -268,10 +280,11 @@
         else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || [self.moodTextField.text isEqualToString:@""])
         {
           self.doneButton.enabled = NO;
+          self.isValid = NO;
           [self presentMissingFieldAlert];
         }
         
-        if ([placemarks count] > 0) {
+        if ([placemarks count] > 0 ) {
             CLPlacemark *placemark = [placemarks lastObject];
             NSLog(@"Location is: %@", placemark.location);
             PFGeoPoint *newGeopPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
@@ -282,7 +295,6 @@
                  {
                      self.cityTextField.text = city;
                      self.countryTextField.text = country;
-                     self.doneButton.enabled = YES;
                  }];
             }];
         }
@@ -294,10 +306,65 @@
  *
  *  @param sender UINavigation right bar Done button.
  */
+- (IBAction)textDidEndEditing:(id)sender {
+  [self checkIfEverythingValid];
+}
+
+-(void)checkIfEverythingValid
+{
+  NSString *address = [NSString stringWithFormat:@"%@,%@",self.cityTextField.text,self.countryTextField.text];
+  CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+  [geocoder geocodeAddressString:address completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+    self.isValid = YES;
+    if (error) {
+      NSLog(@"Error: %@", [error localizedDescription]);
+      self.doneButton.enabled = NO;
+      return;
+    } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
+      self.isValid = NO;
+    } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
+      self.isValid = NO;
+    } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
+      self.isValid = NO;
+
+    } else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && [self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
+      self.isValid = NO;
+    }  else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && [self.moodTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
+      self.isValid = NO;
+    }  else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || [self.moodTextField.text isEqualToString:@""]) {
+      self.doneButton.enabled = NO;
+      self.isValid = NO;
+    } else {
+      self.doneButton.enabled = NO;
+    }
+  
+  if ([placemarks count] > 0 && self.isValid) {
+    CLPlacemark *placemark = [placemarks lastObject];
+    NSLog(@"Location is: %@", placemark.location);
+    PFGeoPoint *newGeopPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
+    NSMutableDictionary *dictionary = [@{@"location":placemark.location, @"date":[NSDate date]}mutableCopy];
+    [LocationData getCityAndDateFromDictionary:dictionary withCompletion:^(NSString *city, NSString *country, NSDate *date, BOOL success) {
+      self.location = [[Location alloc]initWithCity:city country:country geoPoint:newGeopPoint dateTaken:date];
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^
+       {
+         self.cityTextField.text = city;
+         self.countryTextField.text = country;
+         self.doneButton.enabled = YES;
+       }];
+    }];
+  }
+}];
+}
+
 
 
 - (IBAction)finishedImageSelect:(id)sender {
-    
+  
     NSLog(@"done");
     UIImage *image = self.selectedImage;
     NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
@@ -336,7 +403,8 @@
         NSLog(@"upload completed!");
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
               [MBProgressHUD hideHUDForView:self.view animated:YES];
-              [self dismissViewControllerAnimated:YES completion:nil];
+            [self performSegueWithIdentifier:@"collectionView" sender:self];
+
           }];
       }];
     }else{

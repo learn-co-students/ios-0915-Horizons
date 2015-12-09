@@ -22,5 +22,6 @@
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic, strong) RESideMenu *sideMenu;
 @property (nonatomic) BOOL *isFollowers;
+@property (nonatomic, strong) NSString *uhoString;
 
 @end

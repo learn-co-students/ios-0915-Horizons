@@ -16,6 +16,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="KXe-b0-FLk">
+                            <rect key="frame" x="0.0" y="212" width="414" height="523"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="noun_30295" translatesAutoresizingMaskIntoConstraints="NO" id="7hT-St-3Y0">
+                                    <rect key="frame" x="170" y="21" width="74" height="55"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="55" id="2Iz-XJ-2nb"/>
+                                        <constraint firstAttribute="width" constant="74" id="8ae-0a-xEP"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Uho, it looks like you aren't following anyone yet!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gK0-1B-C0Z">
+                                    <rect key="frame" x="22" y="84" width="370" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="gK0-1B-C0Z" firstAttribute="top" secondItem="7hT-St-3Y0" secondAttribute="bottom" constant="8" id="1Pg-uC-knU"/>
+                                <constraint firstItem="7hT-St-3Y0" firstAttribute="centerX" secondItem="KXe-b0-FLk" secondAttribute="centerX" id="M20-bD-l3E"/>
+                                <constraint firstItem="gK0-1B-C0Z" firstAttribute="centerX" secondItem="KXe-b0-FLk" secondAttribute="centerX" id="S7U-yy-ZNu"/>
+                                <constraint firstItem="gK0-1B-C0Z" firstAttribute="centerY" secondItem="KXe-b0-FLk" secondAttribute="centerY" id="mQ9-Nx-tBM"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="owner" rowHeight="120" id="xds-AT-rPm" customClass="FollowingListTableViewCell">
                                 <rect key="frame" x="0.0" y="92" width="414" height="120"/>
@@ -49,14 +75,14 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Numbers on images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u6W-gx-Oat">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Numbers on images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u6W-gx-Oat">
                                                     <rect key="frame" x="0.0" y="66" width="153" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Total of likes from all images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OGl-EY-4F5">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total of likes from all images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OGl-EY-4F5">
                                                     <rect key="frame" x="0.0" y="99" width="217" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -107,6 +133,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="uhoLabel" destination="gK0-1B-C0Z" id="lL9-Ff-pZ6"/>
+                        <outlet property="uhoView" destination="KXe-b0-FLk" id="GmR-0T-Y3A"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2GD-C6-cww" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -133,4 +163,7 @@
             <point key="canvasLocation" x="614" y="350"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="noun_30295" width="1200" height="1200"/>
+    </resources>
 </document>

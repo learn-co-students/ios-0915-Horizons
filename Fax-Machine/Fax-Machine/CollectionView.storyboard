@@ -88,7 +88,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1Wn-Ta-JuL">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uho, It looks like you don't have any yet!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPS-oI-Mzv">
+                                <rect key="frame" x="35" y="323" width="306" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noun_30295" translatesAutoresizingMaskIntoConstraints="NO" id="2B8-LK-thy">
+                                <rect key="frame" x="136" y="224" width="103" height="63"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="103" id="GsK-8m-utu"/>
+                                    <constraint firstAttribute="height" constant="63" id="WCV-gd-ayY"/>
+                                </constraints>
+                            </imageView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1Wn-Ta-JuL">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <animations/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="jO7-Ex-Wvb">
@@ -99,7 +112,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="11J-Tx-dsr" customClass="imagesCustomCell">
-                                        <rect key="frame" x="0.0" y="64" width="186" height="138"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="186" height="138"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="186" height="138"/>
@@ -109,15 +122,15 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="186" height="138"/>
                                                     <animations/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfb-f6-p4j">
-                                                    <rect key="frame" x="136" y="118" width="42" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfb-f6-p4j">
+                                                    <rect key="frame" x="136" y="117" width="42" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VUE-j6-8Xo">
-                                                    <rect key="frame" x="136" y="94" width="42" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VUE-j6-8Xo">
+                                                    <rect key="frame" x="136" y="96" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -154,10 +167,14 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="2B8-LK-thy" firstAttribute="top" secondItem="JPS-oI-Mzv" secondAttribute="bottom" constant="-120" id="4f4-eb-QN4"/>
                             <constraint firstItem="1Wn-Ta-JuL" firstAttribute="centerY" secondItem="2Dp-Hh-bDO" secondAttribute="centerY" id="7w5-YL-lTo"/>
                             <constraint firstItem="1Wn-Ta-JuL" firstAttribute="height" secondItem="2Dp-Hh-bDO" secondAttribute="height" id="Fxn-7Q-N7O"/>
+                            <constraint firstItem="JPS-oI-Mzv" firstAttribute="centerY" secondItem="2Dp-Hh-bDO" secondAttribute="centerY" id="Nw7-Ik-L92"/>
+                            <constraint firstItem="JPS-oI-Mzv" firstAttribute="centerX" secondItem="2Dp-Hh-bDO" secondAttribute="centerX" id="VSU-dj-u8w"/>
                             <constraint firstItem="1Wn-Ta-JuL" firstAttribute="centerX" secondItem="2Dp-Hh-bDO" secondAttribute="centerX" id="cQB-LQ-uFo"/>
                             <constraint firstItem="1Wn-Ta-JuL" firstAttribute="width" secondItem="2Dp-Hh-bDO" secondAttribute="width" id="csf-g0-d39"/>
+                            <constraint firstItem="2B8-LK-thy" firstAttribute="centerX" secondItem="2Dp-Hh-bDO" secondAttribute="centerX" id="qjK-TZ-60I"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PHOTOS" id="uft-fL-Rwk">
@@ -178,7 +195,9 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>
+                        <outlet property="frowningFace" destination="2B8-LK-thy" id="545-yX-cQt"/>
                         <outlet property="imagesCollectionViewController" destination="1Wn-Ta-JuL" id="nhK-Nj-gtf"/>
+                        <outlet property="nothingToShowLabel" destination="JPS-oI-Mzv" id="IYE-6b-5Ef"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E0N-x6-rBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -278,7 +297,7 @@
                                     <constraint firstAttribute="bottom" secondItem="3pK-ja-PEG" secondAttribute="bottom" constant="8" id="x2h-1x-Wqa"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.84999999999999998" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouH-tn-wzb">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.90000000000000002" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouH-tn-wzb">
                                 <rect key="frame" x="-3" y="442" width="381" height="44"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -330,10 +349,7 @@
                         <outlet property="commentCountLable" destination="XVl-8H-Chq" id="ilB-9i-aLi"/>
                         <outlet property="commentSectionView" destination="G2h-4Y-Fzt" id="ZJR-Wy-wPA"/>
                         <outlet property="commentTextField" destination="3pK-ja-PEG" id="QYW-Lw-FL5"/>
-
-                        <outlet property="downloadButton" destination="sbD-ZO-Dcr" id="Z6P-oJ-rYm"/>
                         <outlet property="imageDescriptionLabel" destination="ouH-tn-wzb" id="nKx-D0-Q9v"/>
-
                         <outlet property="imageDetails" destination="sIw-31-7nT" id="jDz-sa-p5h"/>
                         <outlet property="imageViewTopConstraint" destination="fug-JZ-ZkR" id="jIh-j0-ez2"/>
                         <outlet property="likeButton" destination="zZT-UH-2Iv" id="c8g-zg-71u"/>
@@ -449,7 +465,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HDr-OS-RUq">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HDr-OS-RUq">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -562,6 +578,9 @@
             <point key="canvasLocation" x="4307" y="804"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="noun_30295" width="1200" height="1200"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="IQz-sr-TJA"/>
     </inferredMetricsTieBreakers>

@@ -138,6 +138,7 @@
                         imageViewVC.isFavorite = NO;
                         imageViewVC.isFollowing = NO;
                         imageViewVC.isFiltered = NO;
+                      imageViewVC.imagesCount = self.store.userPictures.count;
                         [self.sideMenuViewController setContentViewController:navController];
                         
                     }];
@@ -162,6 +163,7 @@
                         imageViewVC.isUserImageVC = NO;
                         imageViewVC.isFollowing = NO;
                         imageViewVC.isFiltered = NO;
+                        imageViewVC.imagesCount = self.store.favoriteImages.count;
                         [self.sideMenuViewController setContentViewController:navController];
                     }];
                 }
@@ -173,6 +175,7 @@
             UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
             
             FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
+                    desVC.uhoString= @"Uho, \n it looks like you're not following \n anyone yet!";
             navController = [[UINavigationController alloc] initWithRootViewController:desVC];
             navController.navigationBar.shadowImage = [UIImage new];
             navController.navigationBar.translucent = YES;
@@ -188,7 +191,9 @@
                     imageViewVC.isUserImageVC = NO;
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
+                    imageViewVC.imagesCount = self.store.followingList.count;
                     //                    [self presentViewController:navController animated:YES completion:nil];
+                    
                     [self.sideMenuViewController setContentViewController:navController];
 
                   }];
@@ -201,6 +206,7 @@
             UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
             
             FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
+          desVC.uhoString= @"Uho, \n it looks like nobody is following \n you yet!";
             navController = [[UINavigationController alloc] initWithRootViewController:desVC];
             navController.navigationBar.shadowImage = [UIImage new];
             navController.navigationBar.translucent = YES;
@@ -216,6 +222,8 @@
                     imageViewVC.isUserImageVC = NO;
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
+                    imageViewVC.imagesCount = self.store.followerList.count;
+
 //                    [self presentViewController:navController animated:YES completion:nil];
                     [self.sideMenuViewController setContentViewController:navController];
 

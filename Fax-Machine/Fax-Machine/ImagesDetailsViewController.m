@@ -53,7 +53,9 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
-    
+  self.commentTextField.delegate = self;
+  UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
+  [self.view addGestureRecognizer:tap];
     //self.view.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
 
@@ -75,7 +77,8 @@
 
   self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@",self.image.title];
   self.imageDescriptionLabel.editable = YES;
-  self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
+  self.imageDescriptionLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+  self.imageDescriptionLabel.font = [UIFont boldSystemFontOfSize:17];
   self.imageDescriptionLabel.textColor = [UIColor whiteColor];
   self.imageDescriptionLabel.editable = NO;
   
@@ -138,6 +141,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
+}
+-(void)dismissKeyboard
+{
+  [self.commentTextField resignFirstResponder];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

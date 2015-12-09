@@ -28,6 +28,7 @@
 @property (nonatomic) NSUInteger followerCount;
 @property (nonatomic, strong) NSMutableArray *followerList;
 
+
 + (instancetype)sharedDataStore;
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
 

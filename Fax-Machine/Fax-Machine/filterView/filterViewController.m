@@ -57,16 +57,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 3;
@@ -178,28 +168,6 @@
     }
 }
 
-//-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-//{
-//
-//    if (component == 0)
-//    {
-//        NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
-//        return arrayOfCountries[row];
-//    }
-//    else if (component == 1)
-//    {
-//        NSMutableArray *arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
-//        return arrayOfCities[row];
-//    }
-//    else
-//    {
-//        NSMutableArray *arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
-//        return arrayOfMoods[row];
-//    }
-//    
-//    return nil;
-//}
-
 -(NSMutableArray *)gettingAnArrayOfCountries:(NSArray *)arrayOfPFObjects
 {
     NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
@@ -216,7 +184,6 @@
 
 -(NSMutableArray *)gettingAnArrayOfCitiesWithMatchingCountry:(NSArray *)arrayOfPFObjects
 {
-//    [self.filterPicker reloadComponent:1];
     [self gettingChosenCountry:self.filterPicker];
     NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"country = %@", self.chosenCountry];
@@ -306,28 +273,23 @@
     NSDictionary *filterParameters = @{
                                        @"country" : sortedArrayOfCountries[countrySelection],
                                        @"city" : sortedArrayOfCities[citySelection],
+
                                        @"mood" : arrayOfMoods[moodSelection]
-                                       };
+                                       } mutableCopy];
     
     [self.filtering removeAllObjects];
-    
-    self.filtering = [filterParameters mutableCopy];
-
     [self.dataStore.filteredImageList removeAllObjects];
     
     Location *locationForPredicate = [[Location alloc] init];
     locationForPredicate.city = sortedArrayOfCities[citySelection];
     locationForPredicate.country = sortedArrayOfCountries[countrySelection];
     
-    NSString *mood = filterParameters[@"mood"];
-    if ([mood isEqualToString:@"Default Mood"]) {
-        mood = @"";
+    if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"]) {
+        filterParameters[@"mood"] = @"";
     }
     
-    self.dataStore.filterDictionary = self.filtering;
-
-    [self.delegate filterImageWithDictionary:[filterParameters mutableCopy]
-                                    withMood:mood
+    self.filtering = [filterParameters mutableCopy];
+    [self.delegate filterImageWithDictionary:filterParameters
                                  andLocation:locationForPredicate];
     
 }

@@ -33,6 +33,7 @@
 		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
+		B71C73A61C18C05300489FA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B71C73A51C18C05300489FA2 /* Settings.bundle */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
 		B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */; };
 		B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57D1C17748000E73BAB /* CommentTableViewCell.m */; };
@@ -41,8 +42,6 @@
 		B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426F1BFCD2490068B249 /* ImagesCustomCell.m */; };
 		B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B79E42811BFD39110068B249 /* Selma-Notes.rtf */; };
 		B7D3E2B31BFEA4E200E28028 /* ImagesDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3E2B21BFEA4E200E28028 /* ImagesDetailsViewController.m */; };
-		B7D3E2B61BFEBEBF00E28028 /* UsersCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3E2B51BFEBEBF00E28028 /* UsersCommentsViewController.m */; };
-		B7D3E2B91BFECACB00E28028 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3E2B81BFECACB00E28028 /* SearchViewController.m */; };
 		E2116C9C1C15EE940056D061 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2116C9B1C15EE940056D061 /* APIConstants.m */; };
 		E24802F81BFD16AA005AB1D5 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E24802F71BFD16AA005AB1D5 /* DataStore.m */; };
 		E24802FB1BFD3062005AB1D5 /* AWSUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E24802FA1BFD3062005AB1D5 /* AWSUploadManager.m */; };
@@ -54,7 +53,6 @@
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E262C0021BFCE1FB00C81C53 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E262C0001BFCE1FB00C81C53 /* ImageUpload.storyboard */; };
 		E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */; };
-		E2F6A9C31C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +103,7 @@
 		89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
+		B71C73A51C18C05300489FA2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 		B781F57C1C17748000E73BAB /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
@@ -118,10 +117,6 @@
 		B79E42811BFD39110068B249 /* Selma-Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Selma-Notes.rtf"; sourceTree = "<group>"; };
 		B7D3E2B11BFEA4E200E28028 /* ImagesDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesDetailsViewController.h; sourceTree = "<group>"; };
 		B7D3E2B21BFEA4E200E28028 /* ImagesDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesDetailsViewController.m; sourceTree = "<group>"; };
-		B7D3E2B41BFEBEBF00E28028 /* UsersCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UsersCommentsViewController.h; path = ../UsersCommentsViewController.h; sourceTree = "<group>"; };
-		B7D3E2B51BFEBEBF00E28028 /* UsersCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UsersCommentsViewController.m; path = ../UsersCommentsViewController.m; sourceTree = "<group>"; };
-		B7D3E2B71BFECACB00E28028 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = ../SearchViewController.h; sourceTree = "<group>"; };
-		B7D3E2B81BFECACB00E28028 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = ../SearchViewController.m; sourceTree = "<group>"; };
 		C01A12ADED23683384E43AB7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2116C9B1C15EE940056D061 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIConstants.m; path = ../APIConstants.m; sourceTree = "<group>"; };
 		E24802F61BFD16AA005AB1D5 /* DataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStore.h; sourceTree = "<group>"; };
@@ -144,8 +139,6 @@
 		E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSDownloadManager.m; sourceTree = "<group>"; };
 		E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseUploadViewController.h; sourceTree = "<group>"; };
 		E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseUploadViewController.m; sourceTree = "<group>"; };
-		E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPhotosCollectionViewController.h; sourceTree = "<group>"; };
-		E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPhotosCollectionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,8 +238,7 @@
 		766FC1791BFBA81000C4140E /* Fax-Machine */ = {
 			isa = PBXGroup;
 			children = (
-				B76D0E311BFF8D04002056A2 /* TempSearchView */,
-				B76D0E301BFF8CB8002056A2 /* UserCommentsView */,
+				B71C73A51C18C05300489FA2 /* Settings.bundle */,
 				B76D0E2F1BFF8C3E002056A2 /* CollectionView */,
 				B76D0E241BFF7BDF002056A2 /* Base.lproj */,
 				761E1EB91BFD808F00BD5375 /* Helper */,
@@ -317,8 +309,6 @@
 				E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */,
 				8965CA671C050ED100E37A30 /* filterViewController.h */,
 				8965CA681C050ED100E37A30 /* filterViewController.m */,
-				E2F6A9C11C0CAAA8003BCEBE /* UserPhotosCollectionViewController.h */,
-				E2F6A9C21C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m */,
 				766FC1911BFBABC000C4140E /* ImageUploadViewController.h */,
 				766FC1921BFBABC000C4140E /* ImageUploadViewController.m */,
 				76C7AD1B1C02A2AA00038FA2 /* SideMenuControllers */,
@@ -356,32 +346,6 @@
 				B781F57D1C17748000E73BAB /* CommentTableViewCell.m */,
 			);
 			name = CollectionView;
-			sourceTree = "<group>";
-		};
-		B76D0E301BFF8CB8002056A2 /* UserCommentsView */ = {
-			isa = PBXGroup;
-			children = (
-				B76D0E321BFF8E9F002056A2 /* CustomTextInput */,
-				B7D3E2B41BFEBEBF00E28028 /* UsersCommentsViewController.h */,
-				B7D3E2B51BFEBEBF00E28028 /* UsersCommentsViewController.m */,
-			);
-			name = UserCommentsView;
-			sourceTree = "<group>";
-		};
-		B76D0E311BFF8D04002056A2 /* TempSearchView */ = {
-			isa = PBXGroup;
-			children = (
-				B7D3E2B71BFECACB00E28028 /* SearchViewController.h */,
-				B7D3E2B81BFECACB00E28028 /* SearchViewController.m */,
-			);
-			name = TempSearchView;
-			sourceTree = "<group>";
-		};
-		B76D0E321BFF8E9F002056A2 /* CustomTextInput */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = CustomTextInput;
 			sourceTree = "<group>";
 		};
 		BAEC0807D792F9B4F1CE4A46 /* Pods */ = {
@@ -442,7 +406,7 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 3P65N5866H;
+						DevelopmentTeam = GQ6DHHL68B;
 					};
 				};
 			};
@@ -471,6 +435,7 @@
 			files = (
 				766FC18A1BFBA81000C4140E /* (null) in Resources */,
 				8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */,
+				B71C73A61C18C05300489FA2 /* Settings.bundle in Resources */,
 				B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */,
 				B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
@@ -545,14 +510,12 @@
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
 				761E1EC11BFF6CC800BD5375 /* LeftMenuViewController.m in Sources */,
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
-				B7D3E2B61BFEBEBF00E28028 /* UsersCommentsViewController.m in Sources */,
 				B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */,
 				8965CA691C050ED100E37A30 /* filterViewController.m in Sources */,
 				76AF83991C13E79A00326535 /* FollowingListTableViewController.m in Sources */,
 				76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */,
 				B7D3E2B31BFEA4E200E28028 /* ImagesDetailsViewController.m in Sources */,
 				B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */,
-				B7D3E2B91BFECACB00E28028 /* SearchViewController.m in Sources */,
 				E24802FB1BFD3062005AB1D5 /* AWSUploadManager.m in Sources */,
 				E24803041BFE2993005AB1D5 /* SignUpViewController.m in Sources */,
 				E24802F81BFD16AA005AB1D5 /* DataStore.m in Sources */,
@@ -569,7 +532,6 @@
 				761E1EAA1BFD2B2D00BD5375 /* Comment.m in Sources */,
 				761E1EB71BFD320F00BD5375 /* ImageObject.m in Sources */,
 				761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */,
-				E2F6A9C31C0CAAA8003BCEBE /* UserPhotosCollectionViewController.m in Sources */,
 				E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */,
 				761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */,
 			);

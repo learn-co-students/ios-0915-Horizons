@@ -30,22 +30,11 @@
 @property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic) NSInteger isConnected;
-@property (nonatomic, strong) UIView *filterView;
+@property (weak, nonatomic) IBOutlet UIView *scrollTopView;
 
 @end
 
 @implementation ImagesViewController
-
--(instancetype)init{
-    self = [super init];
-    if (self) {
-        _isFavorite = NO;
-        _isFiltered = NO;
-        _isFirstTime = NO;
-        _isFollowing = NO;
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -107,19 +96,13 @@
         }];
     }
     
-//    self.filterView = [[UIView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height, self.view.frame.size.width, 55)];
-//    self.filterView.backgroundColor = [UIColor whiteColor];
-//    UIButton *filterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [filterButton setTitle:@"Filter" forState:UIControlStateNormal];
-//    [filterButton addTarget:self action:@selector(filterTapped:) forControlEvents:UIControlEventTouchUpInside];
-//    [filterButton sizeToFit];
-//    filterButton.backgroundColor = [UIColor lightGrayColor];
-//    filterButton.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.view addSubview:self.filterView];
-//    [self.filterView addSubview: filterButton];
-//    [filterButton.topAnchor constraintEqualToAnchor:self.filterView.topAnchor constant:5].active = YES;
-//    [filterButton.leadingAnchor constraintEqualToAnchor:self.filterView.leadingAnchor constant:5].active = YES;
-//    self.filterView.hidden = YES;
+    self.scrollTopView.backgroundColor = [UIColor clearColor];
+    self.navigationController.navigationItem.title = @"Home";
+
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navTapped:)];
+    tapGesture.numberOfTapsRequired = 1;
+    [self.scrollTopView addGestureRecognizer:tapGesture];
+    self.scrollTopView.userInteractionEnabled = YES;
     
     if ([FBSDKAccessToken currentAccessToken]) {
         [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
@@ -181,11 +164,6 @@
             NSLog(@"profile picture: %@ %@",imageData,image);
         });
     });
-}
-
-
--(IBAction)filterTapped:(id)sender{
-    NSLog(@"Filter tapped!");
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -294,15 +272,12 @@
     return 0;
 }
 
+-(IBAction)navTapped:(id)sender{
+    NSLog(@"navTapped@");
+    [self.imagesCollectionViewController setContentOffset:CGPointMake(0, -self.imagesCollectionViewController.contentInset.top) animated:YES];
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    
-    
-//    if (scrollView.contentOffset.y < 0) {
-//        self.filterView.hidden = NO;
-//        //[self.imagesCollectionViewController.topAnchor constraintEqualToAnchor:self.filterView.bottomAnchor].active = YES;
-//    }else{
-//        self.filterView.hidden = YES;
-//    }
     
     [UIView animateWithDuration:0.25 animations:^{
         if (velocity.y <= -4) {

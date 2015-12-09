@@ -84,7 +84,7 @@
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
     
     if (!self.isFiltered && !self.isFirstTime) {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!" viewController:self];
+        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!"];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
         [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {

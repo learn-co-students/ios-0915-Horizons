@@ -243,7 +243,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="62"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="B2H-Fg-Amm" id="i8c-yU-KFM">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="99" contentMode="left" horizontalHuggingPriority="751" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wS-FC-Jak">
@@ -301,9 +301,15 @@
                                             <action selector="socialSharing:" destination="WTS-eO-ffq" id="nb2-FK-b3Z"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Item" id="V36-v3-ddS">
+                                    <barButtonItem title="follow" id="V36-v3-ddS">
                                         <connections>
                                             <action selector="followUser:" destination="WTS-eO-ffq" id="3qc-Pn-S6Q"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="GeG-Cu-hV9"/>
+                                    <barButtonItem title="report" id="91E-2M-ndj">
+                                        <connections>
+                                            <action selector="reportTapped:" destination="WTS-eO-ffq" id="u1D-sO-lNc"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -404,8 +410,9 @@
                         <outlet property="navigationItem" destination="T57-XQ-34R" id="2by-J7-h5I"/>
                         <outlet property="ownerFollow" destination="V36-v3-ddS" id="86r-OJ-ayW"/>
                         <outlet property="postButton" destination="aXq-66-OLZ" id="H30-UD-i0V"/>
+                        <outlet property="reportButton" destination="91E-2M-ndj" id="gVb-bV-X8k"/>
                         <outlet property="socialSharing" destination="sbD-ZO-Dcr" id="eFO-Nl-hIw"/>
-                        <outlet property="toolBar" destination="KUJ-3U-oXB" id="GIw-dM-Lpv"/>
+                        <outlet property="toolBar" destination="KUJ-3U-oXB" id="sWa-N7-g7x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LDe-C9-s28" userLabel="First Responder" sceneMemberID="firstResponder"/>

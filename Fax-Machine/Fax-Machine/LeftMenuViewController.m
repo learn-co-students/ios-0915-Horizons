@@ -97,7 +97,7 @@
             PFObject *user = PFUser.currentUser;
             if(![[user objectForKey:@"emailVerified"] boolValue])
             {
-                [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!" viewController:self];
+                [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
                 NSLog(@"It is not verified!");
             }else{
                 [self.sideMenuViewController hideMenuViewController];

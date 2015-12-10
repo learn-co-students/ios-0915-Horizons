@@ -47,16 +47,18 @@
             if (self.isConnected == -1) {
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                 [alert showSuccess:@"Network is connected!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
-                self.isConnected = 1;
+                self.isConnected = 0;
             }
         }];
     };
     
     reach.unreachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.isConnected = -1;
-            SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-            [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+            if (!self.isConnected) {
+                self.isConnected = -1;
+                SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+            }
         }];
     };
     [reach startNotifier];

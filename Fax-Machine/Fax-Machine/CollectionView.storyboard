@@ -88,21 +88,6 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uho, It looks like you don't have any yet!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPS-oI-Mzv">
-                                <rect key="frame" x="35.5" y="291.5" width="305.5" height="20.5"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noun_30295" translatesAutoresizingMaskIntoConstraints="NO" id="2B8-LK-thy">
-                                <rect key="frame" x="136" y="192" width="103" height="63"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="103" id="GsK-8m-utu"/>
-                                    <constraint firstAttribute="height" constant="63" id="WCV-gd-ayY"/>
-                                </constraints>
-                            </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1Wn-Ta-JuL">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <animations/>
@@ -124,17 +109,15 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="186" height="138"/>
                                                     <animations/>
                                                 </imageView>
-
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfb-f6-p4j">
-                                                    <rect key="frame" x="136" y="117" width="42" height="20.5"/>
+                                                    <rect key="frame" x="136" y="117" width="42" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VUE-j6-8Xo">
-                                                    <rect key="frame" x="136" y="97" width="42" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VUE-j6-8Xo">
+                                                    <rect key="frame" x="136" y="97" width="42" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -168,18 +151,31 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Uho, It looks like you don't have any yet!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPS-oI-Mzv">
+                                <rect key="frame" x="36" y="292" width="306" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4tU-qd-oGZ">
+                                <rect key="frame" x="166" y="238" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2B8-LK-thy" firstAttribute="top" secondItem="JPS-oI-Mzv" secondAttribute="bottom" constant="-120" id="4f4-eb-QN4"/>
                             <constraint firstItem="1Wn-Ta-JuL" firstAttribute="centerY" secondItem="2Dp-Hh-bDO" secondAttribute="centerY" id="7w5-YL-lTo"/>
                             <constraint firstItem="1Wn-Ta-JuL" firstAttribute="height" secondItem="2Dp-Hh-bDO" secondAttribute="height" id="Fxn-7Q-N7O"/>
                             <constraint firstItem="JPS-oI-Mzv" firstAttribute="centerY" secondItem="2Dp-Hh-bDO" secondAttribute="centerY" id="Nw7-Ik-L92"/>
+                            <constraint firstItem="JPS-oI-Mzv" firstAttribute="top" secondItem="4tU-qd-oGZ" secondAttribute="bottom" constant="33" id="Oud-uf-e7n"/>
                             <constraint firstItem="JPS-oI-Mzv" firstAttribute="centerX" secondItem="2Dp-Hh-bDO" secondAttribute="centerX" id="VSU-dj-u8w"/>
                             <constraint firstItem="1Wn-Ta-JuL" firstAttribute="centerX" secondItem="2Dp-Hh-bDO" secondAttribute="centerX" id="cQB-LQ-uFo"/>
                             <constraint firstItem="1Wn-Ta-JuL" firstAttribute="width" secondItem="2Dp-Hh-bDO" secondAttribute="width" id="csf-g0-d39"/>
-                            <constraint firstItem="2B8-LK-thy" firstAttribute="centerX" secondItem="2Dp-Hh-bDO" secondAttribute="centerX" id="qjK-TZ-60I"/>
+                            <constraint firstItem="4tU-qd-oGZ" firstAttribute="centerX" secondItem="1Wn-Ta-JuL" secondAttribute="centerX" id="rgC-dQ-Vk9"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -192,11 +188,11 @@
                             </connections>
                         </barButtonItem>
                         <view key="titleView" clipsSubviews="YES" contentMode="scaleToFill" id="xNJ-tI-wJI">
-                            <rect key="frame" x="62.5" y="5.5" width="250" height="33"/>
+                            <rect key="frame" x="63" y="6" width="250" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utj-Xq-EMq">
-                                    <rect key="frame" x="98" y="6.5" width="54" height="20.5"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Photos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utj-Xq-EMq">
+                                    <rect key="frame" x="98" y="7" width="54" height="21"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -222,7 +218,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>
-                        <outlet property="frowningFace" destination="2B8-LK-thy" id="545-yX-cQt"/>
+                        <outlet property="frowningFace" destination="4tU-qd-oGZ" id="76l-ve-f4W"/>
                         <outlet property="imagesCollectionViewController" destination="1Wn-Ta-JuL" id="nhK-Nj-gtf"/>
                         <outlet property="nothingToShowLabel" destination="JPS-oI-Mzv" id="IYE-6b-5Ef"/>
                         <outlet property="scrollTopView" destination="xNJ-tI-wJI" id="Bl5-ko-NWT"/>
@@ -666,11 +662,7 @@
             </objects>
             <point key="canvasLocation" x="4307" y="804"/>
         </scene>
-
     </scenes>
-    <resources>
-        <image name="noun_30295" width="1200" height="1200"/>
-    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="IQz-sr-TJA"/>
     </inferredMetricsTieBreakers>

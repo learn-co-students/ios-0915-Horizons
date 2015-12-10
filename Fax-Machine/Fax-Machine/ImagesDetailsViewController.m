@@ -64,7 +64,7 @@
     self.belowPictureTableView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
     self.belowPictureTableView.estimatedRowHeight = 100;
     self.belowPictureTableView.rowHeight = UITableViewAutomaticDimension;
-    //self.belowPictureTableView.backgroundColor = [UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:0.95];
+
     self.belowPictureTableView.opaque = NO;
     self.belowPictureTableView.separatorColor = [UIColor clearColor];
     self.belowPictureTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -109,14 +109,12 @@
     
     if (filteredResult.count) {
         self.liked = YES;
-        //NSLog(@"Liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
 
     }else{
         self.liked = NO;
-        //NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartOIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
@@ -190,7 +188,6 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.usernameLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
 
-    //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
 
     PFUser *user = comment[@"owner"];
@@ -213,14 +210,13 @@
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can like!"];
     }else{
         if (!self.liked) {
             self.liked = YES;
             [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
-                NSLog(@"Testing!!!");
                 FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
                 self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
                 
@@ -233,7 +229,7 @@
 
 - (IBAction)socialSharing:(id)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can share!"];
     }else{
@@ -249,7 +245,7 @@
 
 - (IBAction)followUser:(id)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can follow!"];
     }else{
@@ -332,10 +328,8 @@
     CGRect keyboardFrame;
     CGFloat imageTopConstant = 0;
     if ([notifcatiion.name isEqualToString:UIKeyboardWillHideNotification]) {
-        NSLog(@"KEYBOARD WILL HDIE!!");
         keyboardFrame = CGRectZero;
     } else {
-        NSLog(@"Keybaord NOT hiding")   ;
         imageTopConstant = -(self.view.frame.size.height/2);
         keyboardFrame = [notifcatiion.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     }

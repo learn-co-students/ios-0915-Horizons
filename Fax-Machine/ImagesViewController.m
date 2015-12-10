@@ -27,8 +27,8 @@
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
 @property (nonatomic) CGFloat scrollOffset;
 @property (weak, nonatomic) IBOutlet UILabel *nothingToShowLabel;
+@property (weak, nonatomic) IBOutlet UILabel *frowningFace;
 
-@property (weak, nonatomic) IBOutlet UIImageView *frowningFace;
 @property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic) NSInteger isConnected;
@@ -95,7 +95,10 @@
     }
     
     self.scrollTopView.backgroundColor = [UIColor clearColor];
-
+  
+    FAKIcon *frown =  [FAKFontAwesome frownOIconWithSize:40];
+    self.frowningFace.attributedText = [frown attributedString];
+  
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navTapped:)];
     tapGesture.numberOfTapsRequired = 1;
     [self.scrollTopView addGestureRecognizer:tapGesture];
@@ -106,11 +109,7 @@
          
          startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
              if (!error) {
-                 NSLog(@"fetched user:%@", result);
-                 
-                 
-                 NSLog(@"result name:%@", result[@"name"]);
-                 NSLog(@"_________");
+ 
                  NSString *username = result[@"name"];
                  [[PFUser currentUser] setUsername:username];
                  [[PFUser currentUser]saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
@@ -123,7 +122,6 @@
                  
                  NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
                  NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
-                 NSLog(@"filepath %@", filePath);
                  NSData *imageData = [NSData dataWithContentsOfURL:url];
                  [imageData writeToFile:filePath atomically:YES];
                  AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
@@ -131,8 +129,7 @@
                  uploadRequest.key = fileName;
                  uploadRequest.contentType = @"image/png";
                  uploadRequest.bucket = @"fissamplebucket";
-                 NSLog(@"Profile picture uploadRequest: %@", uploadRequest);
-                 
+               
                  [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
                      NSLog(@"Profile picture upload completed!");
                      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -143,7 +140,6 @@
          }];
         
     } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
-        NSLog(@"twitter:%@",[PFTwitterUtils twitter].screenName);
         NSString *username  = [PFTwitterUtils twitter].screenName;
         [[PFUser currentUser] setUsername:username];
     }
@@ -165,7 +161,6 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    //self.isFiltered = NO;
     self.navigationController.navigationBarHidden = NO;
     [self.imagesCollectionViewController reloadData];
 }
@@ -281,18 +276,16 @@
     }
     
     
-    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
     NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
-    
+  FAKIcon *heartIcon = [FAKFontAwesome heartIconWithSize:20];
+  
     cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️%@ 💬%lu",  parseImage.likes, (unsigned long)parseImage.comments.count];
     cell.placeLabel.text = location;
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-        //        if (from == YYWebImageFromDiskCache) {
-        //            NSLog(@"From Cache!");
-        //        }
+
     }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
@@ -326,15 +319,18 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
         if (velocity.y <= -4) {
             self.navigationController.navigationBarHidden = NO;
             *targetContentOffset = CGPointMake(0, 0);
             self.scrollOffset = scrollView.contentOffset.y;
-        }else if (scrollView.contentOffset.y <= 0){
+        }else if (velocity.y < 0 && velocity.y > -4){
+          self.navigationController.navigationBarHidden = NO;
+        }
+        else if (scrollView.contentOffset.y <= 0){
             self.navigationController.navigationBarHidden = NO;
             self.scrollOffset = scrollView.contentOffset.y;
-        }else if (fabs(velocity.y) >= 0.5) {
+        }else if (fabs(velocity.y) >= 0.85) {
             self.navigationController.navigationBarHidden = YES;
             self.scrollOffset = scrollView.contentOffset.y;
         }else if (scrollView.contentOffset.y < self.scrollOffset){
@@ -348,7 +344,6 @@
         [self.view layoutIfNeeded];
     }];
     
-    //NSLog(@"Filter params: %@", self.filterParameters);
     if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 700) > scrollView.contentSize.height) {
         if(self.isFiltered){
             Location *location = [[Location alloc] init];

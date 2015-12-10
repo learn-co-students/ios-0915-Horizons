@@ -145,11 +145,7 @@
     [alert showWarning:@"Uho!" subTitle:@"Please fill in empty fields" closeButtonTitle:@"Okay" duration:0];
   self.doneButton.enabled = NO;
     
-//  UIAlertController *missingField = [UIAlertController alertControllerWithTitle:@"Uho" message:@"Please fill in empty fields" preferredStyle:UIAlertControllerStyleAlert];
-//  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//  [missingField addAction:ok];
-//  [self presentViewController:missingField animated:YES completion:^{
-//  }];
+
 }
 -(void)presentInvalidCityAlert {
     
@@ -157,13 +153,7 @@
     [alert showWarning:@"City Is Invalid!" subTitle:@"Please enter a valid city name"closeButtonTitle:@"Okay" duration:0];
     self.cityTextField.text = @"";
   self.doneButton.enabled = NO;
-    
-//    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"City Is Invalid" message:@"Please enter a valid city name" preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//    [invalidLocation addAction:ok];
-//    [self presentViewController:invalidLocation animated:YES completion:^{
-//        self.cityTextField.text = @"";
-//    }];
+  
 }
 
 
@@ -173,26 +163,14 @@
     self.countryTextField.text = @"";
     self.cityTextField.text = @"";
   self.doneButton.enabled = NO;
-    
-//    UIAlertController *invalidLocation = [UIAlertController alertControllerWithTitle:@"Country Is Invalid" message:@"Please enter a valid country name" preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//    [invalidLocation addAction:ok];
-//    [self presentViewController:invalidLocation animated:YES completion:^{
-//        self.countryTextField.text = @"";
-//    }];
+  
 }
 -(void)presentInvalidCaptionAlert
 {
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"Caption Needed!" subTitle:@"Please add a caption to your image" closeButtonTitle:@"Okay" duration:0];
   self.doneButton.enabled = NO;
-    
-//    UIAlertController *invalidCaption = [UIAlertController alertControllerWithTitle:@"Please add a caption to your image" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//    [invalidCaption addAction:ok];
-//    [self presentViewController:invalidCaption animated:YES completion:^{
-//    }];
-    
+  
 }
 
 -(void)presentInvalidMoodAlert
@@ -200,17 +178,12 @@
 
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"Mood Needed!" subTitle:@"Please add a mood to your image"closeButtonTitle:@"Okay" duration:0];
-//  UIAlertController *invalidMood = [UIAlertController alertControllerWithTitle:@"Please add a mood to your image" message:@"P" preferredStyle:UIAlertControllerStyleAlert];
-//  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//  [invalidMood addAction:ok];
-//  [self presentViewController:invalidMood animated:YES completion:^{
-//  }];
+
   [self checkIfEverythingValid];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
-    //    [textField resignFirstResponder];
-    
+  
     if ([textField isEqual:self.cityTextField]) {
         [self.countryTextField becomeFirstResponder];
     } else if ([textField isEqual:self.countryTextField]) {
@@ -344,16 +317,11 @@
     NSLog(@"done");
     UIImage *image = self.selectedImage;
     NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
-    NSLog(@"filename: %@", fileName);
-    
     [self resignFirstResponder];
-    //For creating image object for Parse
 
     self.parseImageObject = [[ImageObject alloc] initWithTitle:self.captionTextBox.text imageID:fileName mood:self.moodTextField.text location:self.location];
     [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
     if (complete) {
-      NSLog(@"Parse upload completed!");
-      //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
       NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
       NSLog(@"filepath %@", filePath);
       
@@ -365,10 +333,7 @@
       uploadRequest.body = [NSURL fileURLWithPath:filePath];
       uploadRequest.key = fileName;
       uploadRequest.contentType = @"image/png";
-      //          [uploadRequest setValue:@"image/png" forKey:@"Content-Type"];
-      NSLog(@"poolID: %@",POOL_ID);
       uploadRequest.bucket = @"fissamplebucket";
-      NSLog(@"uploadRequest: %@", uploadRequest);
       
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -408,10 +373,9 @@
     UIGraphicsEndImageContext();
     
     //Upload thumbnail image to Amazon
-    //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
+
     NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-thumbnail.tmp"];
-    NSLog(@"filepath %@", filePath);
-    
+  
     NSData * imageData = UIImagePNGRepresentation(newImage);
     
     [imageData writeToFile:filePath atomically:YES];
@@ -420,11 +384,8 @@
     uploadRequest.body = [NSURL fileURLWithPath:filePath];
     uploadRequest.key = fileName;
     uploadRequest.contentType = @"image/png";
-    //          [uploadRequest setValue:@"image/png" forKey:@"Content-Type"];
-    NSLog(@"poolID: %@",POOL_ID);
     uploadRequest.bucket = @"fissamplebucket";
-    NSLog(@"thumbnail uploadRequest: %@", uploadRequest);
-    
+  
     [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
         NSLog(@"Thumbnail upload completed!");
     }];

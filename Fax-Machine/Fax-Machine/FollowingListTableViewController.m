@@ -13,6 +13,7 @@
 @property (nonatomic, strong) ImagesViewController *imageVC;
 @property (weak, nonatomic) IBOutlet UIView *uhoView;
 @property (weak, nonatomic) IBOutlet UILabel *uhoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *frownFace;
 
 @end
 
@@ -34,7 +35,8 @@
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
   
   self.uhoLabel.text = self.uhoString;
-  
+  FAKIcon *frown = [FAKFontAwesome frownOIconWithSize:40];
+  self.frownFace.attributedText = [frown attributedString];
   
   NSArray *array = [[NSArray alloc]init];
   [array sortedArrayUsingSelector:@selector(ascending)];
@@ -44,7 +46,6 @@
 }
 
 - (IBAction)displayMenu:(id)sender {
-    NSLog(@"Menu tapped");
     [self.sideMenuViewController presentLeftMenuViewController];
 }
 
@@ -105,7 +106,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    //NSLog(@"Predicate: %@", self.followingList[indexPath.row]);
     [self.dataStore.followingOwnerImageList removeAllObjects];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"owner = %@", self.followingList[indexPath.row]];
     
@@ -113,52 +113,23 @@
     navController.navigationBar.shadowImage = [UIImage new];
     navController.navigationBar.translucent = YES;
     navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    //NSLog(@"Indexpath: %lu", indexPath.row);
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.dataStore downloadPicturesToDisplay:100 predicate:predicate WithCompletion:^(BOOL complete) {
         //[self presentViewController:imageVC animated:YES completion:nil];
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            //NSLog(@"Returned images: %lu", self.dataStore.followingOwnerImageList.count);
             self.imageVC.isFollowing = complete;
             [self.sideMenu hideMenuViewController];
             [self.sideMenu setContentViewController:navController];
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
     }];
+
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 138;
 }
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

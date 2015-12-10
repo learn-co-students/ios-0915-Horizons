@@ -95,7 +95,6 @@
             if(![[user objectForKey:@"emailVerified"] boolValue] && [user objectForKey:@"email"]!=nil)
             {
                 [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
-                NSLog(@"It is not verified!");
             }else{
                 [self.sideMenuViewController hideMenuViewController];
                 imageViewVC.isFavorite = NO;
@@ -210,8 +209,6 @@
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
                     imageViewVC.imagesCount = self.store.followerList.count;
-
-//                    [self presentViewController:navController animated:YES completion:nil];
                     [self.sideMenuViewController setContentViewController:navController];
 
                   }];
@@ -260,7 +257,6 @@
              
              startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
                  if (!error) {
-                     NSLog(@"fetched user:%@", result);
                      facebookUrl = result[@"picture"][@"data"][@"url"];
                      
                  }
@@ -292,14 +288,11 @@
         if (self.selectedImage){
             ourImageView.image = self.selectedImage;
         }
-        //        else if ([FBSDKAccessToken currentAccessToken]) {
-        //
-        //        }
+
         else{
             NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
             NSURL *profileUrl = [NSURL URLWithString:urlString];
             [ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
-            //NSLog(@"profile url: %@",profileUrl);
         }
         
         return cell;
@@ -384,12 +377,7 @@
 }
 
 #pragma mark - UIImage picker protocols
-/**
- *  Handling the image after selection is performed.
- *
- *  @param picker The image picker
- *  @param info   Info of the selected image
- */
+
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     //Below section is for face detection in image with Core Image.
@@ -398,8 +386,7 @@
     [picker dismissViewControllerAnimated:YES completion:^{
         NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
         NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
-        NSLog(@"filepath %@", filePath);
-        
+      
         NSData * imageData = UIImagePNGRepresentation(self.selectedImage);
         
         [imageData writeToFile:filePath atomically:YES];
@@ -409,10 +396,8 @@
         uploadRequest.key = fileName;
         uploadRequest.contentType = @"image/png";
         uploadRequest.bucket = @"fissamplebucket";
-        NSLog(@"Profile picture uploadRequest: %@", uploadRequest);
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
-            NSLog(@"Profile picture upload completed!");
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
             }];

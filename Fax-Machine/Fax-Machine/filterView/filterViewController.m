@@ -26,7 +26,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mountains_hd"]];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]]];
     UIPickerView *filterPicker = [[UIPickerView alloc] init];
     PFQuery *query = [PFQuery queryWithClassName:@"Location"];
@@ -38,8 +37,7 @@
     self.moodArrayFromQuery = moodsArray;
     self.arrayFromQuery = queryArray;
     
-    //need to set it up
-    
+  
     _filterPicker.delegate = self;
     _filterPicker.dataSource = self;
     
@@ -61,9 +59,7 @@
 {
     return 3;
 }
-//number of rows for each component is dependent on the previous filter...First is an array of countries
-//second is the cities in selected country
-//third will be moods, which is a pre-defined array
+
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     

@@ -30,8 +30,10 @@
 @property (nonatomic, strong)NSMutableArray *countriesArray;
 @property (nonatomic, strong)UITableView *autocompleteTableView;
 @property (nonatomic, strong)NSMutableArray *autocompleteCountries;
+@property (nonatomic, strong)NSArray *moods;
 
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
+
 
 @property (weak, nonatomic) IBOutlet UITextField *cityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *countryTextField;
@@ -76,6 +78,8 @@
     self.moodTextField.text = self.mood;
     self.imageHolderView.image = self.selectedImage;
   self.captionTextBox.text = self.caption;
+    self.moods = @[@"exultant", @"sleepy", @"jubilant", @"tumultuous", @"sad"];
+    
     
     if (!self.country || !self.city || !self.mood || !self.caption) {
         self.doneButton.enabled = NO;
@@ -102,7 +106,7 @@
   [self.countryTextField resignFirstResponder];
   [self.captionTextBox resignFirstResponder];
   [self.moodTextField resignFirstResponder];
-  [self checkIfEverythingValid];
+  //[self checkIfEverythingValid];
 }
 
 -(void)keyboardControl:(NSNotification*)notification
@@ -177,9 +181,9 @@
 {
 
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-    [alert showWarning:@"Mood Needed!" subTitle:@"Please add a mood to your image"closeButtonTitle:@"Okay" duration:0];
 
-  [self checkIfEverythingValid];
+    [alert showWarning:@"Mood Needed!" subTitle:@"Please enter 'exultant', 'somniferous' , 'jubilant', or 'tumultuous'"closeButtonTitle:@"Okay" duration:0];
+
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -192,42 +196,94 @@
       [self.cityTextField becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
-      [self checkIfEverythingValid];
+      //[self checkIfEverythingValid];
     }
     
     
     return YES;
 }
 
+- (IBAction)uploadTextFieldDetection:(UITextField *)sender {
+    NSLog(@"\n!!!!!!!!!!: %@", sender.text);
+    if (!sender.text.length || [sender.text isEqualToString:@" "]) {
+        self.doneButton.enabled = NO;
+    }else{
+        //[self checkIfEverythingValid];self.isValid = YES;
+        if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+            
+        } else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && [self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        }  else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && [self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        }  else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || [self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        } else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || ![self.moods containsObject:self.moodTextField.text]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        }else {
+            self.doneButton.enabled = NO;
+        }
+    }
+}
+
 - (IBAction)countryEditingDidEnd:(id)sender {
     NSString *address = [NSString stringWithFormat:@"%@,%@",self.cityTextField.text,self.countryTextField.text];
     CLGeocoder *geocoder = [[CLGeocoder alloc]init];
     [geocoder geocodeAddressString:address completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        if (error) {
+        if (error)
+        {
             NSLog(@"Error: %@", [error localizedDescription]);
             [self presentInvalidLocationAlert];
             return;
-        } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+        }
+        else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""])
+        {
             self.doneButton.enabled = NO;
           self.isValid = NO;
             [self presentInvalidCityAlert];
-        } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+        }
+        else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""])
+        {
             self.doneButton.enabled = NO;
           self.isValid = NO;
             [self presentInvalidCountryAlert];
-        } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+        }
+        else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""])
+        {
             self.doneButton.enabled = NO;
           self.isValid = NO;
             [self presentInvalidLocationAlert];
-        } else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && [self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+        }
+        else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && [self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""])
+        {
           self.doneButton.enabled = NO;
           self.isValid = NO;
           [self presentInvalidCaptionAlert];
-        }  else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && [self.moodTextField.text isEqualToString:@""]) {
+        }
+        else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && [self.moodTextField.text isEqualToString:@""]) {
           self.doneButton.enabled = NO;
           self.isValid = NO;
           [self presentInvalidMoodAlert];
-        }  else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || [self.moodTextField.text isEqualToString:@""]) {
+        }
+        else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moods containsObject:self.moodTextField.text])
+        {
+            self.doneButton.enabled = NO;
+            [self presentInvalidMoodAlert];
+        
+        }
+        else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || [self.moodTextField.text isEqualToString:@""])
+        {
           self.doneButton.enabled = NO;
           self.isValid = NO;
           [self presentMissingFieldAlert];
@@ -256,10 +312,10 @@
  *  @param sender UINavigation right bar Done button.
  */
 - (IBAction)textDidEndEditing:(id)sender {
-  [self checkIfEverythingValid];
+    [self checkIfEverythingValid:sender];
 }
 
--(void)checkIfEverythingValid
+-(void)checkIfEverythingValid:(UITextField *)currentTextField
 {
   NSString *address = [NSString stringWithFormat:@"%@,%@",self.cityTextField.text,self.countryTextField.text];
   CLGeocoder *geocoder = [[CLGeocoder alloc]init];
@@ -267,6 +323,10 @@
     self.isValid = YES;
     if (error) {
       NSLog(@"Error: %@", [error localizedDescription]);
+        if ([currentTextField isEqual: self.countryTextField]) {
+            SCLAlertView *alert = [SCLAlertView new];
+            [alert showError:self title:@"Invalid Location!" subTitle:@"The city and country combination is incorrect" closeButtonTitle:@"Okay" duration:0];
+        }
       self.doneButton.enabled = NO;
       return;
     } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
@@ -288,7 +348,10 @@
     }  else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || [self.moodTextField.text isEqualToString:@""]) {
       self.doneButton.enabled = NO;
       self.isValid = NO;
-    } else {
+    } else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || ![self.moods containsObject:self.moodTextField.text]) {
+        self.doneButton.enabled = NO;
+        self.isValid = NO;
+    }else {
       self.doneButton.enabled = NO;
     }
   
@@ -426,6 +489,12 @@
 }
 
 -(BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
+//AutoFill to encourage user types in OUR Moods
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
     return YES;
 }
 @end

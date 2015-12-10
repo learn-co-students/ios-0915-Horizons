@@ -20,6 +20,7 @@
 #import <FCCurrentLocationGeocoder/FCCurrentLocationGeocoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIImage+fixOrientation.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 
 
@@ -171,8 +172,9 @@
                       {
                           [[NSOperationQueue mainQueue] addOperationWithBlock:^
                            {
-                               NSString *weatherOfImage = weather[@"currently"][@"summary"];
-                               self.mood = weatherOfImage;
+                               NSString *weatherOfImage = [weather[@"currently"][@"summary"] capitalizedString];
+                               [self convertingWeatherToMood:weatherOfImage];
+//                               self.mood = weatherOfImage;
                                self.country = self.location.country;
                                self.city = self.location.city;
                                self.hasAllMetadata = YES;
@@ -206,7 +208,11 @@
                               [[NSOperationQueue mainQueue] addOperationWithBlock:^
                                {
                                    NSString *weatherOfImage = weather[@"currently"][@"summary"];
-                                   self.mood = weatherOfImage;
+                                   
+                                   //self.mood = weatherOfImage;
+                                   
+                                   //self.mood is modified in convertingWeatherToMood method
+                                   [self convertingWeatherToMood:[weatherOfImage capitalizedString]];
                                    self.country = self.location.country;
                                    self.city = self.location.city;
                                    self.location.weather = weather;
@@ -231,12 +237,35 @@
 }
 
 -(void)invalidImageAlert{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invliad Image"
-                                                                   message:@"Sorry, but selfies are prohibited!"
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okay = [UIAlertAction actionWithTitle:@"okay" style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:okay];
-    [self presentViewController:alert animated:YES completion:nil];
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
+    [alert showWarning:self title:@"Invalid Image" subTitle:@"Sorry, but selfies are prohibited!" closeButtonTitle:@"Okay" duration:0];
 }
-
+-(void)convertingWeatherToMood:(NSString *)weather
+{
+    NSArray *moodArray = @[@"exultant", @"sleepy", @"jubilant", @"tumultuous", @"sad"];
+    if (([weather containsString:@"Clear"]) || ([weather containsString:@"Sunny"]))
+    {
+        self.mood = @"exultant";
+    }
+    else if (([weather containsString:@"Overcast"]) || ([weather containsString:@"Fog"])|| ([weather containsString:@"Cloudy"]))
+    {
+        self.mood = @"sleepy";
+    }
+    else if (([weather containsString:@"Rain"]))
+    {
+        self.mood = @"sad";
+    }
+    else if (([weather containsString:@"Snow"]))
+    {
+        self.mood = @"jubilant";
+    }
+    else if (([weather containsString:@"Thunderstorm"] || [weather containsString:@"Storm"]) || ([weather containsString:@"Heavy"]))
+    {
+        self.mood = @"tumultuous";
+    }
+    else
+    {
+        self.mood = nil;
+    }
+}
 @end

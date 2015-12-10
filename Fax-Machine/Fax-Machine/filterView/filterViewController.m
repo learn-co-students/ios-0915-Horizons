@@ -93,10 +93,13 @@
            viewForRow:(NSInteger)row
          forComponent:(NSInteger)component
           reusingView:(UIView *)view
+
 {
+    
     if (component == 0)
     {
         NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
+        NSArray *sortedArrayOfCountries = [arrayOfCountries sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         UILabel *pickerLabel = (UILabel *)view;
         
         if (pickerLabel == nil)
@@ -105,18 +108,19 @@
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
             [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
-            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:12]];
             
             pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
             pickerLabel.numberOfLines = 2;
             
         }
-        [pickerLabel setText:arrayOfCountries[row]];
+        [pickerLabel setText:sortedArrayOfCountries[row]];
          return pickerLabel;
     }
     else if (component == 1)
     {
         NSMutableArray *arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+        NSArray *sortedArrayOfCities = [arrayOfCities sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         UILabel *pickerLabel = (UILabel *)view;
         
         if (pickerLabel == nil)
@@ -125,13 +129,13 @@
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
             [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
-            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:12]];
             
             pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
             pickerLabel.numberOfLines = 2;
             
         }
-        [pickerLabel setText:arrayOfCities[row]];
+        [pickerLabel setText:sortedArrayOfCities[row]];
         return pickerLabel;
     }
     else if (component == 2)
@@ -145,7 +149,7 @@
             pickerLabel = [[UILabel alloc] initWithFrame:frame];
             [pickerLabel setTextAlignment:NSTextAlignmentLeft];
             [pickerLabel setBackgroundColor:[UIColor clearColor]];
-            [pickerLabel setFont:[UIFont boldSystemFontOfSize:15]];
+            [pickerLabel setFont:[UIFont boldSystemFontOfSize:12]];
             
             pickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
             pickerLabel.numberOfLines = 2;
@@ -195,6 +199,7 @@
 -(NSMutableArray *)gettingAnArrayOfMoods:(NSArray *)arrayOfPFObjects
 {
     NSMutableArray *arrayOfMoods = [[NSMutableArray alloc] init];
+    [arrayOfMoods addObject: @"Default Mood"];
     for (PFObject *object in arrayOfPFObjects)
     {
         NSString *moodOfObject = object[@"mood"];
@@ -217,7 +222,8 @@
 {
     NSInteger selectedRowForCountry = [pickerView selectedRowInComponent:0];
     NSMutableArray *arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
-    self.chosenCountry = arrayOfCountries[selectedRowForCountry];
+    NSArray *sortedArrayOfCountries = [arrayOfCountries sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    self.chosenCountry = sortedArrayOfCountries[selectedRowForCountry];
 }
 
 -(void)setupPickerView:(UIPickerView *)pickerView
@@ -252,7 +258,9 @@
     
     arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
     arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
+    NSArray *sortedArrayOfCountries = [arrayOfCountries sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+    NSArray *sortedArrayOfCities = [arrayOfCities sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
     NSInteger countrySelection = [self.filterPicker selectedRowInComponent:0];
     NSInteger citySelection = [self.filterPicker selectedRowInComponent:1];
@@ -260,8 +268,9 @@
     
     
     NSMutableDictionary *filterParameters = [@{
-                                       @"country" : arrayOfCountries[countrySelection],
-                                       @"city" : arrayOfCities[citySelection],
+                                       @"country" : sortedArrayOfCountries[countrySelection],
+                                       @"city" : sortedArrayOfCities[citySelection],
+
                                        @"mood" : arrayOfMoods[moodSelection]
                                        } mutableCopy];
     
@@ -269,11 +278,13 @@
     [self.dataStore.filteredImageList removeAllObjects];
     
     Location *locationForPredicate = [[Location alloc] init];
-    locationForPredicate.city = arrayOfCities[citySelection];
-    locationForPredicate.country = arrayOfCountries[countrySelection];
+    locationForPredicate.city = sortedArrayOfCities[citySelection];
+    locationForPredicate.country = sortedArrayOfCountries[countrySelection];
     
-    if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"]) {
-        filterParameters[@"mood"] = @"";
+    if ([filterParameters[@"mood"] isEqualToString:@"Default Mood"])
+    {
+        [filterParameters setObject:@"" forKey:@"mood"];
+        
     }
     
     self.filtering = [filterParameters mutableCopy];

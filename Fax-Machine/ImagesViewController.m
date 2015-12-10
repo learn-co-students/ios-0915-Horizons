@@ -47,16 +47,18 @@
             if (self.isConnected == -1) {
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                 [alert showSuccess:@"Network is connected!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
-                self.isConnected = 1;
+                self.isConnected = 0;
             }
         }];
     };
     
     reach.unreachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.isConnected = -1;
-            SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-            [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+            if (!self.isConnected) {
+                self.isConnected = -1;
+                SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+            }
         }];
     };
     [reach startNotifier];
@@ -315,6 +317,14 @@
 -(IBAction)navTapped:(id)sender{
     //-self.imagesCollectionViewController.contentInset.top
     [self.imagesCollectionViewController setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y <= -scrollView.contentInset.top) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.navigationController.navigationBarHidden = NO;
+        }];
+    }
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {

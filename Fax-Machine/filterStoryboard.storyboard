@@ -27,6 +27,11 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="JTc-MS-qQs" secondAttribute="height" multiplier="600:211" id="eci-Jx-dIb"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="eci-Jx-dIb"/>
+                                    </mask>
+                                </variation>
                             </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G0o-tx-KWO">
                                 <rect key="frame" x="266" y="392" width="67" height="30"/>

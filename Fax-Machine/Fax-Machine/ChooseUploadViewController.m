@@ -20,6 +20,7 @@
 #import <FCCurrentLocationGeocoder/FCCurrentLocationGeocoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIImage+fixOrientation.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 
 
@@ -253,12 +254,8 @@
 }
 
 -(void)invalidImageAlert{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Image"
-                                                                   message:@"Sorry, but selfies are prohibited!"
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okay = [UIAlertAction actionWithTitle:@"okay" style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:okay];
-    [self presentViewController:alert animated:YES completion:nil];
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
+    [alert showWarning:self title:@"Invalid Image" subTitle:@"Sorry, but selfies are prohibited!" closeButtonTitle:@"Okay" duration:0];
 }
 -(void)convertingWeatherToMood:(NSString *)weather
 {

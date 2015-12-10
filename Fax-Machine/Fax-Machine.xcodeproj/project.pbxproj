@@ -34,6 +34,7 @@
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
 		B71C73A61C18C05300489FA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B71C73A51C18C05300489FA2 /* Settings.bundle */; };
+		B71C73B01C1A422500489FA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B71C73AE1C1A422500489FA2 /* LaunchScreen.storyboard */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
 		B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */; };
 		B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57D1C17748000E73BAB /* CommentTableViewCell.m */; };
@@ -104,6 +105,7 @@
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
 		B71C73A51C18C05300489FA2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		B71C73AF1C1A422500489FA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 		B781F57C1C17748000E73BAB /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 		766FC1941BFBB36500C4140E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				B71C73AE1C1A422500489FA2 /* LaunchScreen.storyboard */,
 				76B41C861C1A1E9700D55490 /* ImageUpload.storyboard */,
 				8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */,
 				B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */,
@@ -440,6 +443,7 @@
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
 				76AF83931C13E25B00326535 /* following.storyboard in Resources */,
+				B71C73B01C1A422500489FA2 /* LaunchScreen.storyboard in Resources */,
 				B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -536,6 +540,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B71C73AE1C1A422500489FA2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B71C73AF1C1A422500489FA2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		766FC18C1BFBA81000C4140E /* Debug */ = {

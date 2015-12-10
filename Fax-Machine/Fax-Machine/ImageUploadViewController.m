@@ -106,7 +106,7 @@
   [self.countryTextField resignFirstResponder];
   [self.captionTextBox resignFirstResponder];
   [self.moodTextField resignFirstResponder];
-  [self checkIfEverythingValid];
+  //[self checkIfEverythingValid];
 }
 
 -(void)keyboardControl:(NSNotification*)notification
@@ -209,7 +209,7 @@
 //  [invalidMood addAction:ok];
 //  [self presentViewController:invalidMood animated:YES completion:^{
 //  }];
-  [self checkIfEverythingValid];
+  //[self checkIfEverythingValid];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -223,14 +223,46 @@
       [self.cityTextField becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
-      [self checkIfEverythingValid];
+      //[self checkIfEverythingValid];
     }
     
     
     return YES;
 }
 
-
+- (IBAction)uploadTextFieldDetection:(UITextField *)sender {
+    NSLog(@"\n!!!!!!!!!!: %@", sender.text);
+    if (!sender.text.length || [sender.text isEqualToString:@" "]) {
+        self.doneButton.enabled = NO;
+    }else{
+        //[self checkIfEverythingValid];self.isValid = YES;
+        if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        } else if ([self.countryTextField.text isEqualToString:@""] && ![self.cityTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        } else if ([self.cityTextField.text isEqualToString:@""] && [self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+            
+        } else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && [self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        }  else if (![self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && [self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        }  else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || [self.moodTextField.text isEqualToString:@""]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        } else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || ![self.moods containsObject:self.moodTextField.text]) {
+            self.doneButton.enabled = NO;
+            self.isValid = NO;
+        }else {
+            self.doneButton.enabled = NO;
+        }
+    }
+}
 
 - (IBAction)countryEditingDidEnd:(id)sender {
     NSString *address = [NSString stringWithFormat:@"%@,%@",self.cityTextField.text,self.countryTextField.text];
@@ -307,10 +339,10 @@
  *  @param sender UINavigation right bar Done button.
  */
 - (IBAction)textDidEndEditing:(id)sender {
-  [self checkIfEverythingValid];
+    [self checkIfEverythingValid:sender];
 }
 
--(void)checkIfEverythingValid
+-(void)checkIfEverythingValid:(UITextField *)currentTextField
 {
   NSString *address = [NSString stringWithFormat:@"%@,%@",self.cityTextField.text,self.countryTextField.text];
   CLGeocoder *geocoder = [[CLGeocoder alloc]init];
@@ -318,6 +350,10 @@
     self.isValid = YES;
     if (error) {
       NSLog(@"Error: %@", [error localizedDescription]);
+        if ([currentTextField isEqual: self.countryTextField]) {
+            SCLAlertView *alert = [SCLAlertView new];
+            [alert showError:self title:@"Invalid Location!" subTitle:@"The city and country combination is incorrect" closeButtonTitle:@"Okay" duration:0];
+        }
       self.doneButton.enabled = NO;
       return;
     } else if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {

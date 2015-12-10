@@ -33,6 +33,7 @@
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic) NSInteger isConnected;
 @property (weak, nonatomic) IBOutlet UIView *scrollTopView;
+@property (nonatomic) BOOL isFetching;
 
 @end
 
@@ -47,16 +48,18 @@
             if (self.isConnected == -1) {
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                 [alert showSuccess:@"Network is connected!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
-                self.isConnected = 1;
+                self.isConnected = 0;
             }
         }];
     };
     
     reach.unreachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.isConnected = -1;
-            SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-            [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+            if (!self.isConnected) {
+                self.isConnected = -1;
+                SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+            }
         }];
     };
     [reach startNotifier];
@@ -85,8 +88,8 @@
         [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!"];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
-        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-            if (complete) {
+        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+            if (success) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.imagesCollectionViewController reloadData];
                 }];
@@ -324,6 +327,14 @@
     [self.imagesCollectionViewController setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y <= -scrollView.contentInset.top) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.navigationController.navigationBarHidden = NO;
+        }];
+    }
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
     [UIView animateWithDuration:0.25 animations:^{
@@ -348,38 +359,51 @@
         [self.view layoutIfNeeded];
     }];
     
-    //NSLog(@"Filter params: %@", self.filterParameters);
-    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 700) > scrollView.contentSize.height) {
+    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*3) > scrollView.contentSize.height) {
         if(self.isFiltered){
             Location *location = [[Location alloc] init];
             location.city = self.filterParameters[@"city"];
             location.country = self.filterParameters[@"country"];
-            [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
-                                                  andLocation:location
-                                               numberOfImages:12
-                                               WithCompletion:^(BOOL complete){
-                                                   if (complete)
-                                                   {
-                                                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                                           [self.imagesCollectionViewController reloadData];
-                                                       }];
-                                                   }else
-                                                   {
-                                                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                                           [self.imagesCollectionViewController reloadData];
-                                                           SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-                                                           [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
-                                                       }];
-                                                   }
-                                               }];
+            if (!self.isFetching) {
+                self.isFetching = YES;
+                [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
+                                                      andLocation:location
+                                                   numberOfImages:12
+                                                   WithCompletion:^(BOOL success, BOOL complete){
+                                                       if (success)
+                                                       {
+                                                           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                               [self.imagesCollectionViewController reloadData];
+                                                           }];
+                                                       }else
+                                                       {
+                                                           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                               [self.imagesCollectionViewController reloadData];
+                                                               SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                                                               [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
+                                                           }];
+                                                       }
+                                                       
+                                                       if (complete) {
+                                                           self.isFetching = NO;
+                                                       }
+                                                   }];
+            }
         }else{
-            [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-                if (complete) {
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        [self.imagesCollectionViewController reloadData];
-                    }];
-                }
-            }];
+            if (!self.isFetching) {
+                self.isFetching = YES;
+                [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+                    if (success) {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            [self.imagesCollectionViewController reloadData];
+                        }];
+                    }
+                    
+                    if(allImagesComplete) {
+                        self.isFetching = NO;
+                    }
+                }];
+            }
         }
     }
 }
@@ -392,8 +416,8 @@
     [self.dataStore downloadPicturesToDisplayWithMood:filterDict[@"mood"]
                                           andLocation:location
                                        numberOfImages:12
-                                       WithCompletion:^(BOOL complete){
-         if (complete)
+                                       WithCompletion:^(BOOL success, BOOL complete){
+         if (success)
          {
              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                  [self.imagesCollectionViewController reloadData];

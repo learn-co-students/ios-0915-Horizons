@@ -326,6 +326,14 @@
     [self.imagesCollectionViewController setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y <= -scrollView.contentInset.top) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.navigationController.navigationBarHidden = NO;
+        }];
+    }
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
     [UIView animateWithDuration:0.25 animations:^{

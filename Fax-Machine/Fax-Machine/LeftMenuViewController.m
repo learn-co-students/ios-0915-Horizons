@@ -211,7 +211,6 @@
                     imageViewVC.isFiltered = NO;
                     imageViewVC.imagesCount = self.store.followerList.count;
 
-//                    [self presentViewController:navController animated:YES completion:nil];
                     [self.sideMenuViewController setContentViewController:navController];
 
                   }];

@@ -29,13 +29,13 @@
                                     <constraint firstAttribute="width" secondItem="JTc-MS-qQs" secondAttribute="height" multiplier="600:211" id="eci-Jx-dIb"/>
                                 </constraints>
                             </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G0o-tx-KWO">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G0o-tx-KWO">
                                 <rect key="frame" x="266" y="392" width="67" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.15469549450851838" green="0.38118203235075221" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1rL-6y-rdA"/>
                                     <constraint firstAttribute="width" constant="67" id="fks-UL-P1e"/>
-                                    <constraint firstAttribute="height" constant="30" id="zKd-s6-rv3"/>
                                 </constraints>
                                 <state key="normal" title="Filter"/>
                                 <connections>

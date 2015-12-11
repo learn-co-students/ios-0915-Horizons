@@ -7,6 +7,7 @@
 //
 
 #import "FollowingListTableViewController.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 
 @interface FollowingListTableViewController ()
 
@@ -103,28 +104,30 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.imageVC.isConnected == -1) {
+        SCLAlertView *disconnectionAlert = [[SCLAlertView alloc] initWithNewWindow];
+        [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+    }else{
+        [self.dataStore.followingOwnerImageList removeAllObjects];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"owner = %@", self.followingList[indexPath.row]];
+        
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.imageVC];
+        navController.navigationBar.shadowImage = [UIImage new];
+        navController.navigationBar.translucent = YES;
+        navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 
-    //NSLog(@"Predicate: %@", self.followingList[indexPath.row]);
-    [self.dataStore.followingOwnerImageList removeAllObjects];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"owner = %@", self.followingList[indexPath.row]];
-    
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.imageVC];
-    navController.navigationBar.shadowImage = [UIImage new];
-    navController.navigationBar.translucent = YES;
-    navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    //NSLog(@"Indexpath: %lu", indexPath.row);
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.dataStore downloadPicturesToDisplay:100 predicate:predicate WithCompletion:^(BOOL complete) {
-        //[self presentViewController:imageVC animated:YES completion:nil];
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            //NSLog(@"Returned images: %lu", self.dataStore.followingOwnerImageList.count);
-            self.imageVC.isFollowing = complete;
-            [self.sideMenu hideMenuViewController];
-            [self.sideMenu setContentViewController:navController];
-            [self dismissViewControllerAnimated:YES completion:nil];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self.dataStore downloadPicturesToDisplay:100 predicate:predicate WithCompletion:^(BOOL complete) {
+
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                self.imageVC.isFollowing = complete;
+                [self.sideMenu hideMenuViewController];
+                [self.sideMenu setContentViewController:navController];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
         }];
-    }];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

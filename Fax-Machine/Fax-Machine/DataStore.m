@@ -276,10 +276,17 @@
 }
 
 -(void)logoutWithSuccess:(void (^)(BOOL))success{
-    [PFUser logOut];
-    PFUser *currentUser = [PFUser currentUser];
-    [currentUser saveInBackground];
-    success(YES);
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        if (error.code == 100) {
+            success(NO);
+        }else if(!error) {
+            PFUser *currentUser = [PFUser currentUser];
+            [currentUser saveInBackground];
+            success(YES);
+        }else{
+            NSLog(@"Logout Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 -(void)fetchUserImagesWithCompletion:(void(^)(BOOL complete))completionBlock

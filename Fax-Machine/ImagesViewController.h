@@ -24,6 +24,7 @@
 @property (nonatomic) BOOL isFollowing;
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic)NSUInteger imagesCount;
+@property (nonatomic, readonly) NSInteger isConnected;
 
 
 -(void)filteringImagesCountryLevel:(NSDictionary *)filterParameters;

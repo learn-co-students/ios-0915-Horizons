@@ -21,6 +21,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIImage+fixOrientation.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
+#import "ImagesViewController.h"
 
 
 
@@ -46,6 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     self.imagePickerController = [UIImagePickerController new];
   [[self.savedPhotosButton layer] setBorderWidth:1.0f];
@@ -72,22 +74,34 @@
  }
  */
 - (IBAction)takePhotoButtonTapped:(id)sender {
-    //Setting the pickerDelegate and allow editting.
-    self.imagePickerController.delegate = self;
-    self.imagePickerController.allowsEditing = NO;
-    
-    //Setting the source of the image as type Camera.-
-    self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    self.isImageFromPicker = NO;
-    [self presentViewController:self.imagePickerController animated:YES completion:nil];
+    ImagesViewController *imageVC = [DataStore sharedDataStore].controllers[0];
+    if (imageVC.isConnected == -1) {
+        SCLAlertView *disconnectionAlert = [[SCLAlertView alloc] initWithNewWindow];
+        [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+    }else{
+        //Setting the pickerDelegate and allow editting.
+        self.imagePickerController.delegate = self;
+        self.imagePickerController.allowsEditing = NO;
+        
+        //Setting the source of the image as type Camera.-
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.isImageFromPicker = NO;
+        [self presentViewController:self.imagePickerController animated:YES completion:nil];
+    }
 }
 - (IBAction)uploadPhotoButtonTapped:(id)sender {
-    self.imagePickerController.delegate = self;
-    self.imagePickerController.allowsEditing = NO;
-    self.isImageFromPicker = YES;
-    //Setting the source type as Photo library
-    self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    [self presentViewController:self.imagePickerController animated:YES completion:nil];
+    ImagesViewController *imageVC = [DataStore sharedDataStore].controllers[0];
+    if (imageVC.isConnected == -1) {
+        SCLAlertView *disconnectionAlert = [[SCLAlertView alloc] initWithNewWindow];
+        [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+    }else{
+        self.imagePickerController.delegate = self;
+        self.imagePickerController.allowsEditing = NO;
+        self.isImageFromPicker = YES;
+        //Setting the source type as Photo library
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:nil];
+    }
 }
 - (IBAction)cancelButtonTapped:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:NO completion:nil];

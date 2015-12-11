@@ -64,10 +64,15 @@
     UIStoryboard *uploadImage = [UIStoryboard storyboardWithName:@"ImageUpload" bundle:nil];
     UINavigationController *navController;
     ImagesViewController *imageViewVC = self.store.controllers[0];
+    SCLAlertView *disconnectionAlert = [[SCLAlertView alloc] initWithNewWindow];
     switch (indexPath.row) {
         case 0:
         {
-            [self imageUpLoadSource];
+            if (imageViewVC.isConnected == -1) {
+                [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+            }else{
+                [self imageUpLoadSource];
+            }
             break;
         }
         case 1:
@@ -91,137 +96,159 @@
         }
         case 2:
         {
-            PFObject *user = PFUser.currentUser;
-            if(![[user objectForKey:@"emailVerified"] boolValue] && [user objectForKey:@"email"]!=nil)
-            {
-                [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
-                NSLog(@"It is not verified!");
+            if (imageViewVC.isConnected == -1) {
+                [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
             }else{
-                [self.sideMenuViewController hideMenuViewController];
-                imageViewVC.isFavorite = NO;
-                imageViewVC.isUserImageVC = NO;
-                imageViewVC.isFollowing = NO;
-                imageViewVC.isFiltered = NO;
-                [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
+                PFObject *user = PFUser.currentUser;
+                if(![[user objectForKey:@"emailVerified"] boolValue] && [user objectForKey:@"email"]!=nil)
+                {
+                    [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can upload!"];
+                    NSLog(@"It is not verified!");
+                }else{
+                    [self.sideMenuViewController hideMenuViewController];
+                    imageViewVC.isFavorite = NO;
+                    imageViewVC.isUserImageVC = NO;
+                    imageViewVC.isFollowing = NO;
+                    imageViewVC.isFiltered = NO;
+                    [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
+                }
             }
             break;
         }
         case 3:
         {
-            [self.store.userPictures removeAllObjects];
-            navController = [[UINavigationController alloc]initWithRootViewController:imageViewVC];
-            navController.navigationBar.shadowImage = [UIImage new];
-            navController.navigationBar.translucent = YES;
-            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-            imageViewVC.title = @"My Images";
-            imageViewVC.viewTitle.text = @"My Images";
-            
-            [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
-                if (complete) {
-                    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                        [self.sideMenuViewController hideMenuViewController];
-                        imageViewVC.isUserImageVC = YES;
-                        imageViewVC.isFavorite = NO;
-                        imageViewVC.isFollowing = NO;
-                        imageViewVC.isFiltered = NO;
-                      imageViewVC.imagesCount = self.store.userPictures.count;
-                        [self.sideMenuViewController setContentViewController:navController];
-                        
-                    }];
-                }
-            }];
+            if (imageViewVC.isConnected == -1) {
+                [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+            }else{
+                [self.store.userPictures removeAllObjects];
+                navController = [[UINavigationController alloc]initWithRootViewController:imageViewVC];
+                navController.navigationBar.shadowImage = [UIImage new];
+                navController.navigationBar.translucent = YES;
+                navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+                imageViewVC.title = @"My Images";
+                imageViewVC.viewTitle.text = @"My Images";
+                
+                [self.store fetchUserImagesWithCompletion:^(BOOL complete) {
+                    if (complete) {
+                        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                            [self.sideMenuViewController hideMenuViewController];
+                            imageViewVC.isUserImageVC = YES;
+                            imageViewVC.isFavorite = NO;
+                            imageViewVC.isFollowing = NO;
+                            imageViewVC.isFiltered = NO;
+                            imageViewVC.imagesCount = self.store.userPictures.count;
+                            [self.sideMenuViewController setContentViewController:navController];
+                            
+                        }];
+                    }
+                }];
+            }
             break;
         }
         case 4:
         {
-            [self.store.favoriteImages removeAllObjects];
-            navController = [[UINavigationController alloc] initWithRootViewController:imageViewVC];
-            navController.navigationBar.shadowImage = [UIImage new];
-            navController.navigationBar.translucent = YES;
-            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-            imageViewVC.title = @"My Favorites";
-            imageViewVC.viewTitle.text = @"My Favorites";
-            
-            [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
-                if (success) {
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        [self.sideMenuViewController hideMenuViewController];
-                        imageViewVC.isFavorite = YES;
-                        imageViewVC.isUserImageVC = NO;
-                        imageViewVC.isFollowing = NO;
-                        imageViewVC.isFiltered = NO;
-                        imageViewVC.imagesCount = self.store.favoriteImages.count;
-                        [self.sideMenuViewController setContentViewController:navController];
-                    }];
-                }
-            }];
+            if (imageViewVC.isConnected == -1) {
+                [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+            }else{
+                [self.store.favoriteImages removeAllObjects];
+                navController = [[UINavigationController alloc] initWithRootViewController:imageViewVC];
+                navController.navigationBar.shadowImage = [UIImage new];
+                navController.navigationBar.translucent = YES;
+                navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+                imageViewVC.title = @"My Favorites";
+                imageViewVC.viewTitle.text = @"My Favorites";
+                
+                [self.store getFavoriteImagesWithSuccess:^(BOOL success) {
+                    if (success) {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            [self.sideMenuViewController hideMenuViewController];
+                            imageViewVC.isFavorite = YES;
+                            imageViewVC.isUserImageVC = NO;
+                            imageViewVC.isFollowing = NO;
+                            imageViewVC.isFiltered = NO;
+                            imageViewVC.imagesCount = self.store.favoriteImages.count;
+                            [self.sideMenuViewController setContentViewController:navController];
+                        }];
+                    }
+                }];
+            }
             break;
         }
         case 5:
         {
-            UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
-            FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
-                    desVC.uhoString= @"Uho, \n it looks like you're not following \n anyone yet!";
-            navController = [[UINavigationController alloc] initWithRootViewController:desVC];
-            navController.navigationBar.shadowImage = [UIImage new];
-            navController.navigationBar.translucent = YES;
-            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-            
-            [self.store getFollowingUsersWithSuccess:^(BOOL success) {
-                if (success) {
-                  [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                    [self.sideMenuViewController hideMenuViewController];
-                    desVC.followingList = self.store.followingList;
-                    desVC.sideMenu = self.sideMenuViewController;
-                    imageViewVC.isFavorite = NO;
-                    imageViewVC.isUserImageVC = NO;
-                    imageViewVC.isFollowing = NO;
-                    imageViewVC.isFiltered = NO;
-                    imageViewVC.imagesCount = self.store.followingList.count;
-                    //                    [self presentViewController:navController animated:YES completion:nil];
-                    
-                    [self.sideMenuViewController setContentViewController:navController];
-
-                  }];
-
-                }
-            }];
+            if (imageViewVC.isConnected == -1) {
+                [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+            }else{
+                UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
+                FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
+                desVC.uhoString= @"Uho, \n it looks like you're not following \n anyone yet!";
+                navController = [[UINavigationController alloc] initWithRootViewController:desVC];
+                navController.navigationBar.shadowImage = [UIImage new];
+                navController.navigationBar.translucent = YES;
+                navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+                
+                [self.store getFollowingUsersWithSuccess:^(BOOL success) {
+                    if (success) {
+                        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                            [self.sideMenuViewController hideMenuViewController];
+                            desVC.followingList = self.store.followingList;
+                            desVC.sideMenu = self.sideMenuViewController;
+                            imageViewVC.isFavorite = NO;
+                            imageViewVC.isUserImageVC = NO;
+                            imageViewVC.isFollowing = NO;
+                            imageViewVC.isFiltered = NO;
+                            imageViewVC.imagesCount = self.store.followingList.count;
+                            
+                            [self.sideMenuViewController setContentViewController:navController];
+                            
+                        }];
+                        
+                    }
+                }];
+            }
             break;
         }
         case 6:
         {
-            UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
-            
-            FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
-          desVC.uhoString= @"Uho, \n it looks like nobody is following \n you yet!";
-            navController = [[UINavigationController alloc] initWithRootViewController:desVC];
-            navController.navigationBar.shadowImage = [UIImage new];
-            navController.navigationBar.translucent = YES;
-            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-            
-            [self.store getFollowersWithUserId:[PFUser currentUser].objectId success:^(BOOL success) {
-                if (success) {
-                  [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                    [self.sideMenuViewController hideMenuViewController];
-                    desVC.followingList = self.store.followerList;
-                    desVC.sideMenu = self.sideMenuViewController;
-                    imageViewVC.isFavorite = NO;
-                    imageViewVC.isUserImageVC = NO;
-                    imageViewVC.isFollowing = NO;
-                    imageViewVC.isFiltered = NO;
-                    imageViewVC.imagesCount = self.store.followerList.count;
-
-                    [self.sideMenuViewController setContentViewController:navController];
-
-                  }];
-
-                }
-            }];
+            if (imageViewVC.isConnected == -1) {
+                [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+            }else{
+                UIStoryboard *followingStoryboard = [UIStoryboard storyboardWithName:@"following" bundle:nil];
+                
+                FollowingListTableViewController *desVC = [followingStoryboard instantiateViewControllerWithIdentifier:@"following"];
+                desVC.uhoString= @"Uho, \n it looks like nobody is following \n you yet!";
+                navController = [[UINavigationController alloc] initWithRootViewController:desVC];
+                navController.navigationBar.shadowImage = [UIImage new];
+                navController.navigationBar.translucent = YES;
+                navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+                
+                [self.store getFollowersWithUserId:[PFUser currentUser].objectId success:^(BOOL success) {
+                    if (success) {
+                        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                            [self.sideMenuViewController hideMenuViewController];
+                            desVC.followingList = self.store.followerList;
+                            desVC.sideMenu = self.sideMenuViewController;
+                            imageViewVC.isFavorite = NO;
+                            imageViewVC.isUserImageVC = NO;
+                            imageViewVC.isFollowing = NO;
+                            imageViewVC.isFiltered = NO;
+                            imageViewVC.imagesCount = self.store.followerList.count;
+                            
+                            [self.sideMenuViewController setContentViewController:navController];
+                            
+                        }];
+                        
+                    }
+                }];
+            }
             break;
         }
         case 7:
         {
             [self.store logoutWithSuccess:^(BOOL success) {
+                if (!success) {
+                    [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
+                }
                 [self.store.downloadedPictures removeAllObjects];
                 [self.store.comments removeAllObjects];
                 [self.store.followerList removeAllObjects];

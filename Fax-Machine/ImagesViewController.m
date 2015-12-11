@@ -438,8 +438,11 @@
          if (success)
          {
              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                 
                  [self.imagesCollectionViewController reloadData];
+                 self.viewTitle.text = filterDict[@"city"];
              }];
+             
          }else
          {
              [[NSOperationQueue mainQueue] addOperationWithBlock:^{

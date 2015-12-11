@@ -398,7 +398,7 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 3P65N5866H;
+						DevelopmentTeam = 5RF862A226;
 					};
 				};
 			};
@@ -634,7 +634,7 @@
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine.fis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";
@@ -654,7 +654,7 @@
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine.fis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";

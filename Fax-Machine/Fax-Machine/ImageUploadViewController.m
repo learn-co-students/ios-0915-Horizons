@@ -80,7 +80,7 @@
     self.moodTextField.text = self.mood;
     self.imageHolderView.image = self.selectedImage;
   self.captionTextBox.text = self.caption;
-    self.moods = @[@"exultant", @"sleepy", @"jubilant", @"tumultuous", @"sad"];
+    self.moods = @[@"happy", @"sleepy", @"jubilant", @"tumultuous", @"sad"];
     
     
     if (!self.country || !self.city || !self.mood || !self.caption) {
@@ -178,7 +178,7 @@
 {
 
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-    [alert showWarning:@"Mood Needed!" subTitle:@"Please enter 'exultant', 'sleepy' , 'jubilant', or 'tumultuous'"closeButtonTitle:@"Okay" duration:0];
+    [alert showWarning:@"Mood Needed!" subTitle:@"Please enter 'happy', 'sleepy' , 'jubilant', or 'tumultuous'"closeButtonTitle:@"Okay" duration:0];
     self.doneButton.enabled = NO;
 }
 

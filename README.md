@@ -21,7 +21,7 @@ Libraries/APIs: CocoaPods, CoreLocation API, Parse, Twitter API, Facebook API
 Tools: Sublime Text, vi Editor, Xcode, Git, Sketch
 Storage: Amazon 3S for data storage, Parse for metadata storage and search.
 
-##ClASSES IN CODE:
+##CLASSES IN CODE:
 
 ImagesCustomCell: to allow users interaction
 ImagesViewController: Displays images in UICollectionView

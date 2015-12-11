@@ -398,7 +398,11 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
+<<<<<<< HEAD
 						DevelopmentTeam = GQ6DHHL68B;
+=======
+						DevelopmentTeam = 3P65N5866H;
+>>>>>>> 0a96d61a360fca6c7a76e8162fb28ead2f7b7867
 					};
 				};
 			};

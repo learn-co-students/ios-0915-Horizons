@@ -84,7 +84,8 @@
   
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    if (!self.isFiltered && !self.isFirstTime) {
+    if (!self.isFiltered ) {
+      [self.dataStore.downloadedPictures removeAllObjects];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
         [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {

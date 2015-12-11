@@ -88,10 +88,10 @@
     [cell.contentView addSubview: ourImageView];
     
     [ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
-    NSString *name = [owner.email componentsSeparatedByString:@"@"][0];
+    NSString *name = [owner.username componentsSeparatedByString:@"@"][0];
     cell.followingListName.text = name;
     cell.followingListName.font = [UIFont systemFontOfSize:20 weight:0.75];
-    cell.followingListEmail.text = owner.email;
+    cell.followingListEmail.text = owner.username;
     NSArray *myImages = owner[@"myImages"];
     cell.followingListNumberOfImages.text = [NSString stringWithFormat:@"Images: %lu", (unsigned long)myImages.count];
     

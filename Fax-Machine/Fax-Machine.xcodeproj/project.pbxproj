@@ -51,7 +51,6 @@
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */; };
-		E2EC82571C1A306F00D76DB4 /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2EC82561C1A306F00D76DB4 /* filterStoryboard.storyboard */; };
 		E2EE498D1C1B1D9D00CDD95D /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2EE498B1C1B1D9D00CDD95D /* filterStoryboard.storyboard */; };
 		E2EE498E1C1B1D9D00CDD95D /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2EE498C1C1B1D9D00CDD95D /* CollectionView.storyboard */; };
 /* End PBXBuildFile section */
@@ -139,7 +138,6 @@
 		E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSDownloadManager.m; sourceTree = "<group>"; };
 		E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseUploadViewController.h; sourceTree = "<group>"; };
 		E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseUploadViewController.m; sourceTree = "<group>"; };
-		E2EC82561C1A306F00D76DB4 /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = filterStoryboard.storyboard; sourceTree = "<group>"; };
 		E2EE498B1C1B1D9D00CDD95D /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = filterStoryboard.storyboard; sourceTree = "<group>"; };
 		E2EE498C1C1B1D9D00CDD95D /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -410,8 +408,7 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = GQ6DHHL68B;
-
+						DevelopmentTeam = 5SNDRRQ568;
 					};
 				};
 			};
@@ -447,7 +444,6 @@
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
 				76AF83931C13E25B00326535 /* following.storyboard in Resources */,
 				B71C73B01C1A422500489FA2 /* LaunchScreen.storyboard in Resources */,
-				E2EC82571C1A306F00D76DB4 /* filterStoryboard.storyboard in Resources */,
 				E2EE498D1C1B1D9D00CDD95D /* filterStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

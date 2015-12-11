@@ -93,7 +93,8 @@
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
     self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
-
+  self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+  
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
     

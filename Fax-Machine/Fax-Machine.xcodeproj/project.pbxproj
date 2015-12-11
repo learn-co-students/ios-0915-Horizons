@@ -35,7 +35,6 @@
 		B71C73A61C18C05300489FA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B71C73A51C18C05300489FA2 /* Settings.bundle */; };
 		B71C73B01C1A422500489FA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B71C73AE1C1A422500489FA2 /* LaunchScreen.storyboard */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
-		B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */; };
 		B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57D1C17748000E73BAB /* CommentTableViewCell.m */; };
 		B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B791CF091C10E365000E74C7 /* HelperMethods.m */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
@@ -53,6 +52,8 @@
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */; };
 		E2EC82571C1A306F00D76DB4 /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2EC82561C1A306F00D76DB4 /* filterStoryboard.storyboard */; };
+		E2EE498D1C1B1D9D00CDD95D /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2EE498B1C1B1D9D00CDD95D /* filterStoryboard.storyboard */; };
+		E2EE498E1C1B1D9D00CDD95D /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2EE498C1C1B1D9D00CDD95D /* CollectionView.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,7 +107,6 @@
 		B71C73A51C18C05300489FA2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		B71C73AF1C1A422500489FA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
-		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 		B781F57C1C17748000E73BAB /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
 		B781F57D1C17748000E73BAB /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
 		B791CF081C10E365000E74C7 /* HelperMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperMethods.h; sourceTree = "<group>"; };
@@ -140,6 +140,8 @@
 		E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseUploadViewController.h; sourceTree = "<group>"; };
 		E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseUploadViewController.m; sourceTree = "<group>"; };
 		E2EC82561C1A306F00D76DB4 /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = filterStoryboard.storyboard; sourceTree = "<group>"; };
+		E2EE498B1C1B1D9D00CDD95D /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = filterStoryboard.storyboard; sourceTree = "<group>"; };
+		E2EE498C1C1B1D9D00CDD95D /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,11 +272,10 @@
 		766FC1941BFBB36500C4140E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-
+				E2EE498B1C1B1D9D00CDD95D /* filterStoryboard.storyboard */,
+				E2EE498C1C1B1D9D00CDD95D /* CollectionView.storyboard */,
 				B71C73AE1C1A422500489FA2 /* LaunchScreen.storyboard */,
 				76B41C861C1A1E9700D55490 /* ImageUpload.storyboard */,
-				8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */,
-				B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */,
 				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
 				76AF83921C13E25B00326535 /* following.storyboard */,
 			);
@@ -410,7 +411,6 @@
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = GQ6DHHL68B;
-
 					};
 				};
 			};
@@ -437,18 +437,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
-				8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */,
 				B71C73A61C18C05300489FA2 /* Settings.bundle in Resources */,
 				B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */,
 				B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */,
+				E2EE498E1C1B1D9D00CDD95D /* CollectionView.storyboard in Resources */,
 				76B41C871C1A1E9700D55490 /* ImageUpload.storyboard in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
 				76AF83931C13E25B00326535 /* following.storyboard in Resources */,
 				B71C73B01C1A422500489FA2 /* LaunchScreen.storyboard in Resources */,
-				B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */,
 				E2EC82571C1A306F00D76DB4 /* filterStoryboard.storyboard in Resources */,
+				E2EE498D1C1B1D9D00CDD95D /* filterStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

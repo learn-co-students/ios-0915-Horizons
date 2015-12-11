@@ -200,7 +200,8 @@
     if (self.isFavorite) {
       if (self.dataStore.favoriteImages.count == 0) {
         [self checkIfThereIsNothingToDisplay];
-        self.nothingToShowLabel.text = @"Uho, \n it looks like you haven't favorited \n any images yet!";
+        self.nothingThereText = @"Uho, \n it looks like you haven't favorited \n any images yet!";
+        self.nothingToShowLabel.text = self.nothingThereText;
       }else {
         self.frowningFace.hidden = YES;
         self.nothingToShowLabel.hidden = YES;
@@ -210,7 +211,6 @@
       if (self.dataStore.userPictures.count == 0) {
         [self checkIfThereIsNothingToDisplay];
         self.nothingToShowLabel.text = @"Uho, \n it looks like you haven't \n shared any images yet!";
-
       }else {
         self.frowningFace.hidden = YES;
         self.nothingToShowLabel.hidden = YES;
@@ -228,16 +228,18 @@
     } else if (self.isFollowing){
       if (self.dataStore.followingOwnerImageList.count == 0) {
         [self checkIfThereIsNothingToDisplay];
-        self.nothingToShowLabel.text = @"Uho, \n you're not following anyone!";
+        self.nothingToShowLabel.text = @"Uho, \n it looks like this user hasn't uploaded \n any images yet!";
       }else {
         self.frowningFace.hidden = YES;
         self.nothingToShowLabel.hidden = YES;
       }
         return self.dataStore.followingOwnerImageList.count;
-    }else{
+    }
+  
+    else{
       if (self.dataStore.downloadedPictures.count == 0) {
         [self checkIfThereIsNothingToDisplay];
-        self.nothingToShowLabel.text = @"Uho, \n it looks like there has been \n a problem downloading images!";
+        self.nothingToShowLabel.text= @"Uho, \n it looks like there has been \n a problem downloading images!";
       } else {
         self.frowningFace.hidden = YES;
         self.nothingToShowLabel.hidden = YES;
@@ -265,13 +267,13 @@
         
     } else if (self.isUserImageVC){
         parseImage = self.dataStore.userPictures[indexPath.row];
-
+      location = parseImage.location.city;
     } else if (self.isFiltered){
         parseImage = self.dataStore.filteredImageList[indexPath.row];
-
+      location = parseImage.location.city;
     }else if (self.isFollowing){
         parseImage = self.dataStore.followingOwnerImageList[indexPath.row];
-
+      location = parseImage.location.city;
     }else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
 
@@ -283,9 +285,12 @@
     
     
     NSURL *url = [NSURL URLWithString:urlString];
-  FAKIcon *heartIcon = [FAKFontAwesome heartIconWithSize:20];
-  
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️%@ 💬%lu",  parseImage.likes, (unsigned long)parseImage.comments.count];
+    FAKIcon *heart = [FAKFontAwesome heartIconWithSize:18];
+    cell.heartLabel.attributedText = [heart attributedString];
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"%@",  parseImage.likes];
+  FAKIcon *comment = [FAKFontAwesome commentIconWithSize:18];
+  cell.commentImageLabel.attributedText = [comment attributedString];
+  cell.commentCountLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)parseImage.comments.count];
     cell.placeLabel.text = location;
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
 

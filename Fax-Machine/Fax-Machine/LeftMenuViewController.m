@@ -209,6 +209,7 @@
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
                     imageViewVC.imagesCount = self.store.followerList.count;
+
                     [self.sideMenuViewController setContentViewController:navController];
 
                   }];

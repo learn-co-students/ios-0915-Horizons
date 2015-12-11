@@ -229,6 +229,7 @@
 
 - (IBAction)socialSharing:(id)sender {
     PFUser *user = [PFUser currentUser];
+
     if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can share!"];

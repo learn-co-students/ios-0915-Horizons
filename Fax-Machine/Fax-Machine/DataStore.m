@@ -48,13 +48,24 @@
   }];
 }
 
--(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery WithCompletion:(void(^)(BOOL complete))completionBlock
+-(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery WithCompletion:(void(^)(BOOL complete, BOOL allImagesFinished))completionBlock
 {
     NSUInteger page =ceil(self.downloadedPictures.count / (imagesToDownloadFromParseQuery * 1.00f));
     
+    NSLog(@"Page number: %lu", page);
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@ AND report < %@ OR report = %@", @(0), @5, nil];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {
-      for (PFObject *parseImageObject in data) {
+        
+        __block NSUInteger remainingImageCount = data.count;
+        
+        if(remainingImageCount == 0) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionBlock(YES, YES);
+            }];
+        }
+        
+        for (PFObject *parseImageObject in data) {
             PFObject *parseLocation = parseImageObject[@"location"];
             Location *locationObject = [[Location alloc] initWithCity:parseLocation[@"city"] country:parseLocation[@"country"] geoPoint:parseLocation[@"geoPoint"] dateTaken:parseLocation[@"dateTaken"]];
             if (parseImageObject[@"comments"]) {
@@ -63,10 +74,12 @@
                                                                         objectID:parseImageObject.objectId];
                     
                     [self.downloadedPictures addObject:parseImage];
-                    completionBlock(YES);
+                    remainingImageCount--;
+                    completionBlock(YES, remainingImageCount == 0);
                     
                 } failure:^(NSError *error) {
                     NSLog(@"Fetch Comments error: %@", error.localizedDescription);
+                    remainingImageCount--;
                 }];
             }else{
                 NSMutableArray *commentsForItem = [NSMutableArray new];
@@ -74,7 +87,10 @@
                                                                     objectID:parseImageObject.objectId];
                 
                 [self.downloadedPictures addObject:parseImage];
-                completionBlock(YES);
+                
+                remainingImageCount--;
+                
+                completionBlock(YES, remainingImageCount == 0);
             }
         }
     } failure:^(NSError *error) {
@@ -86,7 +102,7 @@
 -(void)downloadPicturesToDisplayWithMood:(NSString *)mood
                                   andLocation:(Location *)location
                                numberOfImages:(NSUInteger)number
-                               WithCompletion:(void(^)(BOOL complete))completionBlock
+                               WithCompletion:(void(^)(BOOL success, BOOL complete))completionBlock
 {
 
     NSUInteger page =ceil(self.filteredImageList.count / ( number * 1.00f));
@@ -101,6 +117,15 @@
         }
         
         [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:number page:page completion:^(NSArray *data) {
+            
+            __block NSUInteger remainingImageCount = data.count;
+            
+            if(remainingImageCount == 0) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    completionBlock(YES, YES);
+                }];
+            }
+            
             for (PFObject *parseImageObject in data)
             {
                 PFObject *parseLocation = parseImageObject[@"location"];
@@ -112,10 +137,11 @@
                      {
                          ImageObject *parseImage = [[ImageObject alloc] initWithOwner:parseImageObject[@"owner"] title:parseImageObject[@"title"] imageID:parseImageObject[@"imageID"] likes:parseImageObject[@"likes"] mood:parseImageObject[@"mood"] location:locationObject comments:[data mutableCopy] objectID:parseImageObject.objectId];
                          [self.filteredImageList addObject:parseImage];
-                         completionBlock(YES);
+                         remainingImageCount--;
+                         completionBlock(YES, remainingImageCount == 0);
                      } failure:^(NSError *error) {
                          NSLog(@"Fetch Comments error: %@", error.localizedDescription);
-                         completionBlock(NO);
+                         remainingImageCount--;
                      }];
 
                 }else{
@@ -129,8 +155,9 @@
                                                                         comments:commentsForItem
                                                                         objectID:parseImageObject.objectId];
                     [self.filteredImageList addObject:parseImage];
+                    remainingImageCount--;
                 }
-                completionBlock(YES);
+                completionBlock(YES, remainingImageCount == 0);
             }
         } failure:^(NSError *error) {
             NSLog(@"Download images error: %@", error.localizedDescription);

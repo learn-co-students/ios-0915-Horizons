@@ -33,7 +33,7 @@
 +(void)uploadPictureToAWS:(AWSS3TransferManagerUploadRequest*)uploadRequest WithCompletion:(void(^)(BOOL complete))completionBlock;
 
 -(void)downloadPicturesToDisplay:(NSUInteger)imagesToDownloadFromParseQuery
-                  WithCompletion:(void(^)(BOOL complete))completionBlock;
+                  WithCompletion:(void(^)(BOOL complete, BOOL allImagesFinished))completionBlock;
 
 -(void)uploadImageWithImageObject:(ImageObject*)imageObject
                    WithCompletion:(void(^)(BOOL complete))completionBlock;
@@ -60,11 +60,11 @@
 -(void)downloadPicturesToDisplayWithMood:(NSString *)mood
                                   andLocation:(Location *)location
                                numberOfImages:(NSUInteger)number
-                               WithCompletion:(void(^)(BOOL complete))completionBlock;
+                               WithCompletion:(void(^)(BOOL success, BOOL complete))completionBlock;
 
 -(void)downloadPicturesToDisplay:(NSUInteger)numberOfImages
                        predicate:(NSPredicate *)predicate
-                  WithCompletion:(void(^)(BOOL complete))completionBlock;
+                  WithCompletion:(void(^)(BOOL success))completionBlock;
 
 -(void)followImageOwner:(PFUser *)owner
                 completion:(void (^)(BOOL success))completion;

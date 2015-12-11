@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSMutableDictionary *filtering;
 @property (strong, nonatomic) DataStore *dataStore;
 @property (strong, nonatomic) NSArray *moodArrayFromQuery;
+@property (strong, nonatomic) NSString *chosenCity;
 
 @end
 
@@ -44,6 +45,8 @@
     [self setupPickerView:filterPicker];
     
     self.filterButton.accessibilityLabel = @"Filter";
+    self.filterButton.layer.cornerRadius = 3;
+    //self.filterButton.buttonType = UIButtonTypeRoundedRect;
     
     self.dataStore = [DataStore sharedDataStore];
     //get arrays for countries and cities in viewDidLoad
@@ -80,7 +83,8 @@
     else
     {
         //moods
-        NSMutableArray *moodsArray = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+        //NSMutableArray *moodsArray = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+        NSArray *moodsArray = [self gettingArrayOfMoodsByMatchingCity:self.arrayFromQuery];
         return moodsArray.count;
     }
 
@@ -140,7 +144,8 @@
     }
     else if (component == 2)
     {
-        NSMutableArray *arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+        //NSMutableArray *arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+        NSArray *arrayOfMoods = [self gettingArrayOfMoodsByMatchingCity:self.arrayFromQuery];
         UILabel *pickerLabel = (UILabel *)view;
         
         if (pickerLabel == nil)
@@ -188,6 +193,7 @@
     for (PFObject *object in predicatedArrayOfPFObjects)
     {
         NSString *cityOfObject = object[@"city"];
+        
         if (![arrayOfCities containsObject:cityOfObject])
         {
             [arrayOfCities addObject:cityOfObject];
@@ -226,6 +232,79 @@
     self.chosenCountry = sortedArrayOfCountries[selectedRowForCountry];
 }
 
+-(void)gettingChosenCity:(UIPickerView *)pickerView
+{
+    NSInteger selectedRowForCity = [pickerView selectedRowInComponent:1];
+    NSMutableArray *arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
+    NSArray *sortedArrayOfCities = [arrayOfCities sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    self.chosenCity = sortedArrayOfCities[selectedRowForCity];
+}
+
+//getting mood from image class in parse based on city&country strings in location class
+
+-(NSArray *)gettingArrayOfMoodsByMatchingCity:(NSArray *)arrayOfPFObjects
+{
+    NSMutableArray *arrayOfMoods = [[NSMutableArray alloc] init];
+    NSMutableArray *arrayOfLocationClassObjectIDs = [[NSMutableArray alloc] init];
+    [arrayOfMoods addObject: @"Default Mood"];
+
+    [self gettingChosenCountry:self.filterPicker];
+    [self gettingChosenCity:self.filterPicker];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"city = %@", self.chosenCity];
+    NSArray *predicatedArrayOfPFObjects= [arrayOfPFObjects filteredArrayUsingPredicate:predicate];
+    
+    for (PFObject *object in predicatedArrayOfPFObjects)
+    {
+        NSString *locationClassObjectID = [object valueForKey:@"objectId"];
+//        NSString *locationClassObjectID = @"GTkOrx4Kzz";
+        
+        if (![arrayOfLocationClassObjectIDs containsObject:locationClassObjectID])
+        {
+            [arrayOfLocationClassObjectIDs addObject:locationClassObjectID];
+        }
+    }
+    
+//    NSMutableArray *availableImageMoods = [NSMutableArray new];
+    
+//    for (PFObject *imageObject in self.moodArrayFromQuery) {
+//        NSLog(@"Location1: %@", [imageObject[@"location"] objectId]);
+//        
+//        for
+//        
+//        NSLog(@"Location2: %@", predicatedArrayOfPFObjects);
+//        if ([predicatedArrayOfPFObjects containsObject:imageObject[@"location"]]) {
+//            [availableImageMoods addObject:imageObject[@"mood"]];
+//        }
+//    }
+    for (NSString *locationObjectID in arrayOfLocationClassObjectIDs)
+    {
+        for (PFObject *imageObject in self.moodArrayFromQuery)
+        {
+            
+            NSString *pointerStringInImageClass = [imageObject[@"location"] objectId];
+        
+            
+            if ([locationObjectID isEqualToString:pointerStringInImageClass])
+            {
+                NSString *moodOfCity = imageObject[@"mood"];
+                
+                if (![arrayOfMoods containsObject:moodOfCity])
+                {
+                    [arrayOfMoods addObject:moodOfCity];
+                    
+                }
+            }
+        }
+    }
+    
+    NSArray *alphabetizedArrayOfMoods = [arrayOfMoods sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
+    return alphabetizedArrayOfMoods;
+    
+    
+}
+
 -(void)setupPickerView:(UIPickerView *)pickerView
 {
     [self numberOfComponentsInPickerView:pickerView];
@@ -245,6 +324,13 @@
     {
         [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];
         [pickerView reloadComponent:1];
+    }
+    
+    if (component == 1)
+    {
+        [self gettingArrayOfMoodsByMatchingCity:self.arrayFromQuery];
+        
+        [pickerView reloadComponent:2];
     }
 }
 

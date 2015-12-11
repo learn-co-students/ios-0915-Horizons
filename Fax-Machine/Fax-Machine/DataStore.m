@@ -52,8 +52,6 @@
 {
     NSUInteger page =ceil(self.downloadedPictures.count / (imagesToDownloadFromParseQuery * 1.00f));
     
-    NSLog(@"Page number: %lu", page);
-    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"likes >= %@ AND report < %@ OR report = %@", @(0), @5, nil];
     [ParseAPIClient fetchImagesWithPredicate:predicate numberOfImages:imagesToDownloadFromParseQuery page:page completion:^(NSArray *data) {
         
@@ -104,10 +102,7 @@
                                numberOfImages:(NSUInteger)number
                                WithCompletion:(void(^)(BOOL success, BOOL complete))completionBlock
 {
-
     NSUInteger page =ceil(self.filteredImageList.count / ( number * 1.00f));
-
-    //NSLog(@"Page number: %lu", page);
     
     PFQuery *query = [PFQuery queryWithClassName:@"Location"];
     [query whereKey:@"city" equalTo:location.city];

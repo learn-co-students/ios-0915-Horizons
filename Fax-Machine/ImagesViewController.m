@@ -75,12 +75,6 @@
     [[self imagesCollectionViewController]setDelegate:self];
     
     self.scrollOffset = 0;
-    FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
-    FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
-    self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
-    self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
-    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
   
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
@@ -88,7 +82,7 @@
         [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!"];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
-        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+        [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
             if (success) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.imagesCollectionViewController reloadData];
@@ -171,6 +165,19 @@
     //self.isFiltered = NO;
     self.navigationController.navigationBarHidden = NO;
     [self.imagesCollectionViewController reloadData];
+    
+    FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
+    FAKFontAwesome *filterIcon = [FAKFontAwesome searchIconWithSize:30];
+    self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
+    self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(30, 30)];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+    self.navigationItem.rightBarButtonItem.title = @"";
+    if (self.isFavorite || self.isUserImageVC || self.isFollowing) {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.navigationItem.rightBarButtonItem.image = [UIImage new];
+    }
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -262,6 +269,9 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.layer.borderColor = [UIColor colorWithWhite:0.15 alpha:0.85].CGColor;
+    cell.layer.borderWidth = 0.5;
+    
     ImageObject *parseImage;
     NSString *location;
     if (self.isFavorite) {
@@ -299,9 +309,13 @@
     }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
+    cell.mydiscriptionLabel.shadowOffset = CGSizeMake(0.5, 0.5);
+    cell.mydiscriptionLabel.shadowColor = [UIColor blackColor];
     
     cell.placeLabel.textColor= [UIColor whiteColor];
     cell.placeLabel.font=[UIFont boldSystemFontOfSize:16.0];
+    cell.placeLabel.shadowOffset = CGSizeMake(0.5, 0.5);
+    cell.placeLabel.shadowColor = [UIColor blackColor];
     return cell;
 }
 
@@ -311,19 +325,18 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat width = self.view.frame.size.width/2;
-    CGFloat height = self.view.frame.size.height - self.navigationController.navigationBar.bounds.size.height;
+    CGFloat width = self.view.frame.size.width/2 - 1.5;
+    CGFloat height = self.view.frame.size.height;
     
     return CGSizeMake(width, height/3);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 0;
+    return 3;
 }
 
 -(IBAction)navTapped:(id)sender{
-    //-self.imagesCollectionViewController.contentInset.top
     [self.imagesCollectionViewController setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
@@ -338,14 +351,7 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
     [UIView animateWithDuration:0.25 animations:^{
-        if (velocity.y <= -4) {
-            self.navigationController.navigationBarHidden = NO;
-            *targetContentOffset = CGPointMake(0, 0);
-            self.scrollOffset = scrollView.contentOffset.y;
-        }else if (scrollView.contentOffset.y <= 0){
-            self.navigationController.navigationBarHidden = NO;
-            self.scrollOffset = scrollView.contentOffset.y;
-        }else if (fabs(velocity.y) >= 0.5) {
+        if (fabs(velocity.y) >= 1) {
             self.navigationController.navigationBarHidden = YES;
             self.scrollOffset = scrollView.contentOffset.y;
         }else if (scrollView.contentOffset.y < self.scrollOffset){
@@ -355,11 +361,11 @@
             self.navigationController.navigationBarHidden = NO;
             self.scrollOffset = scrollView.contentOffset.y;
         }
-        
+     
         [self.view layoutIfNeeded];
     }];
     
-    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*3) > scrollView.contentSize.height) {
+    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y + self.view.frame.size.height*2) > scrollView.contentSize.height) {
         if(self.isFiltered){
             Location *location = [[Location alloc] init];
             location.city = self.filterParameters[@"city"];
@@ -368,7 +374,7 @@
                 self.isFetching = YES;
                 [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
                                                       andLocation:location
-                                                   numberOfImages:12
+                                                   numberOfImages:24
                                                    WithCompletion:^(BOOL success, BOOL complete){
                                                        if (success)
                                                        {
@@ -392,7 +398,7 @@
         }else{
             if (!self.isFetching) {
                 self.isFetching = YES;
-                [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+                [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
                     if (success) {
                         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                             [self.imagesCollectionViewController reloadData];
@@ -415,7 +421,7 @@
     self.isFiltered = YES;
     [self.dataStore downloadPicturesToDisplayWithMood:filterDict[@"mood"]
                                           andLocation:location
-                                       numberOfImages:12
+                                       numberOfImages:24
                                        WithCompletion:^(BOOL success, BOOL complete){
          if (success)
          {

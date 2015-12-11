@@ -55,16 +55,16 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
-  self.commentTextField.delegate = self;
-  UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
-  [self.view addGestureRecognizer:tap];
+    self.commentTextField.delegate = self;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-  self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
+    self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
 
     self.belowPictureTableView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
     self.belowPictureTableView.estimatedRowHeight = 100;
     self.belowPictureTableView.rowHeight = UITableViewAutomaticDimension;
-    //self.belowPictureTableView.backgroundColor = [UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:0.95];
+
     self.belowPictureTableView.opaque = NO;
     self.belowPictureTableView.separatorColor = [UIColor clearColor];
     self.belowPictureTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -81,10 +81,10 @@
 
     PFUser *imageOwner = self.image.owner;
     NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
-    self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@-%@",displayName, self.image.title];
+    self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@ - %@",displayName, self.image.title];
     self.imageDescriptionLabel.editable = YES;
     self.imageDescriptionLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-    self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
+    self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17 weight:0.25];
     self.imageDescriptionLabel.textColor = [UIColor whiteColor];
     self.imageDescriptionLabel.editable = NO;
 
@@ -92,6 +92,7 @@
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
+    [self.imageDetails yy_setHighlightedImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:nil];
     self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
 
     PFUser *user = [PFUser currentUser];
@@ -213,7 +214,7 @@
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can like!"];
     }else{
@@ -233,7 +234,8 @@
 
 - (IBAction)socialSharing:(id)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can share!"];
     }else{
@@ -249,7 +251,7 @@
 
 - (IBAction)followUser:(id)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can follow!"];
     }else{

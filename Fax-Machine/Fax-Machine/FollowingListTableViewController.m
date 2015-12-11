@@ -44,7 +44,6 @@
 }
 
 - (IBAction)displayMenu:(id)sender {
-    NSLog(@"Menu tapped");
     [self.sideMenuViewController presentLeftMenuViewController];
 }
 

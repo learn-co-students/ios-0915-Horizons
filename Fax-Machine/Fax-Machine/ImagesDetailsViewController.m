@@ -213,7 +213,7 @@
 
 - (IBAction)likeButton:(UIBarButtonItem *)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can like!"];
     }else{
@@ -233,7 +233,8 @@
 
 - (IBAction)socialSharing:(id)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can share!"];
     }else{
@@ -249,7 +250,7 @@
 
 - (IBAction)followUser:(id)sender {
     PFUser *user = [PFUser currentUser];
-    if(![[user objectForKey:@"emailVerified"] boolValue])
+    if(![[user objectForKey:@"emailVerified"] boolValue] && user.email != nil)
     {
         [[HelperMethods new] parseVerifyEmailWithMessage:@"You must Verify your email before you can follow!"];
     }else{

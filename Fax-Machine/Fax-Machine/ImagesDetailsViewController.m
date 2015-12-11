@@ -110,7 +110,8 @@
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
     [self.imageDetails yy_setHighlightedImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:nil];
     self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
-
+  self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+  
     PFUser *user = [PFUser currentUser];
     NSArray *savedImages = user[@"savedImages"];
     
@@ -126,14 +127,12 @@
     
     if (filteredResult.count) {
         self.liked = YES;
-        //NSLog(@"Liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
 
     }else{
         self.liked = NO;
-        //NSLog(@"Not liked!!!!!!!!!!: %@", self.image.likes);
         FAKFontAwesome *heart = [FAKFontAwesome heartOIconWithSize:20];
         self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
         self.likeCountLabel.title = [NSString stringWithFormat:@"%@", self.image.likes];
@@ -225,7 +224,6 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.usernameLabel.font = [UIFont fontWithName:@"Arial" size:17.0];
 
-    //cell.detailTextLabel.text = user[@"username"];
     PFObject *comment = self.image.comments[indexPath.row];
 
     PFUser *user = comment[@"owner"];
@@ -255,7 +253,6 @@
         if (!self.liked) {
             self.liked = YES;
             [self.dataStore likeImageWithImageID:self.image.imageID withCompletion:^(BOOL complete) {
-                NSLog(@"Testing!!!");
                 FAKFontAwesome *heart = [FAKFontAwesome heartIconWithSize:20];
                 self.likeButton.image = [heart imageWithSize:CGSizeMake(20, 20)];
                 
@@ -368,10 +365,8 @@
     CGRect keyboardFrame;
     CGFloat imageTopConstant = 0;
     if ([notifcatiion.name isEqualToString:UIKeyboardWillHideNotification]) {
-        NSLog(@"KEYBOARD WILL HDIE!!");
         keyboardFrame = CGRectZero;
     } else {
-        NSLog(@"Keybaord NOT hiding")   ;
         imageTopConstant = -(self.view.frame.size.height/2);
         keyboardFrame = [notifcatiion.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     }

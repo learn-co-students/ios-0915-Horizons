@@ -28,15 +28,11 @@
 		76B41C871C1A1E9700D55490 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76B41C861C1A1E9700D55490 /* ImageUpload.storyboard */; };
 		76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
 		8965CA691C050ED100E37A30 /* filterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965CA681C050ED100E37A30 /* filterViewController.m */; };
-		8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */; };
-		89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9B1BFD133F007D3613 /* FXMCity.m */; };
-		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
 		B71C73A61C18C05300489FA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B71C73A51C18C05300489FA2 /* Settings.bundle */; };
 		B71C73B01C1A422500489FA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B71C73AE1C1A422500489FA2 /* LaunchScreen.storyboard */; };
 		B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = B76D0E241BFF7BDF002056A2 /* Base.lproj */; };
-		B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */; };
 		B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B781F57D1C17748000E73BAB /* CommentTableViewCell.m */; };
 		B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B791CF091C10E365000E74C7 /* HelperMethods.m */; };
 		B79E426D1BFCD0E70068B249 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426C1BFCD0E70068B249 /* ImagesViewController.m */; };
@@ -53,6 +49,8 @@
 		E248030C1BFE60F5005AB1D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E248030B1BFE60F5005AB1D5 /* SignUpViewController.swift */; };
 		E262BFFD1BFCE0D200C81C53 /* ParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E262BFFC1BFCE0D200C81C53 /* ParseAPIClient.m */; };
 		E27690FC1C0F71AE000CA639 /* ChooseUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */; };
+		E2EE498D1C1B1D9D00CDD95D /* filterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2EE498B1C1B1D9D00CDD95D /* filterStoryboard.storyboard */; };
+		E2EE498E1C1B1D9D00CDD95D /* CollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2EE498C1C1B1D9D00CDD95D /* CollectionView.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,18 +94,12 @@
 		76B41C861C1A1E9700D55490 /* ImageUpload.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ImageUpload.storyboard; sourceTree = "<group>"; };
 		8965CA671C050ED100E37A30 /* filterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filterViewController.h; path = filterView/filterViewController.h; sourceTree = "<group>"; };
 		8965CA681C050ED100E37A30 /* filterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = filterViewController.m; path = filterView/filterViewController.m; sourceTree = "<group>"; };
-		8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = filterStoryboard.storyboard; path = ../filterStoryboard.storyboard; sourceTree = "<group>"; };
-		89C98F9A1BFD133F007D3613 /* FXMCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMCity.h; sourceTree = "<group>"; };
-		89C98F9B1BFD133F007D3613 /* FXMCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXMCity.m; sourceTree = "<group>"; };
-		89C98F9D1BFD1366007D3613 /* FXMWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMWeather.h; sourceTree = "<group>"; };
-		89C98F9E1BFD1366007D3613 /* FXMWeather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXMWeather.m; sourceTree = "<group>"; };
 		89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
 		B71C73A51C18C05300489FA2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		B71C73AF1C1A422500489FA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B76D0E241BFF7BDF002056A2 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
-		B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 		B781F57C1C17748000E73BAB /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
 		B781F57D1C17748000E73BAB /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
 		B791CF081C10E365000E74C7 /* HelperMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperMethods.h; sourceTree = "<group>"; };
@@ -140,6 +132,8 @@
 		E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSDownloadManager.m; sourceTree = "<group>"; };
 		E27690FA1C0F71AE000CA639 /* ChooseUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseUploadViewController.h; sourceTree = "<group>"; };
 		E27690FB1C0F71AE000CA639 /* ChooseUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseUploadViewController.m; sourceTree = "<group>"; };
+		E2EE498B1C1B1D9D00CDD95D /* filterStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = filterStoryboard.storyboard; sourceTree = "<group>"; };
+		E2EE498C1C1B1D9D00CDD95D /* CollectionView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CollectionView.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,10 +264,10 @@
 		766FC1941BFBB36500C4140E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				E2EE498B1C1B1D9D00CDD95D /* filterStoryboard.storyboard */,
+				E2EE498C1C1B1D9D00CDD95D /* CollectionView.storyboard */,
 				B71C73AE1C1A422500489FA2 /* LaunchScreen.storyboard */,
 				76B41C861C1A1E9700D55490 /* ImageUpload.storyboard */,
-				8965CA6C1C050F5000E37A30 /* filterStoryboard.storyboard */,
-				B7708B001C0DFC3700F66FE5 /* CollectionView.storyboard */,
 				E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */,
 				76AF83921C13E25B00326535 /* following.storyboard */,
 			);
@@ -296,10 +290,6 @@
 			children = (
 				89E2B9551BFBE69400AF43E1 /* LocationData.h */,
 				89E2B9561BFBE69400AF43E1 /* LocationData.m */,
-				89C98F9A1BFD133F007D3613 /* FXMCity.h */,
-				89C98F9B1BFD133F007D3613 /* FXMCity.m */,
-				89C98F9D1BFD1366007D3613 /* FXMWeather.h */,
-				89C98F9E1BFD1366007D3613 /* FXMWeather.m */,
 			);
 			name = LocationAndWeather;
 			sourceTree = "<group>";
@@ -435,16 +425,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8965CA6D1C050F5000E37A30 /* filterStoryboard.storyboard in Resources */,
 				B71C73A61C18C05300489FA2 /* Settings.bundle in Resources */,
 				B76D0E291BFF7BDF002056A2 /* Base.lproj in Resources */,
 				B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */,
+				E2EE498E1C1B1D9D00CDD95D /* CollectionView.storyboard in Resources */,
 				76B41C871C1A1E9700D55490 /* ImageUpload.storyboard in Resources */,
 				766FC1871BFBA81000C4140E /* Assets.xcassets in Resources */,
 				E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */,
 				76AF83931C13E25B00326535 /* following.storyboard in Resources */,
 				B71C73B01C1A422500489FA2 /* LaunchScreen.storyboard in Resources */,
-				B7708B011C0DFC3700F66FE5 /* CollectionView.storyboard in Resources */,
+				E2EE498D1C1B1D9D00CDD95D /* filterStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,11 +494,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */,
-				89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */,
 				B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */,
 				E2116C9C1C15EE940056D061 /* APIConstants.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
-				89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */,
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
 				761E1EC11BFF6CC800BD5375 /* LeftMenuViewController.m in Sources */,
 				766FC17F1BFBA81000C4140E /* AppDelegate.m in Sources */,
@@ -644,8 +632,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine.fis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";
@@ -663,8 +652,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Fax-Machine/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine.fis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faxmachine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Fax-Machine/Fax-Machine-Bridging-Header.h";

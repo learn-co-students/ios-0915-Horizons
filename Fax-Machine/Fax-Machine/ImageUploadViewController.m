@@ -179,11 +179,11 @@
 
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"Mood Needed!" subTitle:@"Please enter 'exultant', 'sleepy' , 'jubilant', or 'tumultuous'"closeButtonTitle:@"Okay" duration:0];
+    self.doneButton.enabled = NO;
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
-    //    [textField resignFirstResponder];
-    
+  
     if ([textField isEqual:self.cityTextField]) {
         [self.countryTextField becomeFirstResponder];
     } else if ([textField isEqual:self.countryTextField]) {
@@ -192,7 +192,6 @@
       [self.cityTextField becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
-      //[self checkIfEverythingValid];
     }
     
     
@@ -372,7 +371,6 @@
 
 
 - (IBAction)finishedImageSelect:(id)sender {
-  
     ImagesViewController *imageVC = [DataStore sharedDataStore].controllers[0];
     if (imageVC.isConnected == -1) {
         SCLAlertView *disconnectionAlert = [[SCLAlertView alloc] initWithNewWindow];
@@ -447,10 +445,9 @@
     UIGraphicsEndImageContext();
     
     //Upload thumbnail image to Amazon
-    //  NSString *filePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"upload"] stringByAppendingPathComponent:fileName];
+
     NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-thumbnail.tmp"];
-    NSLog(@"filepath %@", filePath);
-    
+  
     NSData * imageData = UIImagePNGRepresentation(newImage);
     
     [imageData writeToFile:filePath atomically:YES];
@@ -459,11 +456,8 @@
     uploadRequest.body = [NSURL fileURLWithPath:filePath];
     uploadRequest.key = fileName;
     uploadRequest.contentType = @"image/png";
-    //          [uploadRequest setValue:@"image/png" forKey:@"Content-Type"];
-    NSLog(@"poolID: %@",POOL_ID);
     uploadRequest.bucket = @"fissamplebucket";
-    NSLog(@"thumbnail uploadRequest: %@", uploadRequest);
-    
+  
     [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
         NSLog(@"Thumbnail upload completed!");
     }];

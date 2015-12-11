@@ -15,7 +15,6 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    NSLog(@"Hello from init With frame");
     self = [super initWithFrame:frame];
     if (self) {
         [self commonInit];
@@ -25,7 +24,6 @@
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    //NSLog(@"Hello from init with coder");
     self = [super initWithCoder:aDecoder];
     
     if(self){
@@ -43,7 +41,6 @@
     [self.myImage setClipsToBounds:NO];
     
     self.myImage.translatesAutoresizingMaskIntoConstraints = YES;
-//    self.myImage.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.contentView addSubview:self.myImage];
 }
 

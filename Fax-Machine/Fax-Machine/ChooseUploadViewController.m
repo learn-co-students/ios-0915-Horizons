@@ -251,6 +251,10 @@
     {
         self.mood = @"sleepy";
     }
+    else if (([weather containsString:@"Thunderstorm"] || [weather containsString:@"Storm"]) || ([weather containsString:@"Heavy"]))
+    {
+        self.mood = @"tumultuous";
+    }
     else if (([weather containsString:@"Rain"]))
     {
         self.mood = @"sad";
@@ -259,10 +263,7 @@
     {
         self.mood = @"jubilant";
     }
-    else if (([weather containsString:@"Thunderstorm"] || [weather containsString:@"Storm"]) || ([weather containsString:@"Heavy"]))
-    {
-        self.mood = @"tumultuous";
-    }
+    
     else
     {
         self.mood = nil;

@@ -381,6 +381,8 @@
     [self.delegate filterImageWithDictionary:filterParameters
                                  andLocation:locationForPredicate];
     
+    
+    
 }
 
 @end

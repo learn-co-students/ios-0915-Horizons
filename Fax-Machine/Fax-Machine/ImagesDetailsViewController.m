@@ -300,7 +300,7 @@
         }else if (![[PFUser currentUser].objectId isEqualToString:user.objectId]) {
             [self.dataStore followImageOwner:user completion:^(BOOL success) {
                 if (success) {
-                    NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.email];
+                    NSString *message = [NSString stringWithFormat:@"You are now following %@", self.image.owner.username];
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                         [self followingAlertWithMessage:message];
                     }];

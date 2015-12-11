@@ -19,6 +19,7 @@
 #import <FCCurrentLocationGeocoder/FCCurrentLocationGeocoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
+#import "ImagesViewController.h"
 
 @interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITextFieldDelegate>
 
@@ -61,6 +62,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.dataStore = [DataStore sharedDataStore];
     //Initiating the image picker controller.
     self.imagePickerController = [UIImagePickerController new];
@@ -140,24 +142,21 @@
     [alert showWarning:@"Location Is Invalid!" subTitle:@"Please enter a valid location" closeButtonTitle:@"Okay" duration:0];
     self.countryTextField.text = @"";
     self.cityTextField.text = @"";
-  self.doneButton.enabled = NO;
+    self.doneButton.enabled = NO;
 }
 
 -(void)presentMissingFieldAlert {
     
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"Uho!" subTitle:@"Please fill in empty fields" closeButtonTitle:@"Okay" duration:0];
-  self.doneButton.enabled = NO;
-    
-
+    self.doneButton.enabled = NO;
 }
 -(void)presentInvalidCityAlert {
     
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"City Is Invalid!" subTitle:@"Please enter a valid city name"closeButtonTitle:@"Okay" duration:0];
     self.cityTextField.text = @"";
-  self.doneButton.enabled = NO;
-  
+    self.doneButton.enabled = NO;
 }
 
 
@@ -166,24 +165,21 @@
     [alert showWarning:@"Country Is Invalid!" subTitle:@"Please enter a valid country name"closeButtonTitle:@"Okay" duration:0];
     self.countryTextField.text = @"";
     self.cityTextField.text = @"";
-  self.doneButton.enabled = NO;
-  
+    self.doneButton.enabled = NO;
 }
 -(void)presentInvalidCaptionAlert
 {
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
     [alert showWarning:@"Caption Needed!" subTitle:@"Please add a caption to your image" closeButtonTitle:@"Okay" duration:0];
-  self.doneButton.enabled = NO;
-  
+    self.doneButton.enabled = NO;
 }
 
 -(void)presentInvalidMoodAlert
 {
 
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-
     [alert showWarning:@"Mood Needed!" subTitle:@"Please enter 'exultant', 'sleepy' , 'jubilant', or 'tumultuous'"closeButtonTitle:@"Okay" duration:0];
-
+    self.doneButton.enabled = NO;
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -196,7 +192,6 @@
       [self.cityTextField becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
-      //[self checkIfEverythingValid];
     }
     
     
@@ -376,45 +371,59 @@
 
 
 - (IBAction)finishedImageSelect:(id)sender {
-  
-    NSLog(@"done");
-    UIImage *image = self.selectedImage;
-    NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
-    [self resignFirstResponder];
-
-    self.parseImageObject = [[ImageObject alloc] initWithTitle:self.captionTextBox.text imageID:fileName mood:self.moodTextField.text location:self.location];
-    [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
-    if (complete) {
-      NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
-      NSLog(@"filepath %@", filePath);
-      
-      NSData * imageData = UIImagePNGRepresentation(image);
-      
-      [imageData writeToFile:filePath atomically:YES];
-      
-      AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
-      uploadRequest.body = [NSURL fileURLWithPath:filePath];
-      uploadRequest.key = fileName;
-      uploadRequest.contentType = @"image/png";
-      uploadRequest.bucket = @"fissamplebucket";
-      
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-      }];
-      [self uploadThumbnail:image fileName:fileName];
-      
-      [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
-        NSLog(@"upload completed!");
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-              [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self performSegueWithIdentifier:@"collectionView" sender:self];
-
-          }];
-      }];
+    ImagesViewController *imageVC = [DataStore sharedDataStore].controllers[0];
+    if (imageVC.isConnected == -1) {
+        SCLAlertView *disconnectionAlert = [[SCLAlertView alloc] initWithNewWindow];
+        [disconnectionAlert showError:@"Network Failure" subTitle:@"Sorry you have disconnected from the internet." closeButtonTitle:@"Okay" duration:0];
     }else{
-      NSLog(@"Issue with upload");
+        
+        NSLog(@"done");
+        UIImage *image = self.selectedImage;
+        NSString *fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".png"];
+        NSLog(@"filename: %@", fileName);
+        
+        [self resignFirstResponder];
+        //For creating image object for Parse
+        
+        self.parseImageObject = [[ImageObject alloc] initWithTitle:self.captionTextBox.text imageID:fileName mood:self.moodTextField.text location:self.location];
+        [self.dataStore uploadImageWithImageObject:self.parseImageObject WithCompletion:^(BOOL complete) {
+            if (complete) {
+                NSLog(@"Parse upload completed!");
+
+                NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-image.tmp"];
+                NSLog(@"filepath %@", filePath);
+                
+                NSData * imageData = UIImagePNGRepresentation(image);
+                
+                [imageData writeToFile:filePath atomically:YES];
+                
+                AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+                uploadRequest.body = [NSURL fileURLWithPath:filePath];
+                uploadRequest.key = fileName;
+                uploadRequest.contentType = @"image/png";
+                //          [uploadRequest setValue:@"image/png" forKey:@"Content-Type"];
+                NSLog(@"poolID: %@",POOL_ID);
+                uploadRequest.bucket = @"fissamplebucket";
+                NSLog(@"uploadRequest: %@", uploadRequest);
+                
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                }];
+                [self uploadThumbnail:image fileName:fileName];
+                
+                [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+                    NSLog(@"upload completed!");
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        [self performSegueWithIdentifier:@"collectionView" sender:self];
+                        
+                    }];
+                }];
+            }else{
+                NSLog(@"Issue with upload");
+            }
+        }];
     }
-  }];
 }
 
 -(void)uploadThumbnail:(UIImage *)image fileName:(NSString *)fileName{

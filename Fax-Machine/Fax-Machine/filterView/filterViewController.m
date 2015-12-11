@@ -51,6 +51,12 @@
     self.dataStore = [DataStore sharedDataStore];
     //get arrays for countries and cities in viewDidLoad
     // Do any additional setup after loading the view.
+    ImagesViewController *imageVC = self.dataStore.controllers[0];
+    if (imageVC.isConnected == -1) {
+        self.filterButton.enabled = NO;
+    }else{
+        self.filterButton.enabled = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

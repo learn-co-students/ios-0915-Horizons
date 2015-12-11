@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<<<<<<< HEAD
+
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MoR-aP-xwa">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-=======
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MoR-aP-xwa">
-    <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
->>>>>>> master
     </dependencies>
     <scenes>
         <!--Filter View Controller-->
@@ -28,7 +21,6 @@
                         <subviews>
                             <pickerView contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="JTc-MS-qQs">
                                 <rect key="frame" x="0.0" y="106" width="600" height="211"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="YES"/>
@@ -36,14 +28,18 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="JTc-MS-qQs" secondAttribute="height" multiplier="600:211" id="eci-Jx-dIb"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="eci-Jx-dIb"/>
+                                    </mask>
+                                </variation>
                             </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G0o-tx-KWO">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G0o-tx-KWO">
                                 <rect key="frame" x="266" y="392" width="67" height="30"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.15469549450851838" green="0.38118203235075221" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1rL-6y-rdA"/>
                                     <constraint firstAttribute="width" constant="67" id="fks-UL-P1e"/>
-                                    <constraint firstAttribute="height" constant="30" id="zKd-s6-rv3"/>
                                 </constraints>
                                 <state key="normal" title="Filter"/>
                                 <connections>
@@ -51,7 +47,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="G0o-tx-KWO" firstAttribute="top" secondItem="JTc-MS-qQs" secondAttribute="bottom" constant="75" id="5uv-4y-rd6"/>

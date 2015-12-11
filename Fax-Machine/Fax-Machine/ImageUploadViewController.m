@@ -182,7 +182,7 @@
 
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
 
-    [alert showWarning:@"Mood Needed!" subTitle:@"Please enter 'exultant', 'somniferous' , 'jubilant', or 'tumultuous'"closeButtonTitle:@"Okay" duration:0];
+    [alert showWarning:@"Mood Needed!" subTitle:@"Please enter 'exultant', 'sleepy' , 'jubilant', or 'tumultuous'"closeButtonTitle:@"Okay" duration:0];
 
 }
 
@@ -349,9 +349,9 @@
       self.doneButton.enabled = NO;
       self.isValid = NO;
     } else if ([self.cityTextField.text isEqualToString:@""] || [self.countryTextField.text isEqualToString:@""] || [self.captionTextBox.text isEqualToString:@""] || ![self.moods containsObject:self.moodTextField.text]) {
-        self.doneButton.enabled = NO;
-        self.isValid = NO;
-    }else {
+      self.doneButton.enabled = NO;
+      self.isValid = NO;
+    } else {
       self.doneButton.enabled = NO;
     }
   

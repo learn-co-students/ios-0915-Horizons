@@ -33,6 +33,7 @@
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic) NSInteger isConnected;
 @property (weak, nonatomic) IBOutlet UIView *scrollTopView;
+@property (nonatomic) BOOL isFetching;
 
 @end
 
@@ -87,8 +88,8 @@
         [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!"];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
-        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-            if (complete) {
+        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+            if (success) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.imagesCollectionViewController reloadData];
                 }];
@@ -354,37 +355,52 @@
         [self.view layoutIfNeeded];
     }];
     
-    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*2 + 700) > scrollView.contentSize.height) {
+
+    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*3) > scrollView.contentSize.height) {
         if(self.isFiltered){
             Location *location = [[Location alloc] init];
             location.city = self.filterParameters[@"city"];
             location.country = self.filterParameters[@"country"];
-            [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
-                                                  andLocation:location
-                                               numberOfImages:12
-                                               WithCompletion:^(BOOL complete){
-                                                   if (complete)
-                                                   {
-                                                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                                           [self.imagesCollectionViewController reloadData];
-                                                       }];
-                                                   }else
-                                                   {
-                                                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                                           [self.imagesCollectionViewController reloadData];
-                                                           SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-                                                           [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
-                                                       }];
-                                                   }
-                                               }];
+            if (!self.isFetching) {
+                self.isFetching = YES;
+                [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
+                                                      andLocation:location
+                                                   numberOfImages:12
+                                                   WithCompletion:^(BOOL success, BOOL complete){
+                                                       if (success)
+                                                       {
+                                                           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                               [self.imagesCollectionViewController reloadData];
+                                                           }];
+                                                       }else
+                                                       {
+                                                           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                               [self.imagesCollectionViewController reloadData];
+                                                               SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                                                               [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
+                                                           }];
+                                                       }
+                                                       
+                                                       if (complete) {
+                                                           self.isFetching = NO;
+                                                       }
+                                                   }];
+            }
         }else{
-            [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL complete) {
-                if (complete) {
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        [self.imagesCollectionViewController reloadData];
-                    }];
-                }
-            }];
+            if (!self.isFetching) {
+                self.isFetching = YES;
+                [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+                    if (success) {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            [self.imagesCollectionViewController reloadData];
+                        }];
+                    }
+                    
+                    if(allImagesComplete) {
+                        self.isFetching = NO;
+                    }
+                }];
+            }
         }
     }
 }
@@ -397,8 +413,8 @@
     [self.dataStore downloadPicturesToDisplayWithMood:filterDict[@"mood"]
                                           andLocation:location
                                        numberOfImages:12
-                                       WithCompletion:^(BOOL complete){
-         if (complete)
+                                       WithCompletion:^(BOOL success, BOOL complete){
+         if (success)
          {
              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                  [self.imagesCollectionViewController reloadData];

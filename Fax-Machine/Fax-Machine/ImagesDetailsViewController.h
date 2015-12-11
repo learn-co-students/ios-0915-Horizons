@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) ImageObject *image;
 @property (nonatomic, strong) NSMutableArray *owners;
+@property (nonatomic) NSInteger isConnected;
 
 @end

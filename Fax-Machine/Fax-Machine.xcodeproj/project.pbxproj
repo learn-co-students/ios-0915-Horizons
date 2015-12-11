@@ -28,8 +28,6 @@
 		76B41C871C1A1E9700D55490 /* ImageUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76B41C861C1A1E9700D55490 /* ImageUpload.storyboard */; };
 		76BAEA9A1C04EC5B00DB48F2 /* AWSDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E262C0041BFCEA4000C81C53 /* AWSDownloadManager.m */; };
 		8965CA691C050ED100E37A30 /* filterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965CA681C050ED100E37A30 /* filterViewController.m */; };
-		89C98F9C1BFD133F007D3613 /* FXMCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9B1BFD133F007D3613 /* FXMCity.m */; };
-		89C98F9F1BFD1366007D3613 /* FXMWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C98F9E1BFD1366007D3613 /* FXMWeather.m */; };
 		89E2B94B1BFBE2C800AF43E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */; };
 		89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2B9561BFBE69400AF43E1 /* LocationData.m */; };
 		B71C73A61C18C05300489FA2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B71C73A51C18C05300489FA2 /* Settings.bundle */; };
@@ -96,11 +94,6 @@
 		76B41C861C1A1E9700D55490 /* ImageUpload.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ImageUpload.storyboard; sourceTree = "<group>"; };
 		8965CA671C050ED100E37A30 /* filterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filterViewController.h; path = filterView/filterViewController.h; sourceTree = "<group>"; };
 		8965CA681C050ED100E37A30 /* filterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = filterViewController.m; path = filterView/filterViewController.m; sourceTree = "<group>"; };
-
-		89C98F9A1BFD133F007D3613 /* FXMCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMCity.h; sourceTree = "<group>"; };
-		89C98F9B1BFD133F007D3613 /* FXMCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXMCity.m; sourceTree = "<group>"; };
-		89C98F9D1BFD1366007D3613 /* FXMWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXMWeather.h; sourceTree = "<group>"; };
-		89C98F9E1BFD1366007D3613 /* FXMWeather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXMWeather.m; sourceTree = "<group>"; };
 		89E2B94A1BFBE2C800AF43E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		89E2B9551BFBE69400AF43E1 /* LocationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationData.h; sourceTree = "<group>"; };
 		89E2B9561BFBE69400AF43E1 /* LocationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationData.m; sourceTree = "<group>"; };
@@ -405,8 +398,7 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = GQ6DHHL68B;
-
+						DevelopmentTeam = 3P65N5866H;
 					};
 				};
 			};

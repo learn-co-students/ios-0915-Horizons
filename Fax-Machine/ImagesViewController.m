@@ -31,7 +31,7 @@
 
 @property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
-@property (nonatomic) NSInteger isConnected;
+@property (nonatomic, readwrite) NSInteger isConnected;
 @property (weak, nonatomic) IBOutlet UIView *scrollTopView;
 @property (nonatomic) BOOL isFetching;
 
@@ -45,20 +45,26 @@
     Reachability *reach = [Reachability reachabilityWithHostName:@"www.google.com"];
     reach.reachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            //self.navigationItem.leftBarButtonItem.enabled = YES;
+            self.navigationItem.rightBarButtonItem.enabled = YES;
             if (self.isConnected == -1) {
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                 [alert showSuccess:@"Network is connected!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
                 self.isConnected = 0;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"connected" object:nil];
             }
         }];
     };
     
     reach.unreachableBlock = ^(Reachability *reach){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            //self.navigationItem.leftBarButtonItem.enabled = NO;
+            self.navigationItem.rightBarButtonItem.enabled = NO;
             if (!self.isConnected) {
                 self.isConnected = -1;
                 SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                 [alert showError:@"Network Failure!" subTitle:@"" closeButtonTitle:@"Dimiss" duration:2];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"disconnected" object:nil];
             }
         }];
     };
@@ -79,13 +85,17 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     if (!self.isFiltered && !self.isFirstTime) {
-        [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!"];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
         [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
             if (success) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.imagesCollectionViewController reloadData];
+                }];
+            }
+            if(allImagesComplete){
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!"];
                 }];
             }
         }];
@@ -172,6 +182,12 @@
     if (self.isFavorite || self.isUserImageVC || self.isFollowing) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         self.navigationItem.rightBarButtonItem.image = [UIImage new];
+    }
+    
+    if (self.isConnected == -1) {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }else{
+        self.navigationItem.rightBarButtonItem.enabled = YES;
     }
 }
 
@@ -464,6 +480,7 @@
         UICollectionViewCell *cell = (UICollectionViewCell*)sender;
         NSIndexPath *indexPath = [self.imagesCollectionViewController indexPathForCell:cell];
         ImagesDetailsViewController *imageVC = segue.destinationViewController;
+        imageVC.isConnected = self.isConnected;
         if (self.isFavorite) {
             imageVC.image = self.dataStore.favoriteImages[indexPath.row];
         } else if (self.isUserImageVC) {

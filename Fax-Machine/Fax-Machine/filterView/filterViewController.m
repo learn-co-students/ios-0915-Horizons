@@ -51,6 +51,12 @@
     self.dataStore = [DataStore sharedDataStore];
     //get arrays for countries and cities in viewDidLoad
     // Do any additional setup after loading the view.
+    ImagesViewController *imageVC = self.dataStore.controllers[0];
+    if (imageVC.isConnected == -1) {
+        self.filterButton.enabled = NO;
+    }else{
+        self.filterButton.enabled = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -340,9 +346,8 @@
 {
     NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
     NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
-    NSMutableArray *arrayOfMoods = [[NSMutableArray alloc] init];
     
-    arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+    NSArray *arrayOfMoods = [self gettingArrayOfMoodsByMatchingCity:self.arrayFromQuery];
     arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
     NSArray *sortedArrayOfCountries = [arrayOfCountries sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];

@@ -18,17 +18,13 @@
 {
     AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
     
-    //  NSString *downloadingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"downloaded-puppyfloor.jpeg"];
     NSString *imageName = [NSString stringWithFormat:@"downloaded-%@",imageID];
     NSString *downloadingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:imageName];
     
-    NSLog(@"downloading file pat: %@",downloadingFilePath);
     NSURL *downloadingFileURL = [NSURL fileURLWithPath:downloadingFilePath];
-    NSLog(@"downloading file URL: %@",downloadingFileURL);
     
     AWSS3TransferManagerDownloadRequest *downloadRequest = [AWSS3TransferManagerDownloadRequest new];
     downloadRequest.bucket = @"fissamplebucket";
-    //  downloadRequest.key = @"puppyfloor.jpeg";
     downloadRequest.key = [NSString stringWithFormat:@"%@",imageID];
     downloadRequest.downloadingFileURL = downloadingFileURL;
     
@@ -50,9 +46,7 @@
             }
         }
         if (task.result) {
-            //AWSS3TransferManagerDownloadOutput *downloadOutput = task.result;
-            //NSLog(@"download output: %@",downloadOutput);
-            //PLACE IMAGE IN VIEW HERE
+
             completionBlock(downloadingFilePath);
             
         }

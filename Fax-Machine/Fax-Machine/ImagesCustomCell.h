@@ -14,5 +14,8 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *mydiscriptionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *placeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *heartLabel;
+@property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *commentImageLabel;
 
 @end

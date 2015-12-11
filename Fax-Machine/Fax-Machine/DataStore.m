@@ -103,6 +103,7 @@
                                WithCompletion:(void(^)(BOOL success, BOOL complete))completionBlock
 {
     NSUInteger page =ceil(self.filteredImageList.count / ( number * 1.00f));
+
     
     PFQuery *query = [PFQuery queryWithClassName:@"Location"];
     [query whereKey:@"city" equalTo:location.city];
@@ -215,7 +216,6 @@
     [ParseAPIClient saveLocationWithLocation:parseLocation success:^(BOOL success) {
         if (success) {
             PFObject *image = [PFObject objectWithClassName:@"Image"];
-//            NSLog(@"Current User: %@", [PFUser currentUser]);
             image[@"owner"] = [PFUser currentUser];
             image[@"title"] = imageObject.title;
             image[@"imageID"] = imageObject.imageID;

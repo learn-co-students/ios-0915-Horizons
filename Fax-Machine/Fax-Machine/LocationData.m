@@ -47,7 +47,6 @@
     timeFormatter.dateFormat = @"HH:mm:ss";
     NSString *dateWithFormatting = [dateFormatter stringFromDate:retrievedDate];
     NSString *timeWithFormatting = [timeFormatter stringFromDate:retrievedDate];
-    //[YYYY]-[MM]-[DD]T[HH]:[MM]:[SS]
     
     //latitude and longitude taken from dictionary for api use
     CGFloat latitude = retrievedLocation.coordinate.latitude;

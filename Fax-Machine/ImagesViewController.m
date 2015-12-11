@@ -27,8 +27,8 @@
 @property (nonatomic, strong) RESideMenu *sideMenuViewController;
 @property (nonatomic) CGFloat scrollOffset;
 @property (weak, nonatomic) IBOutlet UILabel *nothingToShowLabel;
+@property (weak, nonatomic) IBOutlet UILabel *frowningFace;
 
-@property (weak, nonatomic) IBOutlet UIImageView *frowningFace;
 @property (nonatomic)BOOL isFirstTime;
 @property (nonatomic, strong) DataStore *dataStore;
 @property (nonatomic) NSInteger isConnected;
@@ -92,7 +92,10 @@
     }
     
     self.scrollTopView.backgroundColor = [UIColor clearColor];
-
+  
+    FAKIcon *frown =  [FAKFontAwesome frownOIconWithSize:40];
+    self.frowningFace.attributedText = [frown attributedString];
+  
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navTapped:)];
     tapGesture.numberOfTapsRequired = 1;
     [self.scrollTopView addGestureRecognizer:tapGesture];
@@ -103,11 +106,7 @@
          
          startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
              if (!error) {
-                 NSLog(@"fetched user:%@", result);
-                 
-                 
-                 NSLog(@"result name:%@", result[@"name"]);
-                 NSLog(@"_________");
+ 
                  NSString *username = result[@"name"];
                  [[PFUser currentUser] setUsername:username];
                  [[PFUser currentUser]saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
@@ -120,7 +119,6 @@
                  
                  NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
                  NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
-                 NSLog(@"filepath %@", filePath);
                  NSData *imageData = [NSData dataWithContentsOfURL:url];
                  [imageData writeToFile:filePath atomically:YES];
                  AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
@@ -128,8 +126,7 @@
                  uploadRequest.key = fileName;
                  uploadRequest.contentType = @"image/png";
                  uploadRequest.bucket = @"fissamplebucket";
-                 NSLog(@"Profile picture uploadRequest: %@", uploadRequest);
-                 
+               
                  [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
                      NSLog(@"Profile picture upload completed!");
                      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -140,7 +137,6 @@
          }];
         
     } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
-        NSLog(@"twitter:%@",[PFTwitterUtils twitter].screenName);
         NSString *username  = [PFTwitterUtils twitter].screenName;
         [[PFUser currentUser] setUsername:username];
     }
@@ -162,7 +158,6 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    //self.isFiltered = NO;
     self.navigationController.navigationBarHidden = NO;
     [self.imagesCollectionViewController reloadData];
     
@@ -212,7 +207,8 @@
     if (self.isFavorite) {
       if (self.dataStore.favoriteImages.count == 0) {
         [self checkIfThereIsNothingToDisplay];
-        self.nothingToShowLabel.text = @"Uho, \n it looks like you haven't favorited \n any images yet!";
+        self.nothingThereText = @"Uho, \n it looks like you haven't favorited \n any images yet!";
+        self.nothingToShowLabel.text = self.nothingThereText;
       }else {
         self.frowningFace.hidden = YES;
         self.nothingToShowLabel.hidden = YES;
@@ -222,7 +218,6 @@
       if (self.dataStore.userPictures.count == 0) {
         [self checkIfThereIsNothingToDisplay];
         self.nothingToShowLabel.text = @"Uho, \n it looks like you haven't \n shared any images yet!";
-
       }else {
         self.frowningFace.hidden = YES;
         self.nothingToShowLabel.hidden = YES;
@@ -240,16 +235,18 @@
     } else if (self.isFollowing){
       if (self.dataStore.followingOwnerImageList.count == 0) {
         [self checkIfThereIsNothingToDisplay];
-        self.nothingToShowLabel.text = @"Uho, \n you're not following anyone!";
+        self.nothingToShowLabel.text = @"Uho, \n it looks like this user hasn't uploaded \n any images yet!";
       }else {
         self.frowningFace.hidden = YES;
         self.nothingToShowLabel.hidden = YES;
       }
         return self.dataStore.followingOwnerImageList.count;
-    }else{
+    }
+  
+    else{
       if (self.dataStore.downloadedPictures.count == 0) {
         [self checkIfThereIsNothingToDisplay];
-        self.nothingToShowLabel.text = @"Uho, \n it looks like there has been \n a problem downloading images!";
+        self.nothingToShowLabel.text= @"Uho, \n it looks like there has been \n a problem downloading images!";
       } else {
         self.frowningFace.hidden = YES;
         self.nothingToShowLabel.hidden = YES;
@@ -280,13 +277,13 @@
         
     } else if (self.isUserImageVC){
         parseImage = self.dataStore.userPictures[indexPath.row];
-
+      location = parseImage.location.city;
     } else if (self.isFiltered){
         parseImage = self.dataStore.filteredImageList[indexPath.row];
-
+      location = parseImage.location.city;
     }else if (self.isFollowing){
         parseImage = self.dataStore.followingOwnerImageList[indexPath.row];
-
+      location = parseImage.location.city;
     }else{
         parseImage = self.dataStore.downloadedPictures[indexPath.row];
 
@@ -294,18 +291,19 @@
     }
     
     
-    //NSString *urlString = [NSString stringWithFormat:@"%@%@", IMAGE_FILE_PATH, parseImage.imageID];
     NSString *urlString = [NSString stringWithFormat:@"%@thumbnail%@", IMAGE_FILE_PATH, parseImage.imageID];
     
     
     NSURL *url = [NSURL URLWithString:urlString];
-    
-    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"❤️%@ 💬%lu",  parseImage.likes, (unsigned long)parseImage.comments.count];
+    FAKIcon *heart = [FAKFontAwesome heartIconWithSize:18];
+    cell.heartLabel.attributedText = [heart attributedString];
+    cell.mydiscriptionLabel.text = [NSString stringWithFormat:@"%@",  parseImage.likes];
+  FAKIcon *comment = [FAKFontAwesome commentIconWithSize:18];
+  cell.commentImageLabel.attributedText = [comment attributedString];
+  cell.commentCountLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)parseImage.comments.count];
     cell.placeLabel.text = location;
     [cell.myImage yy_setImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-        //        if (from == YYWebImageFromDiskCache) {
-        //            NSLog(@"From Cache!");
-        //        }
+
     }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
@@ -349,12 +347,16 @@
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    
+
     [UIView animateWithDuration:0.25 animations:^{
         if (fabs(velocity.y) >= 1) {
             self.navigationController.navigationBarHidden = YES;
             self.scrollOffset = scrollView.contentOffset.y;
-        }else if (scrollView.contentOffset.y < self.scrollOffset){
+        }
+//        else if (velocity.y < 0 && velocity.y > -4){
+//          self.navigationController.navigationBarHidden = NO;
+//        }
+        else if (scrollView.contentOffset.y < self.scrollOffset){
             self.navigationController.navigationBarHidden = NO;
             self.scrollOffset = scrollView.contentOffset.y;
         }else{
@@ -365,6 +367,7 @@
         [self.view layoutIfNeeded];
     }];
     
+
     if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y + self.view.frame.size.height*2) > scrollView.contentSize.height) {
         if(self.isFiltered){
             Location *location = [[Location alloc] init];

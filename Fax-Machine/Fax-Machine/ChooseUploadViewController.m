@@ -49,12 +49,10 @@
     // Do any additional setup after loading the view.
     self.imagePickerController = [UIImagePickerController new];
   [[self.savedPhotosButton layer] setBorderWidth:1.0f];
-    //  [[self.savedPhotosButton layer]setBorderColor:[UIColor darkGrayColor].CGColor];
-    
+  
   self.savedPhotosButton.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
   self.takePhotoButton.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
     [[self.takePhotoButton layer] setBorderWidth:1.0f];
-    //  [[self.takePhotoButton layer]setBorderColor:[UIColor darkGrayColor].CGColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,15 +60,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 - (IBAction)takePhotoButtonTapped:(id)sender {
     //Setting the pickerDelegate and allow editting.
     self.imagePickerController.delegate = self;
@@ -142,12 +132,7 @@
 }
 
 #pragma mark - UIImage picker protocols
-/**
- *  Handling the image after selection is performed.
- *
- *  @param picker The image picker
- *  @param info   Info of the selected image
- */
+
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
  
@@ -166,17 +151,15 @@
     NSNumber *orientation = [self getImageOrientationWithImage:self.selectedImage];
     opts = @{CIDetectorImageOrientation : orientation};
     NSArray *features = [detector featuresInImage:image options:opts];
-    NSLog(@"Features: %@", features);
     if (!features.count)
     {
         self.selectedImage = info[UIImagePickerControllerOriginalImage];
         NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
-        //[self performSegueWithIdentifier:@"uploadSegue" sender:self];
-        
+      
         if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
             PHAsset *asset = [LocationData logMetaDataFromImage:imageUrl];
             
-            //If image asset contains geo data, fetch and display it on textfield.
+
             if (asset.location) {
                 PFGeoPoint *newGeoPoint = [PFGeoPoint geoPointWithLocation:asset.location];
                 NSMutableDictionary *dic = [@{@"location" : asset.location,

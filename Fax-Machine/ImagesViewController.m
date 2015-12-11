@@ -309,7 +309,16 @@
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
     cell.mydiscriptionLabel.shadowOffset = CGSizeMake(0.5, 0.5);
     cell.mydiscriptionLabel.shadowColor = [UIColor blackColor];
-    
+  
+    cell.heartLabel.shadowOffset = CGSizeMake(.5, .5);
+    cell.heartLabel.shadowColor = [UIColor blackColor];
+
+    cell.commentImageLabel.shadowOffset = CGSizeMake(.5, .5);
+    cell.commentImageLabel.shadowColor = [UIColor blackColor];
+  
+    cell.commentCountLabel.shadowOffset = CGSizeMake(.5, .5);
+    cell.commentCountLabel.shadowColor = [UIColor blackColor];
+  
     cell.placeLabel.textColor= [UIColor whiteColor];
     cell.placeLabel.font=[UIFont boldSystemFontOfSize:16.0];
     cell.placeLabel.shadowOffset = CGSizeMake(0.5, 0.5);

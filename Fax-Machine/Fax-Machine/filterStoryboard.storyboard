@@ -1,33 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MoR-aP-xwa">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="4Bf-A4-tK4">
+        <!--Filter View Controller-->
+        <scene sceneID="vBJ-g1-TiO">
             <objects>
-                <viewController id="U2U-6j-6bj" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="filterController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MoR-aP-xwa" customClass="filterViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="L6Z-YT-0pP"/>
-                        <viewControllerLayoutGuide type="bottom" id="hqj-ny-gRd"/>
+                        <viewControllerLayoutGuide type="top" id="CeQ-T8-bha"/>
+                        <viewControllerLayoutGuide type="bottom" id="vu7-GX-IfK"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="YBh-dU-PcQ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <view key="view" contentMode="scaleToFill" id="fvb-6E-uPW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ZU-xf-Msl">
-                                <rect key="frame" x="0.0" y="226" width="375" height="216"/>
+                            <pickerView contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="JTc-MS-qQs">
+                                <rect key="frame" x="0.0" y="106" width="600" height="211"/>
+                                <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="JTc-MS-qQs" secondAttribute="height" multiplier="600:211" id="eci-Jx-dIb"/>
+                                </constraints>
                             </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G0o-tx-KWO">
+                                <rect key="frame" x="266" y="392" width="67" height="30"/>
+                                <color key="backgroundColor" red="0.15469549450851838" green="0.38118203235075221" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="fks-UL-P1e"/>
+                                    <constraint firstAttribute="height" constant="30" id="zKd-s6-rv3"/>
+                                </constraints>
+                                <state key="normal" title="Filter"/>
+                                <connections>
+                                    <action selector="filterButtonTapped:" destination="MoR-aP-xwa" eventType="touchUpInside" id="ZqV-bm-SE6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="G0o-tx-KWO" firstAttribute="top" secondItem="JTc-MS-qQs" secondAttribute="bottom" constant="75" id="5uv-4y-rd6"/>
+                            <constraint firstItem="JTc-MS-qQs" firstAttribute="top" secondItem="CeQ-T8-bha" secondAttribute="bottom" constant="86" id="COA-Jz-5tJ"/>
+                            <constraint firstItem="G0o-tx-KWO" firstAttribute="centerX" secondItem="fvb-6E-uPW" secondAttribute="centerX" id="bba-ND-yOK"/>
+                            <constraint firstItem="JTc-MS-qQs" firstAttribute="centerX" secondItem="G0o-tx-KWO" secondAttribute="centerX" id="cT2-u5-Rh3"/>
+                            <constraint firstItem="vu7-GX-IfK" firstAttribute="top" secondItem="G0o-tx-KWO" secondAttribute="bottom" constant="178" id="gmX-Yx-pWE"/>
+                            <constraint firstItem="G0o-tx-KWO" firstAttribute="top" secondItem="JTc-MS-qQs" secondAttribute="bottom" constant="75" id="mq2-Z0-g2M"/>
+                            <constraint firstItem="JTc-MS-qQs" firstAttribute="leading" secondItem="fvb-6E-uPW" secondAttribute="leading" id="oZ4-Qi-Pv5"/>
+                        </constraints>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="filterButton" destination="G0o-tx-KWO" id="bQ7-au-0Xg"/>
+                        <outlet property="filterPicker" destination="JTc-MS-qQs" id="YyP-dS-8dL"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ynM-s0-8eM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8uQ-Jq-Hdm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="715.5" y="444.5"/>
+            <point key="canvasLocation" x="240" y="595"/>
+        </scene>
+        <!--homeViewController-->
+        <scene sceneID="Ivh-7d-o2x">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CollectionView" referencedIdentifier="homeViewController" id="AyC-Ad-cZq" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GYa-jX-rwU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="706" y="596"/>
         </scene>
     </scenes>
 </document>

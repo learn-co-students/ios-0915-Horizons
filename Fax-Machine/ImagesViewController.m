@@ -75,12 +75,6 @@
     [[self imagesCollectionViewController]setDelegate:self];
     
     self.scrollOffset = 0;
-    FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
-    FAKFontAwesome *filterIcon = [FAKFontAwesome filterIconWithSize:35];
-    self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
-    self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(35, 35)];
-    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
   
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
@@ -171,6 +165,19 @@
     //self.isFiltered = NO;
     self.navigationController.navigationBarHidden = NO;
     [self.imagesCollectionViewController reloadData];
+    
+    FAKFontAwesome *navIcon = [FAKFontAwesome naviconIconWithSize:35];
+    FAKFontAwesome *filterIcon = [FAKFontAwesome searchIconWithSize:30];
+    self.navigationItem.leftBarButtonItem.image = [navIcon imageWithSize:CGSizeMake(35, 35)];
+    self.navigationItem.rightBarButtonItem.image = [filterIcon imageWithSize:CGSizeMake(30, 30)];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+    self.navigationItem.rightBarButtonItem.title = @"";
+    if (self.isFavorite || self.isUserImageVC || self.isFollowing) {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.navigationItem.rightBarButtonItem.image = [UIImage new];
+    }
 }
 
 - (RESideMenu *)sideMenuViewController
@@ -262,6 +269,9 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     imagesCustomCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.layer.borderColor = [UIColor colorWithWhite:0.15 alpha:0.85].CGColor;
+    cell.layer.borderWidth = 0.5;
+    
     ImageObject *parseImage;
     NSString *location;
     if (self.isFavorite) {
@@ -299,9 +309,13 @@
     }];
     cell.mydiscriptionLabel.textColor= [UIColor whiteColor];
     cell.mydiscriptionLabel.font=[UIFont boldSystemFontOfSize:16.0];
+    cell.mydiscriptionLabel.shadowOffset = CGSizeMake(0.5, 0.5);
+    cell.mydiscriptionLabel.shadowColor = [UIColor blackColor];
     
     cell.placeLabel.textColor= [UIColor whiteColor];
     cell.placeLabel.font=[UIFont boldSystemFontOfSize:16.0];
+    cell.placeLabel.shadowOffset = CGSizeMake(0.5, 0.5);
+    cell.placeLabel.shadowColor = [UIColor blackColor];
     return cell;
 }
 
@@ -311,7 +325,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat width = self.view.frame.size.width/2;
+    CGFloat width = self.view.frame.size.width/2 - 1.5;
     CGFloat height = self.view.frame.size.height;
     
     return CGSizeMake(width, height/3);
@@ -319,7 +333,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 0;
+    return 3;
 }
 
 -(IBAction)navTapped:(id)sender{

@@ -55,16 +55,16 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
-  self.commentTextField.delegate = self;
-  UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
-  [self.view addGestureRecognizer:tap];
+    self.commentTextField.delegate = self;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mountains_hd"]];
-  self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
+    self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
 
     self.belowPictureTableView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:.85];
     self.belowPictureTableView.estimatedRowHeight = 100;
     self.belowPictureTableView.rowHeight = UITableViewAutomaticDimension;
-    //self.belowPictureTableView.backgroundColor = [UIColor colorWithRed:0.627 green:0.627 blue:0.627 alpha:0.95];
+
     self.belowPictureTableView.opaque = NO;
     self.belowPictureTableView.separatorColor = [UIColor clearColor];
     self.belowPictureTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -92,6 +92,7 @@
     NSURL *url = [NSURL URLWithString:urlString];
     self.imageDetails.contentMode = UIViewContentModeScaleAspectFill;
     [self.imageDetails yy_setImageWithURL:url options:YYWebImageOptionProgressive];
+    [self.imageDetails yy_setHighlightedImageWithURL:url placeholder:[UIImage imageNamed:@"placeholder"] options:YYWebImageOptionProgressive completion:nil];
     self.navigationItem.title = [NSString stringWithFormat:@"%@, %@",self.image.location.city,self.image.location.country];
 
     PFUser *user = [PFUser currentUser];

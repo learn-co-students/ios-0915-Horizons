@@ -25,7 +25,7 @@
     
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentViewController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
-    self.rightMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"rightMenuViewController"];
+//    self.rightMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"rightMenuViewController"];
 //    self.backgroundImage = [UIImage imageNamed:@"mountains_hd"];
 //  self.view.layer.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85].CGColor;
 //  self.view.backgroundColor = [UIColor clearColor];

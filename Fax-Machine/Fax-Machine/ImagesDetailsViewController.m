@@ -55,6 +55,22 @@
     [super viewDidLoad];
     
     self.dataStore = [DataStore sharedDataStore];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"disconnected" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        self.likeButton.enabled = NO;
+        self.reportButton.enabled = NO;
+        self.postButton.enabled = NO;
+        self.socialSharing.enabled = NO;
+        self.ownerFollow.enabled = NO;
+    }];
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"connected" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        self.likeButton.enabled = YES;
+        self.reportButton.enabled = YES;
+        self.postButton.enabled = YES;
+        self.socialSharing.enabled = YES;
+        self.ownerFollow.enabled = YES;
+    }];
+    
     self.commentTextField.delegate = self;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
@@ -130,6 +146,24 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangePosition:) name:UIKeyboardWillHideNotification object:nil];
   
 
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    self.likeButton.enabled = YES;
+    self.reportButton.enabled = YES;
+    self.postButton.enabled = YES;
+    self.socialSharing.enabled = YES;
+    self.ownerFollow.enabled = YES;
+    
+    if (self.isConnected == -1) {
+        self.likeButton.enabled = NO;
+        self.reportButton.enabled = NO;
+        self.postButton.enabled = NO;
+        self.socialSharing.enabled = NO;
+        self.ownerFollow.enabled = NO;
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{

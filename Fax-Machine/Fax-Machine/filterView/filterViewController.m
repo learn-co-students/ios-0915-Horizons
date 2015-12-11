@@ -340,9 +340,8 @@
 {
     NSMutableArray *arrayOfCountries = [[NSMutableArray alloc] init];
     NSMutableArray *arrayOfCities = [[NSMutableArray alloc] init];
-    NSMutableArray *arrayOfMoods = [[NSMutableArray alloc] init];
     
-    arrayOfMoods = [self gettingAnArrayOfMoods:self.moodArrayFromQuery];
+    NSArray *arrayOfMoods = [self gettingArrayOfMoodsByMatchingCity:self.arrayFromQuery];
     arrayOfCountries = [self gettingAnArrayOfCountries:self.arrayFromQuery];
     NSArray *sortedArrayOfCountries = [arrayOfCountries sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     arrayOfCities = [self gettingAnArrayOfCitiesWithMatchingCountry:self.arrayFromQuery];

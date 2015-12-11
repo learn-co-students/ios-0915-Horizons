@@ -365,7 +365,7 @@
         [self.view layoutIfNeeded];
     }];
     
-    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y*3) > scrollView.contentSize.height) {
+    if (scrollView.contentSize.height > self.view.frame.size.height && (scrollView.contentOffset.y + self.view.frame.size.height*2) > scrollView.contentSize.height) {
         if(self.isFiltered){
             Location *location = [[Location alloc] init];
             location.city = self.filterParameters[@"city"];

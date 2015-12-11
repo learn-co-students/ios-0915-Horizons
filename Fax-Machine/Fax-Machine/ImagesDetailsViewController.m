@@ -81,10 +81,10 @@
 
     PFUser *imageOwner = self.image.owner;
     NSString *displayName = [[imageOwner.username componentsSeparatedByString:@"@"] firstObject];
-    self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@-%@",displayName, self.image.title];
+    self.imageDescriptionLabel.text = [NSString stringWithFormat:@"%@ - %@",displayName, self.image.title];
     self.imageDescriptionLabel.editable = YES;
     self.imageDescriptionLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-    self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17];
+    self.imageDescriptionLabel.font = [UIFont systemFontOfSize:17 weight:0.25];
     self.imageDescriptionLabel.textColor = [UIColor whiteColor];
     self.imageDescriptionLabel.editable = NO;
 

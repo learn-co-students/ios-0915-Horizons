@@ -88,7 +88,7 @@
         [[HelperMethods new] parseVerifyEmailWithMessage:@"Please Verify Your Email!"];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
-        [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+        [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
             if (success) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     [self.imagesCollectionViewController reloadData];
@@ -312,7 +312,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat width = self.view.frame.size.width/2;
-    CGFloat height = self.view.frame.size.height - self.navigationController.navigationBar.bounds.size.height;
+    CGFloat height = self.view.frame.size.height;
     
     return CGSizeMake(width, height/3);
 }
@@ -323,7 +323,6 @@
 }
 
 -(IBAction)navTapped:(id)sender{
-    //-self.imagesCollectionViewController.contentInset.top
     [self.imagesCollectionViewController setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
@@ -338,14 +337,7 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
     [UIView animateWithDuration:0.25 animations:^{
-        if (velocity.y <= -4) {
-            self.navigationController.navigationBarHidden = NO;
-            *targetContentOffset = CGPointMake(0, 0);
-            self.scrollOffset = scrollView.contentOffset.y;
-        }else if (scrollView.contentOffset.y <= 0){
-            self.navigationController.navigationBarHidden = NO;
-            self.scrollOffset = scrollView.contentOffset.y;
-        }else if (fabs(velocity.y) >= 0.5) {
+        if (fabs(velocity.y) >= 1) {
             self.navigationController.navigationBarHidden = YES;
             self.scrollOffset = scrollView.contentOffset.y;
         }else if (scrollView.contentOffset.y < self.scrollOffset){
@@ -355,7 +347,7 @@
             self.navigationController.navigationBarHidden = NO;
             self.scrollOffset = scrollView.contentOffset.y;
         }
-        
+     
         [self.view layoutIfNeeded];
     }];
     
@@ -368,7 +360,7 @@
                 self.isFetching = YES;
                 [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
                                                       andLocation:location
-                                                   numberOfImages:12
+                                                   numberOfImages:24
                                                    WithCompletion:^(BOOL success, BOOL complete){
                                                        if (success)
                                                        {
@@ -392,7 +384,7 @@
         }else{
             if (!self.isFetching) {
                 self.isFetching = YES;
-                [self.dataStore downloadPicturesToDisplay:12 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+                [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
                     if (success) {
                         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                             [self.imagesCollectionViewController reloadData];
@@ -415,7 +407,7 @@
     self.isFiltered = YES;
     [self.dataStore downloadPicturesToDisplayWithMood:filterDict[@"mood"]
                                           andLocation:location
-                                       numberOfImages:12
+                                       numberOfImages:24
                                        WithCompletion:^(BOOL success, BOOL complete){
          if (success)
          {

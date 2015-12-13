@@ -19,6 +19,7 @@
 #import "Reachability.h"
 #import "AppDelegate.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
+#import <PullToRefreshCoreText/UIScrollView+PullToRefreshCoreText.h>
 
 @interface ImagesViewController () <RESideMenuDelegate, FilterImageProtocol>
 
@@ -85,7 +86,7 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     if (!self.isFiltered ) {
-      [self.dataStore.downloadedPictures removeAllObjects];
+        [self.dataStore.downloadedPictures removeAllObjects];
         self.isFirstTime = YES;
         [self.dataStore.controllers addObject: self];
         [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
@@ -189,6 +190,24 @@
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }else{
         self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
+    
+    if (!self.isFollowing && !self.isFavorite && !self.isUserFollower && !self.isUserImageVC) {
+        [self.imagesCollectionViewController addPullToRefreshWithPullText:@"Pull To Refresh" pullTextColor:[UIColor whiteColor] pullTextFont:DefaultTextFont refreshingText:@"Refreshing" refreshingTextColor:[UIColor whiteColor] refreshingTextFont:DefaultTextFont action:^{
+            [self.dataStore.downloadedPictures removeAllObjects];
+            [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+                if (success) {
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [self.imagesCollectionViewController reloadData];
+                    }];
+                }
+                if (allImagesComplete) {
+                    [self.imagesCollectionViewController finishLoading];
+                    self.viewTitle.text = @"Home";
+                    self.isFiltered = NO;
+                }
+            }];
+        }];
     }
 }
 

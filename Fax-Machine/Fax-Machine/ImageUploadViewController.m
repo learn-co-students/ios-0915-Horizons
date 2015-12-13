@@ -21,7 +21,7 @@
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import "ImagesViewController.h"
 
-@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITextFieldDelegate>
+@interface ImageUploadViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *viewTapped;
 @property (weak, nonatomic) IBOutlet UIImageView *imageHolderView;
@@ -52,6 +52,7 @@
 @property (nonatomic)CGFloat initialConstraintConstant;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageAspectRatio;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UITextField *captionTextBox;
 @property (nonatomic, strong)NSString *caption;
@@ -69,8 +70,10 @@
     UIImage *placeholder = [UIImage imageNamed:@"cloud"];
     self.imageHolderView.image = placeholder;
     
+    self.doneButton.tintColor = [UIColor whiteColor];
+    self.cancelButton.tintColor = [UIColor whiteColor];
     self.firstTime = YES;
-  self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
+    self.backgroundView.backgroundColor = [UIColor colorWithWhite:.15 alpha:.85];
     self.countryTextField.delegate = self;
     self.cityTextField.delegate = self;
     self.moodTextField.delegate = self;
@@ -79,9 +82,8 @@
     self.cityTextField.text = self.city;
     self.moodTextField.text = self.mood;
     self.imageHolderView.image = self.selectedImage;
-  self.captionTextBox.text = self.caption;
+    self.captionTextBox.text = self.caption;
     self.moods = @[@"happy", @"sleepy", @"jubilant", @"tumultuous", @"sad"];
-    
     
     if (!self.country || !self.city || !self.mood || !self.caption) {
         self.doneButton.enabled = NO;
@@ -92,16 +94,43 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardControl:) name:UIKeyboardWillShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardControl:) name:UIKeyboardWillHideNotification object:nil];
-
+    
     
     self.bottomConstraint = [self.stackView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:0];
     self.bottomConstraint.active = NO;
     
     self.initialConstraintConstant = self.centerVerticallyConstraint.constant;
-  
-  self.viewTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
-  [self.view addGestureRecognizer:self.viewTapped];
+    
+    self.viewTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:self.viewTapped];
 }
+
+- (IBAction)selectMoodsPicker:(UITextField *)sender {
+    UIPickerView *moodPicker = [UIPickerView new];
+    moodPicker.delegate = self;
+    moodPicker.dataSource = self;
+    sender.inputView = moodPicker;
+    [moodPicker becomeFirstResponder];
+}
+
+#pragma UIPickerView protocols
+#pragma data source methods
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    return self.moods.count;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    return self.moods[row];
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    self.moodTextField.text = self.moods[row];
+}
+
 -(void)dismissKeyboard
 {
   [self.cityTextField resignFirstResponder];

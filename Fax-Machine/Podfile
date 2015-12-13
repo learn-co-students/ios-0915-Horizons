@@ -20,7 +20,7 @@ inhibit_all_warnings!
  pod 'MBProgressHUD'
  pod 'YYWebImage'
  pod 'SCLAlertView-Objective-C'
-
+ pod 'PullToRefreshCoreText'
  pod 'AWSCore'
  pod 'AWSS3'
 

@@ -23,8 +23,9 @@ Kevin Lin<br />
 
 ##DEMO:
 
-[![IMAGE ALT TEXT HERE]https://github.com/learn-co-students/ios-0915-team-fax-machine/blob/master/Fax-Machine/Fax-Machine/Assets.xcassets/AppIcon.appiconset/Icon-76%402x.png](https://youtu.be/kHikgQ3bvR4)
+[![ScreenShot]](https://youtu.be/xpbN7gi4oqo)
 
+[![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](http://youtu.be/vt5fpE0bzSY)
 
 
 ##DETAILS:

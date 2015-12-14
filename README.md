@@ -1,5 +1,5 @@
 
-![alt tag](https://github.com/learn-co-students/ios-0915-team-fax-machine/blob/master/Fax-Machine/Fax-Machine/Assets.xcassets/AppIcon.appiconset/Icon-70.png)
+
 #HORIZIONS V.1.0 
 ##By:Flatiron School Students
 
@@ -7,6 +7,7 @@
 
 #WELCOME!!
 Thanks for checking out Horizons<br />
+![alt tag](https://github.com/learn-co-students/ios-0915-team-fax-machine/blob/master/Fax-Machine/Fax-Machine/Assets.xcassets/H.imageset/H-2.png)
 
 ##Discription:
 Horizons is an iOS native scenery application, where people share travel experiences through posting scenery pictures.

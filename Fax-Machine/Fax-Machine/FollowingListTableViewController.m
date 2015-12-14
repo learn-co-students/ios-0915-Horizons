@@ -83,7 +83,7 @@
     ourImageView.layer.cornerRadius = 60;
     ourImageView.layer.masksToBounds = YES;
     ourImageView.layer.borderWidth = 1;
-    ourImageView.contentMode = UIViewContentModeScaleAspectFill;
+    ourImageView.contentMode = UIViewContentModeScaleAspectFit;
     
     [cell.contentView addSubview: ourImageView];
     

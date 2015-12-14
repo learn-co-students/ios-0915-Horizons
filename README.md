@@ -7,7 +7,7 @@
 #WELCOME!!
 Thanks for checking out Horizons<br />
 
-##Discription:
+##DISCRIPTION:
 Horizons is an iOS native scenery application, where people share travel experiences through posting scenery pictures.
 ###Features Available:
 1- Users could add comments,like and report/flag pictures<br />
@@ -15,7 +15,7 @@ Horizons is an iOS native scenery application, where people share travel experie
 3- Follow other users<br />
 4- Filter search results by location and predefined mood<br />
 
-##Contributors:
+##CONTRIBUTORS:
 Selma Boudjemaa<br />
 Matt Chang<br />
 Clair Davis<br />
@@ -35,7 +35,7 @@ Libraries/APIs: CocoaPods, CoreLocation API, Parse, Twitter API, Facebook API<br
 Tools: Sublime Text, vi Editor, Xcode, Git, Sketch<br />
 Storage: Amazon 3S for data storage, Parse for metadata storage and search<br />
 
-##CLASSES IN CODE:
+##CUSTOM CLASSES OVERVIEW:
 
 ImagesCustomCell: Allow users interaction<br />
 ImagesViewController: Displays images in UICollectionView<br />
@@ -57,9 +57,48 @@ LocationData Class: Enable GeoLocation<br />
 Reachability Class: Check network availability<br />
 
 
+##LICENSE
+The MIT License (MIT)
+
+Copyright (c) [year] [fullname]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+##ACKNOWLEDGEMENT:
+Some of the features in this product is using third party frameworks listed below:  
+Parse
+ParseUI
+ParseTwitterUtils
+FBSDKCoreKit
+FBSDKLoginKit
+ParseFacebookUtilsV4
+RESideMenu
+FontAwesomeKit
+FCCurrentLocationGeocoder
+MBProgressHUD
+YYWebImage
+SCLAlertView-Objective-C
+PullToRefreshCoreText
+AWSCore
+AWSS3
 
 
-##Acknowledgement:
 
 
 

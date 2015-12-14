@@ -23,7 +23,7 @@ Kevin Lin<br />
 
 ##DEMO:
 
-![ScreenShot](https://youtu.be/xpbN7gi4oqo)
+[![ScreenShot](https://youtu.be/xpbN7gi4oqo)]
 
 
 

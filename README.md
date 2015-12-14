@@ -40,19 +40,19 @@ ImagesViewController: Displays images in UICollectionView<br />
 ImagesDetails Class: Displays full images and textfield allowing users to add comments, like, follow, or report an image<br />
 APIConstants Class: Includes API keys<br />
 ParseAPIClient Class: Connect to Parse<br />
-######AWSUploadManager Class: Connect to Amazon S3 for upload
-######AWSDownloadManager Class: Connect to Amazon S3 for download
-######BaseLoginViewController Class: Checks if user is logged in and send it to appropriate UIView, either login screen or app main menu
-######<b>LoginViewController Class:</b>Displays Login UIView
-######SignUpViewController Class:Displays SignUp UIView
-######UIImage+fixOrientation Class: to auto orientation of images
-######DataStore Class: Includes shareddata across the app
-######SideMenu Class: Displays main menu of the app
-######filterViewController Class: Displays UIView which will allow users to filter search results
-#####ChooseUploadViewController Class: Enable users to upload pictures
-######ImageUploadViewController Class: Enable users to take picture to upload
-######LocationData Class: Enable GeoLocation
-######Reachability Class: Check network availability
+AWSUploadManager Class: Connect to Amazon S3 for upload<br />
+AWSDownloadManager Class: Connect to Amazon S3 for download<br />
+BaseLoginViewController Class: Checks if user is logged in and send it to appropriate UIView, either login screen or app main menu<br />
+LoginViewController Class:</b>Displays Login UIView<br />
+SignUpViewController Class:Displays SignUp UIView<br />
+UIImage+fixOrientation Class: to auto orientation of images<br />
+DataStore Class: Includes shareddata across the app<br />
+SideMenu Class: Displays main menu of the app<br />
+FilterViewController Class: Displays UIView which will allow users to filter search results<br />
+ChooseUploadViewController Class: Enable users to upload pictures<br />
+ImageUploadViewController Class: Enable users to take picture to upload<br />
+LocationData Class: Enable GeoLocation<br />
+Reachability Class: Check network availability<br />
 
 
 

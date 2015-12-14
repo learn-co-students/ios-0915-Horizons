@@ -22,6 +22,7 @@ Clair Davis<br />
 Kevin Lin<br />
 
 ##DEMO:
+Click to watch demo ---ENJOY!
 
 [![ScreenShot](http://img.youtube.com/vi/xpbN7gi4oqo/hqdefault.jpg)](https://youtu.be/xpbN7gi4oqo)
 

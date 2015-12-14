@@ -194,10 +194,6 @@
 			children = (
 				B76C331F1C1F24E900BB5026 /* APIConstants.m */,
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
-<<<<<<< HEAD
-=======
-				764BF4151C1F0CB700D41C7D /* APIConstants.m */,
->>>>>>> 1e9a1b00f47b76e3b0f1d4755bf65286483f660e
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
 				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
 				B791CF081C10E365000E74C7 /* HelperMethods.h */,

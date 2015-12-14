@@ -81,22 +81,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ##ACKNOWLEDGEMENT:
-Some of the features in this product is using third party frameworks listed below:  
-Parse
-ParseUI
-ParseTwitterUtils
-FBSDKCoreKit
-FBSDKLoginKit
-ParseFacebookUtilsV4
-RESideMenu
-FontAwesomeKit
-FCCurrentLocationGeocoder
-MBProgressHUD
-YYWebImage
-SCLAlertView-Objective-C
-PullToRefreshCoreText
-AWSCore
-AWSS3
+Some of the features in this product is using third party frameworks listed below: <br />
+Parse <br />
+ParseUI <br />
+ParseTwitterUtils <br />
+FBSDKCoreKit <br />
+FBSDKLoginKit <br />
+ParseFacebookUtilsV4 <br />
+RESideMenu <br />
+FontAwesomeKit <br />
+FCCurrentLocationGeocoder <br />
+MBProgressHUD <br />
+YYWebImage <br />
+SCLAlertView-Objective-C <br />
+PullToRefreshCoreText <br />
+AWSCore <br />
+AWSS3 <br />
 
 
 

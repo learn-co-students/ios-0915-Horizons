@@ -1,9 +1,9 @@
 
 
-#HORIZIONS V.1.0
+![alt tag](https://github.com/learn-co-students/ios-0915-team-fax-machine/blob/master/Fax-Machine/Fax-Machine/Assets.xcassets/AppIcon.appiconset/Icon-40.png)#HORIZIONS V.1.0
 ##By:Flatiron School Students
 
-![alt tag](https://github.com/learn-co-students/ios-0915-team-fax-machine/blob/master/Fax-Machine/Fax-Machine/Assets.xcassets/AppIcon.appiconset/Icon-40.png)
+
 
 #WELCOME!!
 Thanks for checking out Horizons<br />

@@ -16,10 +16,10 @@ Horizons is an iOS native scenery application, where people share travel experie
 #####4- Filter search results by location and predefined mood
 
 ##Contributors:
-#####<3Selma Boudjemaa
-#####<3<3Matt Chang
-#####<3Clair Davis
-#####<3Kevin Lin
+#####*Selma Boudjemaa
+#####*<3Matt Chang
+#####*Clair Davis
+#####*Kevin Lin
 
 ##DEMO:
 

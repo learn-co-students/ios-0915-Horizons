@@ -18,7 +18,7 @@ Horizons is an iOS native scenery application, where people share travel experie
 ##CONTRIBUTORS:
 Selma Boudjemaa<br />
 Matt Chang<br />
-Clair Davis<br />
+Claire Davis<br />
 Kevin Lin<br />
 
 ##DEMO:

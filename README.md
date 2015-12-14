@@ -1,4 +1,12 @@
 
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: green;
+  padding: 30px; }
 #<font color="BLUE"> HORIZIONS V.1.0 </font>
 ##By:Flatiron School Students
 ##//<3

@@ -23,7 +23,7 @@ Kevin Lin<br />
 
 ##DEMO:
 
-
+[![IMAGE ALT TEXT HERE]image]link to video
 
 
 

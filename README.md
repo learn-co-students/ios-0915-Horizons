@@ -1,6 +1,6 @@
 
 
-#HORIZIONS V.1.0 
+#https://github.com/learn-co-students/ios-0915-team-fax-machine/blob/master/Fax-Machine/Fax-Machine/Assets.xcassets/AppIcon.appiconset/Icon-76%402x.pngHORIZIONS V.1.0 
 ##By:Flatiron School Students
 ![alt tag]
 

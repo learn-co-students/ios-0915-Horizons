@@ -137,7 +137,6 @@
   [self.countryTextField resignFirstResponder];
   [self.captionTextBox resignFirstResponder];
   [self.moodTextField resignFirstResponder];
-  //[self checkIfEverythingValid];
 }
 
 -(void)keyboardControl:(NSNotification*)notification
@@ -228,11 +227,9 @@
 }
 
 - (IBAction)uploadTextFieldDetection:(UITextField *)sender {
-    NSLog(@"\n!!!!!!!!!!: %@", sender.text);
     if (!sender.text.length || [sender.text isEqualToString:@" "]) {
         self.doneButton.enabled = NO;
     }else{
-        //[self checkIfEverythingValid];self.isValid = YES;
         if ([self.cityTextField.text isEqualToString:@""] && ![self.countryTextField.text isEqualToString:@""] && ![self.captionTextBox.text isEqualToString:@""] && ![self.moodTextField.text isEqualToString:@""]) {
             self.doneButton.enabled = NO;
             self.isValid = NO;
@@ -444,8 +441,7 @@
                     NSLog(@"upload completed!");
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
-                        [self performSegueWithIdentifier:@"collectionView" sender:self];
-                        
+                        [self dismissViewControllerAnimated:YES completion:nil];
                     }];
                 }];
             }else{
@@ -494,7 +490,7 @@
 
 
 - (IBAction)cancelImageSelect:(id)sender {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

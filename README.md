@@ -2,7 +2,7 @@
 #HORIZIONS V.1.0
 ##By:Flatiron School Students
 ##//<3
-
+![alt text][]
 
 #WELCOME!!
 #####Thanks for checking out Horizons
@@ -35,24 +35,24 @@ Horizons is an iOS native scenery application, where people share travel experie
 
 ##CLASSES IN CODE:
 
-#####ImagesCustomCell: Allow users interaction
-#####ImagesViewController: Displays images in UICollectionView
-#####ImagesDetails Class: Displays full images and textfield allowing users to add comments, like, follow, or report an image
-#####APIConstants Class: Includes API keys
-#####ParseAPIClient Class: Connect to Parse
-#####AWSUploadManager Class: Connect to Amazon S3 for upload
-#####AWSDownloadManager Class: Connect to Amazon S3 for download
-#####BaseLoginViewController Class: Checks if user is logged in and send it to appropriate UIView, either login screen or app main menu
-#####LoginViewController Class:Displays Login UIView
-#####SignUpViewController Class:Displays SignUp UIView
-#####UIImage+fixOrientation Class: to auto orientation of images
-#####DataStore Class: Includes shareddata across the app
-#####SideMenu Class: Displays main menu of the app
-#####filterViewController Class: Displays UIView which will allow users to filter search results
+######ImagesCustomCell: Allow users interaction
+######ImagesViewController: Displays images in UICollectionView
+######ImagesDetails Class: Displays full images and textfield allowing users to add comments, like, follow, or report an image
+######APIConstants Class: Includes API keys
+######ParseAPIClient Class: Connect to Parse
+######AWSUploadManager Class: Connect to Amazon S3 for upload
+######AWSDownloadManager Class: Connect to Amazon S3 for download
+######BaseLoginViewController Class: Checks if user is logged in and send it to appropriate UIView, either login screen or app main menu
+######<b>LoginViewController Class:</b>Displays Login UIView
+######SignUpViewController Class:Displays SignUp UIView
+######UIImage+fixOrientation Class: to auto orientation of images
+######DataStore Class: Includes shareddata across the app
+######SideMenu Class: Displays main menu of the app
+######filterViewController Class: Displays UIView which will allow users to filter search results
 #####ChooseUploadViewController Class: Enable users to upload pictures
-#####ImageUploadViewController Class: Enable users to take picture to upload
-#####LocationData Class: Enable GeoLocation
-#####Reachability Class: Check network availability
+######ImageUploadViewController Class: Enable users to take picture to upload
+######LocationData Class: Enable GeoLocation
+######Reachability Class: Check network availability
 
 
 

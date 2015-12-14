@@ -23,8 +23,7 @@ Kevin Lin<br />
 
 ##DEMO:
 
-
-<iframe src="https://youtu.be/xpbN7gi4oqo" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+[![ScreenShot]http://img.youtube.com/vi/xpbN7gi4oqo/hqdefault.jpg](https://youtu.be/xpbN7gi4oqo)
 
 
 

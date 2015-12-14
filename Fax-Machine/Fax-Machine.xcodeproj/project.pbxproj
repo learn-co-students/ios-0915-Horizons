@@ -15,6 +15,7 @@
 		761E1EC41BFF70D700BD5375 /* ProfileMenuRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC31BFF70D700BD5375 /* ProfileMenuRootViewController.m */; };
 		761E1EC71BFF7B5C00BD5375 /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */; };
 		761E1ECA1BFF87BC00BD5375 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */; };
+		764BF4161C1F0CB700D41C7D /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 764BF4151C1F0CB700D41C7D /* APIConstants.m */; };
 		76513EC11C1720D70003FF9B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76513EC01C1720D70003FF9B /* Reachability.m */; };
 		76513EC41C17212C0003FF9B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76513EC31C17212C0003FF9B /* SystemConfiguration.framework */; };
 		766FC17C1BFBA81000C4140E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 766FC17B1BFBA81000C4140E /* main.m */; };
@@ -39,7 +40,6 @@
 		B79E42701BFCD2490068B249 /* ImagesCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B79E426F1BFCD2490068B249 /* ImagesCustomCell.m */; };
 		B79E42821BFD39110068B249 /* Selma-Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B79E42811BFD39110068B249 /* Selma-Notes.rtf */; };
 		B7D3E2B31BFEA4E200E28028 /* ImagesDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3E2B21BFEA4E200E28028 /* ImagesDetailsViewController.m */; };
-		E2116C9C1C15EE940056D061 /* APIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2116C9B1C15EE940056D061 /* APIConstants.m */; };
 		E24802F81BFD16AA005AB1D5 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E24802F71BFD16AA005AB1D5 /* DataStore.m */; };
 		E24802FB1BFD3062005AB1D5 /* AWSUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E24802FA1BFD3062005AB1D5 /* AWSUploadManager.m */; };
 		E24802FD1BFE1E06005AB1D5 /* loginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E24802FC1BFE1E06005AB1D5 /* loginStoryboard.storyboard */; };
@@ -73,6 +73,7 @@
 		761E1EC61BFF7B5C00BD5375 /* SideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideBarViewController.m; sourceTree = "<group>"; };
 		761E1EC81BFF87BC00BD5375 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
 		761E1EC91BFF87BC00BD5375 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
+		764BF4151C1F0CB700D41C7D /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIConstants.m; sourceTree = "<group>"; };
 		76513EBF1C1720D70003FF9B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		76513EC01C1720D70003FF9B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		76513EC31C17212C0003FF9B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -112,7 +113,6 @@
 		B7D3E2B11BFEA4E200E28028 /* ImagesDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesDetailsViewController.h; sourceTree = "<group>"; };
 		B7D3E2B21BFEA4E200E28028 /* ImagesDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesDetailsViewController.m; sourceTree = "<group>"; };
 		C01A12ADED23683384E43AB7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2116C9B1C15EE940056D061 /* APIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIConstants.m; path = ../APIConstants.m; sourceTree = "<group>"; };
 		E24802F61BFD16AA005AB1D5 /* DataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStore.h; sourceTree = "<group>"; };
 		E24802F71BFD16AA005AB1D5 /* DataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStore.m; sourceTree = "<group>"; };
 		E24802F91BFD3062005AB1D5 /* AWSUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSUploadManager.h; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				E262BFFA1BFCE0D200C81C53 /* APIConstants.h */,
-				E2116C9B1C15EE940056D061 /* APIConstants.m */,
+				764BF4151C1F0CB700D41C7D /* APIConstants.m */,
 				E24802F61BFD16AA005AB1D5 /* DataStore.h */,
 				E24802F71BFD16AA005AB1D5 /* DataStore.m */,
 				B791CF081C10E365000E74C7 /* HelperMethods.h */,
@@ -398,7 +398,7 @@
 				TargetAttributes = {
 					766FC1761BFBA81000C4140E = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 5SNDRRQ568;
+						DevelopmentTeam = 3P65N5866H;
 					};
 				};
 			};
@@ -493,9 +493,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				764BF4161C1F0CB700D41C7D /* APIConstants.m in Sources */,
 				B791CF0A1C10E365000E74C7 /* HelperMethods.m in Sources */,
 				B781F57E1C17748000E73BAB /* CommentTableViewCell.m in Sources */,
-				E2116C9C1C15EE940056D061 /* APIConstants.m in Sources */,
 				89E2B9571BFBE69400AF43E1 /* LocationData.m in Sources */,
 				766FC1931BFBABC000C4140E /* ImageUploadViewController.m in Sources */,
 				761E1EC11BFF6CC800BD5375 /* LeftMenuViewController.m in Sources */,

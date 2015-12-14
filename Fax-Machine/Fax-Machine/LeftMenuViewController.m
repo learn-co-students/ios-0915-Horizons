@@ -110,7 +110,7 @@
                     imageViewVC.isUserImageVC = NO;
                     imageViewVC.isFollowing = NO;
                     imageViewVC.isFiltered = NO;
-                    [self presentViewController:[uploadImage instantiateViewControllerWithIdentifier:@"pickUpload"] animated:YES completion:nil];
+                    [self presentViewController: [uploadImage instantiateInitialViewController] animated:YES completion:nil];
                 }
             }
             break;
@@ -253,7 +253,7 @@
                 [self.store.comments removeAllObjects];
                 [self.store.followerList removeAllObjects];
                 [self.store.followerList removeAllObjects];
-                [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+                [self dismissViewControllerAnimated:YES completion:nil];
             }];
             break;
         }

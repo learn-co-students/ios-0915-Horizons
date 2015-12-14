@@ -48,6 +48,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.navigationBarHidden = YES;
     // Do any additional setup after loading the view.
     self.imagePickerController = [UIImagePickerController new];
   [[self.savedPhotosButton layer] setBorderWidth:1.0f];
@@ -94,7 +95,7 @@
     }
 }
 - (IBAction)cancelButtonTapped:(UIBarButtonItem *)sender {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -167,7 +168,6 @@
     NSArray *features = [detector featuresInImage:image options:opts];
     if (!features.count)
     {
-        self.selectedImage = info[UIImagePickerControllerOriginalImage];
         NSURL *imageUrl = info[UIImagePickerControllerReferenceURL];
       
         if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
@@ -188,7 +188,6 @@
                            {
                                NSString *weatherOfImage = [weather[@"currently"][@"summary"] capitalizedString];
                                [self convertingWeatherToMood:weatherOfImage];
-//                               self.mood = weatherOfImage;
                                self.country = self.location.country;
                                self.city = self.location.city;
                                self.hasAllMetadata = YES;

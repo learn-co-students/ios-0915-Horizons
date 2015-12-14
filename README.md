@@ -23,7 +23,7 @@ Kevin Lin<br />
 
 ##DEMO:
 
-[![ScreenShot](https://github.com/learn-co-students/ios-0915-team-fax-machine/blob/master/Fax-Machine/Fax-Machine/Assets.xcassets/Screen%20Shot%202015-12-14%20at%2012.42.15%20AM.imageset/Screen%20Shot%202015-12-14%20at%2012.42.15%20AM.png)](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](https://youtu.be/xpbN7gi4oqo)
+[![ScreenShot]https://github.com/learn-co-students/ios-0915-team-fax-machine/blob/master/Fax-Machine/Fax-Machine/Assets.xcassets/Screen%20Shot%202015-12-14%20at%2012.42.15%20AM.imageset/Screen%20Shot%202015-12-14%20at%2012.42.15%20AM.png](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](https://youtu.be/xpbN7gi4oqo)
 
 
 

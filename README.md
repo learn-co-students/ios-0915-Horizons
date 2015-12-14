@@ -23,9 +23,9 @@ Kevin Lin<br />
 
 ##DEMO:
 
-[![ScreenShot]](https://youtu.be/xpbN7gi4oqo)
+[![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](https://youtu.be/xpbN7gi4oqo)
 
-[![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](http://youtu.be/vt5fpE0bzSY)
+
 
 
 ##DETAILS:

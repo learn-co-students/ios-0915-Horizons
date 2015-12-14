@@ -1,5 +1,5 @@
 
-#HORIZIONS V.1.0
+#<font color="BLUE"> HORIZIONS V.1.0 </font>
 ##By:Flatiron School Students
 ##//<3
 ![alt text][]

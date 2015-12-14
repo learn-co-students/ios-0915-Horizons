@@ -34,7 +34,7 @@ Horizons is an iOS native scenery application, where people share travel experie
 
 ##CLASSES IN CODE:
 
-#####ImagesCustomCell: to allow users interaction
+#####ImagesCustomCell: Allow users interaction
 #####ImagesViewController: Displays images in UICollectionView
 #####ImagesDetails Class: Displays full images and textfield allowing users to add comments, like, follow, or report an image
 #####APIConstants Class: Includes API keys

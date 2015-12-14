@@ -1,6 +1,7 @@
 
 #HORIZIONS V.1.0
 ##By:Flatiron School Students
+##//<3
 
 
 #WELCOME!!
@@ -15,10 +16,10 @@ Horizons is an iOS native scenery application, where people share travel experie
 #####4- Filter search results by location and predefined mood
 
 ##Contributors:
-#####Selma Boudjemaa
-#####Matt Chang
-#####Clair Davis
-#####Kevin Lin
+#####<3Selma Boudjemaa
+#####<3<3Matt Chang
+#####<3Clair Davis
+#####<3Kevin Lin
 
 ##DEMO:
 

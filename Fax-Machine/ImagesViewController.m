@@ -35,6 +35,7 @@
 @property (nonatomic, readwrite) NSInteger isConnected;
 @property (weak, nonatomic) IBOutlet UIView *scrollTopView;
 @property (nonatomic) BOOL isFetching;
+@property (strong, nonatomic)Location *filteredLocation;
 
 @end
 
@@ -194,19 +195,48 @@
     
     if (!self.isFollowing && !self.isFavorite && !self.isUserFollower && !self.isUserImageVC) {
         [self.imagesCollectionViewController addPullToRefreshWithPullText:@"Pull To Refresh" pullTextColor:[UIColor whiteColor] pullTextFont:DefaultTextFont refreshingText:@"Refreshing" refreshingTextColor:[UIColor whiteColor] refreshingTextFont:DefaultTextFont action:^{
-            [self.dataStore.downloadedPictures removeAllObjects];
-            [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
-                if (success) {
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        [self.imagesCollectionViewController reloadData];
-                    }];
-                }
-                if (allImagesComplete) {
-                    [self.imagesCollectionViewController finishLoading];
-                    self.viewTitle.text = @"Home";
-                    self.isFiltered = NO;
-                }
-            }];
+            
+            if (self.isFiltered) {
+                self.isFiltered = YES;
+                [self.dataStore.filteredImageList removeAllObjects];
+                [self.dataStore downloadPicturesToDisplayWithMood:self.filterParameters[@"mood"]
+                                                      andLocation:self.filteredLocation
+                                                   numberOfImages:24
+                                                   WithCompletion:^(BOOL success, BOOL complete){
+                                                       if (success)
+                                                       {
+                                                           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                               
+                                                               [self.imagesCollectionViewController reloadData];
+                                                               self.viewTitle.text = self.filterParameters[@"city"];
+                                                               [self.imagesCollectionViewController finishLoading];
+                                                           }];
+                                                           
+                                                       }else
+                                                       {
+                                                           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                               [self.imagesCollectionViewController reloadData];
+                                                               [self.imagesCollectionViewController finishLoading];
+                                                               SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                                                               [alert showError:@"Oops!" subTitle:@"There was an error loading one or more comments" closeButtonTitle:@"Okay" duration:0];
+                                                           }];
+                                                       }
+                                                   }];
+            }else{
+                [self.dataStore.downloadedPictures removeAllObjects];
+                [self.dataStore downloadPicturesToDisplay:24 WithCompletion:^(BOOL success, BOOL allImagesComplete) {
+                    if (success) {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            [self.imagesCollectionViewController reloadData];
+                        }];
+                    }
+                    if (allImagesComplete) {
+                        [self.imagesCollectionViewController finishLoading];
+                        self.viewTitle.text = @"Home";
+                        self.isFiltered = NO;
+                    }
+                }];
+            }
         }];
     }
 }
@@ -397,11 +427,7 @@
         if (fabs(velocity.y) >= 1) {
             self.navigationController.navigationBarHidden = YES;
             self.scrollOffset = scrollView.contentOffset.y;
-        }
-//        else if (velocity.y < 0 && velocity.y > -4){
-//          self.navigationController.navigationBarHidden = NO;
-//        }
-        else if (scrollView.contentOffset.y < self.scrollOffset){
+        }else if (scrollView.contentOffset.y < self.scrollOffset){
             self.navigationController.navigationBarHidden = NO;
             self.scrollOffset = scrollView.contentOffset.y;
         }else{
@@ -465,6 +491,7 @@
 -(void)filterImageWithDictionary:(NSMutableDictionary *)filterDict
                      andLocation:(Location *)location
 {
+    self.filteredLocation = location;
     self.filterParameters = filterDict;
     self.isFiltered = YES;
     [self.dataStore downloadPicturesToDisplayWithMood:filterDict[@"mood"]

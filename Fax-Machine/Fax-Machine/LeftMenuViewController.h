@@ -13,4 +13,6 @@
 
 @interface LeftMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RESideMenuDelegate>
 
+@property (nonatomic,strong)UIImageView *ourImageView;
+
 @end

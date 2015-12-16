@@ -280,18 +280,20 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row == 0) {
-        __block NSString *facebookUrl = @"";
-        if ([FBSDKAccessToken currentAccessToken]) {
-            [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
-             
-             startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-                 if (!error) {
-                     facebookUrl = result[@"picture"][@"data"][@"url"];
-                     
-                 }
-             }];
-        }
-        
+//        __block NSString *facebookUrl = @"";
+//        if ([FBSDKAccessToken currentAccessToken]) {
+//            [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
+//             
+//             startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+//                 if (!error) {
+//                     facebookUrl = result[@"picture"][@"data"][@"url"];
+//                     
+//                 }
+//             }];
+//        }
+      
+
+      
         // The profile photo
         static NSString *profileCellIdentifier = @"ProfileCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:profileCellIdentifier];
@@ -301,27 +303,67 @@
             cell.backgroundColor = [UIColor clearColor];
             cell.selectedBackgroundView = [[UIView alloc] init];
             
-            UIImageView *ourImageView = [[UIImageView alloc] initWithFrame:CGRectMake(25, 0, 100, 100)];
-            ourImageView.layer.cornerRadius = 50;
-            ourImageView.layer.masksToBounds = YES;
-            ourImageView.layer.borderWidth = 1;
-            ourImageView.layer.borderColor = [UIColor blackColor].CGColor;
-            ourImageView.tag = 99;
-            ourImageView.contentMode = UIViewContentModeScaleAspectFill;
+            self.ourImageView = [[UIImageView alloc] initWithFrame:CGRectMake(25, 0, 100, 100)];
+            self.ourImageView.layer.cornerRadius = 50;
+            self.ourImageView.layer.masksToBounds = YES;
+            self.ourImageView.layer.borderWidth = 1;
+            self.ourImageView.layer.borderColor = [UIColor blackColor].CGColor;
+            self.ourImageView.tag = 99;
+            self.ourImageView.contentMode = UIViewContentModeScaleAspectFill;
             
-            [cell.contentView addSubview:ourImageView];
+            [cell.contentView addSubview:self.ourImageView];
         }
         
-        UIImageView *ourImageView = [cell viewWithTag:99];
+        self.ourImageView = [cell viewWithTag:99];
+      
+      if ([FBSDKAccessToken currentAccessToken]) {
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
+         
+         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+           if (!error) {
+             
+             NSString *username = result[@"name"];
+             [[PFUser currentUser] setUsername:username];
+             [[PFUser currentUser]saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
+               NSLog(@"saved");
+             }];
+             
+             NSString *imageStringOfLoginUser = [[[result valueForKey:@"picture"] valueForKey:@"data"] valueForKey:@"url"];
+             NSURL *url = [NSURL URLWithString: imageStringOfLoginUser];
+             
+             
+             NSString *fileName = [NSString stringWithFormat:@"%@profilPic.png", [PFUser currentUser].objectId];
+             NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload-profilePic.tmp"];
+             NSData *imageData = [NSData dataWithContentsOfURL:url];
+             [imageData writeToFile:filePath atomically:YES];
+             AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+             uploadRequest.body = [NSURL fileURLWithPath:filePath];
+             uploadRequest.key = fileName;
+             uploadRequest.contentType = @"image/png";
+             uploadRequest.bucket = @"fissamplebucket";
+             
+             [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
+               NSLog(@"Profile picture upload completed!");
+               [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                 NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
+                 NSURL *profileUrl = [NSURL URLWithString:urlString];
+                 [self.ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
+               }];
+             }];
+             
+           }
+         }];
         
-        if (self.selectedImage){
-            ourImageView.image = self.selectedImage;
+      }
+      
+        else if (self.selectedImage){
+            self.ourImageView.image = self.selectedImage;
         }
 
         else{
             NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
             NSURL *profileUrl = [NSURL URLWithString:urlString];
-            [ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
+            [self.ourImageView yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
         }
         
         return cell;

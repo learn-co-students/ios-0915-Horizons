@@ -20,6 +20,7 @@
 #import "AppDelegate.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import <PullToRefreshCoreText/UIScrollView+PullToRefreshCoreText.h>
+#import "AWSDownloadManager.h"
 
 @interface ImagesViewController () <RESideMenuDelegate, FilterImageProtocol>
 
@@ -113,7 +114,12 @@
     tapGesture.numberOfTapsRequired = 1;
     [self.scrollTopView addGestureRecognizer:tapGesture];
     self.scrollTopView.userInteractionEnabled = YES;
-    
+  
+//    [AWSDownloadManager downloadSinglePicture:[NSString stringWithFormat:@"%@profilPic",[PFUser currentUser].objectId] completion:^(NSString *filePath) {
+//      self.dataStore.profileImage = YES;
+//    }];
+  
+  if (self.isFirstTime) {
     if ([FBSDKAccessToken currentAccessToken]) {
         [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields":@"id, name, picture"}]
          
@@ -143,13 +149,19 @@
                  [DataStore uploadPictureToAWS:uploadRequest WithCompletion:^(BOOL complete) {
                      NSLog(@"Profile picture upload completed!");
                      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                       NSString *urlString = [NSString stringWithFormat:@"%@%@profilPic.png", IMAGE_FILE_PATH,[PFUser currentUser].objectId];
+                       NSURL *profileUrl = [NSURL URLWithString:urlString];
+                       [self.dataStore.profileImage yy_setImageWithURL:profileUrl placeholder:[UIImage imageNamed:@"profile_placeholder"]];
                      }];
                  }];
                  
              }
          }];
-        
-    } else if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
+    
+    }
+  }
+  
+    if ([PFTwitterUtils isLinkedWithUser:[PFUser currentUser]]){
         NSString *username  = [PFTwitterUtils twitter].screenName;
         [[PFUser currentUser] setUsername:username];
     }

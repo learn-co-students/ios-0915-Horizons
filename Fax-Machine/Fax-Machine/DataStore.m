@@ -37,6 +37,7 @@
         _isUserVC = NO;
         _followerCount = 0;
         _followerList = [NSMutableArray new];
+        _profileImage = [[UIImageView alloc]initWithFrame:CGRectMake(25, 0, 100, 100)];
     }
     return self;
 }

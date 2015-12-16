@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSMutableArray *filteredImageList;
 @property (nonatomic) NSUInteger followerCount;
 @property (nonatomic, strong) NSMutableArray *followerList;
+@property (nonatomic, strong)UIImageView *profileImage;
 
 
 + (instancetype)sharedDataStore;

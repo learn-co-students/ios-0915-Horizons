@@ -35,15 +35,10 @@
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
   
-  self.uhoLabel.text = self.uhoString;
+    self.uhoLabel.text = self.uhoString;
   FAKIcon *frown = [FAKFontAwesome frownOIconWithSize:40];
   self.frownFace.attributedText = [frown attributedString];
-  
-  NSArray *array = [[NSArray alloc]init];
-  [array sortedArrayUsingSelector:@selector(ascending)];
-  
-  
-  
+    self.tableView.rowHeight = 120;
 }
 
 - (IBAction)displayMenu:(id)sender {
@@ -69,7 +64,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FollowingListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"owner" forIndexPath:indexPath];
     
-    cell.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 120);
     cell.backgroundColor = [UIColor colorWithWhite:0.95 alpha:0.85];
     if (indexPath.row % 2) {
         cell.backgroundColor = [UIColor colorWithWhite:0.85 alpha:0.85];
@@ -96,6 +90,7 @@
     cell.followingListNumberOfImages.text = [NSString stringWithFormat:@"Images: %lu", (unsigned long)myImages.count];
     
     cell.followingListTotalLikes.text = @"Followers: 0";
+    //FIXME: move this to the viewDidLoad
     [self.dataStore getFollowersWithUserId:owner.objectId success:^(BOOL success) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             cell.followingListTotalLikes.text = [NSString stringWithFormat:@"Followers: %lu", (unsigned long)self.dataStore.followerCount];
